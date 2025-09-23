@@ -78,6 +78,9 @@ const Navbar = () => {
                                 {link.label}
                             </Button>
                         ))}
+                        <div className="mt-6 pt-6 border-t border-gray-200 dark:border-gray-700/50">
+                            <ThemeSwitcher />
+                        </div>
                         <div className="mt-4">
                             <Button href="#contact" variant="primary" size="lg" onClick={closeMenu}>
                                 Contattami

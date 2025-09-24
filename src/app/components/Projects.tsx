@@ -31,16 +31,16 @@ const projects = [
   {
     id: 1,
     title: 'Railway Simulator',
-    description: 'Progetto realizzato in gruppo con un collega. Backend in Node.js (Express) e frontend in FlexSim. Simula una stazione ferroviaria interagendo via Arduino.',
-    technologies: ['Node.js', 'Express', 'FlexSim', 'Arduino'],
+    description: 'Progetto realizzato in gruppo con un collega universitario. Backend in Node.js (Express) e frontend in FlexSim. Simula una stazione ferroviaria interagendo via Arduino.',
+    technologies: ['Node.js', 'Express', 'FlexSim', 'Arduino', 'Git', 'GitHub'],
     githubLink: 'https://github.com/zeltarave/Railway-Simulator',
   },
   {
     id: 2,
-    title: 'Nome Progetto 2',
-    description: 'Questa è una breve descrizione del progetto 2.',
-    technologies: ['React', 'Tailwind CSS', 'Next.js'],
-    githubLink: 'https://github.com/tuo-username/progetto-2',
+    title: 'Ataxx',
+    description: 'Progetto universitario in gruppo per la realizzazione del gioco Ataxx in Java usando la tecnica di sviluppo Agile Scrum.',
+    technologies: ['Java', 'JUnit', 'Git', 'GitHub'],
+    githubLink: 'https://github.com/softeng2324-inf-uniba/progetto-cocke',
   },
   {
     id: 3,
@@ -67,6 +67,14 @@ const Projects = () => {
               {project.title === 'Railway Simulator' && (
                 <div className="absolute top-1/2 -translate-y-1/2 w-full h-8 z-20 pointer-events-none">
                     <TrainIcon className="absolute w-24 h-24 text-accent/80 left-[-30%] top-0 transition-all duration-[2s] ease-in-out group-hover:left-[110%]" />
+                </div>
+              )}
+              {project.title === 'Ataxx' && (
+                <div className="absolute inset-0 w-full h-full z-0 pointer-events-none">
+                    <div className="absolute top-[10%] left-[15%] w-8 h-8 bg-red-500 rounded-full opacity-50 transition-all duration-500 group-hover:bg-blue-500 group-hover:scale-125"></div>
+                    <div className="absolute bottom-[15%] right-[10%] w-12 h-12 bg-blue-500 rounded-full opacity-50 transition-all duration-500 group-hover:bg-red-500 group-hover:scale-125"></div>
+                    <div className="absolute top-[40%] right-[25%] w-6 h-6 bg-red-500 rounded-full opacity-50 transition-all duration-500 group-hover:bg-blue-500 group-hover:scale-110"></div>
+                    <div className="absolute bottom-[30%] left-[20%] w-10 h-10 bg-blue-500 rounded-full opacity-50 transition-all duration-500 group-hover:bg-red-500 group-hover:scale-110"></div>
                 </div>
               )}
 

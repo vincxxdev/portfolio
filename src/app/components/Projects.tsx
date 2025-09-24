@@ -3,6 +3,30 @@
 import React from 'react';
 import { Github } from 'lucide-react';
 
+const TrainIcon = ({ className }: { className?: string }) => (
+    <svg
+        className={className}
+        viewBox="0 0 64 64"
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="3"
+    >
+        <path d="M52 48H12a4 4 0 0 1-4-4V20a4 4 0 0 1 4-4h40a4 4 0 0 1 4 4v24a4 4 0 0 1-4 4z" />
+        <path d="M8 36h48" />
+        <path d="M20 48v4" />
+        <path d="M44 48v4" />
+        <path d="M20 16V8" />
+        <path d="M28 16V8" />
+        <path d="M36 16V8" />
+        <path d="M12 8h3.5a4.5 4.5 0 0 1 4.5 4.5V16" />
+        <path d="M48.5 16V12.5A4.5 4.5 0 0 0 44 8h-2.5" />
+        <circle cx="20" cy="52" r="4" />
+        <circle cx="44" cy="52" r="4" />
+    </svg>
+);
+
+
 const projects = [
   {
     id: 1,
@@ -40,6 +64,12 @@ const Projects = () => {
               key={project.id}
               className="group relative overflow-hidden rounded-xl border border-secondary-text/20 bg-secondary-background/50 backdrop-blur-lg shadow-lg transition-all duration-300 ease-in-out hover:shadow-cyan-400/20 hover:scale-105"
             >
+              {project.title === 'Railway Simulator' && (
+                <div className="absolute top-1/2 -translate-y-1/2 w-full h-8 z-20 pointer-events-none">
+                    <TrainIcon className="absolute w-24 h-24 text-accent/80 left-[-30%] top-0 transition-all duration-[2s] ease-in-out group-hover:left-[110%]" />
+                </div>
+              )}
+
               <div className="p-6 flex flex-col h-full">
                 <h3 className="text-2xl font-bold text-primary-text">{project.title}</h3>
                 

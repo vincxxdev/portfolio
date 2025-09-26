@@ -10,6 +10,8 @@ const About = () => {
   const content = `
 Ciao! Sono Vincenzo, un laureando nella facoltà di Informatica 
 all'Università degli Studi di Bari Aldo Moro.
+Il mio principale obiettivo è quello di espandere le mie competenze
+tecniche continuamente.
 Ho una solida base in programmazione, algoritmi e strutture dati soprattutto 
 in linguaggi OOP come Java.
 La mia curiosità mi ha spinto verso lo sviluppo web, dove oggi sperimento 

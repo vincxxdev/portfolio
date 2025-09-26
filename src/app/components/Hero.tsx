@@ -23,7 +23,6 @@ const Hero = () => {
       className="relative min-h-screen flex items-center justify-center overflow-hidden bg-secondary-background"
       onMouseMove={handleMouseMove}
     >
-        {/* Animated Blobs */}
         <motion.div 
           className="absolute top-0 left-0 w-full h-full -z-10"
           style={{ x: xTransform, y: yTransform }}
@@ -33,7 +32,6 @@ const Hero = () => {
             <div className="absolute top-1/2 left-1/2 w-96 h-96 bg-purple-500/20 rounded-full filter blur-3xl animate-blob animation-delay-4000"></div>
         </motion.div>
 
-        {/* Content */}
         <div className="container mx-auto px-4 text-center z-10">
             <motion.div 
               className="bg-white/10 dark:bg-gray-900/20 backdrop-blur-md p-8 rounded-xl shadow-2xl border border-white/20"

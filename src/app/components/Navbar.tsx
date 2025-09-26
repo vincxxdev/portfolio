@@ -11,7 +11,7 @@ const navLinks = [
   { href: '#experience', label: 'Esperienze' },
   { href: '#skills', label: 'Skills' },
   { href: '#projects', label: 'Progetti' },
-  { href: '#contact', label: 'Contatti' },
+  { href: '#contacts', label: 'Contatti' },
 ];
 
 const Navbar = () => {

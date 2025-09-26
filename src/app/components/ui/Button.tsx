@@ -1,6 +1,7 @@
 import { cva, type VariantProps } from 'class-variance-authority';
 import clsx from 'clsx';
 import Link from 'next/link';
+import { AnchorHTMLAttributes, ButtonHTMLAttributes } from 'react';
 
 const buttonVariants = cva(
   'inline-flex items-center justify-center rounded-md text-lg font-semibold transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500',
@@ -10,6 +11,7 @@ const buttonVariants = cva(
         primary: 'bg-accent text-accent-text hover:bg-accent-hover',
         secondary: 'border-2 border-secondary-text text-primary-text hover:bg-secondary-background',
         ghost: 'text-secondary-text hover:bg-secondary-background hover:text-accent',
+        outline: 'border border-secondary-text/50 bg-transparent hover:bg-secondary-background text-primary-text',
       },
       size: {
         default: 'px-8 py-3',
@@ -24,17 +26,42 @@ const buttonVariants = cva(
   }
 );
 
-interface ButtonProps extends React.ButtonHTMLAttributes<HTMLAnchorElement>, VariantProps<typeof buttonVariants> {
-  href: string;
-  target?: string;
-}
+type BaseProps = VariantProps<typeof buttonVariants> & {
+  children: React.ReactNode;
+  className?: string;
+};
 
-const Button = ({ className, variant, size, href, children, ...props }: ButtonProps) => {
-  return (
-    <Link href={href} className={clsx(buttonVariants({ variant, size, className }))} {...props}>
-      {children}
-    </Link>
-  );
+type ButtonAsButton = BaseProps &
+  Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'children'> & {
+    href?: undefined;
+  };
+
+type ButtonAsLink = BaseProps &
+  Omit<AnchorHTMLAttributes<HTMLAnchorElement>, 'children' | 'type'> & {
+    href: string;
+  };
+
+type ButtonProps = ButtonAsButton | ButtonAsLink;
+
+const Button = (props: ButtonProps) => {
+  const { className, variant, size, children } = props;
+  const classes = clsx(buttonVariants({ variant, size, className }));
+
+  if (props.href) {
+    const { className, variant, size, children, ...rest } = props;
+    return (
+      <Link {...rest} className={classes}>
+        {children}
+      </Link>
+    );
+  } else {
+    const { className, variant, size, children, ...rest } = props;
+    return (
+      <button {...rest} className={classes}>
+        {children}
+      </button>
+    );
+  }
 };
 
 export default Button;

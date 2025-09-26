@@ -7,7 +7,7 @@ import Contacts from "./components/Contacts";
 
 export default function Home() {
   return (
-    <main style={{ backgroundColor: 'var(--secondary-background)' }} className="min-h-screen">
+    <main className="min-h-screen bg-secondary-background">
       <Hero />
       <About />
       <Experience />

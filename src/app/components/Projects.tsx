@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { Github } from 'lucide-react';
+import { SiGithub } from 'react-icons/si';
 
 const TrainIcon = ({ className }: { className?: string }) => (
     <svg
@@ -111,7 +111,7 @@ const Projects = () => {
                   rel="noopener noreferrer"
                   className="text-white"
                 >
-                  <Github className="h-16 w-16" />
+                  <SiGithub className="h-16 w-16" />
                 </a>
               </div>
             </div>

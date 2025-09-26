@@ -64,3 +64,7 @@ body {
 .animate-blob {
   animation: blob 7s infinite;
 }
+
+* {
+  cursor: none !important;
+}

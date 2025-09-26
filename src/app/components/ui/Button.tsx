@@ -57,7 +57,7 @@ const Button = (props: ButtonProps) => {
   } else {
     const { className, variant, size, children, ...rest } = props;
     return (
-      <button {...rest} className={classes}>
+      <button {...(rest as ButtonHTMLAttributes<HTMLButtonElement>)} className={classes}>
         {children}
       </button>
     );

@@ -7,8 +7,8 @@ import Loader from "./components/Loader";
 const onest = Onest({ subsets: ["latin"], variable: "--font-onest" });
 
 export const metadata: Metadata = {
-  title: "Portfolio",
-  description: "Portfolio of a web developer.",
+  title: "vincxxdev - Portfolio",
+  description: "Portfolio di Vincenzo Buttari - Software Engineer",
 };
 
 export default function RootLayout({

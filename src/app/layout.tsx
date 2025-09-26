@@ -1,19 +1,37 @@
+"use client";
 import type { Metadata } from "next";
-import "./globals.css";
 import { Onest } from "next/font/google";
+import "./globals.css";
+import { ThemeProvider } from "./components/ThemeProvider";
 import Navbar from "./components/Navbar";
-import { ThemeProvider } from './components/ThemeProvider';
-import Footer from './components/Footer';
+import Footer from "./components/Footer";
+import { useState, useEffect } from "react";
+import Animation from "./components/Animation";
 
 const onest = Onest({ subsets: ['latin'], variable: '--font-onest' });
 
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
+  const [loading, setLoading] = useState<boolean | null>(null);
 
-export const metadata: Metadata = {
-  title: "VincxxDev - Portfolio",
-  description: "Porfolio di Vincenzo - Software Engineer",
-};
+  useEffect(() => {
+    const hasLoaded = sessionStorage.getItem("hasLoaded");
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+    if (hasLoaded) {
+      setLoading(false);
+    } else {
+      setLoading(true);
+      const timer = setTimeout(() => {
+        setLoading(false);
+        sessionStorage.setItem("hasLoaded", "true");
+      }, 2500);
+      return () => clearTimeout(timer);
+    }
+  }, []);
+
   return (
     <html lang="it" suppressHydrationWarning>
       <body className={`${onest.variable} font-sans`}>
@@ -21,10 +39,17 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           attribute="class"
           defaultTheme="system"
           enableSystem
+          disableTransitionOnChange
         >
-          <Navbar />
-          {children}
-          <Footer />
+          {loading === null ? null : loading ? (
+            <Animation />
+          ) : (
+            <div className="animate-content-fade-in">
+              <Navbar />
+              {children}
+              <Footer />
+            </div>
+          )}
         </ThemeProvider>
       </body>
     </html>

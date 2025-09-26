@@ -1,36 +1,69 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Portfolio Personale di vincxxdev
 
-## Getting Started
+Questo è il repository per il mio portfolio personale, costruito con Next.js e Tailwind CSS. 
 
-First, run the development server:
+**[Guarda la Live Demo](https://ilmiofuturolink.com)**
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+---
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Anteprima
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+![Anteprima del Portfolio](./public/images/preview.png)
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+---
 
-## Learn More
+## ✨ Features
 
-To learn more about Next.js, take a look at the following resources:
+- **Design Moderno e Responsivo**: Interfaccia pulita e completamente accessibile da qualsiasi dispositivo.
+- **Tema Scuro/Chiaro**: Switcha tra modalità chiara e scura con persistenza delle preferenze.
+- **Animazioni fluide**: Transizioni e animazioni realizzate con Framer Motion per un'esperienza utente dinamica.
+- **Architettura Scalabile**: Contenuti come esperienze, skill e progetti sono gestiti tramite file di dati, rendendo l'aggiornamento del portfolio semplice e veloce senza toccare il codice.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+---
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 🛠️ Tech Stack
 
-## Deploy on Vercel
+<p align="center">
+  <img src="https://img.shields.io/badge/Next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white" alt="Next.js"/>
+  <img src="https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB" alt="React"/>
+  <img src="https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white" alt="TypeScript"/>
+  <img src="https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white" alt="Tailwind CSS"/>
+  <img src="https://img.shields.io/badge/Framer_Motion-0055FF?style=for-the-badge&logo=framer&logoColor=white" alt="Framer Motion"/>
+</p>
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+---
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 🚀 Come Iniziare
+
+Per eseguire il progetto in locale, segui questi passaggi:
+
+1.  **Clona il repository:**
+    ```bash
+    git clone https://github.com/zeltarave/portfolio.git
+    cd portfolio
+    ```
+
+2.  **Installa le dipendenze:**
+    ```bash
+    npm install
+    ```
+
+3.  **Avvia il server di sviluppo:**
+    ```bash
+    npm run dev
+    ```
+
+Apri [http://localhost:3000](http://localhost:3000) nel tuo browser per vedere il risultato.
+
+---
+
+## 📈 Aggiornare i Contenuti
+
+Grazie all'architettura data-driven, puoi aggiornare facilmente le sezioni del portfolio modificando i file nella directory `src/data`:
+
+-   **Esperienze**: Modifica `src/data/experiences.ts`
+-   **Certificazioni**: Modifica `src/data/certifications.ts`
+-   **Competenze (Skills)**: Modifica `src/data/skills.ts`
+-   **Progetti**: Modifica `src/data/projects.ts`
+
+Il sito si aggiornerà automaticamente con i nuovi dati.

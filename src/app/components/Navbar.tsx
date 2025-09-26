@@ -7,9 +7,10 @@ import Button from './ui/Button';
 import { ThemeSwitcher } from './ThemeSwitcher';
 
 const navLinks = [
+  { href: '#about', label: 'About' },
+  { href: '#experience', label: 'Esperienze' },
   { href: '#skills', label: 'Skills' },
   { href: '#projects', label: 'Progetti' },
-  { href: '#about', label: 'About' },
   { href: '#contact', label: 'Contatti' },
 ];
 

@@ -3,6 +3,7 @@ import "./globals.css";
 import { Onest } from "next/font/google";
 import Navbar from "./components/Navbar";
 import { ThemeProvider } from './components/ThemeProvider';
+import Footer from './components/Footer';
 
 const onest = Onest({ subsets: ['latin'], variable: '--font-onest' });
 
@@ -23,6 +24,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         >
           <Navbar />
           {children}
+          <Footer />
         </ThemeProvider>
       </body>
     </html>

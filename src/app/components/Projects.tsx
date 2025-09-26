@@ -13,6 +13,10 @@ const sectionVariants: Variants = {
   }
 };
 
+import { projectsData } from '@/data/projects';
+
+const projects = projectsData;
+
 const TrainIcon = ({ className }: { className?: string }) => (
     <svg
         className={className}
@@ -37,30 +41,6 @@ const TrainIcon = ({ className }: { className?: string }) => (
 );
 
 
-const projects = [
-  {
-    id: 1,
-    title: 'Railway Simulator',
-    description: 'Progetto realizzato in gruppo con un collega universitario. Backend in Node.js (Express) e frontend in FlexSim. Simula una stazione ferroviaria interagendo via Arduino.',
-    technologies: ['Node.js', 'Express', 'FlexSim', 'Arduino', 'Git', 'GitHub'],
-    githubLink: 'https://github.com/zeltarave/Railway-Simulator',
-  },
-  {
-    id: 2,
-    title: 'Ataxx',
-    description: 'Progetto universitario in gruppo per la realizzazione del gioco Ataxx in Java usando la tecnica di sviluppo Agile Scrum.',
-    technologies: ['Java', 'JUnit', 'Git', 'GitHub'],
-    githubLink: 'https://github.com/softeng2324-inf-uniba/progetto-cocke',
-  },
-  {
-    id: 3,
-    title: 'Nome Progetto 3',
-    description: 'Questa è una breve descrizione del progetto 3.',
-    technologies: ['Python', 'Django', 'PostgreSQL'],
-    githubLink: 'https://github.com/tuo-username/progetto-3',
-  },
-];
-
 const Projects = () => {
   return (
     <motion.section 
@@ -81,12 +61,12 @@ const Projects = () => {
               key={project.id}
               className="group relative overflow-hidden rounded-xl border border-secondary-text/20 bg-secondary-background/50 backdrop-blur-lg shadow-lg transition-all duration-300 ease-in-out hover:shadow-cyan-400/20 hover:scale-105"
             >
-              {project.title === 'Railway Simulator' && (
+              {project.animationType === 'railway' && (
                 <div className="absolute top-1/2 -translate-y-1/2 w-full h-8 z-20 pointer-events-none">
                     <TrainIcon className="absolute w-24 h-24 text-accent/80 left-[-30%] top-0 transition-all duration-[2s] ease-in-out group-hover:left-[110%]" />
                 </div>
               )}
-              {project.title === 'Ataxx' && (
+              {project.animationType === 'ataxx' && (
                 <div className="absolute inset-0 w-full h-full z-0 pointer-events-none">
                     <div className="absolute top-[10%] left-[15%] w-8 h-8 bg-red-500 rounded-full opacity-50 transition-all duration-500 group-hover:bg-blue-500 group-hover:scale-125"></div>
                     <div className="absolute bottom-[15%] right-[10%] w-12 h-12 bg-blue-500 rounded-full opacity-50 transition-all duration-500 group-hover:bg-red-500 group-hover:scale-125"></div>

@@ -1,8 +1,8 @@
 'use client';
 
-import { FaCss3, FaGit, FaHtml5, FaJava, FaJs, FaNodeJs, FaPython, FaReact } from 'react-icons/fa';
-import { SiTypescript, SiC, SiCplusplus, SiMysql } from 'react-icons/si';
 import { motion, Variants } from 'framer-motion';
+import { skillsData } from '@/data/skills';
+import SkillIcon from './ui/SkillIcon';
 
 const sectionVariants: Variants = {
   hidden: { opacity: 0, y: 50 },
@@ -13,22 +13,7 @@ const sectionVariants: Variants = {
   }
 };
 
-const skillsData = [
-  { name: 'Java', percentage: 80, icon: <FaJava size={40} className="text-orange-500" /> },
-  { name: 'C', percentage: 80, icon: <SiC size={40} className="text-blue-600" /> },
-  { name: 'JavaScript', percentage: 70, icon: <FaJs size={40} className="text-yellow-400" /> },
-  { name: 'TypeScript', percentage: 70, icon: <SiTypescript size={40} className="text-blue-500" /> },
-  { name: 'Python', percentage: 50, icon: <FaPython size={40} className="text-blue-400" /> },
-  { name: 'C++', percentage: 20, icon: <SiCplusplus size={40} className="text-blue-700" /> },
-  { name: 'React', percentage: 60, icon: <FaReact size={40} className="text-cyan-400" /> },
-  { name: 'HTML', percentage: 90, icon: <FaHtml5 size={40} className="text-orange-500" /> },
-  { name: 'CSS', percentage: 50, icon: <FaCss3 size={40} className="text-blue-500" /> },
-  { name: 'Node.js', percentage: 60, icon: <FaNodeJs size={40} className="text-green-500" /> },
-  { name: 'Git', percentage: 70, icon: <FaGit size={40} className="text-red-500" /> },
-  { name: 'MySQL', percentage: 50, icon: <SiMysql size={40} className="text-purple-500" /> },
-];
-
-const SkillCard = ({ name, percentage, icon }: { name: string, percentage: number, icon: React.ReactNode }) => {
+const SkillCard = ({ name, percentage, iconName, color }: { name: string, percentage: number, iconName: string, color: string }) => {
   const circumference = 2 * Math.PI * 52;
   const offset = circumference - (percentage / 100) * circumference;
 
@@ -61,7 +46,7 @@ const SkillCard = ({ name, percentage, icon }: { name: string, percentage: numbe
           />
         </svg>
         <div className="absolute flex flex-col items-center">
-            {icon}
+            <SkillIcon name={iconName} className={color} />
             <span className="text-2xl font-bold text-primary-text mt-1">{percentage}%</span>
         </div>
       </div>
@@ -85,8 +70,8 @@ const Skills = () => {
           Le mie Competenze
         </h2>
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8">
-          {skillsData.sort((a, b) => b.percentage - a.percentage).map((skill) => (
-            <SkillCard key={skill.name} name={skill.name} percentage={skill.percentage} icon={skill.icon} />
+          {[...skillsData].sort((a, b) => b.percentage - a.percentage).map((skill) => (
+            <SkillCard key={skill.name} name={skill.name} percentage={skill.percentage} iconName={skill.iconName} color={skill.color} />
           ))}
         </div>
       </div>

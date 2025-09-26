@@ -4,6 +4,9 @@ import React from 'react';
 import { motion, Variants } from 'framer-motion';
 import Button from './ui/Button';
 
+import { experienceData } from '@/data/experiences';
+import { certificationData as certificationDataRaw } from '@/data/certifications';
+
 const sectionVariants: Variants = {
   hidden: { opacity: 0, y: 50 },
   visible: { 
@@ -13,48 +16,12 @@ const sectionVariants: Variants = {
   }
 };
 
-const experienceData = [
-  {
-    date: '26/11/2017 - 10/12/2017 - 10/02/2018',
-    title: 'Cameriere',
-    company: 'Bari',
-    description: 'Cameriere presso lo Stadio San Nicola tramite Scuola Alberghiera Molfetta, servizio a buffet presso la tribuna d’onore',
-  }
-];
-
-const certificationData = [
-  {
-    title: '100 Days Of Code - 2022 Wed Development Bootcamp',
-    issuer: 'Udemy',
-    date: 'Marzo 2022',
-    url: '/certificates/100-days-web-development.pdf',
-  },
-  {
-    title: '10 Mega Responsive Websites with HTML, CSS, and JavaScript',
-    issuer: 'Udemy',
-    date: 'Gennaio 2022',
-    url: '/certificates/mega-responsive-websites.pdf',
-  },
-  {
-    title: 'Networking 101: Corso di Reti da zero',
-    issuer: 'Udemy',
-    date: "Gennaio 2025",
-    url: '/certificates/networking-101.pdf',
-  },
-  {
-    title: 'The Web Developer Bootcamp 2022',
-    issuer: 'Udemy',
-    date: 'Dicembre 2021',
-    url: '/certificates/web-developer-bootcamp-2022.pdf',
-  }
-];
-
 const monthMap: { [key:string]: number } = {
   'gennaio': 0, 'febbraio': 1, 'marzo': 2, 'aprile': 3, 'maggio': 4, 'giugno': 5,
   'luglio': 6, 'agosto': 7, 'settembre': 8, 'ottobre': 9, 'novembre': 10, 'dicembre': 11
 };
 
-certificationData.sort((a, b) => {
+const certificationData = [...certificationDataRaw].sort((a, b) => {
   const [monthA, yearA] = a.date.toLowerCase().split(' ');
   const [monthB, yearB] = b.date.toLowerCase().split(' ');
 

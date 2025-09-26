@@ -1,5 +1,17 @@
+'use client';
+
 import React from 'react';
+import { motion, Variants } from 'framer-motion';
 import Button from './ui/Button';
+
+const sectionVariants: Variants = {
+  hidden: { opacity: 0, y: 50 },
+  visible: { 
+    opacity: 1, 
+    y: 0, 
+    transition: { duration: 0.6, ease: "easeOut" } 
+  }
+};
 
 const experienceData = [
   {
@@ -54,7 +66,14 @@ certificationData.sort((a, b) => {
 
 const Experience = () => {
   return (
-    <section id="experience" className="py-20 sm:py-32">
+    <motion.section 
+      id="experience" 
+      className="py-20 sm:py-32"
+      variants={sectionVariants}
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, amount: 0.2 }}
+    >
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
 
         {/* Sezione Esperienze */}
@@ -101,7 +120,7 @@ const Experience = () => {
           </div>
         </div>
       </div>
-    </section>
+    </motion.section>
   );
 };
 

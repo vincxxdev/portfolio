@@ -1,6 +1,16 @@
-'use client';
+"use client";
 
 import React, { useState, useEffect } from 'react';
+import { motion, Variants } from 'framer-motion';
+
+const sectionVariants: Variants = {
+  hidden: { opacity: 0, y: 50 },
+  visible: { 
+    opacity: 1, 
+    y: 0, 
+    transition: { duration: 0.6, ease: "easeOut" } 
+  }
+};
 
 const About = () => {
   const [text, setText] = useState('');
@@ -9,7 +19,7 @@ const About = () => {
   const command = 'cat ./about.txt';
   const content = `
 Ciao! Sono Vincenzo, un laureando nella facoltà di Informatica 
-all'Università degli Studi di Bari Aldo Moro.
+all\'Università degli Studi di Bari Aldo Moro.
 Il mio principale obiettivo è quello di espandere le mie competenze
 tecniche continuamente.
 Ho una solida base in programmazione, algoritmi e strutture dati soprattutto 
@@ -36,7 +46,14 @@ e Git per un controllo di versione impeccabile.`;
   }, [fullText]);
 
   return (
-    <section id="about" className="py-20 sm:py-32">
+    <motion.section 
+      id="about" 
+      className="py-20 sm:py-32"
+      variants={sectionVariants}
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, amount: 0.2 }}
+    >
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <h2 className="text-4xl font-bold text-center text-primary-text mb-12">
           About Me
@@ -62,7 +79,7 @@ e Git per un controllo di versione impeccabile.`;
           </div>
         </div>
       </div>
-    </section>
+    </motion.section>
   );
 };
 

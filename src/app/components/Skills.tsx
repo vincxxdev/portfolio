@@ -1,5 +1,17 @@
+'use client';
+
 import { FaCss3, FaGit, FaHtml5, FaJava, FaJs, FaNodeJs, FaPython, FaReact } from 'react-icons/fa';
 import { SiTypescript, SiC, SiCplusplus, SiMysql } from 'react-icons/si';
+import { motion, Variants } from 'framer-motion';
+
+const sectionVariants: Variants = {
+  hidden: { opacity: 0, y: 50 },
+  visible: { 
+    opacity: 1, 
+    y: 0, 
+    transition: { duration: 0.6, ease: "easeOut" } 
+  }
+};
 
 const skillsData = [
   { name: 'Java', percentage: 80, icon: <FaJava size={40} className="text-orange-500" /> },
@@ -60,7 +72,14 @@ const SkillCard = ({ name, percentage, icon }: { name: string, percentage: numbe
 
 const Skills = () => {
   return (
-    <section id="skills" className="py-20">
+    <motion.section 
+      id="skills" 
+      className="py-20"
+      variants={sectionVariants}
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, amount: 0.2 }}
+    >
       <div className="container mx-auto px-4">
         <h2 className="text-4xl font-bold text-center text-primary-text mb-12">
           Le mie Competenze
@@ -71,7 +90,7 @@ const Skills = () => {
           ))}
         </div>
       </div>
-    </section>
+    </motion.section>
   );
 };
 

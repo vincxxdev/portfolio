@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { Inter } from "next/font/google";
+import { Onest } from "next/font/google";
 import Navbar from "./components/Navbar";
 import { ThemeProvider } from './components/ThemeProvider';
 
-const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
+const onest = Onest({ subsets: ['latin'], variable: '--font-onest' });
 
 
 export const metadata: Metadata = {
@@ -15,7 +15,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="it" suppressHydrationWarning>
-      <body className={`${inter.variable}`}>
+      <body className={`${onest.variable} font-sans`}>
         <ThemeProvider
           attribute="class"
           defaultTheme="system"

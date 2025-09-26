@@ -19,6 +19,9 @@ const config: Config = {
         'accent-hover': 'var(--accent-hover)',
         'accent-text': 'var(--accent-text)',
       },
+      fontFamily: {
+        sans: ['var(--font-onest)'],
+      },
     },
   },
   plugins: [],

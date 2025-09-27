@@ -58,7 +58,7 @@ e Git per un controllo di versione impeccabile.`;
               </div>
             </div>
             <div className="p-6 font-mono text-white text-sm sm:text-base">
-              <pre>
+              <pre className="whitespace-pre-wrap">
                 {text}
                 {showCursor && <span className="bg-white w-2 h-4 inline-block animate-pulse"></span>}
               </pre>

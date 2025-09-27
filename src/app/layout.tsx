@@ -3,7 +3,7 @@ import { Inter, Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "./components/ThemeProvider";
 import Loader from "./components/Loader";
-import CustomCursor from "./components/ui/CustomCursor";
+import CursorProvider from "./components/ui/CursorProvider";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -56,7 +56,7 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <CustomCursor />
+          <CursorProvider />
           <Loader>{children}</Loader>
         </ThemeProvider>
       </body>

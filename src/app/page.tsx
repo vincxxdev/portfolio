@@ -4,7 +4,7 @@ import Projects from "./components/Projects";
 import About from "./components/About";
 import Experience from "./components/Experience";
 import Contacts from "./components/Contacts";
-import AnimatedSection from "./components/AnimatedSection";
+import AnimatedSection from "./components/ui/AnimatedSection";
 
 export default function Home() {
   return (

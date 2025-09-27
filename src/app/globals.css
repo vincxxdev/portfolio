@@ -1,41 +1,33 @@
 @tailwind base;
-
-/* Applicazione del font personalizzato per i titoli */
-h1, h2, h3, h4, h5, h6 {
-  @apply font-heading;
-}
-
-@tailwind components;
 @tailwind components;
 @tailwind utilities;
 
 
-/* Stili per il tema CHIARO */
 :root {
   --background: #ffffff;
   --foreground: #171717;
 
-  --primary-background: #ffffff;       /* Sfondo Principale */
-  --secondary-background: #f1f5f9;  /* Sfondo Secondario (Cards) */
-  --primary-text: #0f172a;          /* Testo Primario */
-  --secondary-text: #64748b;        /* Testo Secondario */
-  --accent: #06b6d4;                /* Accento Ciano */
-  --accent-hover: #0891b2;          /* Accento Ciano (Hover) */
-  --accent-text: #ffffff;            /* Testo su Accento */
+  --primary-background: #ffffff;
+  --secondary-background: #f1f5f9;
+  --primary-text: #0f172a;
+  --secondary-text: #64748b;
+  --accent: #06b6d4;
+  --accent-hover: #0891b2;
+  --accent-text: #ffffff;
 }
 
 /* Stili per il tema SCURO */
 .dark {
-  --background: #0A192F;
-  --foreground: #E5E7EB;
+  --background: #0a0a0a;
+  --foreground: #ededed;
 
-  --primary-background: #0A192F;      /* Sfondo Principale */
-  --secondary-background: #172A45;  /* Sfondo Secondario (Cards) */
-  --primary-text: #E5E7EB;          /* Testo Primario */
-  --secondary-text: #9CA3AF;        /* Testo Secondario */
-  --accent: #22d3ee;                /* Accento Ciano */
-  --accent-hover: #1fb6cf;          /* Accento Ciano (Hover) */
-  --accent-text: #0A192F;            /* Testo su Accento */
+  --primary-background: #020617;
+  --secondary-background: #0f172a;
+  --primary-text: #f8fafc;
+  --secondary-text: #94a3b8;
+  --accent: #06b6d4;
+  --accent-hover: #0891b2;
+  --accent-text: #ffffff;
 }
 
 body {
@@ -45,7 +37,6 @@ body {
 }
 
 
-/* Aggiunta di classi personalizzate per i ritardi delle animazioni */
 @layer utilities {
   .animation-delay-2000 {
     animation-delay: 2s;
@@ -55,7 +46,6 @@ body {
   }
 }
 
-/* Animazione Blob attualmente usata per la sezione Hero */
 @keyframes blob {
   0% {
     transform: translate(0px, 0px) scale(1);
@@ -75,7 +65,6 @@ body {
   animation: blob 7s infinite;
 }
 
-/* Nasconde il cursore predefinito */
 * {
   cursor: none !important;
 }

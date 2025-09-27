@@ -37,6 +37,7 @@ type ButtonAsButton = BaseProps &
     href?: undefined;
   };
 
+// Redefined to only include specific, safe props for an anchor tag
 type ButtonAsLink = BaseProps & {
   href: string;
   target?: string;

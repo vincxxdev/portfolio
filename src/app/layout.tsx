@@ -22,7 +22,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "vincxxdev - Portfolio",
     description: "Portfolio di Vincenzo Buttari, un Software Engineer appassionato di creare soluzioni innovative e scalabili.",
-    url: "https://your-deployment-link.com",
+    url: "https://vincxx.dev",
     siteName: "vincxxdev Portfolio",
     images: [
       {

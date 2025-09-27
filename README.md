@@ -2,7 +2,7 @@
 
 Questo è il repository per il mio portfolio personale, costruito con Next.js, TypeScript e Tailwind CSS.
 
-**[Guarda la Live Demo](https://INSERISCI_URL_LIVE_QUI)**
+**[Guarda la Live Demo](https://vincxx.dev)**
 
 ---
 

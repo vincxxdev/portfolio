@@ -1,20 +1,9 @@
 'use client';
-
-import React from 'react';
-import { motion, Variants } from 'framer-motion';
 import Button from './ui/Button';
 
+import React from 'react';
 import { experienceData } from '@/data/experiences';
 import { certificationData as certificationDataRaw } from '@/data/certifications';
-
-const sectionVariants: Variants = {
-  hidden: { opacity: 0, y: 50 },
-  visible: { 
-    opacity: 1, 
-    y: 0, 
-    transition: { duration: 0.6, ease: "easeOut" } 
-  }
-};
 
 const monthMap: { [key:string]: number } = {
   'gennaio': 0, 'febbraio': 1, 'marzo': 2, 'aprile': 3, 'maggio': 4, 'giugno': 5,
@@ -33,13 +22,9 @@ const certificationData = [...certificationDataRaw].sort((a, b) => {
 
 const Experience = () => {
   return (
-    <motion.section 
+    <section 
       id="experience" 
       className="py-20 sm:py-32"
-      variants={sectionVariants}
-      initial="hidden"
-      whileInView="visible"
-      viewport={{ once: true, amount: 0.2 }}
     >
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
 
@@ -87,7 +72,7 @@ const Experience = () => {
           </div>
         </div>
       </div>
-    </motion.section>
+    </section>
   );
 };
 

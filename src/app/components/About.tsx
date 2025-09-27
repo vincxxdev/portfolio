@@ -1,16 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from 'react';
-import { motion, Variants } from 'framer-motion';
 
-const sectionVariants: Variants = {
-  hidden: { opacity: 0, y: 50 },
-  visible: { 
-    opacity: 1, 
-    y: 0, 
-    transition: { duration: 0.6, ease: "easeOut" } 
-  }
-};
 
 const About = () => {
   const [text, setText] = useState('');
@@ -46,13 +37,9 @@ e Git per un controllo di versione impeccabile.`;
   }, [fullText]);
 
   return (
-    <motion.section 
+    <section 
       id="about" 
       className="py-20 sm:py-32"
-      variants={sectionVariants}
-      initial="hidden"
-      whileInView="visible"
-      viewport={{ once: true, amount: 0.2 }}
     >
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <h2 className="text-4xl font-bold text-center text-primary-text mb-12">
@@ -79,7 +66,7 @@ e Git per un controllo di versione impeccabile.`;
           </div>
         </div>
       </div>
-    </motion.section>
+    </section>
   );
 };
 

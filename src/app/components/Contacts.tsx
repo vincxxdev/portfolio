@@ -4,24 +4,13 @@ import React from 'react';
 import { Mail, Phone } from 'lucide-react';
 import { motion, Variants } from 'framer-motion';
 
-const sectionVariants: Variants = {
-  hidden: { opacity: 0, y: 50 },
-  visible: { 
-    opacity: 1, 
-    y: 0, 
-    transition: { duration: 0.6, ease: "easeOut" } 
-  }
-};
+
 
 const Contacts = () => {
   return (
-    <motion.section 
+    <section 
       id="contacts" 
       className="py-20 sm:py-32 bg-secondary-background"
-      variants={sectionVariants}
-      initial="hidden"
-      whileInView="visible"
-      viewport={{ once: true, amount: 0.2 }}
     >
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
         <h2 className="text-4xl font-bold text-primary-text mb-4">
@@ -57,7 +46,7 @@ const Contacts = () => {
           </motion.a>
         </div>
       </div>
-    </motion.section>
+    </section>
   );
 };
 

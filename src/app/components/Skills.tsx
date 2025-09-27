@@ -1,17 +1,8 @@
 'use client';
 
-import { motion, Variants } from 'framer-motion';
 import { skillsData } from '@/data/skills';
 import SkillIcon from './ui/SkillIcon';
 
-const sectionVariants: Variants = {
-  hidden: { opacity: 0, y: 50 },
-  visible: { 
-    opacity: 1, 
-    y: 0, 
-    transition: { duration: 0.6, ease: "easeOut" } 
-  }
-};
 
 const SkillCard = ({ name, percentage, iconName, color }: { name: string, percentage: number, iconName: string, color: string }) => {
   const circumference = 2 * Math.PI * 52;
@@ -57,13 +48,9 @@ const SkillCard = ({ name, percentage, iconName, color }: { name: string, percen
 
 const Skills = () => {
   return (
-    <motion.section 
+    <section 
       id="skills" 
       className="py-20"
-      variants={sectionVariants}
-      initial="hidden"
-      whileInView="visible"
-      viewport={{ once: true, amount: 0.2 }}
     >
       <div className="container mx-auto px-4">
         <h2 className="text-4xl font-bold text-center text-primary-text mb-12">
@@ -75,7 +62,7 @@ const Skills = () => {
           ))}
         </div>
       </div>
-    </motion.section>
+    </section>
   );
 };
 

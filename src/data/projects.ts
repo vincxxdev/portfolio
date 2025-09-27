@@ -17,12 +17,4 @@ export const projectsData = [
     "animationType": "ataxx",
     "previewImage": "/images/ataxx-preview.png"
   },
-  {
-    "id": 3,
-    "title": "Nome Progetto 3",
-    "description": "Questa è una breve descrizione del progetto 3.",
-    "technologies": ["Python", "Django", "PostgreSQL"],
-    "githubLink": "https://github.com/tuo-username/progetto-3",
-    "previewImage": "/images/preview.png"
-  }
 ];

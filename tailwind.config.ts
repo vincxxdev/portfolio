@@ -11,6 +11,10 @@ const config: Config = {
   darkMode: 'class',
   theme: {
     extend: {
+      fontFamily: {
+        sans: ["var(--font-inter)", "sans-serif"],
+        heading: ["var(--font-jakarta-sans)", "sans-serif"],
+      },
       colors: {
         'primary-background': 'var(--primary-background)',
         'secondary-background': 'var(--secondary-background)',

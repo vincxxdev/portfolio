@@ -17,7 +17,7 @@ const certificationData = [...certificationDataRaw].sort((a, b) => {
   const dateA = new Date(parseInt(yearA), monthMap[monthA]);
   const dateB = new Date(parseInt(yearB), monthMap[monthB]);
 
-  return dateA.getTime() - dateB.getTime();
+  return dateB.getTime() - dateA.getTime();
 });
 
 const Experience = () => {

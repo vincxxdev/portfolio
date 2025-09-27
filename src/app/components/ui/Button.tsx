@@ -1,8 +1,6 @@
 import { cva, type VariantProps } from 'class-variance-authority';
 import clsx from 'clsx';
-import Link from 'next/link';
-import { ButtonHTMLAttributes } from 'react';
-import { motion } from 'framer-motion';
+import React from 'react';
 
 const buttonVariants = cva(
   'inline-flex items-center justify-center rounded-md text-lg font-semibold transition-all duration-300 transform focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500',
@@ -27,66 +25,49 @@ const buttonVariants = cva(
   }
 );
 
-type BaseProps = VariantProps<typeof buttonVariants> & {
+interface ButtonProps extends VariantProps<typeof buttonVariants> {
   children: React.ReactNode;
   className?: string;
-};
-
-type ButtonAsButton = BaseProps &
-  Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'children'> & {
-    href?: undefined;
-  };
-
-type ButtonAsLink = BaseProps & {
-  href: string;
+  href?: string;
+  onClick?: (event: React.MouseEvent<HTMLElement>) => void;
   target?: string;
   rel?: string;
-  download?: boolean | string;
-};
+}
 
-type ButtonProps = ButtonAsButton | ButtonAsLink;
-
-const MotionLink = motion(Link);
-
-const Button = (props: ButtonProps) => {
-  const { className, variant, size, children } = props;
+const Button = ({
+  className,
+  variant,
+  size,
+  children,
+  href,
+  onClick,
+  target,
+  rel,
+}: ButtonProps) => {
   const classes = clsx(buttonVariants({ variant, size, className }));
 
-  const motionProps = {
-    whileHover: { scale: 1.05 },
-    whileTap: { scale: 0.95 },
-    transition: { type: 'spring', stiffness: 400, damping: 17 },
-  } as const;
-
-  if (props.href) {
-    const { href, target, rel, download } = props;
+  if (href) {
     return (
-      <MotionLink
+      <a
         href={href}
+        onClick={onClick}
         target={target}
         rel={rel}
-        download={download as any}
         className={classes}
-        {...motionProps}
       >
         {children}
-      </MotionLink>
-    );
-  } else {
-    const { type, disabled, onClick } = props as ButtonAsButton;
-    return (
-      <motion.button
-        className={classes}
-        type={type}
-        disabled={disabled}
-        onClick={onClick}
-        {...motionProps}
-      >
-        {children}
-      </motion.button>
+      </a>
     );
   }
-};
 
+  return (
+    <button
+      onClick={onClick}
+      className={classes}
+    >
+      {children}
+    </button>
+  );
+};
 
 export default Button;

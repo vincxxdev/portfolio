@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import Image from 'next/image';
 import { SiGithub } from 'react-icons/si';
 import { motion, Variants } from 'framer-motion';
 
@@ -68,12 +69,20 @@ const Projects = () => {
               )}
               {project.animationType === 'ataxx' && (
                 <div className="absolute inset-0 w-full h-full z-0 pointer-events-none">
-                    <div className="absolute top-[10%] left-[15%] w-8 h-8 bg-red-500 rounded-full opacity-50 transition-all duration-500 group-hover:bg-blue-500 group-hover:scale-125"></div>
+                    <div className="absolute top-[60%] left-[15%] w-8 h-8 bg-red-500 rounded-full opacity-50 transition-all duration-500 group-hover:bg-blue-500 group-hover:scale-125"></div>
                     <div className="absolute bottom-[15%] right-[10%] w-12 h-12 bg-blue-500 rounded-full opacity-50 transition-all duration-500 group-hover:bg-red-500 group-hover:scale-125"></div>
-                    <div className="absolute top-[40%] right-[25%] w-6 h-6 bg-red-500 rounded-full opacity-50 transition-all duration-500 group-hover:bg-blue-500 group-hover:scale-110"></div>
-                    <div className="absolute bottom-[30%] left-[20%] w-10 h-10 bg-blue-500 rounded-full opacity-50 transition-all duration-500 group-hover:bg-red-500 group-hover:scale-110"></div>
+                    <div className="absolute top-[65%] right-[25%] w-6 h-6 bg-red-500 rounded-full opacity-50 transition-all duration-500 group-hover:bg-blue-500 group-hover:scale-110"></div>
+                    <div className="absolute bottom-[20%] left-[20%] w-10 h-10 bg-blue-500 rounded-full opacity-50 transition-all duration-500 group-hover:bg-red-500 group-hover:scale-110"></div>
                 </div>
               )}
+
+              <Image
+                src={project.previewImage}
+                alt={`Anteprima del progetto ${project.title}`}
+                width={400}
+                height={250}
+                className="w-full object-cover transition-transform duration-300 group-hover:scale-110"
+              />
 
               <div className="p-6 flex flex-col h-full">
                 <h3 className="text-2xl font-bold text-primary-text">{project.title}</h3>

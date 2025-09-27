@@ -18,6 +18,7 @@ const jakarta = Plus_Jakarta_Sans({
 export const metadata: Metadata = {
   title: "vincxxdev - Portfolio",
   description: "Portfolio di Vincenzo Buttari - Software Engineer",
+  icons: "/logo.svg",
   openGraph: {
     title: "vincxxdev - Portfolio",
     description: "Portfolio di Vincenzo Buttari, un Software Engineer appassionato di creare soluzioni innovative e scalabili.",

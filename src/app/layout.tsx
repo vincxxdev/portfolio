@@ -1,11 +1,19 @@
 import type { Metadata } from "next";
-import { Onest } from "next/font/google";
+import { Inter, Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "./components/ThemeProvider";
 import Loader from "./components/Loader";
 import CustomCursor from "./components/ui/CustomCursor";
 
-const onest = Onest({ subsets: ["latin"], variable: "--font-onest" });
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-inter",
+});
+
+const jakarta = Plus_Jakarta_Sans({
+  subsets: ["latin"],
+  variable: "--font-jakarta-sans",
+});
 
 export const metadata: Metadata = {
   title: "vincxxdev - Portfolio",
@@ -41,7 +49,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="it" suppressHydrationWarning>
-      <body className={`${onest.variable} font-sans`}>
+      <body className={`${inter.variable} ${jakarta.variable} font-sans`}>
         <ThemeProvider
           attribute="class"
           defaultTheme="system"

@@ -1,7 +1,7 @@
 import { cva, type VariantProps } from 'class-variance-authority';
 import clsx from 'clsx';
 import Link from 'next/link';
-import { AnchorHTMLAttributes, ButtonHTMLAttributes } from 'react';
+import { ButtonHTMLAttributes } from 'react';
 import { motion } from 'framer-motion';
 
 const buttonVariants = cva(
@@ -37,12 +37,17 @@ type ButtonAsButton = BaseProps &
     href?: undefined;
   };
 
-type ButtonAsLink = BaseProps &
-  Omit<AnchorHTMLAttributes<HTMLAnchorElement>, 'children' | 'type'> & {
-    href: string;
-  };
+// Redefined to only include specific, safe props for an anchor tag
+type ButtonAsLink = BaseProps & {
+  href: string;
+  target?: string;
+  rel?: string;
+  download?: boolean | string;
+};
 
 type ButtonProps = ButtonAsButton | ButtonAsLink;
+
+const MotionLink = motion(Link);
 
 const Button = (props: ButtonProps) => {
   const { className, variant, size, children } = props;
@@ -54,20 +59,19 @@ const Button = (props: ButtonProps) => {
     transition: { type: 'spring', stiffness: 400, damping: 17 },
   } as const;
 
-  if ('href' in props && props.href) {
+  if (props.href) {
     const { href, target, rel, download } = props;
     return (
-      <Link href={href} passHref legacyBehavior>
-        <motion.a
-          className={classes}
-          target={target}
-          rel={rel}
-          download={download}
-          {...motionProps}
-        >
-          {children}
-        </motion.a>
-      </Link>
+      <MotionLink
+        href={href}
+        target={target}
+        rel={rel}
+        download={download as any}
+        className={classes}
+        {...motionProps}
+      >
+        {children}
+      </MotionLink>
     );
   } else {
     const { type, disabled, onClick } = props as ButtonAsButton;
@@ -84,5 +88,6 @@ const Button = (props: ButtonProps) => {
     );
   }
 };
+
 
 export default Button;

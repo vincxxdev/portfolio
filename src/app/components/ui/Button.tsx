@@ -2,9 +2,10 @@ import { cva, type VariantProps } from 'class-variance-authority';
 import clsx from 'clsx';
 import Link from 'next/link';
 import { AnchorHTMLAttributes, ButtonHTMLAttributes } from 'react';
+import { motion } from 'framer-motion';
 
 const buttonVariants = cva(
-  'inline-flex items-center justify-center rounded-md text-lg font-semibold transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500',
+  'inline-flex items-center justify-center rounded-md text-lg font-semibold transition-all duration-300 transform focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500',
   {
     variants: {
       variant: {
@@ -47,19 +48,39 @@ const Button = (props: ButtonProps) => {
   const { className, variant, size, children } = props;
   const classes = clsx(buttonVariants({ variant, size, className }));
 
-  if (props.href) {
-    const { className, variant, size, children, ...rest } = props;
+  const motionProps = {
+    whileHover: { scale: 1.05 },
+    whileTap: { scale: 0.95 },
+    transition: { type: 'spring', stiffness: 400, damping: 17 },
+  } as const;
+
+  if ('href' in props && props.href) {
+    const { href, target, rel, download } = props;
     return (
-      <Link {...rest} className={classes}>
-        {children}
+      <Link href={href} passHref legacyBehavior>
+        <motion.a
+          className={classes}
+          target={target}
+          rel={rel}
+          download={download}
+          {...motionProps}
+        >
+          {children}
+        </motion.a>
       </Link>
     );
   } else {
-    const { className, variant, size, children, ...rest } = props;
+    const { type, disabled, onClick } = props as ButtonAsButton;
     return (
-      <button {...(rest as ButtonHTMLAttributes<HTMLButtonElement>)} className={classes}>
+      <motion.button
+        className={classes}
+        type={type}
+        disabled={disabled}
+        onClick={onClick}
+        {...motionProps}
+      >
         {children}
-      </button>
+      </motion.button>
     );
   }
 };

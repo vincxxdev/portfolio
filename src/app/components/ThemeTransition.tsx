@@ -14,6 +14,7 @@ export const ThemeTransition = () => {
       const timer = setTimeout(() => setIsTransitioning(false), 600);
       return () => clearTimeout(timer);
     }
+    return undefined;
   }, [theme]);
 
   return (

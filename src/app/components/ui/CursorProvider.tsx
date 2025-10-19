@@ -4,16 +4,20 @@ import { useState, useEffect } from 'react';
 import CustomCursor from './CustomCursor';
 
 const CursorProvider = () => {
-  const [isMobile, setIsMobile] = useState(false);
+  const [showCursor, setShowCursor] = useState(false);
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
-      const isMobileDevice = /Mobi|Android/i.test(navigator.userAgent);
-      setIsMobile(isMobileDevice);
+      // Controlla se è mobile o tablet
+      const isMobileDevice = /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+      // Controlla se ha un touchscreen
+      const hasTouchScreen = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+      // Mostra il cursore solo su dispositivi desktop senza touch
+      setShowCursor(!isMobileDevice && !hasTouchScreen);
     }
   }, []);
 
-  return isMobile ? null : <CustomCursor />;
+  return showCursor ? <CustomCursor /> : null;
 };
 
 export default CursorProvider;

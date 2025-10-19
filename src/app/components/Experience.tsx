@@ -28,7 +28,7 @@ const Experience = () => {
     >
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
 
-        {/* Sezione Esperienze */}
+        {/* Experiences Section */}
         <h2 className="text-4xl font-bold text-center text-primary-text mb-16">
           Esperienze
         </h2>
@@ -53,7 +53,7 @@ const Experience = () => {
           ))}
         </div>
 
-        {/* Sezione Certificazioni */}
+        {/* Certifications Section */}
         <div className="mt-24">
           <h2 className="text-4xl font-bold text-center text-primary-text mb-16">
             Certificazioni

@@ -7,6 +7,8 @@ import { ExternalLink, Code2 } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 import { projectsData } from '@/data/projects';
+import Card from './ui/Card';
+import { SectionHeader } from './ui/CardComponents';
 
 const projects = projectsData;
 
@@ -27,18 +29,6 @@ const Projects = () => {
     },
   };
 
-  const itemVariants = {
-    hidden: { opacity: 0, y: 30 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 0.6,
-        ease: "easeOut" as const,
-      },
-    },
-  };
-
   return (
     <section 
       id="projects" 
@@ -54,14 +44,15 @@ const Projects = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="text-center mb-16"
         >
-          <h2 className="text-4xl sm:text-5xl font-bold text-primary-text mb-4">
-            I Miei <span className="bg-gradient-to-r from-cyan-400 to-blue-600 bg-clip-text text-transparent">Progetti</span>
-          </h2>
-          <p className="text-secondary-text text-lg max-w-2xl mx-auto">
-            Esplora una selezione dei miei progetti più significativi
-          </p>
+          <SectionHeader
+            title={
+              <>
+                I Miei <span className="bg-gradient-to-r from-cyan-400 to-blue-600 bg-clip-text text-transparent">Progetti</span>
+              </>
+            }
+            description="Esplora una selezione dei miei progetti più significativi"
+          />
         </motion.div>
 
         <motion.div
@@ -72,13 +63,16 @@ const Projects = () => {
           className="grid gap-8 md:grid-cols-2 lg:grid-cols-3"
         >
           {projects.map((project, index) => (
-            <motion.div
+            <Card
               key={project.id}
-              variants={itemVariants}
-              className="group relative flex flex-col h-full overflow-hidden rounded-2xl border border-secondary-text/20 bg-secondary-background/50 backdrop-blur-lg shadow-xl transition-all duration-500 ease-out hover:shadow-2xl hover:shadow-cyan-400/20 hover:-translate-y-2"
+              hoverEffect="lift"
+              padding="sm"
+              className="h-full"
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: index * 0.15, ease: "easeOut" as const }}
             >
-              {/* Gradient overlay on hover */}
-              <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/0 via-blue-500/0 to-purple-500/0 group-hover:from-cyan-500/5 group-hover:via-blue-500/5 group-hover:to-purple-500/5 transition-all duration-500 z-10 pointer-events-none rounded-2xl"></div>
 
               {/* Image container */}
               <div className="relative h-56 overflow-hidden bg-gradient-to-br from-cyan-500/10 to-blue-500/10">
@@ -173,9 +167,7 @@ const Projects = () => {
                 </div>
               </div>
 
-              {/* Animated corner accent */}
-              <div className="absolute top-0 right-0 w-20 h-20 bg-gradient-to-br from-cyan-500/20 to-blue-500/20 rounded-bl-full opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-            </motion.div>
+            </Card>
           ))}
         </motion.div>
       </div>

@@ -5,6 +5,8 @@ import SkillIcon from './ui/SkillIcon';
 import { motion, useMotionValue, useTransform, animate } from 'framer-motion';
 import { Code2, Zap } from 'lucide-react';
 import { useEffect, useState } from 'react';
+import Card from './ui/Card';
+import { SectionHeader } from './ui/CardComponents';
 
 interface SkillCardProps {
   name: string;
@@ -60,29 +62,24 @@ const SkillCard = ({ name, percentage, iconName, color, index }: SkillCardProps)
   const skillLevel = getSkillLevel(percentage);
 
   return (
-    <motion.div
+    <Card
+      hoverEffect="lift"
+      padding="md"
+      className="items-center justify-center"
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.5, delay: index * 0.05 }}
       onViewportEnter={handleViewportEnter}
-      whileHover={{ y: -8 }}
-      className="group relative flex flex-col items-center justify-center bg-secondary-background/50 backdrop-blur-lg p-6 rounded-2xl border border-secondary-text/20 shadow-xl transition-all duration-500 hover:shadow-2xl hover:shadow-cyan-400/20 hover:border-accent/40 overflow-hidden"
     >
-      {/* Animated background gradient */}
-      <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/0 via-blue-500/0 to-purple-500/0 group-hover:from-cyan-500/5 group-hover:via-blue-500/5 group-hover:to-purple-500/5 transition-all duration-500 rounded-2xl"></div>
-
-      {/* Top corner accent */}
-      <div className="absolute top-0 right-0 w-16 h-16 bg-gradient-to-br from-accent/10 to-transparent rounded-bl-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-
       {/* Skill level badge */}
-      <div className="absolute top-3 right-3 z-10">
+      <div className="absolute top-3 right-3 z-20">
         <div className={`px-2 py-1 bg-gradient-to-r ${skillLevel.color} rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300`}>
           <span className="text-[10px] font-bold text-white">{skillLevel.label}</span>
         </div>
       </div>
 
-      <div className="relative z-10 flex flex-col items-center w-full">
+      <div className="flex flex-col items-center w-full">
         {/* Circular progress */}
         <div className="relative w-28 h-28 flex items-center justify-center mb-4">
           {/* Outer glow effect */}
@@ -145,7 +142,7 @@ const SkillCard = ({ name, percentage, iconName, color, index }: SkillCardProps)
           />
         </div>
       </div>
-    </motion.div>
+    </Card>
   );
 };
 
@@ -178,14 +175,15 @@ const Skills = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="text-center mb-16"
         >
-          <h2 className="text-4xl sm:text-5xl font-bold text-primary-text mb-4">
-            Le mie <span className="bg-gradient-to-r from-cyan-400 to-blue-600 bg-clip-text text-transparent">Competenze</span>
-          </h2>
-          <p className="text-secondary-text text-lg max-w-2xl mx-auto">
-            Tecnologie e linguaggi che utilizzo per creare soluzioni innovative
-          </p>
+          <SectionHeader
+            title={
+              <>
+                Le mie <span className="bg-gradient-to-r from-cyan-400 to-blue-600 bg-clip-text text-transparent">Competenze</span>
+              </>
+            }
+            description="Tecnologie e linguaggi che utilizzo per creare soluzioni innovative"
+          />
         </motion.div>
 
         {/* Skills Grid */}
@@ -209,21 +207,34 @@ const Skills = () => {
         </motion.div>
 
         {/* Stats section */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.3 }}
-          className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-6"
-        >
-          <div className="flex items-center justify-center gap-3 p-6 bg-secondary-background/50 backdrop-blur-lg rounded-2xl border border-accent/20 shadow-lg">
+        <div className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-6">
+          <Card
+            hoverEffect="scale"
+            padding="md"
+            glowIntensity="light"
+            className="flex-row items-center justify-center gap-3"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.3 }}
+          >
             <Code2 className="w-8 h-8 text-accent" />
             <div>
               <p className="text-2xl font-bold text-primary-text">{sortedSkills.length}+</p>
               <p className="text-sm text-secondary-text">Tecnologie</p>
             </div>
-          </div>
-          <div className="flex items-center justify-center gap-3 p-6 bg-secondary-background/50 backdrop-blur-lg rounded-2xl border border-accent/20 shadow-lg">
+          </Card>
+
+          <Card
+            hoverEffect="scale"
+            padding="md"
+            glowIntensity="light"
+            className="flex-row items-center justify-center gap-3"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.4 }}
+          >
             <Zap className="w-8 h-8 text-accent" />
             <div>
               <p className="text-2xl font-bold text-primary-text">
@@ -231,8 +242,18 @@ const Skills = () => {
               </p>
               <p className="text-sm text-secondary-text">Media Competenze</p>
             </div>
-          </div>
-          <div className="flex items-center justify-center gap-3 p-6 bg-secondary-background/50 backdrop-blur-lg rounded-2xl border border-accent/20 shadow-lg">
+          </Card>
+
+          <Card
+            hoverEffect="scale"
+            padding="md"
+            glowIntensity="light"
+            className="flex-row items-center justify-center gap-3"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.5 }}
+          >
             <div className="w-8 h-8 flex items-center justify-center bg-gradient-to-r from-cyan-400 to-blue-600 rounded-lg">
               <span className="text-white font-bold text-sm">★</span>
             </div>
@@ -242,8 +263,8 @@ const Skills = () => {
               </p>
               <p className="text-sm text-secondary-text">Skill Esperte</p>
             </div>
-          </div>
-        </motion.div>
+          </Card>
+        </div>
       </div>
     </section>
   );

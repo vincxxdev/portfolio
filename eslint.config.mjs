@@ -20,6 +20,22 @@ const eslintConfig = [
       "next-env.d.ts",
     ],
   },
+  {
+    rules: {
+      // Disable console.log warnings in development
+      "no-console": process.env.NODE_ENV === "production" 
+        ? ["error", { allow: ["warn", "error"] }] 
+        : "off",
+      // Allow unused vars that start with underscore
+      "@typescript-eslint/no-unused-vars": [
+        "warn",
+        { 
+          argsIgnorePattern: "^_",
+          varsIgnorePattern: "^_",
+        }
+      ],
+    }
+  }
 ];
 
 export default eslintConfig;

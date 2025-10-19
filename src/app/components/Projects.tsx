@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import Image from 'next/image';
 import { SiGithub } from 'react-icons/si';
 
@@ -34,6 +34,12 @@ const TrainIcon = ({ className }: { className?: string }) => (
 
 
 const Projects = () => {
+  const [imageErrors, setImageErrors] = useState<{ [key: number]: boolean }>({});
+
+  const handleImageError = (projectId: number) => {
+    setImageErrors(prev => ({ ...prev, [projectId]: true }));
+  };
+
   return (
     <section 
       id="projects" 
@@ -63,16 +69,23 @@ const Projects = () => {
                 </div>
               )}
 
-              <Image
-                src={project.previewImage}
-                alt={`Anteprima del progetto ${project.title}`}
-                width={400}
-                height={250}
-                className="w-full object-cover transition-transform duration-300 group-hover:scale-110"
-                loading="lazy"
-                placeholder="blur"
-                blurDataURL="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjI1MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iNDAwIiBoZWlnaHQ9IjI1MCIgZmlsbD0iIzE3MkE0NSIvPjwvc3ZnPg=="
-              />
+              {!imageErrors[project.id] ? (
+                <Image
+                  src={project.previewImage}
+                  alt={`Anteprima del progetto ${project.title}`}
+                  width={400}
+                  height={250}
+                  className="w-full object-cover transition-transform duration-300 group-hover:scale-110"
+                  loading="lazy"
+                  placeholder="blur"
+                  blurDataURL="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjI1MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iNDAwIiBoZWlnaHQ9IjI1MCIgZmlsbD0iIzE3MkE0NSIvPjwvc3ZnPg=="
+                  onError={() => handleImageError(project.id)}
+                />
+              ) : (
+                <div className="w-full h-[250px] bg-secondary-background flex items-center justify-center">
+                  <p className="text-secondary-text">Anteprima non disponibile</p>
+                </div>
+              )}
 
               <div className="p-6 flex flex-col h-full">
                 <h3 className="text-2xl font-bold text-primary-text">{project.title}</h3>
@@ -106,8 +119,9 @@ const Projects = () => {
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-white"
+                  aria-label={`Visualizza il codice sorgente di ${project.title} su GitHub`}
                 >
-                  <SiGithub className="h-16 w-16" />
+                  <SiGithub className="h-16 w-16" aria-hidden="true" />
                 </a>
               </div>
             </div>

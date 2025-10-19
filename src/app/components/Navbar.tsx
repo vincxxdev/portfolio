@@ -58,7 +58,11 @@ const Navbar = () => {
                 </div>
 
                 <div className="md:hidden">
-                    <button onClick={() => setIsOpen(!isOpen)}>
+                    <button 
+                        onClick={() => setIsOpen(!isOpen)}
+                        aria-label="Apri menu di navigazione"
+                        aria-expanded={isOpen}
+                    >
                         <Menu className="h-6 w-6 text-gray-900 dark:text-white" />
                     </button>
                 </div>
@@ -68,7 +72,11 @@ const Navbar = () => {
             {/* Menu Mobile */}
             {isOpen && (
                 <div className="md:hidden absolute top-0 left-0 w-full h-screen bg-white dark:bg-gray-900 text-gray-900 dark:text-white flex flex-col items-center justify-center">
-                    <button onClick={closeMenu} className="absolute top-7 right-4">
+                    <button 
+                        onClick={closeMenu} 
+                        className="absolute top-7 right-4"
+                        aria-label="Chiudi menu di navigazione"
+                    >
                         <X className="h-8 w-8 text-gray-900 dark:text-white" />
                     </button>
                     <div className="flex flex-col items-center space-y-6">

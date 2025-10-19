@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 
 
 const About = () => {
@@ -14,21 +14,27 @@ Il mio principale obiettivo è quello di espandere le mie competenze tecniche co
 Ho una solida base in programmazione, algoritmi e strutture dati soprattutto in linguaggi OOP come Java.
 La mia curiosità mi ha spinto verso lo sviluppo web, dove oggi sperimento con JavaScript, TypeScript, React e strumenti affini.
 Utilizzo Node.js per la logica server-side e Git per un controllo di versione impeccabile.`;
-  const fullText = `$ ${command}\n${content}`;
+  
+  const fullText = useMemo(() => `$ ${command}\n${content}`, [command, content]);
 
   useEffect(() => {
     let i = 0;
+    let cursorInterval: NodeJS.Timeout | null = null;
+    
     const typing = setInterval(() => {
       if (i < fullText.length) {
         setText(fullText.substring(0, i + 1));
         i++;
       } else {
         clearInterval(typing);
-        setInterval(() => setShowCursor(show => !show), 500);
+        cursorInterval = setInterval(() => setShowCursor(show => !show), 500);
       }
     }, 50);
 
-    return () => clearInterval(typing);
+    return () => {
+      clearInterval(typing);
+      if (cursorInterval) clearInterval(cursorInterval);
+    };
   }, [fullText]);
 
   return (

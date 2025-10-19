@@ -28,9 +28,10 @@ const Contacts = () => {
             className="flex flex-col items-center gap-4 text-primary-text group"
             whileHover={{ scale: 1.05 }}
             transition={{ type: 'spring', stiffness: 300 }}
+            aria-label={`Invia email a ${siteConfig.contact.email}`}
           >
             <div className="p-6 bg-background rounded-full border-2 border-transparent group-hover:border-accent transition-all duration-300 shadow-lg">
-              <Mail className="w-10 h-10 text-accent" />
+              <Mail className="w-10 h-10 text-accent" aria-hidden="true" />
             </div>
             <span className="text-xl font-semibold group-hover:text-accent transition-colors duration-300">{siteConfig.contact.email}</span>
           </motion.a>
@@ -40,9 +41,10 @@ const Contacts = () => {
             className="flex flex-col items-center gap-4 text-primary-text group"
             whileHover={{ scale: 1.05 }}
             transition={{ type: 'spring', stiffness: 300 }}
+            aria-label={`Chiama il numero ${siteConfig.contact.phoneDisplay}`}
           >
             <div className="p-6 bg-background rounded-full border-2 border-transparent group-hover:border-accent transition-all duration-300 shadow-lg">
-              <Phone className="w-10 h-10 text-accent" />
+              <Phone className="w-10 h-10 text-accent" aria-hidden="true" />
             </div>
             <span className="text-xl font-semibold group-hover:text-accent transition-colors duration-300">{siteConfig.contact.phoneDisplay}</span>
           </motion.a>

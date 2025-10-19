@@ -34,24 +34,21 @@ export default function Loader({ children }: { children: React.ReactNode }) {
     return undefined;
   }, []);
 
-  // Show the main content always for SSR and Lighthouse
-  // The animation is overlaid if necessary
   return (
     <>
-      {/* Main content - always visible for SSR/Lighthouse */}
+      {/* Animation - shown first on initial load */}
+      {showAnimation && <Animation />}
+
+      {/* Main content */}
       <div 
         className={`transition-opacity duration-500 ${
-          showAnimation ? 'opacity-0' : 'opacity-100'
+          showAnimation ? 'opacity-0 pointer-events-none' : 'opacity-100'
         }`}
-        style={{ visibility: showAnimation ? 'hidden' : 'visible' }}
       >
         <Navbar />
         {children}
         <Footer />
       </div>
-
-      {/* Animation - lazy loaded only on client side if necessary */}
-      {showAnimation && <Animation />}
     </>
   );
 }

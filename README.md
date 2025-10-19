@@ -87,3 +87,65 @@ Grazie all'architettura data-driven, puoi aggiornare facilmente le sezioni del p
 Il sito si aggiornerà automaticamente con i nuovi dati dopo aver riavviato il server di sviluppo.
 
 ---
+
+## 🔧 Configurazione Variabili d'Ambiente
+
+Il progetto utilizza variabili d'ambiente per gestire configurazioni dinamiche come URL, contatti e link social.
+
+### Setup
+
+1. **Copia il file di esempio:**
+   ```bash
+   cp .env.example .env.local
+   ```
+
+2. **Modifica i valori** in `.env.local` con le tue informazioni
+
+3. **Riavvia il server** di sviluppo:
+   ```bash
+   npm run dev
+   ```
+
+### Variabili Disponibili
+
+#### Configurazione Sito
+- `NEXT_PUBLIC_SITE_URL` - URL principale del sito (usato per sitemap e metadata)
+
+#### Contatti
+- `NEXT_PUBLIC_CONTACT_EMAIL` - Email di contatto
+- `NEXT_PUBLIC_CONTACT_PHONE` - Numero di telefono (formato: +39...)
+- `NEXT_PUBLIC_CONTACT_PHONE_DISPLAY` - Numero di telefono formattato per visualizzazione
+
+#### Social Media
+- `NEXT_PUBLIC_GITHUB_URL` - Link profilo GitHub
+- `NEXT_PUBLIC_LINKEDIN_URL` - Link profilo LinkedIn
+
+#### Analytics (Opzionale)
+- `NEXT_PUBLIC_GA_MEASUREMENT_ID` - Google Analytics ID
+- `NEXT_PUBLIC_PLAUSIBLE_DOMAIN` - Dominio Plausible Analytics
+
+### Dove Vengono Usate
+
+Le variabili d'ambiente sono centralizzate in `/src/config/site.ts` e vengono utilizzate in:
+
+- **Footer** - Link social media
+- **Contacts** - Email e telefono
+- **Sitemap** - URL base per SEO
+- **Metadata** - URL e informazioni per Open Graph e Twitter Cards
+
+### Note Importanti
+
+- Le variabili con prefisso `NEXT_PUBLIC_` sono esposte al browser
+- Non committare mai il file `.env.local` (è già in `.gitignore`)
+- Dopo aver modificato le env variables, riavvia il server di sviluppo
+- Tutte le variabili hanno valori di default, quindi il sito funziona anche senza `.env.local`
+
+### Deploy su Vercel
+
+Quando fai il deploy su Vercel, aggiungi le variabili d'ambiente nel pannello di controllo:
+
+1. Vai su **Project Settings** → **Environment Variables**
+2. Aggiungi tutte le variabili da `.env.example`
+3. Salva e ri-deploya
+
+---

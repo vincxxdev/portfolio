@@ -1,6 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { SiGithub, SiLinkedin } from 'react-icons/si';
+import { siteConfig } from '@/config/site';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -18,10 +19,10 @@ const Footer = () => {
             </p>
           </div>
           <div className="flex items-center gap-6">
-            <a href="https://www.linkedin.com/in/vincenzo-buttari-331a35241/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" className="hover:text-accent transition-colors duration-300">
+            <a href={siteConfig.social.linkedin} target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" className="hover:text-accent transition-colors duration-300">
               <SiLinkedin className="w-6 h-6" />
             </a>
-            <a href="https://github.com/zeltarave" target="_blank" rel="noopener noreferrer" aria-label="GitHub" className="hover:text-accent transition-colors duration-300">
+            <a href={siteConfig.social.github} target="_blank" rel="noopener noreferrer" aria-label="GitHub" className="hover:text-accent transition-colors duration-300">
               <SiGithub className="w-6 h-6" />
             </a>
           </div>

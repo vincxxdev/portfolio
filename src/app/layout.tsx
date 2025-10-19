@@ -5,6 +5,8 @@ import { ThemeProvider } from "./components/ThemeProvider";
 import Loader from "./components/Loader";
 import CursorProvider from "./components/ui/CursorProvider";
 import { ThemeTransition } from "./components/ThemeTransition";
+import { Analytics } from '@vercel/analytics/react';
+import { SpeedInsights } from '@vercel/speed-insights/next';
 
 const inter = Inter({
   subsets: ["latin"],
@@ -36,6 +38,8 @@ export default function RootLayout({
           <CursorProvider />
           <ThemeTransition />
           <Loader>{children}</Loader>
+          <Analytics />
+          <SpeedInsights />
         </ThemeProvider>
       </body>
     </html>

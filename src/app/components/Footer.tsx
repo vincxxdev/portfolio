@@ -17,6 +17,10 @@ const Footer = () => {
             <p className="text-sm mt-1">
               &copy; {currentYear} Vincenzo Buttari. Tutti i diritti riservati.
             </p>
+            <p className="text-xs mt-2 text-secondary-text/60">
+              Questo sito utilizza analytics anonimizzate per migliorare l&apos;esperienza utente.<br />
+              Nessun dato personale viene raccolto o condiviso con terze parti.
+            </p>
           </div>
           <div className="flex items-center gap-6">
             <a href={siteConfig.social.linkedin} target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" className="hover:text-accent transition-colors duration-300">

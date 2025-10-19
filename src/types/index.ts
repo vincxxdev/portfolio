@@ -5,7 +5,8 @@ export interface Project {
   description: string;
   technologies: string[];
   githubLink: string;
-  animationType: 'railway' | 'ataxx';
+  liveDemo?: string; // Optional live demo URL
+  animationType: 'railway' | 'ataxx' | 'portfolio' | 'default';
   previewImage: string;
 }
 

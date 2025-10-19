@@ -131,9 +131,12 @@ const Experience = () => {
         >
           <SectionHeader
             title={
-              <span className="bg-gradient-to-r from-cyan-400 to-blue-600 bg-clip-text text-transparent">
-                Certificazioni
-              </span>
+              <>
+                Le mie <span className="bg-gradient-to-r from-cyan-400 to-blue-600 bg-clip-text text-transparent">
+                  Certificazioni
+                </span>
+              </>
+              
             }
             description="Corsi completati e certificazioni ottenute"
           />

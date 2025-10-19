@@ -12,15 +12,15 @@ export const siteConfig = {
 
   // Contact information
   contact: {
-    email: process.env.NEXT_PUBLIC_CONTACT_EMAIL || 'vincxxdev@gmail.com',
+    email: process.env.NEXT_PUBLIC_CONTACT_EMAIL || '',
     phone: process.env.NEXT_PUBLIC_CONTACT_PHONE || '',
     phoneDisplay: process.env.NEXT_PUBLIC_CONTACT_PHONE_DISPLAY || '',
   },
 
   // Social media
   social: {
-    github: process.env.NEXT_PUBLIC_GITHUB_URL || 'https://github.com/zeltarave',
-    linkedin: process.env.NEXT_PUBLIC_LINKEDIN_URL || 'https://www.linkedin.com/in/vincenzo-buttari-331a35241/',
+    github: process.env.NEXT_PUBLIC_GITHUB_URL || '',
+    linkedin: process.env.NEXT_PUBLIC_LINKEDIN_URL || '',
   },
 
   // Analytics (optional)

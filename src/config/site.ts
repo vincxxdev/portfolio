@@ -22,12 +22,7 @@ export const siteConfig = {
     github: process.env.NEXT_PUBLIC_GITHUB_URL || '',
     linkedin: process.env.NEXT_PUBLIC_LINKEDIN_URL || '',
   },
-
-  // Analytics (optional)
-  analytics: {
-    googleAnalyticsId: process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID,
-    plausibleDomain: process.env.NEXT_PUBLIC_PLAUSIBLE_DOMAIN,
-  },
+  
 } as const;
 
 // Type helper for autocomplete

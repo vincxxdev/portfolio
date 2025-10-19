@@ -4,6 +4,7 @@ import "./globals.css";
 import { ThemeProvider } from "./components/ThemeProvider";
 import Loader from "./components/Loader";
 import CursorProvider from "./components/ui/CursorProvider";
+import { ThemeTransition } from "./components/ThemeTransition";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -15,33 +16,9 @@ const jakarta = Plus_Jakarta_Sans({
   variable: "--font-jakarta-sans",
 });
 
-export const metadata: Metadata = {
-  title: "vincxxdev - Portfolio",
-  description: "Portfolio di Vincenzo Buttari - Software Engineer",
-  icons: "/logo.svg",
-  openGraph: {
-    title: "vincxxdev - Portfolio",
-    description: "Portfolio di Vincenzo Buttari, un Software Engineer appassionato di creare soluzioni innovative e scalabili.",
-    url: "https://vincxx.dev",
-    siteName: "vincxxdev Portfolio",
-    images: [
-      {
-        url: "https://images.unsplash.com/photo-1550439062-609e1531270e?q=80&w=1200&h=630&auto=format&fit=crop",
-        width: 1200,
-        height: 630,
-        alt: "Portfolio di vincxxdev",
-      },
-    ],
-    locale: "it_IT",
-    type: "website",
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "vincxxdev - Portfolio",
-    description: "Esplora il portfolio di Vincenzo Buttari, Software Engineer.",
-    images: ["https://images.unsplash.com/photo-1550439062-609e1531270e?q=80&w=1200&h=630&auto=format&fit=crop"],
-  },
-};
+import { defaultMetadata } from '@/lib/metadata';
+
+export const metadata: Metadata = defaultMetadata;
 
 export default function RootLayout({
   children,
@@ -55,9 +32,9 @@ export default function RootLayout({
           attribute="class"
           defaultTheme="system"
           enableSystem
-          disableTransitionOnChange
         >
           <CursorProvider />
+          <ThemeTransition />
           <Loader>{children}</Loader>
         </ThemeProvider>
       </body>

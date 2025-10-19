@@ -13,8 +13,8 @@ export const siteConfig = {
   // Contact information
   contact: {
     email: process.env.NEXT_PUBLIC_CONTACT_EMAIL || 'vincxxdev@gmail.com',
-    phone: process.env.NEXT_PUBLIC_CONTACT_PHONE || 'PHONE_REMOVED',
-    phoneDisplay: process.env.NEXT_PUBLIC_CONTACT_PHONE_DISPLAY || 'PHONE_REMOVED',
+    phone: process.env.NEXT_PUBLIC_CONTACT_PHONE || '',
+    phoneDisplay: process.env.NEXT_PUBLIC_CONTACT_PHONE_DISPLAY || '',
   },
 
   // Social media

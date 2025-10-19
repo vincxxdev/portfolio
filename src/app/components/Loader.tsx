@@ -13,6 +13,7 @@ export default function Loader({ children }: { children: React.ReactNode }) {
 
     if (hasLoaded) {
       setLoading(false);
+      return undefined;
     } else {
       setLoading(true);
       const timer = setTimeout(() => {

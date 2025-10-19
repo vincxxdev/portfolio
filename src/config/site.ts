@@ -8,7 +8,7 @@ export const siteConfig = {
   name: 'vincxxdev',
   author: 'Vincenzo Buttari',
   description: 'Portfolio di Vincenzo Buttari - Software Engineer appassionato di creare soluzioni innovative e scalabili.',
-  url: process.env.NEXT_PUBLIC_SITE_URL || 'https://vincxx.dev',
+  url: process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000',
 
   // Contact information
   contact: {

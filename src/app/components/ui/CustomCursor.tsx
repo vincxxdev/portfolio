@@ -36,13 +36,13 @@ const CustomCursor = () => {
   const cursorVariants = {
     default: {
       scale: 1,
-      backgroundColor: 'var(--accent)',
-      border: '2px solid var(--accent)',
+      backgroundColor: 'var(--color-accent)',
+      border: '2px solid var(--color-accent)',
     },
     hover: {
       scale: 2.5,
       backgroundColor: 'rgba(255, 255, 255, 0.1)',
-      border: '2px solid var(--accent)',
+      border: '2px solid var(--color-accent)',
     },
   };
 

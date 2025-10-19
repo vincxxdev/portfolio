@@ -1,61 +1,89 @@
-@tailwind base;
+@import "tailwindcss";
+
+/* Configurazione dark mode per Tailwind V4 */
+@variant dark (&:where(.dark, .dark *));
 
 /* Applicazione del font personalizzato per i titoli */
 h1, h2, h3, h4, h5, h6 {
   @apply font-heading;
 }
 
-@tailwind components;
-@tailwind components;
-@tailwind utilities;
 
+/* Theme Configuration con Tailwind V4 */
+@theme {
+  /* Font Families */
+  --font-sans: var(--font-inter), sans-serif;
+  --font-heading: var(--font-jakarta-sans), sans-serif;
 
-/* Stili per il tema CHIARO */
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Colors - Light Theme */
+  --color-primary-background: #ffffff;
+  --color-secondary-background: #f1f5f9;
+  --color-primary-text: #0f172a;
+  --color-secondary-text: #64748b;
+  --color-accent: #06b6d4;
+  --color-accent-hover: #0891b2;
+  --color-accent-text: #ffffff;
 
-  --primary-background: #ffffff;       /* Sfondo Principale */
-  --secondary-background: #f1f5f9;  /* Sfondo Secondario (Cards) */
-  --primary-text: #0f172a;          /* Testo Primario */
-  --secondary-text: #64748b;        /* Testo Secondario */
-  --accent: #06b6d4;                /* Accento Ciano */
-  --accent-hover: #0891b2;          /* Accento Ciano (Hover) */
-  --accent-text: #ffffff;            /* Testo su Accento */
+  /* Animations */
+  --animate-content-fade-in: fade-in 1s ease-in-out;
+  --animate-typewriter: typing 1.5s steps(9, end), blink-caret .75s step-end infinite;
+  --animate-fade-out-bck: fade-out-bck 1s ease-in 1.5s both;
+  --animate-blob: blob 7s infinite;
 }
 
-/* Stili per il tema SCURO */
-.dark {
-  --background: #0A192F;
-  --foreground: #E5E7EB;
-
-  --primary-background: #0A192F;      /* Sfondo Principale */
-  --secondary-background: #172A45;  /* Sfondo Secondario (Cards) */
-  --primary-text: #E5E7EB;          /* Testo Primario */
-  --secondary-text: #9CA3AF;        /* Testo Secondario */
-  --accent: #22d3ee;                /* Accento Ciano */
-  --accent-hover: #1fb6cf;          /* Accento Ciano (Hover) */
-  --accent-text: #0A192F;            /* Testo su Accento */
+/* Dark Theme Variables */
+:root:is(.dark) {
+  --color-primary-background: #0A192F;
+  --color-secondary-background: #172A45;
+  --color-primary-text: #E5E7EB;
+  --color-secondary-text: #9CA3AF;
+  --color-accent: #22d3ee;
+  --color-accent-hover: #1fb6cf;
+  --color-accent-text: #0A192F;
 }
 
 body {
-  background: var(--primary-background);
-  color: var(--primary-text);
+  background: var(--color-primary-background);
+  color: var(--color-primary-text);
   transition: background-color 0.3s, color 0.3s;
 }
 
+/* Utility Classes */
+@utility animation-delay-2000 {
+  animation-delay: 2s;
+}
 
-/* Aggiunta di classi personalizzate per i ritardi delle animazioni */
-@layer utilities {
-  .animation-delay-2000 {
-    animation-delay: 2s;
+@utility animation-delay-4000 {
+  animation-delay: 4s;
+}
+
+/* Keyframes Animations */
+@keyframes fade-in {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+@keyframes typing {
+  from { width: 0; }
+  to { width: 100%; }
+}
+
+@keyframes blink-caret {
+  from, to { border-color: transparent; }
+  50% { border-color: #2dd4bf; }
+}
+
+@keyframes fade-out-bck {
+  0% {
+    transform: translateZ(0);
+    opacity: 1;
   }
-  .animation-delay-4000 {
-    animation-delay: 4s;
+  100% {
+    transform: translateZ(-80px);
+    opacity: 0;
   }
 }
 
-/* Animazione Blob attualmente usata per la sezione Hero */
 @keyframes blob {
   0% {
     transform: translate(0px, 0px) scale(1);
@@ -76,6 +104,8 @@ body {
 }
 
 /* Nasconde il cursore predefinito */
-* {
+*,
+*::before,
+*::after {
   cursor: none !important;
 }

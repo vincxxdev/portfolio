@@ -3,17 +3,19 @@
 import React, { useState } from 'react';
 import Image from 'next/image';
 import { SiGithub } from 'react-icons/si';
-import { ExternalLink, Code2 } from 'lucide-react';
+import { ExternalLink, Code2, Star } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 import { projectsData } from '@/data/projects';
 import Card from './ui/Card';
 import { SectionHeader } from './ui/CardComponents';
+import { MagneticButton } from './ui/MagneticButton';
 
 const projects = projectsData;
 
 const Projects = () => {
   const [imageErrors, setImageErrors] = useState<{ [key: number]: boolean }>({});
+  const [hoveredProject, setHoveredProject] = useState<number | null>(null);
 
   const handleImageError = (projectId: number) => {
     setImageErrors(prev => ({ ...prev, [projectId]: true }));
@@ -72,6 +74,8 @@ const Projects = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: index * 0.15, ease: "easeOut" as const }}
+              onMouseEnter={() => setHoveredProject(project.id)}
+              onMouseLeave={() => setHoveredProject(null)}
             >
 
               {/* Image container */}
@@ -100,10 +104,23 @@ const Projects = () => {
                   </div>
                 )}
 
-                {/* Floating badge */}
-                <div className="absolute top-4 right-4 px-3 py-1 bg-primary-background/90 backdrop-blur-md rounded-full border border-accent/30 z-20">
+                {/* Floating badge with star icon on hover */}
+                <motion.div 
+                  className="absolute top-4 right-4 px-3 py-1 bg-primary-background/90 backdrop-blur-md rounded-full border border-accent/30 z-20 flex items-center gap-1"
+                  whileHover={{ scale: 1.1 }}
+                  transition={{ type: "spring", stiffness: 400, damping: 10 }}
+                >
+                  {hoveredProject === project.id && (
+                    <motion.div
+                      initial={{ scale: 0, rotate: -180 }}
+                      animate={{ scale: 1, rotate: 0 }}
+                      transition={{ type: "spring", stiffness: 300 }}
+                    >
+                      <Star className="w-3 h-3 text-accent fill-accent" />
+                    </motion.div>
+                  )}
                   <span className="text-xs font-semibold text-accent">#{String(index + 1).padStart(2, '0')}</span>
-                </div>
+                </motion.div>
               </div>
 
               {/* Content */}
@@ -140,30 +157,34 @@ const Projects = () => {
                 {/* Divider */}
                 <div className="h-px bg-gradient-to-r from-transparent via-accent/30 to-transparent mb-6"></div>
 
-                {/* Action buttons */}
+                {/* Action buttons with magnetic effect */}
                 <div className="flex gap-3">
                   {project.liveDemo && (
+                    <MagneticButton className="flex-1">
+                      <a
+                        href={project.liveDemo}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center justify-center gap-2 px-4 py-3 bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600 text-white font-semibold rounded-xl transition-all duration-300 shadow-lg hover:shadow-cyan-500/50 w-full"
+                        aria-label={`Visualizza la demo live di ${project.title}`}
+                      >
+                        <ExternalLink className="w-4 h-4" aria-hidden="true" />
+                        <span className="text-sm">Live Demo</span>
+                      </a>
+                    </MagneticButton>
+                  )}
+                  <MagneticButton className={project.liveDemo ? 'flex-1' : 'w-full'}>
                     <a
-                      href={project.liveDemo}
+                      href={project.githubLink}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex-1 flex items-center justify-center gap-2 px-4 py-3 bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600 text-white font-semibold rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-cyan-500/50"
-                      aria-label={`Visualizza la demo live di ${project.title}`}
+                      className={`flex items-center justify-center gap-2 px-4 py-3 border-2 border-accent/50 text-accent hover:bg-accent hover:text-white hover:border-accent font-semibold rounded-xl transition-all duration-300 w-full`}
+                      aria-label={`Visualizza il codice sorgente di ${project.title} su GitHub`}
                     >
-                      <ExternalLink className="w-4 h-4" aria-hidden="true" />
-                      <span className="text-sm">Live Demo</span>
+                      <SiGithub className="w-4 h-4" aria-hidden="true" />
+                      <span className="text-sm">GitHub</span>
                     </a>
-                  )}
-                  <a
-                    href={project.githubLink}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className={`flex items-center justify-center gap-2 px-4 py-3 border-2 border-accent/50 text-accent hover:bg-accent hover:text-white hover:border-accent font-semibold rounded-xl transition-all duration-300 transform hover:scale-105 ${project.liveDemo ? 'flex-1' : 'w-full'}`}
-                    aria-label={`Visualizza il codice sorgente di ${project.title} su GitHub`}
-                  >
-                    <SiGithub className="w-4 h-4" aria-hidden="true" />
-                    <span className="text-sm">GitHub</span>
-                  </a>
+                  </MagneticButton>
                 </div>
               </div>
 

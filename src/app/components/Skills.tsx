@@ -71,6 +71,13 @@ const SkillCard = ({ name, percentage, iconName, color, index }: SkillCardProps)
       viewport={{ once: true }}
       transition={{ duration: 0.5, delay: index * 0.05 }}
       onViewportEnter={handleViewportEnter}
+      whileHover={{ 
+        y: -8,
+        rotateY: 5,
+        rotateX: 5,
+        transition: { type: "spring", stiffness: 300 }
+      }}
+      style={{ perspective: 1000 }}
     >
       {/* Skill level badge */}
       <div className="absolute top-3 right-3 z-20">

@@ -28,6 +28,21 @@ Utilizzo Node.js per la logica server-side e Git per un controllo di versione im
       if (i < fullText.length) {
         setText(fullText.substring(0, i + 1));
         i++;
+        
+        // Random speed variation for more realistic typing
+        const randomDelay = Math.random() * 30 + 20;
+        clearInterval(typing);
+        setTimeout(() => {
+          const newTyping = setInterval(() => {
+            if (i < fullText.length) {
+              setText(fullText.substring(0, i + 1));
+              i++;
+            } else {
+              clearInterval(newTyping);
+              cursorInterval = setInterval(() => setShowCursor(show => !show), 500);
+            }
+          }, randomDelay);
+        }, randomDelay);
       } else {
         clearInterval(typing);
         cursorInterval = setInterval(() => setShowCursor(show => !show), 500);

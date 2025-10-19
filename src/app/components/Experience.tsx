@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Briefcase, Award, ExternalLink, Calendar, Building2 } from 'lucide-react';
+import { Award, ExternalLink, Calendar, Building2 } from 'lucide-react';
 import Card from './ui/Card';
 import { CardTitle, CardDescription, CardDivider, SectionHeader } from './ui/CardComponents';
 import { experienceData } from '@/data/experiences';
@@ -64,10 +64,6 @@ const Experience = () => {
           transition={{ duration: 0.6 }}
         >
           <SectionHeader
-            badge={{
-              icon: <Briefcase className="w-4 h-4 text-accent" />,
-              text: "Percorso Professionale"
-            }}
             title={
               <>
                 Le mie <span className="bg-gradient-to-r from-cyan-400 to-blue-600 bg-clip-text text-transparent">Esperienze</span>
@@ -134,10 +130,6 @@ const Experience = () => {
           transition={{ duration: 0.6 }}
         >
           <SectionHeader
-            badge={{
-              icon: <Award className="w-4 h-4 text-accent" />,
-              text: "Formazione Continua"
-            }}
             title={
               <span className="bg-gradient-to-r from-cyan-400 to-blue-600 bg-clip-text text-transparent">
                 Certificazioni

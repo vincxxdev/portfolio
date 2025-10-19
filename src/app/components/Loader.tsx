@@ -1,40 +1,57 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import Animation from "./Animation";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
+import dynamic from "next/dynamic";
+
+// Lazy load the animation component
+const Animation = dynamic(() => import("./Animation"), {
+  ssr: false,
+});
 
 export default function Loader({ children }: { children: React.ReactNode }) {
-  const [loading, setLoading] = useState<boolean | null>(null);
+  const [showAnimation, setShowAnimation] = useState(false);
 
   useEffect(() => {
-    const hasLoaded = sessionStorage.getItem("hasLoaded");
-
-    if (hasLoaded) {
-      setLoading(false);
-      return undefined;
-    } else {
-      setLoading(true);
-      const timer = setTimeout(() => {
-        setLoading(false);
-        sessionStorage.setItem("hasLoaded", "true");
-      }, 2500);
-      return () => clearTimeout(timer);
+    // Check if the animation has already been shown in this session
+    if (typeof window !== 'undefined') {
+      const hasLoaded = sessionStorage.getItem("hasLoaded");
+      
+      if (!hasLoaded) {
+        // Show the animation only if it hasn't been seen yet
+        setShowAnimation(true);
+        
+        const timer = setTimeout(() => {
+          setShowAnimation(false);
+          sessionStorage.setItem("hasLoaded", "true");
+        }, 2500);
+        
+        return () => clearTimeout(timer);
+      }
     }
+    
+    return undefined;
   }, []);
 
+  // Show the main content always for SSR and Lighthouse
+  // The animation is overlaid if necessary
   return (
     <>
-      {loading === null ? null : loading ? (
-        <Animation />
-      ) : (
-        <div className="animate-content-fade-in">
-          <Navbar />
-          {children}
-          <Footer />
-        </div>
-      )}
+      {/* Main content - always visible for SSR/Lighthouse */}
+      <div 
+        className={`transition-opacity duration-500 ${
+          showAnimation ? 'opacity-0' : 'opacity-100'
+        }`}
+        style={{ visibility: showAnimation ? 'hidden' : 'visible' }}
+      >
+        <Navbar />
+        {children}
+        <Footer />
+      </div>
+
+      {/* Animation - lazy loaded only on client side if necessary */}
+      {showAnimation && <Animation />}
     </>
   );
 }

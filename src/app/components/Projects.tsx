@@ -69,6 +69,9 @@ const Projects = () => {
                 width={400}
                 height={250}
                 className="w-full object-cover transition-transform duration-300 group-hover:scale-110"
+                loading="lazy"
+                placeholder="blur"
+                blurDataURL="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjI1MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iNDAwIiBoZWlnaHQ9IjI1MCIgZmlsbD0iIzE3MkE0NSIvPjwvc3ZnPg=="
               />
 
               <div className="p-6 flex flex-col h-full">

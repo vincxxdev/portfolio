@@ -4,28 +4,35 @@ import { useState, useEffect } from 'react';
 import { useTheme } from 'next-themes';
 import { Moon, Sun } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useSound } from './hooks/useSound';
 
 export const ThemeSwitcher = () => {
   const [mounted, setMounted] = useState(false);
   const { theme, setTheme } = useTheme();
+  const { playSound } = useSound();
 
   useEffect(() => {
     setMounted(true);
   }, []);
 
   if (!mounted) {
-    // Non reindirizziamo nulla sul server per evitare hydration mismatch
+    // Avoid hydration mismatch
     return <div className="h-9 w-9" />;
   }
 
   const isDark = theme === 'dark';
+
+  const handleThemeToggle = () => {
+    playSound('pop');
+    setTheme(isDark ? 'light' : 'dark');
+  };
 
   return (
     <motion.button
       aria-label="Toggle Dark Mode"
       type="button"
       className="h-9 w-9 flex items-center justify-center rounded-lg bg-gray-200 dark:bg-gray-700 hover:ring-2 ring-cyan-500 transition-all relative overflow-hidden"
-      onClick={() => setTheme(isDark ? 'light' : 'dark')}
+      onClick={handleThemeToggle}
       whileHover={{ scale: 1.05 }}
       whileTap={{ scale: 0.95 }}
     >

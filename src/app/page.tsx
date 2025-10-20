@@ -5,6 +5,7 @@ import About from "./components/About";
 import Experience from "./components/Experience";
 import Contacts from "./components/Contacts";
 import AnimatedSection from "./components/ui/AnimatedSection";
+import { ScrollToTop } from "./components/ui/ScrollToTop";
 
 export default function Home() {
   return (
@@ -25,6 +26,7 @@ export default function Home() {
       <AnimatedSection>
         <Contacts />
       </AnimatedSection>
+      <ScrollToTop />
     </main>
   );
 }

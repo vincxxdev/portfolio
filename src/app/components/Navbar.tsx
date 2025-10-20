@@ -5,7 +5,9 @@ import Link from 'next/link';
 import { Menu, X, Sparkles } from 'lucide-react';
 import Button from './ui/Button';
 import { ThemeSwitcher } from './ThemeSwitcher';
+import { SoundToggle } from './ui/SoundToggle';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useSound } from './hooks/useSound';
 
 const navLinks = [
   { href: '#about', label: 'About' },
@@ -20,6 +22,7 @@ const Navbar = () => {
     const [hasScrolled, setHasScrolled] = useState(false);
     const [easterEgg, setEasterEgg] = useState(false);
     const [logoClicks, setLogoClicks] = useState(0);
+    const { playSound } = useSound();
 
     useEffect(() => {
         const handleScroll = () => {
@@ -43,11 +46,13 @@ const Navbar = () => {
     // Easter egg: 5 clicks on logo
     const handleLogoClick = (e: React.MouseEvent) => {
         e.preventDefault();
+        playSound('click');
         const newClicks = logoClicks + 1;
         setLogoClicks(newClicks);
         
         if (newClicks === 5) {
             setEasterEgg(true);
+            playSound('success');
             setTimeout(() => {
                 setEasterEgg(false);
                 setLogoClicks(0);
@@ -113,10 +118,14 @@ const Navbar = () => {
                         ))}
                     </div>
                     <div className="h-6 w-px bg-secondary-text/20"></div>
-                    <ThemeSwitcher />
+                    <div className="flex items-center gap-2">
+                        <SoundToggle />
+                        <ThemeSwitcher />
+                    </div>
                 </div>
 
                 <div className="md:hidden flex items-center gap-3">
+                    <SoundToggle />
                     <ThemeSwitcher />
                     <button 
                         onClick={() => setIsOpen(!isOpen)}

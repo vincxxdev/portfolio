@@ -1,6 +1,9 @@
+'use client';
+
 import { cva, type VariantProps } from 'class-variance-authority';
 import clsx from 'clsx';
 import React from 'react';
+import { useSound } from '../hooks/useSound';
 
 const buttonVariants = cva(
   'inline-flex items-center justify-center rounded-md text-lg font-semibold transition-all duration-300 transform focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500',
@@ -45,12 +48,23 @@ const Button = ({
   rel,
 }: ButtonProps) => {
   const classes = clsx(buttonVariants({ variant, size, className }));
+  const { playSound } = useSound();
+
+  const handleClick = (event: React.MouseEvent<HTMLElement>) => {
+    playSound('click');
+    onClick?.(event);
+  };
+
+  const handleHover = () => {
+    playSound('hover');
+  };
 
   if (href) {
     return (
       <a
         href={href}
-        onClick={onClick}
+        onClick={handleClick}
+        onMouseEnter={handleHover}
         target={target}
         rel={rel}
         className={classes}
@@ -62,7 +76,8 @@ const Button = ({
 
   return (
     <button
-      onClick={onClick}
+      onClick={handleClick}
+      onMouseEnter={handleHover}
       className={classes}
     >
       {children}

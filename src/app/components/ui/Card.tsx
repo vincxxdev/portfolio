@@ -3,6 +3,7 @@
 import React, { ReactNode } from 'react';
 import { motion, HTMLMotionProps } from 'framer-motion';
 import { LucideIcon } from 'lucide-react';
+import { useSound } from '../hooks/useSound';
 
 interface CardProps extends Omit<HTMLMotionProps<'div'>, 'children'> {
   children: ReactNode;
@@ -60,6 +61,8 @@ const Card = React.forwardRef<HTMLDivElement, CardProps>(
     },
     ref
   ) => {
+    const { playSound } = useSound();
+
     // Build hover animation
     const getHoverAnimation = () => {
       const animations: { scale?: number; y?: number } = {};
@@ -72,10 +75,15 @@ const Card = React.forwardRef<HTMLDivElement, CardProps>(
       return hoverEffect === 'none' ? {} : animations;
     };
 
+    const handleMouseEnter = () => {
+      playSound('hover');
+    };
+
     return (
       <motion.div
         ref={ref}
         whileHover={getHoverAnimation()}
+        onMouseEnter={handleMouseEnter}
         className={`
           group relative flex flex-col
           ${paddingMap[padding]}

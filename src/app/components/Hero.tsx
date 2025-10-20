@@ -5,6 +5,7 @@ import Button from './ui/Button';
 import React, { Suspense } from 'react';
 import dynamic from 'next/dynamic';
 import { ArrowDown } from 'lucide-react';
+import TypingText from './ui/TypingText';
 
 // Load ParticleBackground in lazy mode to avoid blocking LCP
 const ParticleBackground = dynamic(() => import('./ui/ParticleBackground'), {
@@ -67,14 +68,16 @@ const Hero = () => {
                     Ciao, sono <span className="bg-gradient-to-r from-cyan-400 to-blue-600 bg-clip-text text-transparent">Vincenzo Buttari</span>
                 </motion.h1>
                 
-                {/* Description */}
+                {/* Description with rotating roles */}
                 <motion.p 
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.8, delay: 0.5 }}
                   className="relative z-10 text-lg sm:text-xl md:text-2xl text-secondary-text max-w-3xl mx-auto mb-8 leading-relaxed"
                 >
-                    Un <span className="text-accent font-semibold">Software Engineer</span> appassionato di creare soluzioni innovative e scalabili e di esplorare nuove tecnologie.
+                    Un <span className="text-accent font-semibold">
+                      <TypingText roles={['Software Engineer', 'Full Stack Developer']} />
+                    </span> appassionato di creare soluzioni innovative e scalabili e di esplorare nuove tecnologie.
                 </motion.p>
 
                 {/* Divider */}

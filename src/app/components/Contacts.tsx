@@ -149,7 +149,7 @@ const Contacts = () => {
             </div>
             <div>
               <p className="text-sm text-secondary-text mb-1">Location</p>
-              <p className="text-base font-bold text-primary-text">${siteConfig.personal.location}</p>
+              <p className="text-base font-bold text-primary-text">{siteConfig.personal.location}</p>
             </div>
           </div>
 

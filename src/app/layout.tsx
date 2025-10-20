@@ -47,7 +47,7 @@ export default function RootLayout({
             @media (prefers-color-scheme: dark) {
               body {
                 background-color: #0A192F;
-                color: #E5E7EB;
+                color: #F8FAFC;
               }
             }
           `

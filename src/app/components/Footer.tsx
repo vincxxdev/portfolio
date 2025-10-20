@@ -30,7 +30,7 @@ const Footer = () => {
               <p className="text-sm flex items-center justify-center sm:justify-start gap-2">
                 &copy; {currentYear} Vincenzo Buttari
               </p>
-              <p className="text-xs text-secondary-text/60 mt-1">
+              <p className="text-xs text-secondary-text/70 mt-1">
                 Tutti i diritti riservati
               </p>
             </div>
@@ -70,7 +70,7 @@ const Footer = () => {
             transition={{ duration: 0.5, delay: 0.2 }}
             className="text-center sm:text-left"
           >
-            <p className="text-xs text-secondary-text/50">
+            <p className="text-xs text-secondary-text/70">
               Questo sito utilizza analytics anonimizzate per migliorare l&apos;esperienza utente.
               <br className="hidden sm:inline" />
               Nessun dato personale viene raccolto o condiviso con terze parti.

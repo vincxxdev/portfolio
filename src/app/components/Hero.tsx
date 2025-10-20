@@ -73,7 +73,7 @@ const Hero = () => {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.8, delay: 0.5 }}
-                  className="relative z-10 text-lg sm:text-xl md:text-2xl text-secondary-text max-w-3xl mx-auto mb-8 leading-relaxed"
+                  className="relative z-10 text-lg sm:text-xl md:text-2xl text-primary-text max-w-3xl mx-auto mb-8 leading-relaxed"
                 >
                     Un <span className="text-accent font-semibold">
                       <TypingText roles={['Software Engineer', 'Full Stack Developer']} />
@@ -116,7 +116,7 @@ const Hero = () => {
               >
                 <a 
                   href="#about"
-                  className="inline-flex flex-col items-center gap-2 text-secondary-text hover:text-accent transition-colors duration-300"
+                  className="inline-flex flex-col items-center gap-2 text-primary-text hover:text-accent transition-colors duration-300"
                   aria-label="Scorri verso il basso"
                 >
                   <span className="text-sm font-medium">Scopri di più</span>

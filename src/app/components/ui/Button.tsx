@@ -35,6 +35,8 @@ interface ButtonProps extends VariantProps<typeof buttonVariants> {
   onClick?: (event: React.MouseEvent<HTMLElement>) => void;
   target?: string;
   rel?: string;
+  disabled?: boolean;
+  type?: 'button' | 'submit' | 'reset';
 }
 
 const Button = ({
@@ -46,16 +48,23 @@ const Button = ({
   onClick,
   target,
   rel,
+  disabled = false,
+  type = 'button',
 }: ButtonProps) => {
-  const classes = clsx(buttonVariants({ variant, size, className }));
+  const classes = clsx(
+    buttonVariants({ variant, size, className }),
+    disabled && 'opacity-50 cursor-not-allowed'
+  );
   const { playSound } = useSound();
 
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
+    if (disabled) return;
     playSound('click');
     onClick?.(event);
   };
 
   const handleHover = () => {
+    if (disabled) return;
     playSound('hover');
   };
 
@@ -68,6 +77,7 @@ const Button = ({
         target={target}
         rel={rel}
         className={classes}
+        aria-disabled={disabled}
       >
         {children}
       </a>
@@ -76,8 +86,10 @@ const Button = ({
 
   return (
     <button
+      type={type}
       onClick={handleClick}
       onMouseEnter={handleHover}
+      disabled={disabled}
       className={classes}
     >
       {children}

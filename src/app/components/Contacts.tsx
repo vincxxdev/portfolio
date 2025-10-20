@@ -5,6 +5,7 @@ import { Mail, Phone, MessageSquare, Send, MapPin, Globe } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 import { siteConfig } from '@/config/site';
+import { ContactForm } from './ContactForm';
 
 const Contacts = () => {
   const containerVariants = {
@@ -172,6 +173,25 @@ const Contacts = () => {
               <p className="text-base font-bold text-primary-text">24-48 ore</p>
             </div>
           </div>
+        </motion.div>
+
+        {/* Contact Form */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.4 }}
+          className="mt-16"
+        >
+          <div className="text-center mb-8">
+            <h3 className="text-2xl sm:text-3xl font-bold text-primary-text mb-2">
+              Inviami un Messaggio
+            </h3>
+            <p className="text-secondary-text">
+              Compila il form qui sotto e ti risponderò il prima possibile
+            </p>
+          </div>
+          <ContactForm />
         </motion.div>
       </div>
     </section>

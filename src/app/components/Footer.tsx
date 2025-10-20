@@ -4,6 +4,7 @@ import React from 'react';
 import { SiGithub, SiLinkedin } from 'react-icons/si';
 import { motion } from 'framer-motion';
 import { siteConfig } from '@/config/site';
+import Link from 'next/link';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -68,12 +69,19 @@ const Footer = () => {
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.2 }}
-            className="text-center sm:text-left"
+            className="text-center sm:text-left border-t border-secondary-text/10 pt-6"
           >
             <p className="text-xs text-secondary-text/50">
-              Questo sito utilizza analytics anonimizzate per migliorare l&apos;esperienza utente.
+              Questo sito rispetta la tua privacy. Consulta la nostra{' '}
+              <Link 
+                href="/privacy-policy" 
+                className="text-accent hover:underline font-semibold"
+              >
+                Privacy Policy
+              </Link>
+              {' '}per maggiori informazioni.
               <br className="hidden sm:inline" />
-              Nessun dato personale viene raccolto o condiviso con terze parti.
+              Nessun dato personale viene raccolto senza il tuo consenso o condiviso con terze parti.
             </p>
           </motion.div>
         </div>

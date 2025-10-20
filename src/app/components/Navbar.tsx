@@ -8,6 +8,7 @@ import { ThemeSwitcher } from './ThemeSwitcher';
 import { SoundToggle } from './ui/SoundToggle';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useSound } from './hooks/useSound';
+import DownloadCVButton from './ui/DownloadCVButton';
 
 const navLinks = [
   { href: '#about', label: 'About' },
@@ -119,6 +120,7 @@ const Navbar = () => {
                     </div>
                     <div className="h-6 w-px bg-secondary-text/20"></div>
                     <div className="flex items-center gap-2">
+                        <DownloadCVButton variant="icon" />
                         <SoundToggle />
                         <ThemeSwitcher />
                     </div>
@@ -171,6 +173,14 @@ const Navbar = () => {
                                 </Button>
                             </div>
                         ))}
+                        
+                        {/* Download CV button in mobile menu */}
+                        <div 
+                            className="animate-fade-in mt-4"
+                            style={{ animationDelay: `${navLinks.length * 0.1}s` }}
+                        >
+                            <DownloadCVButton variant="primary" size="md" />
+                        </div>
                     </div>
                 </div>
             )}

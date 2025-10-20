@@ -6,6 +6,8 @@ import React, { Suspense } from 'react';
 import dynamic from 'next/dynamic';
 import { ArrowDown } from 'lucide-react';
 import TypingText from './ui/TypingText';
+import DownloadCVButton from './ui/DownloadCVButton';
+import { siteConfig } from '@/config/site';
 
 // Load ParticleBackground in lazy mode to avoid blocking LCP
 const ParticleBackground = dynamic(() => import('./ui/ParticleBackground'), {
@@ -65,7 +67,7 @@ const Hero = () => {
                   transition={{ duration: 0.8, delay: 0.4 }}
                   className="relative z-10 text-4xl sm:text-5xl md:text-7xl font-extrabold text-primary-text leading-tight mb-6"
                 >
-                    Ciao, sono <span className="bg-gradient-to-r from-cyan-400 to-blue-600 bg-clip-text text-transparent">Vincenzo Buttari</span>
+                    Ciao, sono <span className="bg-gradient-to-r from-cyan-400 to-blue-600 bg-clip-text text-transparent">{siteConfig.personal.fullName}</span>
                 </motion.h1>
                 
                 {/* Description with rotating roles */}
@@ -76,8 +78,8 @@ const Hero = () => {
                   className="relative z-10 text-lg sm:text-xl md:text-2xl text-primary-text max-w-3xl mx-auto mb-8 leading-relaxed"
                 >
                     Un <span className="text-accent font-semibold">
-                      <TypingText roles={['Software Engineer', 'Full Stack Developer']} />
-                    </span> appassionato di creare soluzioni innovative e scalabili e di esplorare nuove tecnologie.
+                      <TypingText roles={[...siteConfig.personal.titles]} />
+                    </span> {siteConfig.personal.tagline}
                 </motion.p>
 
                 {/* Divider */}
@@ -101,6 +103,7 @@ const Hero = () => {
                   <Button href="#contacts" variant="secondary" size="lg">
                       Contattami
                   </Button>
+                  <DownloadCVButton variant="secondary" size="lg" />
                 </motion.div>
 
                 {/* Bottom gradient line */}

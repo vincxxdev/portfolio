@@ -4,6 +4,7 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { Terminal } from 'lucide-react';
 import { SectionHeader } from './ui/CardComponents';
+import { siteConfig } from '@/config/site';
 
 
 const About = () => {
@@ -12,11 +13,7 @@ const About = () => {
 
   const command = 'cat ./about.txt';
   const content = `
-Ciao! Sono Vincenzo, un laureando nella facoltà di Informatica all\'Università degli Studi di Bari Aldo Moro.
-Il mio principale obiettivo è quello di espandere le mie competenze tecniche continuamente.
-Ho una solida base in programmazione, algoritmi e strutture dati soprattutto in linguaggi OOP come Java.
-La mia curiosità mi ha spinto verso lo sviluppo web, dove oggi sperimento con JavaScript, TypeScript, React e strumenti affini.
-Utilizzo Node.js per la logica server-side e Git per un controllo di versione impeccabile.`;
+${siteConfig.personal.bio}`;
   
   const fullText = useMemo(() => `$ ${command}\n${content}`, [command, content]);
 

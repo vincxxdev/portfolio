@@ -4,21 +4,22 @@ import { cva, type VariantProps } from 'class-variance-authority';
 import clsx from 'clsx';
 import React from 'react';
 import { useSound } from '../hooks/useSound';
+import { motion } from 'framer-motion';
 
 const buttonVariants = cva(
-  'inline-flex items-center justify-center rounded-md text-lg font-semibold transition-all duration-300 transform focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500',
+  'inline-flex items-center justify-center rounded-lg font-semibold transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500 disabled:opacity-50 disabled:cursor-not-allowed',
   {
     variants: {
       variant: {
-        primary: 'bg-accent text-accent-text hover:bg-accent-hover',
-        secondary: 'border-2 border-secondary-text text-primary-text hover:bg-secondary-background',
+        primary: 'bg-gradient-to-r from-cyan-400 to-blue-600 text-white hover:from-cyan-500 hover:to-blue-700 shadow-lg hover:shadow-xl hover:shadow-cyan-400/50',
+        secondary: 'bg-secondary-background text-primary-text border-2 border-accent hover:bg-accent hover:text-white shadow-md hover:shadow-lg',
         ghost: 'text-secondary-text hover:bg-secondary-background hover:text-accent',
-        outline: 'border border-secondary-text/50 bg-transparent hover:bg-secondary-background text-primary-text',
+        outline: 'border-2 border-secondary-text/50 bg-transparent hover:bg-secondary-background text-primary-text',
       },
       size: {
-        default: 'px-8 py-3',
-        sm: 'h-9 px-3',
-        lg: 'h-11 px-8',
+        default: 'px-6 py-3 text-base',
+        sm: 'px-4 py-2 text-sm',
+        lg: 'px-8 py-4 text-lg',
       },
     },
     defaultVariants: {
@@ -61,27 +62,31 @@ const Button = ({
 
   if (href) {
     return (
-      <a
+      <motion.a
         href={href}
         onClick={handleClick}
         onMouseEnter={handleHover}
         target={target}
         rel={rel}
         className={classes}
+        whileHover={{ scale: 1.05 }}
+        whileTap={{ scale: 0.95 }}
       >
         {children}
-      </a>
+      </motion.a>
     );
   }
 
   return (
-    <button
+    <motion.button
       onClick={handleClick}
       onMouseEnter={handleHover}
       className={classes}
+      whileHover={{ scale: 1.05 }}
+      whileTap={{ scale: 0.95 }}
     >
       {children}
-    </button>
+    </motion.button>
   );
 };
 

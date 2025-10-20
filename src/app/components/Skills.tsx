@@ -73,16 +73,13 @@ const SkillCard = ({ name, percentage, iconName, color, index }: SkillCardProps)
       onViewportEnter={handleViewportEnter}
       whileHover={{ 
         y: -8,
-        rotateY: 5,
-        rotateX: 5,
         transition: { type: "spring", stiffness: 300 }
       }}
-      style={{ perspective: 1000 }}
     >
       {/* Skill level badge */}
       <div className="absolute top-3 right-3 z-20">
-        <div className={`px-2 py-1 bg-gradient-to-r ${skillLevel.color} rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300`}>
-          <span className="text-[10px] font-bold text-white">{skillLevel.label}</span>
+        <div className={`min-w-[85px] px-2.5 py-1 bg-gradient-to-r ${skillLevel.color} rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center shadow-lg`}>
+          <span className="text-xs font-bold text-white whitespace-nowrap antialiased">{skillLevel.label}</span>
         </div>
       </div>
 
@@ -217,58 +214,70 @@ const Skills = () => {
         <div className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-6">
           <Card
             hoverEffect="scale"
-            padding="md"
+            padding="lg"
             glowIntensity="light"
-            className="flex-row items-center justify-center gap-3"
+            className="flex-row items-center justify-between gap-4"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.3 }}
           >
-            <Code2 className="w-8 h-8 text-accent" />
-            <div>
-              <p className="text-2xl font-bold text-primary-text">{sortedSkills.length}+</p>
-              <p className="text-sm text-secondary-text">Tecnologie</p>
+            <div className="flex items-center gap-4 flex-1">
+              <div className="flex-shrink-0 w-12 h-12 flex items-center justify-center bg-accent/10 rounded-xl group-hover:bg-accent/20 transition-colors duration-300">
+                <Code2 className="w-7 h-7 text-accent" />
+              </div>
+              <div className="flex items-baseline gap-2">
+                <p className="text-3xl font-bold bg-gradient-to-r from-cyan-400 to-blue-600 bg-clip-text text-transparent">
+                  {sortedSkills.length}+
+                </p>
+                <p className="text-sm text-secondary-text font-medium">Tecnologie</p>
+              </div>
             </div>
           </Card>
 
           <Card
             hoverEffect="scale"
-            padding="md"
+            padding="lg"
             glowIntensity="light"
-            className="flex-row items-center justify-center gap-3"
+            className="flex-row items-center justify-between gap-4"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.4 }}
           >
-            <Zap className="w-8 h-8 text-accent" />
-            <div>
-              <p className="text-2xl font-bold text-primary-text">
-                {Math.round(sortedSkills.reduce((acc, skill) => acc + skill.percentage, 0) / sortedSkills.length)}%
-              </p>
-              <p className="text-sm text-secondary-text">Media Competenze</p>
+            <div className="flex items-center gap-4 flex-1">
+              <div className="flex-shrink-0 w-12 h-12 flex items-center justify-center bg-accent/10 rounded-xl group-hover:bg-accent/20 transition-colors duration-300">
+                <Zap className="w-7 h-7 text-accent" />
+              </div>
+              <div className="flex items-baseline gap-2">
+                <p className="text-3xl font-bold bg-gradient-to-r from-cyan-400 to-blue-600 bg-clip-text text-transparent">
+                  {Math.round(sortedSkills.reduce((acc, skill) => acc + skill.percentage, 0) / sortedSkills.length)}%
+                </p>
+                <p className="text-sm text-secondary-text font-medium">Media</p>
+              </div>
             </div>
           </Card>
 
           <Card
             hoverEffect="scale"
-            padding="md"
+            padding="lg"
             glowIntensity="light"
-            className="flex-row items-center justify-center gap-3"
+            className="flex-row items-center justify-between gap-4"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.5 }}
           >
-            <div className="w-8 h-8 flex items-center justify-center bg-gradient-to-r from-cyan-400 to-blue-600 rounded-lg">
-              <span className="text-white font-bold text-sm">★</span>
-            </div>
-            <div>
-              <p className="text-2xl font-bold text-primary-text">
-                {sortedSkills.filter(s => s.percentage >= 80).length}
-              </p>
-              <p className="text-sm text-secondary-text">Skill Esperte</p>
+            <div className="flex items-center gap-4 flex-1">
+              <div className="flex-shrink-0 w-12 h-12 flex items-center justify-center bg-gradient-to-r from-cyan-400 to-blue-600 rounded-xl shadow-lg shadow-cyan-500/30 group-hover:shadow-cyan-500/50 transition-all duration-300">
+                <span className="text-white font-bold text-xl">★</span>
+              </div>
+              <div className="flex items-baseline gap-2">
+                <p className="text-3xl font-bold bg-gradient-to-r from-cyan-400 to-blue-600 bg-clip-text text-transparent">
+                  {sortedSkills.filter(s => s.percentage >= 80).length}
+                </p>
+                <p className="text-sm text-secondary-text font-medium">Esperte</p>
+              </div>
             </div>
           </Card>
         </div>

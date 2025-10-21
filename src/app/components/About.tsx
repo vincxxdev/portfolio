@@ -72,7 +72,7 @@ ${t('bio')}`;
         >
           <SectionHeader
             title={t('title')}
-            description=""
+            description={t('description')}
           />
         </motion.div>
 

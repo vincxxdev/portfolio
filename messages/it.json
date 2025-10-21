@@ -101,5 +101,10 @@
   "titles": {
     "softwareEngineer": "Software Engineer",
     "fullStackDeveloper": "Full Stack Developer"
+  },
+  "metadata": {
+    "title": "vincxxdev - Portfolio",
+    "description": "Portfolio di Vincenzo Buttari - Software Engineer appassionato di creare soluzioni innovative e scalabili. Specializzato in sviluppo web con JavaScript, TypeScript, React, Next.js e Node.js.",
+    "keywords": "Vincenzo Buttari, Software Engineer, Portfolio, Sviluppatore Web, JavaScript, TypeScript, React, Next.js, Node.js, Java, Frontend Developer, Backend Developer, Full Stack Developer"
   }
 }

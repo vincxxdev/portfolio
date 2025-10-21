@@ -11,6 +11,7 @@ import { NextIntlClientProvider } from 'next-intl';
 import { getMessages } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import { routing } from '@/i18n/routing';
+import { generateLocalizedMetadata } from '@/lib/metadata';
 
 const inter = Inter({
   subsets: ["latin"],
@@ -26,9 +27,10 @@ const jakarta = Plus_Jakarta_Sans({
   preload: true,
 });
 
-import { defaultMetadata } from '@/lib/metadata';
-
-export const metadata: Metadata = defaultMetadata;
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
+  const { locale } = await params;
+  return generateLocalizedMetadata(locale);
+}
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));

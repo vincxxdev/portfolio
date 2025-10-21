@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { Download, FileText } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useTranslations } from 'next-intl';
+import { useParams } from 'next/navigation';
 
 interface DownloadCVButtonProps {
   variant?: 'primary' | 'secondary' | 'icon';
@@ -17,6 +18,8 @@ const DownloadCVButton: React.FC<DownloadCVButtonProps> = ({
   className = '' 
 }) => {
   const t = useTranslations('nav');
+  const params = useParams();
+  const locale = (params.locale as string) || 'it';
   const [isGenerating, setIsGenerating] = useState(false);
 
   const handleDownload = async () => {
@@ -26,8 +29,8 @@ const DownloadCVButton: React.FC<DownloadCVButtonProps> = ({
         // Dynamic import of the CV generation function
         const { generateCV } = await import('@/lib/generateCV');
       
-        // Generate and download the CV (now automatically uses data from siteConfig)
-        generateCV();
+        // Generate and download the CV with current locale
+        generateCV(locale);
     } catch (error) {
       console.error('Errore durante la generazione del CV:', error);
       alert('Si è verificato un errore durante la generazione del CV. Riprova.');

@@ -21,7 +21,8 @@
   "about": {
     "title": "About Me",
     "description": "Find out more about my journey and my passions",
-    "bio": "Hi! I'm Vincenzo, an undergraduate student in Computer Science at the University of Bari Aldo Moro. My main goal is to continuously expand my technical skills. I have a solid foundation in programming, algorithms and data structures, especially in OOP languages like Java. My curiosity has driven me towards web development, where I now experiment with JavaScript, TypeScript, React and related tools. I use Node.js for server-side logic and Git for flawless version control."
+    "bio": "Hi! I'm Vincenzo, an undergraduate student in Computer Science at the University of Bari Aldo Moro. My main goal is to continuously expand my technical skills. I have a solid foundation in programming, algorithms and data structures, especially in OOP languages like Java. My curiosity has driven me towards web development, where I now experiment with JavaScript, TypeScript, React and related tools. I use Node.js for server-side logic and Git for flawless version control.",
+    "cvProfile": "Undergraduate student in Computer Science at the University of Bari Aldo Moro. Main goal: continuously expand technical skills. Solid foundation in programming, algorithms and data structures, especially in OOP languages like Java. Experience in web development with JavaScript, TypeScript, React, Node.js and Git."
   },
   "experience": {
     "title": "My Experience",

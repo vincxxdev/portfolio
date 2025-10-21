@@ -20,22 +20,6 @@ export const siteConfig = {
     
     // Professional titles (used in Hero section and CV)
     titles: ['Software Engineer', 'Full Stack Developer'],
-    
-    // Short bio (used in Hero and CV)
-    tagline: 'appassionato di creare soluzioni innovative e scalabili e di esplorare nuove tecnologie.',
-    
-    // Extended bio (used in About section and CV profile)
-    bio: "Ciao! Sono Vincenzo, un laureando nella facoltà di Informatica all'Università degli Studi di Bari Aldo Moro. " +
-         "Il mio principale obiettivo è quello di espandere le mie competenze tecniche continuamente. " +
-         "Ho una solida base in programmazione, algoritmi e strutture dati soprattutto in linguaggi OOP come Java. " +
-         "La mia curiosità mi ha spinto verso lo sviluppo web, dove oggi sperimento con JavaScript, TypeScript, React e strumenti affini. " +
-         "Utilizzo Node.js per la logica server-side e Git per un controllo di versione impeccabile.",
-    
-    // CV-specific profile (concise version for PDF)
-    cvProfile: "Laureando nella facoltà di Informatica all'Università degli Studi di Bari Aldo Moro. " +
-               "Obiettivo principale: espandere continuamente le competenze tecniche. " +
-               "Solida base in programmazione, algoritmi e strutture dati, specialmente in linguaggi OOP come Java. " +
-               "Esperienza nello sviluppo web con JavaScript, TypeScript, React, Node.js e Git.",
   },
 
   // Contact information

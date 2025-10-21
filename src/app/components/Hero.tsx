@@ -8,6 +8,7 @@ import { ArrowDown } from 'lucide-react';
 import TypingText from './ui/TypingText';
 import DownloadCVButton from './ui/DownloadCVButton';
 import { siteConfig } from '@/config/site';
+import { useTranslations } from 'next-intl';
 
 // Load ParticleBackground in lazy mode to avoid blocking LCP
 const ParticleBackground = dynamic(() => import('./ui/ParticleBackground'), {
@@ -16,6 +17,8 @@ const ParticleBackground = dynamic(() => import('./ui/ParticleBackground'), {
 });
 
 const Hero = () => {
+  const t = useTranslations('hero');
+  const tTitles = useTranslations('titles');
   const x = useMotionValue(0);
   const y = useMotionValue(0);
 
@@ -67,7 +70,8 @@ const Hero = () => {
                   transition={{ duration: 0.8, delay: 0.4 }}
                   className="relative z-10 text-4xl sm:text-5xl md:text-7xl font-extrabold text-primary-text leading-tight mb-6"
                 >
-                    Ciao, sono <span className="bg-gradient-to-r from-cyan-400 to-blue-600 bg-clip-text text-transparent">{siteConfig.personal.fullName}</span>
+                    {t('greeting', { name: siteConfig.personal.fullName }).split(siteConfig.personal.fullName)[0]}
+                    <span className="bg-gradient-to-r from-cyan-400 to-blue-600 bg-clip-text text-transparent">{siteConfig.personal.fullName}</span>
                 </motion.h1>
                 
                 {/* Description with rotating roles */}
@@ -77,9 +81,13 @@ const Hero = () => {
                   transition={{ duration: 0.8, delay: 0.5 }}
                   className="relative z-10 text-lg sm:text-xl md:text-2xl text-primary-text max-w-3xl mx-auto mb-8 leading-relaxed"
                 >
-                    Un <span className="text-accent font-semibold">
-                      <TypingText roles={[...siteConfig.personal.titles]} />
-                    </span> {siteConfig.personal.tagline}
+                    {t.rich('tagline', {
+                      role: () => (
+                        <span className="text-accent font-semibold">
+                          <TypingText roles={[tTitles('softwareEngineer'), tTitles('fullStackDeveloper')]} />
+                        </span>
+                      )
+                    })}
                 </motion.p>
 
                 {/* Divider */}
@@ -98,10 +106,10 @@ const Hero = () => {
                   className="relative z-10 flex flex-col sm:flex-row justify-center gap-4"
                 >
                   <Button href="#projects" variant="primary" size="lg">
-                      I miei Progetti
+                      {t('myProjects')}
                   </Button>
                   <Button href="#contacts" variant="secondary" size="lg">
-                      Contattami
+                      {t('contactMe')}
                   </Button>
                   <DownloadCVButton variant="secondary" size="lg" />
                 </motion.div>
@@ -120,9 +128,9 @@ const Hero = () => {
                 <a 
                   href="#about"
                   className="inline-flex flex-col items-center gap-2 text-primary-text hover:text-accent transition-colors duration-300"
-                  aria-label="Scorri verso il basso"
+                  aria-label={t('scrollDown')}
                 >
-                  <span className="text-sm font-medium">Scopri di più</span>
+                  <span className="text-sm font-medium">{t('discoverMore')}</span>
                   <ArrowDown className="w-5 h-5" />
                 </a>
               </motion.div>

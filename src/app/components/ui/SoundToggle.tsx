@@ -3,8 +3,10 @@
 import { useState, useEffect } from 'react';
 import { Volume2, VolumeX } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { useTranslations } from 'next-intl';
 
 export const SoundToggle = () => {
+  const t = useTranslations('sound');
   const [soundEnabled, setSoundEnabled] = useState(true);
   const [mounted, setMounted] = useState(false);
 
@@ -30,13 +32,13 @@ export const SoundToggle = () => {
 
   return (
     <motion.button
-      aria-label="Toggle Sound Effects"
+      aria-label={t('toggle')}
       type="button"
       className="h-9 w-9 flex items-center justify-center rounded-lg bg-gray-200 dark:bg-gray-700 hover:ring-2 ring-cyan-500 transition-all relative overflow-hidden"
       onClick={() => setSoundEnabled(!soundEnabled)}
       whileHover={{ scale: 1.05 }}
       whileTap={{ scale: 0.95 }}
-      title={soundEnabled ? 'Disattiva effetti sonori' : 'Attiva effetti sonori'}
+      title={soundEnabled ? t('on') : t('off')}
     >
       {soundEnabled ? (
         <Volume2 className="h-5 w-5 text-cyan-500" />

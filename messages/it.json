@@ -1,0 +1,74 @@
+{
+  "nav": {
+    "about": "About",
+    "experience": "Esperienze",
+    "skills": "Skills",
+    "projects": "Progetti",
+    "contacts": "Contatti",
+    "downloadCV": "Scarica CV",
+    "generating": "Generazione...",
+    "openMenu": "Apri menu di navigazione",
+    "closeMenu": "Chiudi menu di navigazione"
+  },
+  "hero": {
+    "greeting": "Ciao, sono {name}",
+    "tagline": "Un <role></role> appassionato di creare soluzioni innovative e scalabili e di esplorare nuove tecnologie.",
+    "myProjects": "I miei Progetti",
+    "contactMe": "Contattami",
+    "discoverMore": "Scopri di più",
+    "scrollDown": "Scorri verso il basso"
+  },
+  "about": {
+    "title": "About Me",
+    "bio": "Ciao! Sono Vincenzo, un laureando nella facoltà di Informatica all'Università degli Studi di Bari Aldo Moro. Il mio principale obiettivo è quello di espandere le mie competenze tecniche continuamente. Ho una solida base in programmazione, algoritmi e strutture dati soprattutto in linguaggi OOP come Java. La mia curiosità mi ha spinto verso lo sviluppo web, dove oggi sperimento con JavaScript, TypeScript, React e strumenti affini. Utilizzo Node.js per la logica server-side e Git per un controllo di versione impeccabile."
+  },
+  "experience": {
+    "title": "Esperienze",
+    "present": "Presente",
+    "viewCertificate": "Visualizza Certificato"
+  },
+  "skills": {
+    "title": "Competenze Tecniche"
+  },
+  "projects": {
+    "title": "I Miei Progetti",
+    "viewProject": "Vedi Progetto",
+    "sourceCode": "Codice Sorgente"
+  },
+  "contacts": {
+    "title": "Contattami",
+    "subtitle": "Hai un progetto in mente o vuoi semplicemente dire ciao?",
+    "description": "Sono sempre aperto a nuove opportunità e collaborazioni. Non esitare a contattarmi!",
+    "phone": "Telefono",
+    "callMe": "Chiamami"
+  },
+  "footer": {
+    "madeWith": "Fatto con",
+    "by": "da",
+    "allRightsReserved": "Tutti i diritti riservati",
+    "privacyNote": "Questo sito utilizza analytics anonimizzate per migliorare l'esperienza utente. Nessun dato personale viene raccolto o condiviso con terze parti.",
+    "linkedinLabel": "Profilo LinkedIn",
+    "githubLabel": "Profilo GitHub"
+  },
+  "common": {
+    "loading": "Caricamento...",
+    "error": "Errore",
+    "notFound": "Pagina non trovata",
+    "goHome": "Torna alla Home"
+  },
+  "theme": {
+    "light": "Tema Chiaro",
+    "dark": "Tema Scuro",
+    "system": "Sistema",
+    "toggle": "Cambia tema"
+  },
+  "sound": {
+    "on": "Suoni attivati",
+    "off": "Suoni disattivati",
+    "toggle": "Attiva/Disattiva suoni"
+  },
+  "titles": {
+    "softwareEngineer": "Software Engineer",
+    "fullStackDeveloper": "Full Stack Developer"
+  }
+}

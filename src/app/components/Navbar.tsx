@@ -1,29 +1,32 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import Link from 'next/link';
 import { Menu, X, Sparkles } from 'lucide-react';
 import Button from './ui/Button';
 import { ThemeSwitcher } from './ThemeSwitcher';
 import { SoundToggle } from './ui/SoundToggle';
+import { LanguageSwitcher } from './LanguageSwitcher';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useSound } from './hooks/useSound';
 import DownloadCVButton from './ui/DownloadCVButton';
-
-const navLinks = [
-  { href: '#about', label: 'About' },
-  { href: '#experience', label: 'Esperienze' },
-  { href: '#skills', label: 'Skills' },
-  { href: '#projects', label: 'Progetti' },
-  { href: '#contacts', label: 'Contatti' },
-];
+import { Link } from '@/i18n/routing';
+import { useTranslations } from 'next-intl';
 
 const Navbar = () => {
+    const t = useTranslations('nav');
     const [isOpen, setIsOpen] = useState(false);
     const [hasScrolled, setHasScrolled] = useState(false);
     const [easterEgg, setEasterEgg] = useState(false);
     const [logoClicks, setLogoClicks] = useState(0);
     const { playSound } = useSound();
+
+    const navLinks = [
+      { href: '#about', label: t('about') },
+      { href: '#experience', label: t('experience') },
+      { href: '#skills', label: t('skills') },
+      { href: '#projects', label: t('projects') },
+      { href: '#contacts', label: t('contacts') },
+    ];
 
     useEffect(() => {
         const handleScroll = () => {
@@ -121,6 +124,7 @@ const Navbar = () => {
                     <div className="h-6 w-px bg-secondary-text/20"></div>
                     <div className="flex items-center gap-2">
                         <DownloadCVButton variant="icon" />
+                        <LanguageSwitcher />
                         <SoundToggle />
                         <ThemeSwitcher />
                     </div>
@@ -129,9 +133,10 @@ const Navbar = () => {
                 <div className="md:hidden flex items-center gap-3">
                     <SoundToggle />
                     <ThemeSwitcher />
+                    <LanguageSwitcher />
                     <button 
                         onClick={() => setIsOpen(!isOpen)}
-                        aria-label="Apri menu di navigazione"
+                        aria-label={t('openMenu')}
                         aria-expanded={isOpen}
                         className="p-2 rounded-lg hover:bg-accent/10 transition-colors duration-300"
                     >
@@ -151,7 +156,7 @@ const Navbar = () => {
                     <button 
                         onClick={closeMenu} 
                         className="absolute top-7 right-4 p-2 rounded-lg hover:bg-accent/10 transition-colors duration-300 z-10"
-                        aria-label="Chiudi menu di navigazione"
+                        aria-label={t('closeMenu')}
                     >
                         <X className="h-8 w-8 text-primary-text" />
                     </button>

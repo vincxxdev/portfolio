@@ -4,8 +4,10 @@ import React from 'react';
 import { SiGithub, SiLinkedin } from 'react-icons/si';
 import { motion } from 'framer-motion';
 import { siteConfig } from '@/config/site';
+import { useTranslations } from 'next-intl';
 
 const Footer = () => {
+  const t = useTranslations('footer');
   const currentYear = new Date().getFullYear();
 
   return (
@@ -31,7 +33,7 @@ const Footer = () => {
                 &copy; {currentYear} {siteConfig.personal.fullName}
               </p>
               <p className="text-xs text-secondary-text/70 mt-1">
-                Tutti i diritti riservati
+                {t('allRightsReserved')}
               </p>
             </div>
 
@@ -41,7 +43,7 @@ const Footer = () => {
                 href={siteConfig.social.linkedin}
                 target="_blank"
                 rel="noopener noreferrer"
-                aria-label="Profilo LinkedIn"
+                aria-label={t('linkedinLabel')}
                 whileHover={{ scale: 1.1, y: -2 }}
                 whileTap={{ scale: 0.95 }}
                 className="p-3 bg-secondary-background/50 backdrop-blur-sm rounded-xl border border-secondary-text/20 hover:border-accent/40 text-secondary-text hover:text-accent transition-all duration-300 shadow-lg hover:shadow-cyan-400/20"
@@ -52,7 +54,7 @@ const Footer = () => {
                 href={siteConfig.social.github}
                 target="_blank"
                 rel="noopener noreferrer"
-                aria-label="Profilo GitHub"
+                aria-label={t('githubLabel')}
                 whileHover={{ scale: 1.1, y: -2 }}
                 whileTap={{ scale: 0.95 }}
                 className="p-3 bg-secondary-background/50 backdrop-blur-sm rounded-xl border border-secondary-text/20 hover:border-accent/40 text-secondary-text hover:text-accent transition-all duration-300 shadow-lg hover:shadow-cyan-400/20"
@@ -71,9 +73,7 @@ const Footer = () => {
             className="text-center sm:text-left"
           >
             <p className="text-xs text-secondary-text/70">
-              Questo sito utilizza analytics anonimizzate per migliorare l&apos;esperienza utente.
-              <br className="hidden sm:inline" />
-              Nessun dato personale viene raccolto o condiviso con terze parti.
+              {t('privacyNote')}
             </p>
           </motion.div>
         </div>

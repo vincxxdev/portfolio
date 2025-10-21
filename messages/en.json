@@ -1,0 +1,74 @@
+{
+  "nav": {
+    "about": "About",
+    "experience": "Experience",
+    "skills": "Skills",
+    "projects": "Projects",
+    "contacts": "Contacts",
+    "downloadCV": "Download CV",
+    "generating": "Generating...",
+    "openMenu": "Open navigation menu",
+    "closeMenu": "Close navigation menu"
+  },
+  "hero": {
+    "greeting": "Hi, I'm {name}",
+    "tagline": "A <role></role> passionate about creating innovative and scalable solutions and exploring new technologies.",
+    "myProjects": "My Projects",
+    "contactMe": "Contact Me",
+    "discoverMore": "Discover More",
+    "scrollDown": "Scroll down"
+  },
+  "about": {
+    "title": "About Me",
+    "bio": "Hi! I'm Vincenzo, a Computer Science student at the University of Bari Aldo Moro. My main goal is to continuously expand my technical skills. I have a solid foundation in programming, algorithms, and data structures, especially in OOP languages like Java. My curiosity has led me towards web development, where I now experiment with JavaScript, TypeScript, React, and related tools. I use Node.js for server-side logic and Git for impeccable version control."
+  },
+  "experience": {
+    "title": "Experience",
+    "present": "Present",
+    "viewCertificate": "View Certificate"
+  },
+  "skills": {
+    "title": "Technical Skills"
+  },
+  "projects": {
+    "title": "My Projects",
+    "viewProject": "View Project",
+    "sourceCode": "Source Code"
+  },
+  "contacts": {
+    "title": "Get In Touch",
+    "subtitle": "Have a project in mind or just want to say hi?",
+    "description": "I'm always open to new opportunities and collaborations. Don't hesitate to reach out!",
+    "phone": "Phone",
+    "callMe": "Call Me"
+  },
+  "footer": {
+    "madeWith": "Made with",
+    "by": "by",
+    "allRightsReserved": "All rights reserved",
+    "privacyNote": "This site uses anonymized analytics to improve user experience. No personal data is collected or shared with third parties.",
+    "linkedinLabel": "LinkedIn Profile",
+    "githubLabel": "GitHub Profile"
+  },
+  "common": {
+    "loading": "Loading...",
+    "error": "Error",
+    "notFound": "Page not found",
+    "goHome": "Go Home"
+  },
+  "theme": {
+    "light": "Light Theme",
+    "dark": "Dark Theme",
+    "system": "System",
+    "toggle": "Toggle theme"
+  },
+  "sound": {
+    "on": "Sounds enabled",
+    "off": "Sounds disabled",
+    "toggle": "Toggle sounds"
+  },
+  "titles": {
+    "softwareEngineer": "Software Engineer",
+    "fullStackDeveloper": "Full Stack Developer"
+  }
+}

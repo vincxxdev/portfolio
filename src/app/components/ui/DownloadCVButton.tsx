@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { Download, FileText } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { useTranslations } from 'next-intl';
 
 interface DownloadCVButtonProps {
   variant?: 'primary' | 'secondary' | 'icon';
@@ -15,6 +16,7 @@ const DownloadCVButton: React.FC<DownloadCVButtonProps> = ({
   size = 'md',
   className = '' 
 }) => {
+  const t = useTranslations('nav');
   const [isGenerating, setIsGenerating] = useState(false);
 
   const handleDownload = async () => {
@@ -59,7 +61,7 @@ const DownloadCVButton: React.FC<DownloadCVButtonProps> = ({
         className={`${baseStyles} ${variantStyles[variant]} ${className}`}
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.95 }}
-        title="Scarica CV"
+        title={t('downloadCV')}
       >
         {isGenerating ? (
           <motion.div
@@ -91,12 +93,12 @@ const DownloadCVButton: React.FC<DownloadCVButtonProps> = ({
           >
             <FileText className="w-5 h-5" />
           </motion.div>
-          <span>Generazione...</span>
+          <span>{t('generating')}</span>
         </>
       ) : (
         <>
           <Download className="w-5 h-5" />
-          <span>Scarica CV</span>
+          <span>{t('downloadCV')}</span>
         </>
       )}
     </motion.button>

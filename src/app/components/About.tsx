@@ -4,16 +4,17 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { Terminal } from 'lucide-react';
 import { SectionHeader } from './ui/CardComponents';
-import { siteConfig } from '@/config/site';
+import { useTranslations } from 'next-intl';
 
 
 const About = () => {
+  const t = useTranslations('about');
   const [text, setText] = useState('');
   const [showCursor, setShowCursor] = useState(true);
 
   const command = 'cat ./about.txt';
   const content = `
-${siteConfig.personal.bio}`;
+${t('bio')}`;
   
   const fullText = useMemo(() => `$ ${command}\n${content}`, [command, content]);
 
@@ -70,12 +71,8 @@ ${siteConfig.personal.bio}`;
           transition={{ duration: 0.6 }}
         >
           <SectionHeader
-            title={
-              <>
-                About <span className="bg-gradient-to-r from-cyan-400 to-blue-600 bg-clip-text text-transparent">Me</span>
-              </>
-            }
-            description="Scopri di più sul mio percorso e le mie passioni"
+            title={t('title')}
+            description=""
           />
         </motion.div>
 

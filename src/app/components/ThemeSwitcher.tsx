@@ -5,8 +5,10 @@ import { useTheme } from 'next-themes';
 import { Moon, Sun } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useSound } from './hooks/useSound';
+import { useTranslations } from 'next-intl';
 
 export const ThemeSwitcher = () => {
+  const t = useTranslations('theme');
   const [mounted, setMounted] = useState(false);
   const { theme, setTheme } = useTheme();
   const { playSound } = useSound();
@@ -29,8 +31,9 @@ export const ThemeSwitcher = () => {
 
   return (
     <motion.button
-      aria-label="Toggle Dark Mode"
+      aria-label={t('toggle')}
       type="button"
+      title={isDark ? t('light') : t('dark')}
       className="h-9 w-9 flex items-center justify-center rounded-lg bg-gray-200 dark:bg-gray-700 hover:ring-2 ring-cyan-500 transition-all relative overflow-hidden"
       onClick={handleThemeToggle}
       whileHover={{ scale: 1.05 }}

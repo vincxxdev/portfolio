@@ -1,8 +1,6 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import Navbar from "./Navbar";
-import Footer from "./Footer";
 import dynamic from "next/dynamic";
 
 // Lazy load the animation component
@@ -45,9 +43,7 @@ export default function Loader({ children }: { children: React.ReactNode }) {
           showAnimation ? 'opacity-0 pointer-events-none' : 'opacity-100'
         }`}
       >
-        <Navbar />
         {children}
-        <Footer />
       </div>
     </>
   );

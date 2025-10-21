@@ -6,16 +6,22 @@ import { SiGithub } from 'react-icons/si';
 import { ExternalLink, Code2, Star } from 'lucide-react';
 import { motion } from 'framer-motion';
 
-import { projectsData } from '@/data/projects';
+import { projectsDataTranslations } from '@/data/projects';
 import Card from './ui/Card';
 import { SectionHeader } from './ui/CardComponents';
 import { MagneticButton } from './ui/MagneticButton';
-
-const projects = projectsData;
+import { useTranslations } from 'next-intl';
+import { useParams } from 'next/navigation';
 
 const Projects = () => {
+  const t = useTranslations('projects');
+  const params = useParams();
+  const locale = (params.locale as string) || 'it';
   const [imageErrors, setImageErrors] = useState<{ [key: number]: boolean }>({});
   const [hoveredProject, setHoveredProject] = useState<number | null>(null);
+  
+  // Get projects data based on current locale
+  const projects = projectsDataTranslations[locale as keyof typeof projectsDataTranslations] || projectsDataTranslations.it;
 
   const handleImageError = (projectId: number) => {
     setImageErrors(prev => ({ ...prev, [projectId]: true }));
@@ -48,12 +54,8 @@ const Projects = () => {
           transition={{ duration: 0.6 }}
         >
           <SectionHeader
-            title={
-              <>
-                I Miei <span className="bg-gradient-to-r from-cyan-400 to-blue-600 bg-clip-text text-transparent">Progetti</span>
-              </>
-            }
-            description="Esplora una selezione dei miei progetti più significativi"
+            title={t('title')}
+            description={t('description')}
           />
         </motion.div>
 
@@ -99,7 +101,7 @@ const Projects = () => {
                   <div className="w-full h-full flex items-center justify-center backdrop-blur-sm">
                     <div className="text-center">
                       <Code2 className="w-16 h-16 text-accent/50 mx-auto mb-2" />
-                      <p className="text-secondary-text text-sm">Anteprima non disponibile</p>
+                      <p className="text-secondary-text text-sm">{t('previewNotAvailable')}</p>
                     </div>
                   </div>
                 )}
@@ -169,7 +171,7 @@ const Projects = () => {
                         aria-label={`Visualizza la demo live di ${project.title}`}
                       >
                         <ExternalLink className="w-4 h-4" aria-hidden="true" />
-                        <span className="text-sm">Live Demo</span>
+                        <span className="text-sm">{t('liveDemo')}</span>
                       </a>
                     </MagneticButton>
                   )}
@@ -182,7 +184,7 @@ const Projects = () => {
                       aria-label={`Visualizza il codice sorgente di ${project.title} su GitHub`}
                     >
                       <SiGithub className="w-4 h-4" aria-hidden="true" />
-                      <span className="text-sm">GitHub</span>
+                      <span className="text-sm">{t('github')}</span>
                     </a>
                   </MagneticButton>
                 </div>

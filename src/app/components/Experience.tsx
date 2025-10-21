@@ -5,25 +5,38 @@ import { motion } from 'framer-motion';
 import { Award, ExternalLink, Calendar, Building2 } from 'lucide-react';
 import Card from './ui/Card';
 import { CardTitle, CardDescription, CardDivider, SectionHeader } from './ui/CardComponents';
-import { experienceData } from '@/data/experiences';
-import { certificationData as certificationDataRaw } from '@/data/certifications';
+import { experiencesDataTranslations } from '@/data/experiences';
+import { certificationsDataTranslations } from '@/data/certifications';
+import { useTranslations } from 'next-intl';
+import { useParams } from 'next/navigation';
 
 const monthMap: { [key:string]: number } = {
   'gennaio': 0, 'febbraio': 1, 'marzo': 2, 'aprile': 3, 'maggio': 4, 'giugno': 5,
-  'luglio': 6, 'agosto': 7, 'settembre': 8, 'ottobre': 9, 'novembre': 10, 'dicembre': 11
+  'luglio': 6, 'agosto': 7, 'settembre': 8, 'ottobre': 9, 'novembre': 10, 'dicembre': 11,
+  'january': 0, 'february': 1, 'march': 2, 'april': 3, 'may': 4, 'june': 5,
+  'july': 6, 'august': 7, 'september': 8, 'october': 9, 'november': 10, 'december': 11
 };
 
-const certificationData = [...certificationDataRaw].sort((a, b) => {
-  const [monthA, yearA] = a.date.toLowerCase().split(' ');
-  const [monthB, yearB] = b.date.toLowerCase().split(' ');
-
-  const dateA = new Date(parseInt(yearA), monthMap[monthA]);
-  const dateB = new Date(parseInt(yearB), monthMap[monthB]);
-
-  return dateB.getTime() - dateA.getTime();
-});
-
 const Experience = () => {
+  const t = useTranslations('experience');
+  const params = useParams();
+  const locale = (params.locale as string) || 'it';
+  
+  // Get data based on current locale
+  const experiences = experiencesDataTranslations[locale as keyof typeof experiencesDataTranslations] || experiencesDataTranslations.it;
+  const certificationDataRaw = certificationsDataTranslations[locale as keyof typeof certificationsDataTranslations] || certificationsDataTranslations.it;
+  
+  // Sort certifications by date
+  const certificationData = [...certificationDataRaw].sort((a, b) => {
+    const [monthA, yearA] = a.date.toLowerCase().split(' ');
+    const [monthB, yearB] = b.date.toLowerCase().split(' ');
+
+    const dateA = new Date(parseInt(yearA), monthMap[monthA]);
+    const dateB = new Date(parseInt(yearB), monthMap[monthB]);
+
+    return dateB.getTime() - dateA.getTime();
+  });
+  
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -64,12 +77,8 @@ const Experience = () => {
           transition={{ duration: 0.6 }}
         >
           <SectionHeader
-            title={
-              <>
-                Le mie <span className="bg-gradient-to-r from-cyan-400 to-blue-600 bg-clip-text text-transparent">Esperienze</span>
-              </>
-            }
-            description="Il mio percorso professionale e le competenze acquisite"
+            title={t('title')}
+            description={t('description')}
           />
         </motion.div>
 
@@ -84,7 +93,7 @@ const Experience = () => {
             viewport={{ once: true, margin: "-100px" }}
             className="space-y-12"
           >
-            {experienceData.map((item, index) => (
+            {experiences.map((item, index) => (
               <motion.div
                 key={index}
                 variants={itemVariants}
@@ -130,15 +139,8 @@ const Experience = () => {
           transition={{ duration: 0.6 }}
         >
           <SectionHeader
-            title={
-              <>
-                Le mie <span className="bg-gradient-to-r from-cyan-400 to-blue-600 bg-clip-text text-transparent">
-                  Certificazioni
-                </span>
-              </>
-              
-            }
-            description="Corsi completati e certificazioni ottenute"
+            title={t('certifications')}
+            description={t('certificationsDescription')}
           />
         </motion.div>
 
@@ -178,7 +180,7 @@ const Experience = () => {
                 className="flex items-center justify-center gap-2 px-4 py-3 border-2 border-accent/50 text-accent hover:bg-accent hover:text-white hover:border-accent font-semibold rounded-xl transition-all duration-300 transform hover:scale-105"
               >
                 <ExternalLink className="w-4 h-4" />
-                <span className="text-sm">Visualizza Certificato</span>
+                <span className="text-sm">{t('viewCertificate')}</span>
               </a>
             </Card>
           ))}

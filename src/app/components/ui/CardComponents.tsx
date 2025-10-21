@@ -75,8 +75,10 @@ export const SectionHeader: React.FC<SectionHeaderProps> = ({
           <span className="text-sm font-semibold text-accent">{badge.text}</span>
         </div>
       )}
-      <h2 className="text-4xl sm:text-5xl font-bold text-primary-text mb-4">
-        {title}
+      <h2 className="text-4xl sm:text-5xl font-bold mb-4">
+        <span className="bg-gradient-to-r from-cyan-400 to-blue-600 bg-clip-text text-transparent">
+          {title}
+        </span>
       </h2>
       {description && (
         <p className="text-lg text-secondary-text max-w-2xl mx-auto">

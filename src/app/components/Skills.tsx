@@ -7,6 +7,7 @@ import { Code2, Zap } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import Card from './ui/Card';
 import { SectionHeader } from './ui/CardComponents';
+import { useTranslations } from 'next-intl';
 
 interface SkillCardProps {
   name: string;
@@ -17,6 +18,7 @@ interface SkillCardProps {
 }
 
 const SkillCard = ({ name, percentage, iconName, color, index }: SkillCardProps) => {
+  const t = useTranslations('skills.level');
   const [hasAnimated, setHasAnimated] = useState(false);
   
   // Add a slight random variation to make it more realistic (±1-2%)
@@ -53,10 +55,10 @@ const SkillCard = ({ name, percentage, iconName, color, index }: SkillCardProps)
   const offset = circumference - (displayValue / 100) * circumference;
 
   const getSkillLevel = (percentage: number) => {
-    if (percentage >= 80) return { label: 'Expert', color: 'from-green-500 to-emerald-500' };
-    if (percentage >= 60) return { label: 'Advanced', color: 'from-blue-500 to-cyan-500' };
-    if (percentage >= 40) return { label: 'Intermediate', color: 'from-yellow-500 to-orange-500' };
-    return { label: 'Beginner', color: 'from-orange-500 to-red-500' };
+    if (percentage >= 80) return { label: t('expert'), color: 'from-green-500 to-emerald-500' };
+    if (percentage >= 60) return { label: t('advanced'), color: 'from-blue-500 to-cyan-500' };
+    if (percentage >= 40) return { label: t('intermediate'), color: 'from-yellow-500 to-orange-500' };
+    return { label: t('beginner'), color: 'from-orange-500 to-red-500' };
   };
 
   const skillLevel = getSkillLevel(percentage);
@@ -151,6 +153,8 @@ const SkillCard = ({ name, percentage, iconName, color, index }: SkillCardProps)
 };
 
 const Skills = () => {
+  const t = useTranslations('skills');
+  const tStats = useTranslations('skills.stats');
   const sortedSkills = [...skillsData].sort((a, b) => b.percentage - a.percentage);
 
   const containerVariants = {
@@ -181,12 +185,8 @@ const Skills = () => {
           transition={{ duration: 0.6 }}
         >
           <SectionHeader
-            title={
-              <>
-                Le mie <span className="bg-gradient-to-r from-cyan-400 to-blue-600 bg-clip-text text-transparent">Competenze</span>
-              </>
-            }
-            description="Tecnologie e linguaggi che utilizzo per creare soluzioni innovative"
+            title={t('title')}
+            description={t('description')}
           />
         </motion.div>
 
@@ -230,7 +230,7 @@ const Skills = () => {
                 <p className="text-3xl font-bold bg-gradient-to-r from-cyan-400 to-blue-600 bg-clip-text text-transparent">
                   {sortedSkills.length}+
                 </p>
-                <p className="text-sm text-secondary-text font-medium">Tecnologie</p>
+                <p className="text-sm text-secondary-text font-medium">{tStats('technologies')}</p>
               </div>
             </div>
           </Card>
@@ -276,7 +276,7 @@ const Skills = () => {
                 <p className="text-3xl font-bold bg-gradient-to-r from-cyan-400 to-blue-600 bg-clip-text text-transparent">
                   {sortedSkills.filter(s => s.percentage >= 80).length}
                 </p>
-                <p className="text-sm text-secondary-text font-medium">Esperte</p>
+                <p className="text-sm text-secondary-text font-medium">{tStats('expert')}</p>
               </div>
             </div>
           </Card>

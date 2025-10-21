@@ -20,27 +20,57 @@
   },
   "about": {
     "title": "About Me",
-    "bio": "Hi! I'm Vincenzo, a Computer Science student at the University of Bari Aldo Moro. My main goal is to continuously expand my technical skills. I have a solid foundation in programming, algorithms, and data structures, especially in OOP languages like Java. My curiosity has led me towards web development, where I now experiment with JavaScript, TypeScript, React, and related tools. I use Node.js for server-side logic and Git for impeccable version control."
+    "description": "Find out more about my journey and my passions",
+    "bio": "Hi! I'm Vincenzo, an undergraduate student in Computer Science at the University of Bari Aldo Moro. My main goal is to continuously expand my technical skills. I have a solid foundation in programming, algorithms and data structures, especially in OOP languages like Java. My curiosity has driven me towards web development, where I now experiment with JavaScript, TypeScript, React and related tools. I use Node.js for server-side logic and Git for flawless version control."
   },
   "experience": {
-    "title": "Experience",
+    "title": "My Experience",
+    "description": "My professional journey and acquired skills",
+    "certifications": "My Certifications",
+    "certificationsDescription": "Completed courses and obtained certifications",
     "present": "Present",
     "viewCertificate": "View Certificate"
   },
   "skills": {
-    "title": "Technical Skills"
+    "title": "My Skills",
+    "description": "Technologies and languages I use to create innovative solutions",
+    "level": {
+      "expert": "Expert",
+      "advanced": "Advanced",
+      "intermediate": "Intermediate",
+      "beginner": "Beginner"
+    },
+    "stats": {
+      "languages": "Languages",
+      "technologies": "Technologies",
+      "experience": "Years of Experience",
+      "expert": "Expert"
+    }
   },
   "projects": {
     "title": "My Projects",
+    "description": "Explore a selection of my most significant projects",
+    "liveDemo": "Live Demo",
+    "github": "GitHub",
+    "sourceCode": "Source Code",
     "viewProject": "View Project",
-    "sourceCode": "Source Code"
+    "previewNotAvailable": "Preview not available"
   },
   "contacts": {
     "title": "Get In Touch",
     "subtitle": "Have a project in mind or just want to say hi?",
-    "description": "I'm always open to new opportunities and collaborations. Don't hesitate to reach out!",
+    "description": "I'm always open to new opportunities and collaborations. Feel free to reach out!",
+    "email": "Email",
+    "emailDescription": "Send me an email",
     "phone": "Phone",
-    "callMe": "Call Me"
+    "phoneDescription": "Call me directly",
+    "location": "Location",
+    "availability": "Availability",
+    "availabilityStatus": "Open to Opportunities",
+    "responseTime": "Response Time",
+    "responseTimeValue": "24-48 hours",
+    "callMe": "Call Me",
+    "sendEmail": "Send email to"
   },
   "footer": {
     "madeWith": "Made with",

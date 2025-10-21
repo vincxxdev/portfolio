@@ -2,9 +2,9 @@ import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
 import { siteConfig } from '@/config/site';
 import { skillsData } from '@/data/skills';
-import { experienceData } from '@/data/experiences';
-import { certificationData } from '@/data/certifications';
-import { projectsData } from '@/data/projects';
+import { experiencesDataTranslations } from '@/data/experiences';
+import { certificationsDataTranslations } from '@/data/certifications';
+import { projectsDataTranslations } from '@/data/projects';
 
 // Extend jsPDF type to include autoTable
 declare module 'jspdf' {
@@ -15,6 +15,11 @@ declare module 'jspdf' {
 
 export const generateCV = (): void => {
     const doc = new jsPDF();
+    
+    // Use Italian as default for CV
+    const experienceData = experiencesDataTranslations.it;
+    const projectsData = projectsDataTranslations.it;
+    const certificationData = certificationsDataTranslations.it;
   
     // Color configuration
     const primaryColor: [number, number, number] = [34, 211, 238]; // cyan-400

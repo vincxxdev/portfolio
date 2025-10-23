@@ -1,6 +1,6 @@
 export const skillsData = [
-  { "name": "Java", "percentage": 80, "iconName": "FaJava", "color": "text-orange-500" },
-  { "name": "C", "percentage": 80, "iconName": "SiC", "color": "text-blue-600" },
+  { "name": "Java", "percentage": 70, "iconName": "FaJava", "color": "text-orange-500" },
+  { "name": "C", "percentage": 45, "iconName": "SiC", "color": "text-blue-600" },
   { "name": "JavaScript", "percentage": 70, "iconName": "FaJs", "color": "text-yellow-400" },
   { "name": "TypeScript", "percentage": 70, "iconName": "SiTypescript", "color": "text-blue-500" },
   { "name": "Python", "percentage": 50, "iconName": "FaPython", "color": "text-blue-400" },

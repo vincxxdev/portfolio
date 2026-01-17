@@ -14,7 +14,7 @@ export const projectsData = [
     "title": "Railway Simulator",
     "description": "Progetto realizzato in gruppo con un collega universitario. Backend in Node.js (Express) e frontend in FlexSim. Simula una stazione ferroviaria interagendo via Arduino.",
     "technologies": ["Node.js", "Express", "FlexSim", "Arduino", "Git", "GitHub"],
-    "githubLink": "https://github.com/zeltarave/Railway-Simulator",
+    "githubLink": "https://github.com/vincxxdev/Railway-Simulator",
     "animationType": "railway",
     "previewImage": "/images/railway-simulator-preview.png"
   },

@@ -53,7 +53,7 @@ export const generateCV = (): void => {
   
   // Name
   doc.setFont('helvetica', 'bold');
-  doc.setFontSize(14);
+  doc.setFontSize(16);
   doc.setTextColor(colors.sidebarText.r, colors.sidebarText.g, colors.sidebarText.b);
   
   const firstName = siteConfig.personal.firstName || siteConfig.personal.fullName.split(' ')[0];
@@ -66,7 +66,7 @@ export const generateCV = (): void => {
 
   // Title
   doc.setFont('helvetica', 'normal');
-  doc.setFontSize(8);
+  doc.setFontSize(9);
   doc.setTextColor(colors.accent.r, colors.accent.g, colors.accent.b);
   const title = siteConfig.personal.titles[0] || 'Software Engineer';
   doc.text(title, SIDEBAR_PADDING, sidebarY);
@@ -108,7 +108,7 @@ export const generateCV = (): void => {
     if (sidebarY > PAGE_HEIGHT - 10) return;
     
     doc.setFont('helvetica', 'normal');
-    doc.setFontSize(7);
+    doc.setFontSize(8);
     doc.setTextColor(colors.sidebarText.r, colors.sidebarText.g, colors.sidebarText.b);
     doc.text(skill.name, SIDEBAR_PADDING, sidebarY);
     
@@ -135,7 +135,7 @@ export const generateCV = (): void => {
   contentY = drawContentSection(doc, 'PROFILO', contentY);
   
   doc.setFont('helvetica', 'normal');
-  doc.setFontSize(8);
+  doc.setFontSize(9);
   doc.setTextColor(colors.text.r, colors.text.g, colors.text.b);
   
   const profileLines = doc.splitTextToSize(siteConfig.personal.cvProfile, CONTENT_WIDTH);
@@ -147,13 +147,13 @@ export const generateCV = (): void => {
   
   educationData.forEach((edu) => {
     doc.setFont('helvetica', 'bold');
-    doc.setFontSize(9);
+    doc.setFontSize(10);
     doc.setTextColor(colors.heading.r, colors.heading.g, colors.heading.b);
     doc.text(edu.title, CONTENT_LEFT, contentY);
     contentY += 3.5;
     
     doc.setFont('helvetica', 'normal');
-    doc.setFontSize(8);
+    doc.setFontSize(9);
     doc.setTextColor(colors.muted.r, colors.muted.g, colors.muted.b);
     doc.text(`${edu.institution} | ${edu.period}`, CONTENT_LEFT, contentY);
     contentY += 6;
@@ -165,13 +165,13 @@ export const generateCV = (): void => {
     
     experienceData.forEach((exp) => {
       doc.setFont('helvetica', 'bold');
-      doc.setFontSize(9);
+      doc.setFontSize(10);
       doc.setTextColor(colors.heading.r, colors.heading.g, colors.heading.b);
       doc.text(exp.title, CONTENT_LEFT, contentY);
       contentY += 3.5;
       
       doc.setFont('helvetica', 'normal');
-      doc.setFontSize(8);
+      doc.setFontSize(9);
       doc.setTextColor(colors.muted.r, colors.muted.g, colors.muted.b);
       doc.text(`${exp.company} | ${exp.date}`, CONTENT_LEFT, contentY);
       contentY += 3.5;
@@ -190,33 +190,40 @@ export const generateCV = (): void => {
     projectsData.forEach((project) => {
       // Title
       doc.setFont('helvetica', 'bold');
-      doc.setFontSize(9);
+      doc.setFontSize(10);
       doc.setTextColor(colors.heading.r, colors.heading.g, colors.heading.b);
       doc.text(project.title, CONTENT_LEFT, contentY);
-      contentY += 3.5;
+      contentY += 4;
       
       // Description (truncated for space)
       doc.setFont('helvetica', 'normal');
-      doc.setFontSize(7);
+      doc.setFontSize(9);
       doc.setTextColor(colors.text.r, colors.text.g, colors.text.b);
       const shortDesc = project.description.length > 120 
         ? project.description.substring(0, 120) + '...' 
         : project.description;
       const descLines = doc.splitTextToSize(shortDesc, CONTENT_WIDTH);
       doc.text(descLines, CONTENT_LEFT, contentY);
-      contentY += descLines.length * 3 + 2;
+      contentY += descLines.length * 3.5 + 2;
       
-      // Technologies (inline)
-      doc.setFontSize(7);
+      // Technologies
+      doc.setFontSize(9);
       doc.setTextColor(colors.muted.r, colors.muted.g, colors.muted.b);
       const techText = `Tecnologie: ${project.technologies.slice(0, 4).join(', ')}`;
       doc.text(techText, CONTENT_LEFT, contentY);
+      contentY += 3.5;
       
-      // GitHub link (same line)
+      // GitHub link (separate line)
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(9);
+      doc.setTextColor(colors.muted.r, colors.muted.g, colors.muted.b);
+      doc.text('GitHub: ', CONTENT_LEFT, contentY);
+      
+      doc.setFont('helvetica', 'normal');
       doc.setTextColor(colors.accent.r, colors.accent.g, colors.accent.b);
       const linkText = project.githubLink.replace('https://github.com/', '');
-      const techWidth = doc.getTextWidth(techText + '  |  ');
-      doc.textWithLink(linkText, CONTENT_LEFT + techWidth, contentY, { url: project.githubLink });
+      const labelWidth = doc.getTextWidth('GitHub: ');
+      doc.textWithLink(linkText, CONTENT_LEFT + labelWidth, contentY, { url: project.githubLink });
       contentY += 5;
     });
   }
@@ -234,7 +241,7 @@ export const generateCV = (): void => {
     // Display certifications in a compact inline format
     sortedCerts.forEach((cert) => {
       doc.setFont('helvetica', 'bold');
-      doc.setFontSize(8);
+      doc.setFontSize(9);
       doc.setTextColor(colors.heading.r, colors.heading.g, colors.heading.b);
       
       // Truncate title if too long
@@ -245,7 +252,7 @@ export const generateCV = (): void => {
       doc.text(certTitle, CONTENT_LEFT, contentY);
       
       doc.setFont('helvetica', 'normal');
-      doc.setFontSize(7);
+      doc.setFontSize(8);
       doc.setTextColor(colors.muted.r, colors.muted.g, colors.muted.b);
       doc.text(` — ${cert.issuer}, ${cert.date}`, CONTENT_LEFT + doc.getTextWidth(certTitle), contentY);
       contentY += 4;

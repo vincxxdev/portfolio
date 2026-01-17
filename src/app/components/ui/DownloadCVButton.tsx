@@ -25,7 +25,7 @@ const DownloadCVButton: React.FC<DownloadCVButtonProps> = ({
         const { generateCV } = await import('@/lib/generateCV');
       
         // Generate and download the CV (now automatically uses data from siteConfig)
-        generateCV();
+        await generateCV();
     } catch (error) {
       console.error('Errore durante la generazione del CV:', error);
       alert('Si è verificato un errore durante la generazione del CV. Riprova.');

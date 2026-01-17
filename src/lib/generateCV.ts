@@ -5,6 +5,7 @@ import { experienceData } from '@/data/experiences';
 import { certificationData } from '@/data/certifications';
 import { projectsData } from '@/data/projects';
 import { educationData } from '@/data/education';
+import { registerRobotoFont } from '@/lib/fonts/roboto';
 
 // ============ PROFESSIONAL CV GENERATOR ============
 // Modern two-column layout - Single page compact design
@@ -35,12 +36,15 @@ const CONTENT_LEFT = SIDEBAR_WIDTH + 6;
 const CONTENT_WIDTH = PAGE_WIDTH - CONTENT_LEFT - 8;
 const SIDEBAR_PADDING = 6;
 
-export const generateCV = (): void => {
+export const generateCV = async (): Promise<void> => {
   const doc = new jsPDF({
     orientation: 'portrait',
     unit: 'mm',
     format: 'a4'
   });
+
+  // Register Roboto font
+  await registerRobotoFont(doc);
 
   let sidebarY = 12;
   let contentY = 12;
@@ -52,7 +56,7 @@ export const generateCV = (): void => {
   // ============ SIDEBAR CONTENT ============
   
   // Name
-  doc.setFont('helvetica', 'bold');
+  doc.setFont('Roboto', 'bold');
   doc.setFontSize(16);
   doc.setTextColor(colors.sidebarText.r, colors.sidebarText.g, colors.sidebarText.b);
   
@@ -65,7 +69,7 @@ export const generateCV = (): void => {
   sidebarY += 6;
 
   // Title
-  doc.setFont('helvetica', 'normal');
+  doc.setFont('Roboto', 'normal');
   doc.setFontSize(9);
   doc.setTextColor(colors.accent.r, colors.accent.g, colors.accent.b);
   const title = siteConfig.personal.titles[0] || 'Software Engineer';
@@ -107,7 +111,7 @@ export const generateCV = (): void => {
   sortedSkills.forEach(skill => {
     if (sidebarY > PAGE_HEIGHT - 10) return;
     
-    doc.setFont('helvetica', 'normal');
+    doc.setFont('Roboto', 'normal');
     doc.setFontSize(8);
     doc.setTextColor(colors.sidebarText.r, colors.sidebarText.g, colors.sidebarText.b);
     doc.text(skill.name, SIDEBAR_PADDING, sidebarY);
@@ -134,7 +138,7 @@ export const generateCV = (): void => {
   // Profile Section
   contentY = drawContentSection(doc, 'PROFILO', contentY);
   
-  doc.setFont('helvetica', 'normal');
+  doc.setFont('Roboto', 'normal');
   doc.setFontSize(9);
   doc.setTextColor(colors.text.r, colors.text.g, colors.text.b);
   
@@ -146,13 +150,13 @@ export const generateCV = (): void => {
   contentY = drawContentSection(doc, 'ISTRUZIONE', contentY);
   
   educationData.forEach((edu) => {
-    doc.setFont('helvetica', 'bold');
+    doc.setFont('Roboto', 'bold');
     doc.setFontSize(10);
     doc.setTextColor(colors.heading.r, colors.heading.g, colors.heading.b);
     doc.text(edu.title, CONTENT_LEFT, contentY);
     contentY += 3.5;
     
-    doc.setFont('helvetica', 'normal');
+    doc.setFont('Roboto', 'normal');
     doc.setFontSize(9);
     doc.setTextColor(colors.muted.r, colors.muted.g, colors.muted.b);
     doc.text(`${edu.institution} | ${edu.period}`, CONTENT_LEFT, contentY);
@@ -164,13 +168,13 @@ export const generateCV = (): void => {
     contentY = drawContentSection(doc, 'ESPERIENZA LAVORATIVA', contentY);
     
     experienceData.forEach((exp) => {
-      doc.setFont('helvetica', 'bold');
+      doc.setFont('Roboto', 'bold');
       doc.setFontSize(10);
       doc.setTextColor(colors.heading.r, colors.heading.g, colors.heading.b);
       doc.text(exp.title, CONTENT_LEFT, contentY);
       contentY += 3.5;
       
-      doc.setFont('helvetica', 'normal');
+      doc.setFont('Roboto', 'normal');
       doc.setFontSize(9);
       doc.setTextColor(colors.muted.r, colors.muted.g, colors.muted.b);
       doc.text(`${exp.company} | ${exp.date}`, CONTENT_LEFT, contentY);
@@ -189,14 +193,14 @@ export const generateCV = (): void => {
     
     projectsData.forEach((project) => {
       // Title
-      doc.setFont('helvetica', 'bold');
+      doc.setFont('Roboto', 'bold');
       doc.setFontSize(10);
       doc.setTextColor(colors.heading.r, colors.heading.g, colors.heading.b);
       doc.text(project.title, CONTENT_LEFT, contentY);
       contentY += 4;
       
       // Description (truncated for space)
-      doc.setFont('helvetica', 'normal');
+      doc.setFont('Roboto', 'normal');
       doc.setFontSize(9);
       doc.setTextColor(colors.text.r, colors.text.g, colors.text.b);
       const shortDesc = project.description.length > 120 
@@ -214,12 +218,12 @@ export const generateCV = (): void => {
       contentY += 3.5;
       
       // GitHub link (separate line)
-      doc.setFont('helvetica', 'bold');
+      doc.setFont('Roboto', 'bold');
       doc.setFontSize(9);
       doc.setTextColor(colors.muted.r, colors.muted.g, colors.muted.b);
       doc.text('GitHub: ', CONTENT_LEFT, contentY);
       
-      doc.setFont('helvetica', 'normal');
+      doc.setFont('Roboto', 'normal');
       doc.setTextColor(colors.accent.r, colors.accent.g, colors.accent.b);
       const linkText = project.githubLink.replace('https://github.com/', '');
       const labelWidth = doc.getTextWidth('GitHub: ');
@@ -240,13 +244,13 @@ export const generateCV = (): void => {
     
     // Display certifications
     sortedCerts.forEach((cert) => {
-      doc.setFont('helvetica', 'bold');
+      doc.setFont('Roboto', 'bold');
       doc.setFontSize(9);
       doc.setTextColor(colors.heading.r, colors.heading.g, colors.heading.b);
       doc.text(cert.title, CONTENT_LEFT, contentY);
       contentY += 3.5;
       
-      doc.setFont('helvetica', 'normal');
+      doc.setFont('Roboto', 'normal');
       doc.setFontSize(8);
       doc.setTextColor(colors.muted.r, colors.muted.g, colors.muted.b);
       doc.text(`${cert.issuer} | ${cert.date}`, CONTENT_LEFT, contentY);
@@ -262,7 +266,7 @@ export const generateCV = (): void => {
 // ============ HELPER FUNCTIONS ============
 
 function drawSidebarSection(doc: jsPDF, title: string, y: number): number {
-  doc.setFont('helvetica', 'bold');
+  doc.setFont('Roboto', 'bold');
   doc.setFontSize(9);
   doc.setTextColor(colors.sidebarText.r, colors.sidebarText.g, colors.sidebarText.b);
   doc.text(title, SIDEBAR_PADDING, y);
@@ -282,7 +286,7 @@ function drawSidebarItem(
   isSmall: boolean = false,
   linkUrl?: string
 ): number {
-  doc.setFont('helvetica', 'normal');
+  doc.setFont('Roboto', 'normal');
   doc.setFontSize(isSmall ? 6.5 : 7);
   doc.setTextColor(colors.sidebarMuted.r, colors.sidebarMuted.g, colors.sidebarMuted.b);
   
@@ -311,7 +315,7 @@ function drawSidebarItem(
 }
 
 function drawContentSection(doc: jsPDF, title: string, y: number): number {
-  doc.setFont('helvetica', 'bold');
+  doc.setFont('Roboto', 'bold');
   doc.setFontSize(10);
   doc.setTextColor(colors.heading.r, colors.heading.g, colors.heading.b);
   doc.text(title, CONTENT_LEFT, y);

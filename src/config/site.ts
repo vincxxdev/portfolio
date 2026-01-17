@@ -32,10 +32,9 @@ export const siteConfig = {
          "Utilizzo Node.js per la logica server-side e Git per un controllo di versione impeccabile.",
     
     // CV-specific profile (concise version for PDF)
-    cvProfile: "Laureando nella facoltà di Informatica all'Università degli Studi di Bari Aldo Moro. " +
-               "Obiettivo principale: espandere continuamente le competenze tecniche. " +
-               "Solida base in programmazione, algoritmi e strutture dati, specialmente in linguaggi OOP come Java. " +
-               "Esperienza nello sviluppo web con JavaScript, TypeScript, React, Node.js e Git.",
+    cvProfile: "Laureando in Informatica presso l'Università degli Studi di Bari con forte passione per lo sviluppo software e la risoluzione di problemi complessi. " +
+               "Motivato dall'apprendimento continuo e dalla curiosità verso le nuove tecnologie. " +
+               "Orientato alla creazione di soluzioni innovative, scalabili e ben strutturate.",
   },
 
   // Contact information

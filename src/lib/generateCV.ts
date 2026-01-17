@@ -238,24 +238,19 @@ export const generateCV = (): void => {
       return dateB.getTime() - dateA.getTime();
     });
     
-    // Display certifications in a compact inline format
+    // Display certifications
     sortedCerts.forEach((cert) => {
       doc.setFont('helvetica', 'bold');
       doc.setFontSize(9);
       doc.setTextColor(colors.heading.r, colors.heading.g, colors.heading.b);
-      
-      // Truncate title if too long
-      const maxTitleLen = 50;
-      const certTitle = cert.title.length > maxTitleLen 
-        ? cert.title.substring(0, maxTitleLen) + '...' 
-        : cert.title;
-      doc.text(certTitle, CONTENT_LEFT, contentY);
+      doc.text(cert.title, CONTENT_LEFT, contentY);
+      contentY += 3.5;
       
       doc.setFont('helvetica', 'normal');
       doc.setFontSize(8);
       doc.setTextColor(colors.muted.r, colors.muted.g, colors.muted.b);
-      doc.text(` — ${cert.issuer}, ${cert.date}`, CONTENT_LEFT + doc.getTextWidth(certTitle), contentY);
-      contentY += 4;
+      doc.text(`${cert.issuer} | ${cert.date}`, CONTENT_LEFT, contentY);
+      contentY += 5;
     });
   }
 

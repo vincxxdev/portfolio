@@ -7,7 +7,7 @@ import { projectsData } from '@/data/projects';
 import { educationData } from '@/data/education';
 
 // ============ PROFESSIONAL CV GENERATOR ============
-// Modern two-column layout with sidebar design
+// Modern two-column layout - Single page compact design
 
 // Color palette
 const colors = {
@@ -30,10 +30,10 @@ interface RGB {
 // Layout constants
 const PAGE_WIDTH = 210; // A4 width in mm
 const PAGE_HEIGHT = 297; // A4 height in mm
-const SIDEBAR_WIDTH = 70;
-const CONTENT_LEFT = SIDEBAR_WIDTH + 8;
-const CONTENT_WIDTH = PAGE_WIDTH - CONTENT_LEFT - 10;
-const SIDEBAR_PADDING = 8;
+const SIDEBAR_WIDTH = 65;
+const CONTENT_LEFT = SIDEBAR_WIDTH + 6;
+const CONTENT_WIDTH = PAGE_WIDTH - CONTENT_LEFT - 8;
+const SIDEBAR_PADDING = 6;
 
 export const generateCV = (): void => {
   const doc = new jsPDF({
@@ -42,93 +42,80 @@ export const generateCV = (): void => {
     format: 'a4'
   });
 
-  let sidebarY = 20;
-  let contentY = 20;
+  let sidebarY = 12;
+  let contentY = 12;
 
   // ============ DRAW SIDEBAR BACKGROUND ============
-  const drawSidebarBackground = () => {
-    doc.setFillColor(colors.sidebar.r, colors.sidebar.g, colors.sidebar.b);
-    doc.rect(0, 0, SIDEBAR_WIDTH, PAGE_HEIGHT, 'F');
-  };
-
-  drawSidebarBackground();
+  doc.setFillColor(colors.sidebar.r, colors.sidebar.g, colors.sidebar.b);
+  doc.rect(0, 0, SIDEBAR_WIDTH, PAGE_HEIGHT, 'F');
 
   // ============ SIDEBAR CONTENT ============
   
   // Name
   doc.setFont('helvetica', 'bold');
-  doc.setFontSize(18);
+  doc.setFontSize(14);
   doc.setTextColor(colors.sidebarText.r, colors.sidebarText.g, colors.sidebarText.b);
   
   const firstName = siteConfig.personal.firstName || siteConfig.personal.fullName.split(' ')[0];
   const lastName = siteConfig.personal.lastName || siteConfig.personal.fullName.split(' ').slice(1).join(' ');
   
   doc.text(firstName.toUpperCase(), SIDEBAR_PADDING, sidebarY);
-  sidebarY += 7;
+  sidebarY += 5;
   doc.text(lastName.toUpperCase(), SIDEBAR_PADDING, sidebarY);
-  sidebarY += 10;
+  sidebarY += 6;
 
   // Title
   doc.setFont('helvetica', 'normal');
-  doc.setFontSize(10);
+  doc.setFontSize(8);
   doc.setTextColor(colors.accent.r, colors.accent.g, colors.accent.b);
   const title = siteConfig.personal.titles[0] || 'Software Engineer';
   doc.text(title, SIDEBAR_PADDING, sidebarY);
-  sidebarY += 15;
+  sidebarY += 10;
 
   // ============ CONTACT SECTION ============
   sidebarY = drawSidebarSection(doc, 'CONTATTI', sidebarY);
   
-  // Location
   if (siteConfig.personal.location) {
     sidebarY = drawSidebarItem(doc, '●', siteConfig.personal.location, sidebarY);
   }
-  
-  // Phone
   if (siteConfig.contact.phoneDisplay) {
     sidebarY = drawSidebarItem(doc, '●', siteConfig.contact.phoneDisplay, sidebarY);
   }
-  
-  // Email
   if (siteConfig.contact.email) {
     sidebarY = drawSidebarItem(doc, '●', siteConfig.contact.email, sidebarY, true);
   }
 
-  sidebarY += 8;
+  sidebarY += 5;
 
   // ============ SOCIAL LINKS ============
   sidebarY = drawSidebarSection(doc, 'SOCIAL', sidebarY);
   
   if (siteConfig.social.linkedin) {
-    const linkedinUsername = siteConfig.social.linkedin.replace('https://www.linkedin.com/in/', '').replace('https://linkedin.com/in/', '').replace('/', '');
-    sidebarY = drawSidebarItem(doc, '●', `linkedin.com/in/${linkedinUsername}`, sidebarY, true, siteConfig.social.linkedin);
+    sidebarY = drawSidebarItem(doc, '●', 'LinkedIn', sidebarY, false, siteConfig.social.linkedin);
   }
-  
   if (siteConfig.social.github) {
-    const githubUsername = siteConfig.social.github.replace('https://github.com/', '').replace('/', '');
-    sidebarY = drawSidebarItem(doc, '●', `github.com/${githubUsername}`, sidebarY, true, siteConfig.social.github);
+    sidebarY = drawSidebarItem(doc, '●', 'GitHub', sidebarY, false, siteConfig.social.github);
   }
 
-  sidebarY += 8;
+  sidebarY += 5;
 
   // ============ SKILLS SECTION ============
   sidebarY = drawSidebarSection(doc, 'COMPETENZE', sidebarY);
   
-  // Group and sort skills by expertise level
   const sortedSkills = [...skillsData].sort((a, b) => b.percentage - a.percentage);
   
   sortedSkills.forEach(skill => {
-    if (sidebarY > PAGE_HEIGHT - 20) return; // Prevent overflow
+    if (sidebarY > PAGE_HEIGHT - 10) return;
     
     doc.setFont('helvetica', 'normal');
-    doc.setFontSize(9);
+    doc.setFontSize(7);
     doc.setTextColor(colors.sidebarText.r, colors.sidebarText.g, colors.sidebarText.b);
     doc.text(skill.name, SIDEBAR_PADDING, sidebarY);
     
     // Draw skill level indicator (dots)
     const maxDots = 5;
     const filledDots = Math.round((skill.percentage / 100) * maxDots);
-    const dotStartX = SIDEBAR_WIDTH - SIDEBAR_PADDING - 20;
+    const dotStartX = SIDEBAR_WIDTH - SIDEBAR_PADDING - 18;
     
     for (let i = 0; i < maxDots; i++) {
       if (i < filledDots) {
@@ -136,10 +123,10 @@ export const generateCV = (): void => {
       } else {
         doc.setFillColor(colors.sidebarMuted.r, colors.sidebarMuted.g, colors.sidebarMuted.b);
       }
-      doc.circle(dotStartX + (i * 4.5), sidebarY - 1, 1.5, 'F');
+      doc.circle(dotStartX + (i * 3.5), sidebarY - 0.8, 1.2, 'F');
     }
     
-    sidebarY += 6;
+    sidebarY += 4.5;
   });
 
   // ============ MAIN CONTENT AREA ============
@@ -148,168 +135,121 @@ export const generateCV = (): void => {
   contentY = drawContentSection(doc, 'PROFILO', contentY);
   
   doc.setFont('helvetica', 'normal');
-  doc.setFontSize(10);
+  doc.setFontSize(8);
   doc.setTextColor(colors.text.r, colors.text.g, colors.text.b);
   
   const profileLines = doc.splitTextToSize(siteConfig.personal.cvProfile, CONTENT_WIDTH);
   doc.text(profileLines, CONTENT_LEFT, contentY);
-  contentY += profileLines.length * 5 + 10;
+  contentY += profileLines.length * 3.5 + 6;
 
   // ============ EDUCATION SECTION ============
   contentY = drawContentSection(doc, 'ISTRUZIONE', contentY);
   
   educationData.forEach((edu) => {
-    // Title
     doc.setFont('helvetica', 'bold');
-    doc.setFontSize(11);
+    doc.setFontSize(9);
     doc.setTextColor(colors.heading.r, colors.heading.g, colors.heading.b);
     doc.text(edu.title, CONTENT_LEFT, contentY);
-    contentY += 5;
+    contentY += 3.5;
     
-    // Institution and period
     doc.setFont('helvetica', 'normal');
-    doc.setFontSize(10);
+    doc.setFontSize(8);
     doc.setTextColor(colors.muted.r, colors.muted.g, colors.muted.b);
     doc.text(`${edu.institution} | ${edu.period}`, CONTENT_LEFT, contentY);
-    contentY += 5;
-    
-    // Description
-    if (edu.description) {
-      doc.setTextColor(colors.text.r, colors.text.g, colors.text.b);
-      const descLines = doc.splitTextToSize(edu.description, CONTENT_WIDTH);
-      doc.text(descLines, CONTENT_LEFT, contentY);
-      contentY += descLines.length * 4.5 + 5;
-    }
-    
-    contentY += 3;
+    contentY += 6;
   });
-
-  contentY += 5;
 
   // ============ WORK EXPERIENCE SECTION ============
   if (experienceData.length > 0) {
-    contentY = checkPageBreak(doc, contentY, 40, drawSidebarBackground);
     contentY = drawContentSection(doc, 'ESPERIENZA LAVORATIVA', contentY);
     
     experienceData.forEach((exp) => {
-      contentY = checkPageBreak(doc, contentY, 30, drawSidebarBackground);
-      
-      // Title
       doc.setFont('helvetica', 'bold');
-      doc.setFontSize(11);
+      doc.setFontSize(9);
       doc.setTextColor(colors.heading.r, colors.heading.g, colors.heading.b);
       doc.text(exp.title, CONTENT_LEFT, contentY);
-      contentY += 5;
+      contentY += 3.5;
       
-      // Company and date
       doc.setFont('helvetica', 'normal');
-      doc.setFontSize(10);
+      doc.setFontSize(8);
       doc.setTextColor(colors.muted.r, colors.muted.g, colors.muted.b);
       doc.text(`${exp.company} | ${exp.date}`, CONTENT_LEFT, contentY);
-      contentY += 5;
+      contentY += 3.5;
       
-      // Description
       doc.setTextColor(colors.text.r, colors.text.g, colors.text.b);
       const descLines = doc.splitTextToSize(exp.description, CONTENT_WIDTH);
       doc.text(descLines, CONTENT_LEFT, contentY);
-      contentY += descLines.length * 4.5 + 8;
+      contentY += descLines.length * 3.5 + 5;
     });
   }
 
   // ============ PROJECTS SECTION ============
   if (projectsData.length > 0) {
-    contentY = checkPageBreak(doc, contentY, 40, drawSidebarBackground);
     contentY = drawContentSection(doc, 'PROGETTI', contentY);
     
     projectsData.forEach((project) => {
-      contentY = checkPageBreak(doc, contentY, 35, drawSidebarBackground);
-      
       // Title
       doc.setFont('helvetica', 'bold');
-      doc.setFontSize(11);
+      doc.setFontSize(9);
       doc.setTextColor(colors.heading.r, colors.heading.g, colors.heading.b);
       doc.text(project.title, CONTENT_LEFT, contentY);
-      contentY += 5;
+      contentY += 3.5;
       
-      // Description
+      // Description (truncated for space)
       doc.setFont('helvetica', 'normal');
-      doc.setFontSize(10);
+      doc.setFontSize(7);
       doc.setTextColor(colors.text.r, colors.text.g, colors.text.b);
-      const descLines = doc.splitTextToSize(project.description, CONTENT_WIDTH);
+      const shortDesc = project.description.length > 120 
+        ? project.description.substring(0, 120) + '...' 
+        : project.description;
+      const descLines = doc.splitTextToSize(shortDesc, CONTENT_WIDTH);
       doc.text(descLines, CONTENT_LEFT, contentY);
-      contentY += descLines.length * 4.5 + 3;
+      contentY += descLines.length * 3 + 2;
       
-      // Technologies
-      doc.setFont('helvetica', 'bold');
-      doc.setFontSize(9);
+      // Technologies (inline)
+      doc.setFontSize(7);
       doc.setTextColor(colors.muted.r, colors.muted.g, colors.muted.b);
-      doc.text('Tecnologie: ', CONTENT_LEFT, contentY);
+      const techText = `Tecnologie: ${project.technologies.slice(0, 4).join(', ')}`;
+      doc.text(techText, CONTENT_LEFT, contentY);
       
-      doc.setFont('helvetica', 'normal');
-      const techText = project.technologies.join(', ');
-      const techWidth = doc.getTextWidth('Tecnologie: ');
-      doc.text(techText, CONTENT_LEFT + techWidth, contentY);
-      contentY += 5;
-      
-      // GitHub link
-      doc.setFont('helvetica', 'bold');
-      doc.text('GitHub: ', CONTENT_LEFT, contentY);
-      
-      doc.setFont('helvetica', 'normal');
+      // GitHub link (same line)
       doc.setTextColor(colors.accent.r, colors.accent.g, colors.accent.b);
-      const linkText = project.githubLink.replace('https://', '');
-      const linkX = CONTENT_LEFT + doc.getTextWidth('GitHub: ');
-      doc.textWithLink(linkText, linkX, contentY, { url: project.githubLink });
-      contentY += 8;
+      const linkText = project.githubLink.replace('https://github.com/', '');
+      const techWidth = doc.getTextWidth(techText + '  |  ');
+      doc.textWithLink(linkText, CONTENT_LEFT + techWidth, contentY, { url: project.githubLink });
+      contentY += 5;
     });
   }
 
   // ============ CERTIFICATIONS SECTION ============
   if (certificationData.length > 0) {
-    contentY = checkPageBreak(doc, contentY, 50, drawSidebarBackground);
     contentY = drawContentSection(doc, 'CERTIFICAZIONI', contentY);
     
-    // Sort by date (most recent first)
     const sortedCerts = [...certificationData].sort((a, b) => {
       const dateA = parseDateString(a.date);
       const dateB = parseDateString(b.date);
       return dateB.getTime() - dateA.getTime();
     });
     
+    // Display certifications in a compact inline format
     sortedCerts.forEach((cert) => {
-      contentY = checkPageBreak(doc, contentY, 15, drawSidebarBackground);
-      
-      // Title
       doc.setFont('helvetica', 'bold');
-      doc.setFontSize(10);
+      doc.setFontSize(8);
       doc.setTextColor(colors.heading.r, colors.heading.g, colors.heading.b);
-      doc.text(cert.title, CONTENT_LEFT, contentY);
-      contentY += 4.5;
       
-      // Issuer and date
+      // Truncate title if too long
+      const maxTitleLen = 50;
+      const certTitle = cert.title.length > maxTitleLen 
+        ? cert.title.substring(0, maxTitleLen) + '...' 
+        : cert.title;
+      doc.text(certTitle, CONTENT_LEFT, contentY);
+      
       doc.setFont('helvetica', 'normal');
-      doc.setFontSize(9);
+      doc.setFontSize(7);
       doc.setTextColor(colors.muted.r, colors.muted.g, colors.muted.b);
-      doc.text(`${cert.issuer} | ${cert.date}`, CONTENT_LEFT, contentY);
-      contentY += 7;
+      doc.text(` — ${cert.issuer}, ${cert.date}`, CONTENT_LEFT + doc.getTextWidth(certTitle), contentY);
+      contentY += 4;
     });
-  }
-
-  // ============ FOOTER ON ALL PAGES ============
-  const pageCount = doc.getNumberOfPages();
-  
-  for (let i = 1; i <= pageCount; i++) {
-    doc.setPage(i);
-    
-    // Page number (only on main content area)
-    doc.setFont('helvetica', 'italic');
-    doc.setFontSize(8);
-    doc.setTextColor(colors.light.r, colors.light.g, colors.light.b);
-    doc.text(
-      `${i} / ${pageCount}`,
-      PAGE_WIDTH - 15,
-      PAGE_HEIGHT - 8
-    );
   }
 
   // Save the PDF
@@ -321,16 +261,15 @@ export const generateCV = (): void => {
 
 function drawSidebarSection(doc: jsPDF, title: string, y: number): number {
   doc.setFont('helvetica', 'bold');
-  doc.setFontSize(11);
+  doc.setFontSize(9);
   doc.setTextColor(colors.sidebarText.r, colors.sidebarText.g, colors.sidebarText.b);
   doc.text(title, SIDEBAR_PADDING, y);
   
-  // Accent underline
   doc.setDrawColor(colors.accent.r, colors.accent.g, colors.accent.b);
-  doc.setLineWidth(0.5);
-  doc.line(SIDEBAR_PADDING, y + 2, SIDEBAR_WIDTH - SIDEBAR_PADDING, y + 2);
+  doc.setLineWidth(0.4);
+  doc.line(SIDEBAR_PADDING, y + 1.5, SIDEBAR_WIDTH - SIDEBAR_PADDING, y + 1.5);
   
-  return y + 8;
+  return y + 6;
 }
 
 function drawSidebarItem(
@@ -342,19 +281,16 @@ function drawSidebarItem(
   linkUrl?: string
 ): number {
   doc.setFont('helvetica', 'normal');
-  doc.setFontSize(isSmall ? 8 : 9);
+  doc.setFontSize(isSmall ? 6.5 : 7);
   doc.setTextColor(colors.sidebarMuted.r, colors.sidebarMuted.g, colors.sidebarMuted.b);
   
-  // Bullet
-  doc.setFontSize(6);
-  doc.text(bullet, SIDEBAR_PADDING, y - 0.5);
+  doc.setFontSize(5);
+  doc.text(bullet, SIDEBAR_PADDING, y - 0.3);
   
-  // Text (with optional link)
-  doc.setFontSize(isSmall ? 8 : 9);
-  const textX = SIDEBAR_PADDING + 4;
-  const maxWidth = SIDEBAR_WIDTH - SIDEBAR_PADDING - textX - 2;
+  doc.setFontSize(isSmall ? 6.5 : 7);
+  const textX = SIDEBAR_PADDING + 3;
+  const maxWidth = SIDEBAR_WIDTH - SIDEBAR_PADDING - textX - 1;
   
-  // Truncate if too long
   let displayText = text;
   while (doc.getTextWidth(displayText) > maxWidth && displayText.length > 10) {
     displayText = displayText.slice(0, -1);
@@ -369,35 +305,20 @@ function drawSidebarItem(
     doc.text(displayText, textX, y);
   }
   
-  return y + 5;
+  return y + 4;
 }
 
 function drawContentSection(doc: jsPDF, title: string, y: number): number {
   doc.setFont('helvetica', 'bold');
-  doc.setFontSize(13);
+  doc.setFontSize(10);
   doc.setTextColor(colors.heading.r, colors.heading.g, colors.heading.b);
   doc.text(title, CONTENT_LEFT, y);
   
-  // Accent underline
   doc.setDrawColor(colors.accent.r, colors.accent.g, colors.accent.b);
-  doc.setLineWidth(0.8);
-  doc.line(CONTENT_LEFT, y + 2, CONTENT_LEFT + 40, y + 2);
+  doc.setLineWidth(0.6);
+  doc.line(CONTENT_LEFT, y + 1.5, CONTENT_LEFT + 30, y + 1.5);
   
-  return y + 10;
-}
-
-function checkPageBreak(
-  doc: jsPDF, 
-  currentY: number, 
-  requiredSpace: number,
-  drawSidebar: () => void
-): number {
-  if (currentY + requiredSpace > PAGE_HEIGHT - 20) {
-    doc.addPage();
-    drawSidebar();
-    return 20;
-  }
-  return currentY;
+  return y + 7;
 }
 
 function parseDateString(dateStr: string): Date {

@@ -453,7 +453,7 @@ export const generateCV = async (): Promise<void> => {
   }
 
   // Save the PDF
-  const fileName = `CV_${siteConfig.personal.fullName.replace(/\s+/g, '_')}_${new Date().toISOString().split('T')[0]}.pdf`;
+  const fileName = `CV_${siteConfig.personal.fullName.replace(/\s+/g, '_')}.pdf`;
   doc.save(fileName);
 };
 

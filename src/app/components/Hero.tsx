@@ -49,7 +49,7 @@ const Hero = () => {
 
           <div className="container mx-auto px-4 text-center z-10">
               <motion.div 
-                className="relative group bg-secondary-background/50 backdrop-blur-lg p-8 sm:p-12 rounded-2xl shadow-xl border border-secondary-text/20 hover:shadow-2xl hover:shadow-cyan-400/20 transition-all duration-500 max-w-5xl mx-auto overflow-hidden"
+                className="relative group bg-secondary-background/50 backdrop-blur-lg p-8 sm:p-12 rounded-2xl shadow-xl border border-secondary-text/20 hover:shadow-2xl hover:shadow-cyan-400/20 transition-all duration-500 max-w-5xl mx-auto"
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, ease: "easeOut" }}

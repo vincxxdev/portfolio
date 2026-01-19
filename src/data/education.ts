@@ -5,5 +5,12 @@ export const educationData = [
     location: "Bari",
     period: "In corso",
     description: "Corso di laurea triennale in Informatica"
+  },
+  {
+    title: "Diploma di Istituto Alberghiero",
+    institution: "Istituto Alberghiero di Molfetta",
+    location: "Molfetta",
+    period: "2016 - 2021",
+    description: "Diploma di scuola secondaria superiore"
   }
 ];

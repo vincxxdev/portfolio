@@ -3,6 +3,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Download, FileText, ChevronDown } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useAdmin } from '@/app/components/providers/AdminProvider';
 
 interface DownloadCVButtonProps {
   variant?: 'primary' | 'secondary' | 'icon';
@@ -17,6 +18,7 @@ const DownloadCVButton: React.FC<DownloadCVButtonProps> = ({
   size = 'md',
   className = '' 
 }) => {
+  const { isAdmin, isLoading } = useAdmin();
   const [isGenerating, setIsGenerating] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [generatingType, setGeneratingType] = useState<CVType | null>(null);
@@ -56,6 +58,11 @@ const DownloadCVButton: React.FC<DownloadCVButtonProps> = ({
     }
   };
 
+  // Direct download for non-admin users
+  const handleDirectDownload = async () => {
+    await handleDownload('standard');
+  };
+
   // Base styles for the button
   const baseStyles = "inline-flex items-center justify-center gap-2 font-semibold rounded-lg transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed";
 
@@ -77,7 +84,44 @@ const DownloadCVButton: React.FC<DownloadCVButtonProps> = ({
   const dropdownStyles = "absolute top-full left-0 mt-2 w-full min-w-[220px] bg-secondary-background border border-accent/30 rounded-lg shadow-2xl overflow-hidden z-[9999]";
   const dropdownItemStyles = "w-full px-4 py-3 text-left text-primary-text hover:bg-accent/20 transition-colors duration-200 flex items-center gap-2";
 
+  // Don't render anything while loading auth state
+  if (isLoading) {
+    return (
+      <div className={`${baseStyles} ${variantStyles[variant]} ${variant !== 'icon' ? sizeStyles[size] : ''} ${className} opacity-50`}>
+        <Download className="w-5 h-5" />
+        {variant !== 'icon' && <span>Scarica CV</span>}
+      </div>
+    );
+  }
+
+  // Icon variant - simplified for non-admin
   if (variant === 'icon') {
+    // Non-admin: simple icon button that downloads directly
+    if (!isAdmin) {
+      return (
+        <motion.button
+          onClick={handleDirectDownload}
+          disabled={isGenerating}
+          className={`${baseStyles} ${variantStyles[variant]} ${className}`}
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.95 }}
+          title="Scarica CV"
+        >
+          {isGenerating ? (
+            <motion.div
+              animate={{ rotate: 360 }}
+              transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+            >
+              <FileText className="w-5 h-5" />
+            </motion.div>
+          ) : (
+            <Download className="w-5 h-5" />
+          )}
+        </motion.button>
+      );
+    }
+
+    // Admin: icon with dropdown
     return (
       <div className="relative" ref={dropdownRef}>
         <motion.button
@@ -132,6 +176,37 @@ const DownloadCVButton: React.FC<DownloadCVButtonProps> = ({
     );
   }
 
+  // Non-admin: simple button that downloads standard CV directly
+  if (!isAdmin) {
+    return (
+      <motion.button
+        onClick={handleDirectDownload}
+        disabled={isGenerating}
+        className={`${baseStyles} ${variantStyles[variant]} ${sizeStyles[size]} ${className}`}
+        whileHover={{ scale: 1.05 }}
+        whileTap={{ scale: 0.95 }}
+      >
+        {isGenerating ? (
+          <>
+            <motion.div
+              animate={{ rotate: 360 }}
+              transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+            >
+              <FileText className="w-5 h-5" />
+            </motion.div>
+            <span>Generazione...</span>
+          </>
+        ) : (
+          <>
+            <Download className="w-5 h-5" />
+            <span>Scarica CV</span>
+          </>
+        )}
+      </motion.button>
+    );
+  }
+
+  // Admin: button with dropdown
   return (
     <div className="relative" ref={dropdownRef}>
       <motion.button
@@ -201,3 +276,4 @@ const DownloadCVButton: React.FC<DownloadCVButtonProps> = ({
 };
 
 export default DownloadCVButton;
+

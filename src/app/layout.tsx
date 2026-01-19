@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter, Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "./components/ThemeProvider";
+import { AdminProvider } from "./components/providers/AdminProvider";
 import Loader from "./components/Loader";
 import CursorProvider from "./components/ui/CursorProvider";
 import { ThemeTransition } from "./components/ThemeTransition";
@@ -59,11 +60,13 @@ export default function RootLayout({
           defaultTheme="system"
           enableSystem
         >
-          <CursorProvider />
-          <ThemeTransition />
-          <Loader>{children}</Loader>
-          <Analytics />
-          <SpeedInsights />
+          <AdminProvider>
+            <CursorProvider />
+            <ThemeTransition />
+            <Loader>{children}</Loader>
+            <Analytics />
+            <SpeedInsights />
+          </AdminProvider>
         </ThemeProvider>
       </body>
     </html>

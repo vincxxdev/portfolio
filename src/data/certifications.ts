@@ -1,6 +1,6 @@
 export const certificationData = [
   {
-    "title": "100 Days Of Code - 2022 Wed Development Bootcamp",
+    "title": "100 Days Of Code - 2022 Web Development Bootcamp",
     "issuer": "Udemy",
     "date": "Marzo 2022",
     "url": "/certificates/100-days-web-development.pdf"

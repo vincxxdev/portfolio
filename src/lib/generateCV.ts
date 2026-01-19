@@ -5,6 +5,8 @@ import { experienceData } from '@/data/experiences';
 import { certificationData } from '@/data/certifications';
 import { projectsData } from '@/data/projects';
 import { educationData } from '@/data/education';
+import { languagesData } from '@/data/languages';
+import { softSkillsData } from '@/data/softSkills';
 import { registerRobotoFont } from '@/lib/fonts/roboto';
 
 // ============ PROFESSIONAL CV GENERATOR ============
@@ -76,6 +78,25 @@ export const generateCV = async (): Promise<void> => {
   doc.text(title, SIDEBAR_PADDING, sidebarY);
   sidebarY += 10;
 
+  // ============ PERSONAL INFO SECTION ============
+  sidebarY = drawSidebarSection(doc, 'INFORMAZIONI', sidebarY);
+  
+  if (siteConfig.personal.birthDate) {
+    sidebarY = drawSidebarItem(doc, '●', `Nato il ${siteConfig.personal.birthDate}`, sidebarY);
+  }
+  if (siteConfig.personal.nationality) {
+    sidebarY = drawSidebarItem(doc, '●', siteConfig.personal.nationality, sidebarY);
+  }
+  if (siteConfig.personal.maritalStatus) {
+    sidebarY = drawSidebarItem(doc, '●', siteConfig.personal.maritalStatus, sidebarY);
+  }
+  if (siteConfig.personal.drivingLicense) {
+    const vehicleText = siteConfig.personal.hasVehicle ? ' (Automunito)' : '';
+    sidebarY = drawSidebarItem(doc, '●', `${siteConfig.personal.drivingLicense}${vehicleText}`, sidebarY);
+  }
+
+  sidebarY += 4;
+
   // ============ CONTACT SECTION ============
   sidebarY = drawSidebarSection(doc, 'CONTATTI', sidebarY);
   
@@ -89,7 +110,7 @@ export const generateCV = async (): Promise<void> => {
     sidebarY = drawSidebarItem(doc, '●', siteConfig.contact.email, sidebarY, true);
   }
 
-  sidebarY += 5;
+  sidebarY += 4;
 
   // ============ SOCIAL LINKS ============
   sidebarY = drawSidebarSection(doc, 'SOCIAL', sidebarY);
@@ -101,10 +122,33 @@ export const generateCV = async (): Promise<void> => {
     sidebarY = drawSidebarItem(doc, '●', 'GitHub', sidebarY, false, siteConfig.social.github);
   }
 
-  sidebarY += 5;
+  sidebarY += 4;
+
+  // ============ LANGUAGES SECTION ============
+  sidebarY = drawSidebarSection(doc, 'LINGUE', sidebarY);
+  
+  languagesData.forEach(lang => {
+    if (sidebarY > PAGE_HEIGHT - 10) return;
+    
+    doc.setFont('Roboto', 'normal');
+    doc.setFontSize(7.5);
+    doc.setTextColor(colors.sidebarText.r, colors.sidebarText.g, colors.sidebarText.b);
+    doc.text(lang.name, SIDEBAR_PADDING, sidebarY);
+    
+    // Draw language level text on the right
+    doc.setFontSize(6.5);
+    doc.setTextColor(colors.sidebarMuted.r, colors.sidebarMuted.g, colors.sidebarMuted.b);
+    const levelText = lang.level;
+    const textWidth = doc.getTextWidth(levelText);
+    doc.text(levelText, SIDEBAR_WIDTH - SIDEBAR_PADDING - textWidth, sidebarY);
+    
+    sidebarY += 4;
+  });
+
+  sidebarY += 4;
 
   // ============ SKILLS SECTION ============
-  sidebarY = drawSidebarSection(doc, 'COMPETENZE', sidebarY);
+  sidebarY = drawSidebarSection(doc, 'COMPETENZE TECNICHE', sidebarY);
   
   const sortedSkills = [...skillsData].sort((a, b) => b.percentage - a.percentage);
   
@@ -112,7 +156,7 @@ export const generateCV = async (): Promise<void> => {
     if (sidebarY > PAGE_HEIGHT - 10) return;
     
     doc.setFont('Roboto', 'normal');
-    doc.setFontSize(8);
+    doc.setFontSize(7.5);
     doc.setTextColor(colors.sidebarText.r, colors.sidebarText.g, colors.sidebarText.b);
     doc.text(skill.name, SIDEBAR_PADDING, sidebarY);
     
@@ -127,11 +171,29 @@ export const generateCV = async (): Promise<void> => {
       } else {
         doc.setFillColor(colors.sidebarMuted.r, colors.sidebarMuted.g, colors.sidebarMuted.b);
       }
-      doc.circle(dotStartX + (i * 3.5), sidebarY - 0.8, 1.2, 'F');
+      doc.circle(dotStartX + (i * 3.5), sidebarY - 0.8, 1.1, 'F');
     }
     
-    sidebarY += 4.5;
+    sidebarY += 4;
   });
+
+  sidebarY += 4;
+
+  // ============ SOFT SKILLS SECTION ============
+  if (sidebarY < PAGE_HEIGHT - 30) {
+    sidebarY = drawSidebarSection(doc, 'SOFT SKILLS', sidebarY);
+    
+    softSkillsData.forEach(skill => {
+      if (sidebarY > PAGE_HEIGHT - 10) return;
+      
+      doc.setFont('Roboto', 'normal');
+      doc.setFontSize(7.5);
+      doc.setTextColor(colors.sidebarText.r, colors.sidebarText.g, colors.sidebarText.b);
+      doc.text(`• ${skill.name}`, SIDEBAR_PADDING, sidebarY);
+      
+      sidebarY += 3.8;
+    });
+  }
 
   // ============ MAIN CONTENT AREA ============
   
@@ -256,6 +318,54 @@ export const generateCV = async (): Promise<void> => {
       doc.text(`${cert.issuer} | ${cert.date}`, CONTENT_LEFT, contentY);
       contentY += 5;
     });
+  }
+
+  // ============ AVAILABILITY SECTION ============
+  const availability = siteConfig.personal.availability;
+  if (availability) {
+    const availabilityItems: string[] = [];
+    
+    if (availability.immediateStart) {
+      availabilityItems.push('Disponibilità immediata');
+    }
+    if (availability.willingToTravel) {
+      availabilityItems.push('Disponibile a trasferte');
+    }
+    if (availability.willingToRelocate) {
+      availabilityItems.push('Disponibile al trasferimento');
+    }
+    
+    if (availabilityItems.length > 0) {
+      contentY += 2;
+      doc.setFont('Roboto', 'bold');
+      doc.setFontSize(9);
+      doc.setTextColor(colors.heading.r, colors.heading.g, colors.heading.b);
+      doc.text('DISPONIBILITÀ', CONTENT_LEFT, contentY);
+      
+      doc.setDrawColor(colors.accent.r, colors.accent.g, colors.accent.b);
+      doc.setLineWidth(0.6);
+      doc.line(CONTENT_LEFT, contentY + 1.5, CONTENT_LEFT + 30, contentY + 1.5);
+      contentY += 7;
+      
+      doc.setFont('Roboto', 'normal');
+      doc.setFontSize(9);
+      doc.setTextColor(colors.text.r, colors.text.g, colors.text.b);
+      doc.text(availabilityItems.join('  •  '), CONTENT_LEFT, contentY);
+      contentY += 6;
+    }
+  }
+
+  // ============ PRIVACY CLAUSE ============
+  if (siteConfig.personal.privacyClause) {
+    // Position at the bottom of the page
+    const privacyY = PAGE_HEIGHT - 8;
+    
+    doc.setFont('Roboto', 'normal');
+    doc.setFontSize(6.5);
+    doc.setTextColor(colors.light.r, colors.light.g, colors.light.b);
+    
+    const privacyLines = doc.splitTextToSize(siteConfig.personal.privacyClause, CONTENT_WIDTH);
+    doc.text(privacyLines, CONTENT_LEFT, privacyY);
   }
 
   // Save the PDF

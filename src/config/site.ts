@@ -18,6 +18,15 @@ export const siteConfig = {
     fullName: process.env.NEXT_PUBLIC_FULL_NAME || '',
     location: process.env.NEXT_PUBLIC_LOCATION || '',
     
+    // Additional personal info (for CV)
+    birthDate: process.env.NEXT_PUBLIC_BIRTH_DATE || '', // Format: "01/01/2000"
+    nationality: 'Italiana',
+    maritalStatus: 'Celibe',
+    
+    // Driving license and mobility
+    drivingLicense: 'Patente B',
+    hasVehicle: true, // Automunito
+    
     // Professional titles (used in Hero section and CV)
     titles: ['Software Engineer', 'Full Stack Developer'],
     
@@ -35,6 +44,16 @@ export const siteConfig = {
     cvProfile: "Laureando in Informatica presso l'Università degli Studi di Bari con forte passione per lo sviluppo software e la risoluzione di problemi complessi. " +
                "Motivato dall'apprendimento continuo e dalla curiosità verso le nuove tecnologie. " +
                "Orientato alla creazione di soluzioni innovative, scalabili e ben strutturate.",
+    
+    // Availability
+    availability: {
+      immediateStart: true,      // Disponibilità immediata
+      willingToTravel: true,     // Disponibile a trasferte
+      willingToRelocate: false,  // Disponibile a trasferimento
+    },
+    
+    // Privacy authorization (GDPR)
+    privacyClause: "Autorizzo il trattamento dei miei dati personali ai sensi del D.lgs. 196/2003 e del GDPR (Regolamento UE 2016/679).",
   },
 
   // Contact information

@@ -85,10 +85,10 @@ export const generateCV = async (): Promise<void> => {
     sidebarY = drawSidebarItem(doc, '●', `Nato il ${siteConfig.personal.birthDate}`, sidebarY);
   }
   if (siteConfig.personal.nationality) {
-    sidebarY = drawSidebarItem(doc, '●', siteConfig.personal.nationality, sidebarY);
+    sidebarY = drawSidebarItem(doc, '●', `Nazionalità: ${siteConfig.personal.nationality}`, sidebarY);
   }
   if (siteConfig.personal.maritalStatus) {
-    sidebarY = drawSidebarItem(doc, '●', siteConfig.personal.maritalStatus, sidebarY);
+    sidebarY = drawSidebarItem(doc, '●', `Stato civile: ${siteConfig.personal.maritalStatus}`, sidebarY);
   }
   if (siteConfig.personal.drivingLicense) {
     const vehicleText = siteConfig.personal.hasVehicle ? ' (Automunito)' : '';
@@ -197,7 +197,10 @@ export const generateCV = async (): Promise<void> => {
 
   // ============ MAIN CONTENT AREA ============
   
-  // Profile Section
+  // Profile Section with accent marker
+  doc.setFillColor(colors.accent.r, colors.accent.g, colors.accent.b);
+  doc.rect(CONTENT_LEFT - 3, contentY - 3, 1.5, 12, 'F'); // Accent bar
+  
   contentY = drawContentSection(doc, 'PROFILO', contentY);
   
   doc.setFont('Roboto', 'normal');
@@ -206,46 +209,90 @@ export const generateCV = async (): Promise<void> => {
   
   const profileLines = doc.splitTextToSize(siteConfig.personal.cvProfile, CONTENT_WIDTH);
   doc.text(profileLines, CONTENT_LEFT, contentY);
-  contentY += profileLines.length * 3.5 + 6;
+  contentY += profileLines.length * 3.5 + 8;
 
   // ============ EDUCATION SECTION ============
   contentY = drawContentSection(doc, 'ISTRUZIONE', contentY);
   
-  educationData.forEach((edu) => {
+  educationData.forEach((edu, index) => {
+    // Timeline dot
+    doc.setFillColor(colors.accent.r, colors.accent.g, colors.accent.b);
+    doc.circle(CONTENT_LEFT - 1.5, contentY - 0.5, 1.2, 'F');
+    
+    // Timeline line (if not last item)
+    if (index < educationData.length - 1) {
+      doc.setDrawColor(colors.accent.r, colors.accent.g, colors.accent.b);
+      doc.setLineWidth(0.3);
+      doc.line(CONTENT_LEFT - 1.5, contentY + 1, CONTENT_LEFT - 1.5, contentY + 12);
+    }
+    
+    // Title
     doc.setFont('Roboto', 'bold');
     doc.setFontSize(10);
     doc.setTextColor(colors.heading.r, colors.heading.g, colors.heading.b);
-    doc.text(edu.title, CONTENT_LEFT, contentY);
-    contentY += 3.5;
+    doc.text(edu.title, CONTENT_LEFT + 2, contentY);
     
+    // Date on the right
+    doc.setFont('Roboto', 'normal');
+    doc.setFontSize(8);
+    doc.setTextColor(colors.accent.r, colors.accent.g, colors.accent.b);
+    const periodWidth = doc.getTextWidth(edu.period);
+    doc.text(edu.period, CONTENT_LEFT + CONTENT_WIDTH - periodWidth, contentY);
+    
+    contentY += 4;
+    
+    // Institution
     doc.setFont('Roboto', 'normal');
     doc.setFontSize(9);
     doc.setTextColor(colors.muted.r, colors.muted.g, colors.muted.b);
-    doc.text(`${edu.institution} | ${edu.period}`, CONTENT_LEFT, contentY);
-    contentY += 6;
+    doc.text(edu.institution, CONTENT_LEFT + 2, contentY);
+    contentY += 7;
   });
 
   // ============ WORK EXPERIENCE SECTION ============
   if (experienceData.length > 0) {
     contentY = drawContentSection(doc, 'ESPERIENZA LAVORATIVA', contentY);
     
-    experienceData.forEach((exp) => {
+    experienceData.forEach((exp, index) => {
+      // Timeline dot
+      doc.setFillColor(colors.accent.r, colors.accent.g, colors.accent.b);
+      doc.circle(CONTENT_LEFT - 1.5, contentY - 0.5, 1.2, 'F');
+      
+      // Timeline line (if not last item)
+      if (index < experienceData.length - 1) {
+        doc.setDrawColor(colors.accent.r, colors.accent.g, colors.accent.b);
+        doc.setLineWidth(0.3);
+        doc.line(CONTENT_LEFT - 1.5, contentY + 1, CONTENT_LEFT - 1.5, contentY + 18);
+      }
+      
+      // Title
       doc.setFont('Roboto', 'bold');
       doc.setFontSize(10);
       doc.setTextColor(colors.heading.r, colors.heading.g, colors.heading.b);
-      doc.text(exp.title, CONTENT_LEFT, contentY);
-      contentY += 3.5;
+      doc.text(exp.title, CONTENT_LEFT + 2, contentY);
       
+      // Date on the right
       doc.setFont('Roboto', 'normal');
+      doc.setFontSize(8);
+      doc.setTextColor(colors.accent.r, colors.accent.g, colors.accent.b);
+      const dateWidth = doc.getTextWidth(exp.date);
+      doc.text(exp.date, CONTENT_LEFT + CONTENT_WIDTH - dateWidth, contentY);
+      
+      contentY += 4;
+      
+      // Company
+      doc.setFont('Roboto', 'bold');
       doc.setFontSize(9);
       doc.setTextColor(colors.muted.r, colors.muted.g, colors.muted.b);
-      doc.text(`${exp.company} | ${exp.date}`, CONTENT_LEFT, contentY);
-      contentY += 3.5;
+      doc.text(exp.company, CONTENT_LEFT + 2, contentY);
+      contentY += 4;
       
+      // Description
+      doc.setFont('Roboto', 'normal');
       doc.setTextColor(colors.text.r, colors.text.g, colors.text.b);
-      const descLines = doc.splitTextToSize(exp.description, CONTENT_WIDTH);
-      doc.text(descLines, CONTENT_LEFT, contentY);
-      contentY += descLines.length * 3.5 + 5;
+      const descLines = doc.splitTextToSize(exp.description, CONTENT_WIDTH - 4);
+      doc.text(descLines, CONTENT_LEFT + 2, contentY);
+      contentY += descLines.length * 3.5 + 6;
     });
   }
 
@@ -254,43 +301,69 @@ export const generateCV = async (): Promise<void> => {
     contentY = drawContentSection(doc, 'PROGETTI', contentY);
     
     projectsData.forEach((project) => {
+      // Project marker
+      doc.setFillColor(colors.accent.r, colors.accent.g, colors.accent.b);
+      doc.circle(CONTENT_LEFT - 1.5, contentY - 0.5, 1.2, 'F');
+      
       // Title
       doc.setFont('Roboto', 'bold');
       doc.setFontSize(10);
       doc.setTextColor(colors.heading.r, colors.heading.g, colors.heading.b);
-      doc.text(project.title, CONTENT_LEFT, contentY);
+      doc.text(project.title, CONTENT_LEFT + 2, contentY);
       contentY += 4;
       
       // Description (truncated for space)
       doc.setFont('Roboto', 'normal');
       doc.setFontSize(9);
       doc.setTextColor(colors.text.r, colors.text.g, colors.text.b);
-      const shortDesc = project.description.length > 120 
-        ? project.description.substring(0, 120) + '...' 
+      const shortDesc = project.description.length > 100 
+        ? project.description.substring(0, 100) + '...' 
         : project.description;
-      const descLines = doc.splitTextToSize(shortDesc, CONTENT_WIDTH);
-      doc.text(descLines, CONTENT_LEFT, contentY);
+      const descLines = doc.splitTextToSize(shortDesc, CONTENT_WIDTH - 4);
+      doc.text(descLines, CONTENT_LEFT + 2, contentY);
       contentY += descLines.length * 3.5 + 2;
       
-      // Technologies
-      doc.setFontSize(9);
-      doc.setTextColor(colors.muted.r, colors.muted.g, colors.muted.b);
-      const techText = `Tecnologie: ${project.technologies.slice(0, 4).join(', ')}`;
-      doc.text(techText, CONTENT_LEFT, contentY);
-      contentY += 3.5;
+      // Technology tags
+      let tagX = CONTENT_LEFT + 2;
+      const tagY = contentY;
+      const maxTagWidth = CONTENT_WIDTH - 4;
       
-      // GitHub link (separate line)
-      doc.setFont('Roboto', 'bold');
-      doc.setFontSize(9);
-      doc.setTextColor(colors.muted.r, colors.muted.g, colors.muted.b);
-      doc.text('GitHub: ', CONTENT_LEFT, contentY);
+      project.technologies.slice(0, 5).forEach((tech, techIndex) => {
+        doc.setFontSize(7);
+        const techWidth = doc.getTextWidth(tech) + 4;
+        
+        // Check if we need to wrap
+        if (tagX + techWidth > CONTENT_LEFT + maxTagWidth && techIndex > 0) {
+          return; // Skip if would overflow
+        }
+        
+        // Draw tag background
+        doc.setFillColor(240, 245, 250);
+        doc.roundedRect(tagX, tagY - 2.5, techWidth, 4, 0.5, 0.5, 'F');
+        
+        // Draw tag border
+        doc.setDrawColor(colors.accent.r, colors.accent.g, colors.accent.b);
+        doc.setLineWidth(0.2);
+        doc.roundedRect(tagX, tagY - 2.5, techWidth, 4, 0.5, 0.5, 'S');
+        
+        // Draw tag text
+        doc.setTextColor(colors.heading.r, colors.heading.g, colors.heading.b);
+        doc.text(tech, tagX + 2, tagY);
+        
+        tagX += techWidth + 2;
+      });
+      contentY += 6;
       
+      // GitHub link with icon-like prefix
       doc.setFont('Roboto', 'normal');
+      doc.setFontSize(8);
+      doc.setTextColor(colors.muted.r, colors.muted.g, colors.muted.b);
+      doc.text('↗', CONTENT_LEFT + 2, contentY);
+      
       doc.setTextColor(colors.accent.r, colors.accent.g, colors.accent.b);
-      const linkText = project.githubLink.replace('https://github.com/', '');
-      const labelWidth = doc.getTextWidth('GitHub: ');
-      doc.textWithLink(linkText, CONTENT_LEFT + labelWidth, contentY, { url: project.githubLink });
-      contentY += 5;
+      const linkText = project.githubLink.replace('https://github.com/', 'github.com/');
+      doc.textWithLink(linkText, CONTENT_LEFT + 6, contentY, { url: project.githubLink });
+      contentY += 6;
     });
   }
 
@@ -304,18 +377,32 @@ export const generateCV = async (): Promise<void> => {
       return dateB.getTime() - dateA.getTime();
     });
     
-    // Display certifications
+    // Display certifications with improved layout
     sortedCerts.forEach((cert) => {
+      // Certification marker
+      doc.setFillColor(colors.accent.r, colors.accent.g, colors.accent.b);
+      doc.circle(CONTENT_LEFT - 1.5, contentY - 0.5, 1.2, 'F');
+      
+      // Title
       doc.setFont('Roboto', 'bold');
       doc.setFontSize(9);
       doc.setTextColor(colors.heading.r, colors.heading.g, colors.heading.b);
-      doc.text(cert.title, CONTENT_LEFT, contentY);
+      doc.text(cert.title, CONTENT_LEFT + 2, contentY);
+      
+      // Date on the right
+      doc.setFont('Roboto', 'normal');
+      doc.setFontSize(8);
+      doc.setTextColor(colors.accent.r, colors.accent.g, colors.accent.b);
+      const dateWidth = doc.getTextWidth(cert.date);
+      doc.text(cert.date, CONTENT_LEFT + CONTENT_WIDTH - dateWidth, contentY);
+      
       contentY += 3.5;
       
+      // Issuer
       doc.setFont('Roboto', 'normal');
       doc.setFontSize(8);
       doc.setTextColor(colors.muted.r, colors.muted.g, colors.muted.b);
-      doc.text(`${cert.issuer} | ${cert.date}`, CONTENT_LEFT, contentY);
+      doc.text(cert.issuer, CONTENT_LEFT + 2, contentY);
       contentY += 5;
     });
   }

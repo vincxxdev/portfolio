@@ -73,8 +73,8 @@ const DownloadCVButton: React.FC<DownloadCVButtonProps> = ({
     lg: "px-8 py-4 text-lg"
   };
 
-  // Dropdown menu styles
-  const dropdownStyles = "absolute top-full left-0 mt-2 w-full min-w-[220px] bg-secondary-background border border-accent/30 rounded-lg shadow-xl overflow-hidden z-50";
+  // Dropdown menu styles - z-[9999] ensures it appears above all other content including Hero
+  const dropdownStyles = "absolute top-full left-0 mt-2 w-full min-w-[220px] bg-secondary-background border border-accent/30 rounded-lg shadow-2xl overflow-hidden z-[9999]";
   const dropdownItemStyles = "w-full px-4 py-3 text-left text-primary-text hover:bg-accent/20 transition-colors duration-200 flex items-center gap-2";
 
   if (variant === 'icon') {

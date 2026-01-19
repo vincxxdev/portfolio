@@ -312,14 +312,11 @@ export const generateCV = async (): Promise<void> => {
       doc.text(project.title, CONTENT_LEFT + 2, contentY);
       contentY += 4;
       
-      // Description (truncated for space)
+      // Description
       doc.setFont('Roboto', 'normal');
       doc.setFontSize(9);
       doc.setTextColor(colors.text.r, colors.text.g, colors.text.b);
-      const shortDesc = project.description.length > 100 
-        ? project.description.substring(0, 100) + '...' 
-        : project.description;
-      const descLines = doc.splitTextToSize(shortDesc, CONTENT_WIDTH - 4);
+      const descLines = doc.splitTextToSize(project.description, CONTENT_WIDTH - 4);
       doc.text(descLines, CONTENT_LEFT + 2, contentY);
       contentY += descLines.length * 3.5 + 2;
       

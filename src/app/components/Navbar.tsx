@@ -9,7 +9,6 @@ import { SoundToggle } from './ui/SoundToggle';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useSound } from './hooks/useSound';
 import DownloadCVButton from './ui/DownloadCVButton';
-import CommandPalette from './ui/CommandPalette';
 
 const navLinks = [
   { href: '#about', label: 'About' },
@@ -159,7 +158,6 @@ const Navbar = () => {
                     </div>
                     <div className="h-6 w-px bg-secondary-text/20"></div>
                     <div className="flex items-center gap-2">
-                        <CommandPalette />
                         <DownloadCVButton variant="icon" />
                         <SoundToggle />
                         <ThemeSwitcher />

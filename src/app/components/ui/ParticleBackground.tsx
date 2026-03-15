@@ -7,14 +7,32 @@ import { loadSlim } from "@tsparticles/slim";
 
 const ParticleBackground = () => {
   const [init, setInit] = useState(false);
+  const [reduceMotion, setReduceMotion] = useState(false);
 
   useEffect(() => {
+    const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+    setReduceMotion(mediaQuery.matches);
+
+    const handleChange = (event: MediaQueryListEvent) => {
+      setReduceMotion(event.matches);
+    };
+
+    mediaQuery.addEventListener('change', handleChange);
+    return () => mediaQuery.removeEventListener('change', handleChange);
+  }, []);
+
+  useEffect(() => {
+    if (reduceMotion) {
+      setInit(false);
+      return;
+    }
+
     initParticlesEngine(async (engine) => {
       await loadSlim(engine);
     }).then(() => {
       setInit(true);
     });
-  }, []);
+  }, [reduceMotion]);
 
   const particlesLoaded = async (): Promise<void> => {};
 
@@ -83,7 +101,7 @@ const ParticleBackground = () => {
     [],
   );
 
-  if (init) {
+  if (init && !reduceMotion) {
     return (
       <Particles
         id="tsparticles"

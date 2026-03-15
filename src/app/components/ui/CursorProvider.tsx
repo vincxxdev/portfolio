@@ -17,6 +17,19 @@ const CursorProvider = () => {
     }
   }, []);
 
+  useEffect(() => {
+    const root = document.documentElement;
+    if (showCursor) {
+      root.classList.add('custom-cursor');
+    } else {
+      root.classList.remove('custom-cursor');
+    }
+
+    return () => {
+      root.classList.remove('custom-cursor');
+    };
+  }, [showCursor]);
+
   return showCursor ? <CustomCursor /> : null;
 };
 

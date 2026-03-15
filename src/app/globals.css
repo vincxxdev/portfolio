@@ -49,6 +49,11 @@ body {
               color 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 6rem;
+}
+
 /* Smooth Transition for all elements changing with Theme */
 * {
   transition: background-color 0.5s cubic-bezier(0.4, 0, 0.2, 1),
@@ -111,9 +116,24 @@ body {
   animation: blob 7s infinite;
 }
 
-/* Nasconde il cursore predefinito */
-*,
-*::before,
-*::after {
+/* Hide default cursor only when custom desktop cursor is enabled */
+.custom-cursor,
+.custom-cursor *,
+.custom-cursor *::before,
+.custom-cursor *::after {
   cursor: none !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }

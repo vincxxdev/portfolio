@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { SiGithub } from 'react-icons/si';
 import { ExternalLink, Code2, Star } from 'lucide-react';
@@ -16,9 +16,57 @@ const projects = projectsData;
 const Projects = () => {
   const [imageErrors, setImageErrors] = useState<{ [key: number]: boolean }>({});
   const [hoveredProject, setHoveredProject] = useState<number | null>(null);
+  const [reduceMotion, setReduceMotion] = useState(false);
+  const [cardEffects, setCardEffects] = useState<Record<number, { rotateX: number; rotateY: number; glareX: number; glareY: number }>>({});
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+    setReduceMotion(mediaQuery.matches);
+
+    const handleChange = (event: MediaQueryListEvent) => {
+      setReduceMotion(event.matches);
+    };
+
+    mediaQuery.addEventListener('change', handleChange);
+    return () => mediaQuery.removeEventListener('change', handleChange);
+  }, []);
 
   const handleImageError = (projectId: number) => {
     setImageErrors(prev => ({ ...prev, [projectId]: true }));
+  };
+
+  const handleCardMove = (event: React.MouseEvent<HTMLDivElement>, projectId: number) => {
+    if (reduceMotion) return;
+
+    const rect = event.currentTarget.getBoundingClientRect();
+    const x = event.clientX - rect.left;
+    const y = event.clientY - rect.top;
+    const percentageX = (x / rect.width) * 100;
+    const percentageY = (y / rect.height) * 100;
+    const rotateY = ((percentageX - 50) / 50) * 7;
+    const rotateX = -((percentageY - 50) / 50) * 7;
+
+    setCardEffects((prev) => ({
+      ...prev,
+      [projectId]: {
+        rotateX,
+        rotateY,
+        glareX: percentageX,
+        glareY: percentageY,
+      },
+    }));
+  };
+
+  const resetCardEffect = (projectId: number) => {
+    setCardEffects((prev) => ({
+      ...prev,
+      [projectId]: {
+        rotateX: 0,
+        rotateY: 0,
+        glareX: 50,
+        glareY: 50,
+      },
+    }));
   };
 
   const containerVariants = {
@@ -75,11 +123,36 @@ const Projects = () => {
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: index * 0.15, ease: "easeOut" as const }}
               onMouseEnter={() => setHoveredProject(project.id)}
-              onMouseLeave={() => setHoveredProject(null)}
+              onMouseMove={(event) => handleCardMove(event, project.id)}
+              onMouseLeave={() => {
+                setHoveredProject(null);
+                resetCardEffect(project.id);
+              }}
             >
+              <motion.div
+                className="relative h-full"
+                animate={
+                  reduceMotion
+                    ? { rotateX: 0, rotateY: 0 }
+                    : {
+                        rotateX: cardEffects[project.id]?.rotateX ?? 0,
+                        rotateY: cardEffects[project.id]?.rotateY ?? 0,
+                      }
+                }
+                transition={{ type: 'spring', stiffness: 220, damping: 22, mass: 0.5 }}
+                style={{ transformStyle: 'preserve-3d' }}
+              >
+              {!reduceMotion && (
+                <div
+                  className="pointer-events-none absolute inset-0 z-10 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                  style={{
+                    background: `radial-gradient(320px circle at ${cardEffects[project.id]?.glareX ?? 50}% ${cardEffects[project.id]?.glareY ?? 50}%, rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0.05) 30%, transparent 60%)`,
+                  }}
+                />
+              )}
 
               {/* Image container */}
-              <div className="relative h-56 overflow-hidden bg-gradient-to-br from-cyan-500/10 to-blue-500/10">
+              <div className="relative h-56 overflow-hidden bg-gradient-to-br from-cyan-500/10 to-blue-500/10" style={{ transform: 'translateZ(24px)' }}>
                 {/* Animated border effect */}
                 <div className="absolute inset-0 bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-500 opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-xl z-0"></div>
                 
@@ -124,7 +197,7 @@ const Projects = () => {
               </div>
 
               {/* Content */}
-              <div className="flex-1 flex flex-col p-6 relative z-20">
+              <div className="flex-1 flex flex-col p-6 relative z-20" style={{ transform: 'translateZ(20px)' }}>
                 {/* Title */}
                 <h3 className="text-2xl font-bold text-primary-text mb-3 group-hover:text-accent transition-colors duration-300">
                   {project.title}
@@ -187,6 +260,7 @@ const Projects = () => {
                   </MagneticButton>
                 </div>
               </div>
+              </motion.div>
 
             </Card>
           ))}

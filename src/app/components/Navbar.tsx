@@ -9,6 +9,7 @@ import { SoundToggle } from './ui/SoundToggle';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useSound } from './hooks/useSound';
 import DownloadCVButton from './ui/DownloadCVButton';
+import CommandPalette from './ui/CommandPalette';
 
 const navLinks = [
   { href: '#about', label: 'About' },
@@ -21,6 +22,8 @@ const navLinks = [
 const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [hasScrolled, setHasScrolled] = useState(false);
+    const [scrollProgress, setScrollProgress] = useState(0);
+    const [activeSection, setActiveSection] = useState('about');
     const [easterEgg, setEasterEgg] = useState(false);
     const [logoClicks, setLogoClicks] = useState(0);
     const { playSound } = useSound();
@@ -28,10 +31,39 @@ const Navbar = () => {
     useEffect(() => {
         const handleScroll = () => {
             setHasScrolled(window.scrollY > 10);
+
+            const maxScrollableHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const progress = maxScrollableHeight > 0 ? (window.scrollY / maxScrollableHeight) * 100 : 0;
+            setScrollProgress(Math.min(100, Math.max(0, progress)));
         };
+
         handleScroll();
         window.addEventListener('scroll', handleScroll);
         return () => window.removeEventListener('scroll', handleScroll);
+    }, []);
+
+    useEffect(() => {
+        const observer = new IntersectionObserver(
+            (entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        setActiveSection(entry.target.id);
+                    }
+                });
+            },
+            {
+                root: null,
+                rootMargin: '-40% 0px -45% 0px',
+                threshold: 0.1,
+            }
+        );
+
+        navLinks.forEach((link) => {
+            const section = document.getElementById(link.href.replace('#', ''));
+            if (section) observer.observe(section);
+        });
+
+        return () => observer.disconnect();
     }, []);
 
     useEffect(() => {
@@ -113,13 +145,21 @@ const Navbar = () => {
                 <div className="hidden md:flex items-center gap-4">
                     <div className="flex items-center space-x-2">
                         {navLinks.map((link) => (
-                            <Button key={link.href} href={link.href} variant="ghost">
+                            <Button
+                            key={link.href}
+                            href={link.href}
+                            variant="ghost"
+                            className={activeSection === link.href.replace('#', '')
+                                ? 'bg-accent/10 text-accent border border-accent/30'
+                                : ''}
+                            >
                             {link.label}
                             </Button>
                         ))}
                     </div>
                     <div className="h-6 w-px bg-secondary-text/20"></div>
                     <div className="flex items-center gap-2">
+                        <CommandPalette />
                         <DownloadCVButton variant="icon" />
                         <SoundToggle />
                         <ThemeSwitcher />
@@ -167,7 +207,9 @@ const Navbar = () => {
                                     href={link.href} 
                                     variant="ghost" 
                                     onClick={closeMenu} 
-                                    className="text-2xl font-semibold hover:text-accent transition-colors duration-300"
+                                    className={`text-2xl font-semibold hover:text-accent transition-colors duration-300 ${
+                                        activeSection === link.href.replace('#', '') ? 'text-accent' : ''
+                                    }`}
                                 >
                                     {link.label}
                                 </Button>
@@ -184,6 +226,14 @@ const Navbar = () => {
                     </div>
                 </div>
             )}
+
+            <div className="absolute bottom-0 left-0 w-full h-[2px] bg-accent/10 pointer-events-none">
+                <motion.div
+                    className="h-full bg-gradient-to-r from-cyan-400 to-blue-600"
+                    style={{ width: `${scrollProgress}%` }}
+                    transition={{ duration: 0.1, ease: 'linear' }}
+                />
+            </div>
         </nav>
     );
 }

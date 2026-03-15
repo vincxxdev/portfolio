@@ -1,50 +1,24 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { timingSafeEqual } from 'node:crypto';
+import { createHash, timingSafeEqual } from 'node:crypto';
 import { cookies } from 'next/headers';
 import { createAdminToken, isAuthConfigured } from '@/lib/auth';
-import { checkRateLimit, recordFailedAttempt, clearAttempts } from '@/lib/rateLimit';
-import { getClientIdentifier, isSameOriginRequest } from '@/lib/security';
+import { isSameOriginRequest } from '@/lib/security';
 
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD;
 const COOKIE_NAME = 'admin_token';
 const COOKIE_MAX_AGE = 60 * 60 * 12; // 12 hours
 
 function passwordsMatch(input: string, expected: string): boolean {
-  const inputBuffer = Buffer.from(input, 'utf8');
-  const expectedBuffer = Buffer.from(expected, 'utf8');
-
-  if (inputBuffer.length !== expectedBuffer.length) {
-    return false;
-  }
-
-  return timingSafeEqual(inputBuffer, expectedBuffer);
+  const inputHash = createHash('sha256').update(input, 'utf8').digest();
+  const expectedHash = createHash('sha256').update(expected, 'utf8').digest();
+  return timingSafeEqual(inputHash, expectedHash);
 }
 
 export async function POST(request: NextRequest) {
-  const clientIP = getClientIdentifier(request);
-
   if (!isSameOriginRequest(request)) {
     return NextResponse.json(
       { success: false, error: 'Forbidden origin' },
       { status: 403, headers: { 'Cache-Control': 'no-store' } }
-    );
-  }
-
-  // Check rate limit first
-  const rateLimit = checkRateLimit(clientIP);
-  if (!rateLimit.allowed) {
-    return NextResponse.json(
-      { 
-        success: false, 
-        error: `Troppi tentativi. Riprova tra ${Math.ceil(rateLimit.retryAfter! / 60)} minuti.` 
-      },
-      { 
-        status: 429,
-        headers: {
-          'Retry-After': String(rateLimit.retryAfter),
-          'Cache-Control': 'no-store',
-        }
-      }
     );
   }
 
@@ -63,7 +37,6 @@ export async function POST(request: NextRequest) {
 
     // Validate password
     if (!password || password.length > 1024 || !passwordsMatch(password, ADMIN_PASSWORD)) {
-      recordFailedAttempt(clientIP);
       return NextResponse.json(
         { success: false, error: 'Password non valida' },
         { status: 401, headers: { 'Cache-Control': 'no-store' } }
@@ -72,9 +45,6 @@ export async function POST(request: NextRequest) {
 
     // Password correct - create signed JWT token
     const token = await createAdminToken();
-    
-    // Clear rate limit attempts on success
-    clearAttempts(clientIP);
 
     // Set HTTP-only cookie with signed token
     const cookieStore = await cookies();
@@ -88,7 +58,6 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json({ success: true }, { headers: { 'Cache-Control': 'no-store' } });
   } catch {
-    recordFailedAttempt(clientIP);
     return NextResponse.json(
       { success: false, error: 'Errore durante il login' },
       { status: 500, headers: { 'Cache-Control': 'no-store' } }

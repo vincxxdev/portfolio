@@ -124,6 +124,11 @@ Il progetto utilizza variabili d'ambiente per gestire configurazioni dinamiche c
 - `NEXT_PUBLIC_GA_MEASUREMENT_ID` - Google Analytics ID
 - `NEXT_PUBLIC_PLAUSIBLE_DOMAIN` - Dominio Plausible Analytics
 
+#### Sicurezza Admin
+- `ADMIN_PASSWORD` - Password admin per accesso all'area protetta
+- `AUTH_SECRET` - Secret JWT (minimo 32 caratteri)
+- `ADMIN_TOKEN_TTL` - Durata sessione admin (es. `12h`)
+
 ### Dove Vengono Usate
 
 Le variabili d'ambiente sono centralizzate in `/src/config/site.ts` e vengono utilizzate in:

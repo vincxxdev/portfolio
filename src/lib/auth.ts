@@ -10,6 +10,9 @@ function getSecretKey(): Uint8Array {
   if (!AUTH_SECRET) {
     throw new Error('AUTH_SECRET environment variable is not set');
   }
+  if (AUTH_SECRET.length < 32) {
+    throw new Error('AUTH_SECRET must be at least 32 characters long');
+  }
   return new TextEncoder().encode(AUTH_SECRET);
 }
 

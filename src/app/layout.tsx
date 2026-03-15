@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter, Plus_Jakarta_Sans } from "next/font/google";
+import { JetBrains_Mono, Manrope, Sora } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "./components/ThemeProvider";
 import { AdminProvider } from "./components/providers/AdminProvider";
@@ -9,16 +9,23 @@ import { ThemeTransition } from "./components/ThemeTransition";
 import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 
-const inter = Inter({
+const manrope = Manrope({
   subsets: ["latin"],
-  variable: "--font-inter",
+  variable: "--font-manrope",
   display: 'swap',
   preload: true,
 });
 
-const jakarta = Plus_Jakarta_Sans({
+const sora = Sora({
   subsets: ["latin"],
-  variable: "--font-jakarta-sans",
+  variable: "--font-sora",
+  display: 'swap',
+  preload: true,
+});
+
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ["latin"],
+  variable: "--font-jetbrains-mono",
   display: 'swap',
   preload: true,
 });
@@ -54,7 +61,7 @@ export default function RootLayout({
           `
         }} />
       </head>
-      <body className={`${inter.variable} ${jakarta.variable} font-sans`}>
+      <body className={`${manrope.variable} ${sora.variable} ${jetbrainsMono.variable} font-sans antialiased`}>
         <ThemeProvider
           attribute="class"
           defaultTheme="system"

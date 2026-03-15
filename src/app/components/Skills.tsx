@@ -3,8 +3,8 @@
 import { skillsData } from '@/data/skills';
 import SkillIcon from './ui/SkillIcon';
 import { motion, useMotionValue, useTransform, animate } from 'framer-motion';
-import { Code2, Zap } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import { ArrowUpDown, Code2, Sparkles, Zap } from 'lucide-react';
+import { useEffect, useMemo, useState } from 'react';
 import Card from './ui/Card';
 import { SectionHeader } from './ui/CardComponents';
 
@@ -65,7 +65,7 @@ const SkillCard = ({ name, percentage, iconName, color, index }: SkillCardProps)
     <Card
       hoverEffect="lift"
       padding="md"
-      className="items-center justify-center"
+      className="items-center justify-center min-h-[220px]"
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
@@ -151,7 +151,18 @@ const SkillCard = ({ name, percentage, iconName, color, index }: SkillCardProps)
 };
 
 const Skills = () => {
-  const sortedSkills = [...skillsData].sort((a, b) => b.percentage - a.percentage);
+  const [sortMode, setSortMode] = useState<'level' | 'name'>('level');
+
+  const sortedSkills = useMemo(() => {
+    const cloned = [...skillsData];
+    if (sortMode === 'name') {
+      return cloned.sort((a, b) => a.name.localeCompare(b.name));
+    }
+    return cloned.sort((a, b) => b.percentage - a.percentage);
+  }, [sortMode]);
+
+  const averageSkills = Math.round(sortedSkills.reduce((acc, skill) => acc + skill.percentage, 0) / sortedSkills.length);
+  const topTierCount = sortedSkills.filter((s) => s.percentage >= 70).length;
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -188,6 +199,45 @@ const Skills = () => {
             }
             description="Tecnologie e linguaggi che utilizzo per creare soluzioni innovative"
           />
+
+          <div className="max-w-5xl mx-auto mb-10 flex flex-wrap items-center justify-center gap-3">
+            <span className="px-3 py-1.5 rounded-full border border-accent/30 bg-accent/10 text-accent text-xs font-semibold">
+              {sortedSkills.length}+ skill tracciate
+            </span>
+            <span className="px-3 py-1.5 rounded-full border border-secondary-text/25 bg-secondary-background/70 text-secondary-text text-xs font-semibold">
+              Top tier (70%+): {topTierCount}
+            </span>
+            <span className="terminal-font px-3 py-1.5 rounded-full border border-secondary-text/25 bg-secondary-background/70 text-secondary-text text-xs font-semibold tracking-wide">
+              Avg confidence: {averageSkills}%
+            </span>
+          </div>
+
+          <div className="max-w-5xl mx-auto mb-8 flex flex-wrap justify-center gap-3">
+            <button
+              type="button"
+              onClick={() => setSortMode('level')}
+              className={`inline-flex items-center gap-2 px-3 py-2 rounded-lg border text-sm font-semibold transition-colors ${
+                sortMode === 'level'
+                  ? 'border-accent/40 bg-accent/10 text-accent'
+                  : 'border-secondary-text/25 bg-secondary-background/70 text-secondary-text hover:text-primary-text'
+              }`}
+            >
+              <Sparkles className="w-4 h-4" />
+              Ordina per livello
+            </button>
+            <button
+              type="button"
+              onClick={() => setSortMode('name')}
+              className={`inline-flex items-center gap-2 px-3 py-2 rounded-lg border text-sm font-semibold transition-colors ${
+                sortMode === 'name'
+                  ? 'border-accent/40 bg-accent/10 text-accent'
+                  : 'border-secondary-text/25 bg-secondary-background/70 text-secondary-text hover:text-primary-text'
+              }`}
+            >
+              <ArrowUpDown className="w-4 h-4" />
+              Ordina alfabeticamente
+            </button>
+          </div>
         </motion.div>
 
         {/* Skills Grid */}
@@ -251,7 +301,7 @@ const Skills = () => {
               </div>
               <div className="flex items-baseline gap-2">
                 <p className="text-3xl font-bold bg-gradient-to-r from-cyan-400 to-blue-600 bg-clip-text text-transparent">
-                  {Math.round(sortedSkills.reduce((acc, skill) => acc + skill.percentage, 0) / sortedSkills.length)}%
+                  {averageSkills}%
                 </p>
                 <p className="text-sm text-secondary-text font-medium">Media</p>
               </div>

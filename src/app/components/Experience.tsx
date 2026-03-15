@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Award, ExternalLink, Calendar, Building2 } from 'lucide-react';
+import { Award, ExternalLink, Calendar, Building2, ArrowUpRight } from 'lucide-react';
 import Card from './ui/Card';
 import { CardTitle, CardDescription, CardDivider, SectionHeader } from './ui/CardComponents';
 import { experienceData } from '@/data/experiences';
@@ -71,11 +71,20 @@ const Experience = () => {
             }
             description="Il mio percorso professionale e le competenze acquisite"
           />
+
+          <div className="max-w-4xl mx-auto mb-10 flex flex-wrap items-center justify-center gap-3">
+            <span className="px-3 py-1.5 rounded-full border border-accent/30 bg-accent/10 text-accent text-xs font-semibold">
+              {experienceData.length} esperienza{experienceData.length > 1 ? 'e' : ''}
+            </span>
+            <span className="terminal-font px-3 py-1.5 rounded-full border border-secondary-text/25 bg-secondary-background/70 text-secondary-text text-xs font-semibold tracking-wide">
+              Timeline ordinata cronologicamente
+            </span>
+          </div>
         </motion.div>
 
         <div className="relative max-w-4xl mx-auto mb-24">
           {/* Timeline line */}
-          <div className="absolute left-8 top-0 h-full w-0.5 bg-gradient-to-b from-accent/50 via-accent/30 to-accent/10"></div>
+          <div className="hidden sm:block absolute left-8 top-0 h-full w-0.5 bg-gradient-to-b from-accent/50 via-accent/30 to-accent/10"></div>
           
           <motion.div
             variants={containerVariants}
@@ -88,10 +97,10 @@ const Experience = () => {
               <motion.div
                 key={index}
                 variants={itemVariants}
-                className="relative pl-20"
+                className="relative sm:pl-20"
               >
                 {/* Timeline dot */}
-                <div className="absolute left-6 top-6 transform -translate-x-1/2">
+                <div className="hidden sm:block absolute left-6 top-6 transform -translate-x-1/2">
                   <div className="relative">
                     <div className="absolute inset-0 bg-accent/30 rounded-full blur-md"></div>
                     <div className="relative bg-accent w-4 h-4 rounded-full border-4 border-primary-background"></div>
@@ -103,17 +112,18 @@ const Experience = () => {
                   hoverEffect="lift"
                   padding="md"
                   badge={{ icon: Calendar, text: item.date }}
+                  className="border-l-2 border-l-accent/30 sm:border-l-0"
                 >
-                  <CardTitle className="text-2xl mb-2">
+                  <CardTitle className="text-xl sm:text-2xl mb-2 leading-tight">
                     {item.title}
                   </CardTitle>
-                  
-                  <div className="flex items-center gap-2 mb-4">
+
+                  <div className="flex items-center gap-2 mb-4 text-secondary-text">
                     <Building2 className="w-4 h-4 text-secondary-text" />
-                    <p className="text-base text-secondary-text font-semibold">{item.company}</p>
+                    <p className="text-base font-semibold">{item.company}</p>
                   </div>
 
-                  <CardDescription>
+                  <CardDescription className="text-[15px]">
                     {item.description}
                   </CardDescription>
                 </Card>
@@ -140,6 +150,15 @@ const Experience = () => {
             }
             description="Corsi completati e certificazioni ottenute"
           />
+
+          <div className="max-w-5xl mx-auto mb-10 flex flex-wrap items-center justify-center gap-3">
+            <span className="px-3 py-1.5 rounded-full border border-accent/30 bg-accent/10 text-accent text-xs font-semibold">
+              {certificationData.length} certificazioni
+            </span>
+            <span className="terminal-font px-3 py-1.5 rounded-full border border-secondary-text/25 bg-secondary-background/70 text-secondary-text text-xs font-semibold tracking-wide">
+              Most recent first
+            </span>
+          </div>
         </motion.div>
 
         <motion.div
@@ -175,10 +194,11 @@ const Experience = () => {
                 href={cert.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center justify-center gap-2 px-4 py-3 border-2 border-accent/50 text-accent hover:bg-accent hover:text-white hover:border-accent font-semibold rounded-xl transition-all duration-300 transform hover:scale-105"
+                className="flex items-center justify-center gap-2 px-4 py-3 border-2 border-accent/50 text-accent hover:bg-accent hover:text-white hover:border-accent font-semibold rounded-xl transition-all duration-300 transform hover:scale-[1.03]"
               >
                 <ExternalLink className="w-4 h-4" />
                 <span className="text-sm">Visualizza Certificato</span>
+                <ArrowUpRight className="w-4 h-4" />
               </a>
             </Card>
           ))}

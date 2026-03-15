@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Terminal } from 'lucide-react';
 import { SectionHeader } from './ui/CardComponents';
@@ -10,47 +10,51 @@ import { siteConfig } from '@/config/site';
 const About = () => {
   const [text, setText] = useState('');
   const [showCursor, setShowCursor] = useState(true);
+  const [isTypingDone, setIsTypingDone] = useState(false);
 
   const command = 'cat ./about.txt';
-  const content = `
-${siteConfig.personal.bio}`;
-  
-  const fullText = useMemo(() => `$ ${command}\n${content}`, [command, content]);
+  const content = siteConfig.personal.bio;
 
   useEffect(() => {
-    let i = 0;
-    let cursorInterval: NodeJS.Timeout | null = null;
-    
-    const typing = setInterval(() => {
-      if (i < fullText.length) {
-        setText(fullText.substring(0, i + 1));
-        i++;
-        
-        // Random speed variation for more realistic typing
-        const randomDelay = Math.random() * 30 + 20;
-        clearInterval(typing);
-        setTimeout(() => {
-          const newTyping = setInterval(() => {
-            if (i < fullText.length) {
-              setText(fullText.substring(0, i + 1));
-              i++;
-            } else {
-              clearInterval(newTyping);
-              cursorInterval = setInterval(() => setShowCursor(show => !show), 500);
-            }
-          }, randomDelay);
-        }, randomDelay);
-      } else {
-        clearInterval(typing);
-        cursorInterval = setInterval(() => setShowCursor(show => !show), 500);
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    if (prefersReducedMotion) {
+      setText(content);
+      setIsTypingDone(true);
+      setShowCursor(false);
+      return;
+    }
+
+    let index = 0;
+    setText('');
+    setIsTypingDone(false);
+    setShowCursor(true);
+
+    const typingTimer = setInterval(() => {
+      index += 1;
+      setText(content.slice(0, index));
+
+      if (index >= content.length) {
+        clearInterval(typingTimer);
+        setIsTypingDone(true);
       }
-    }, 50);
+    }, 18);
+
+    const cursorInterval = setInterval(() => {
+      setShowCursor((show) => !show);
+    }, 500);
 
     return () => {
-      clearInterval(typing);
-      if (cursorInterval) clearInterval(cursorInterval);
+      clearInterval(typingTimer);
+      clearInterval(cursorInterval);
     };
-  }, [fullText]);
+  }, [content]);
+
+  const completeTyping = () => {
+    setText(content);
+    setIsTypingDone(true);
+    setShowCursor(false);
+  };
 
   return (
     <section 
@@ -103,18 +107,28 @@ ${siteConfig.personal.bio}`;
               </div>
               <div className="flex-grow flex items-center justify-center gap-2">
                 <Terminal className="w-4 h-4 text-accent" />
-                <span className="text-sm font-semibold text-accent">vincxsh@portfolio</span>
+                <span className="terminal-font text-sm font-semibold text-accent tracking-wide">vincxsh@portfolio</span>
               </div>
-              <div className="w-16"></div>
+              <div className="w-16 flex justify-end">
+                {!isTypingDone && (
+                  <button
+                    type="button"
+                    onClick={completeTyping}
+                    className="terminal-font text-[11px] px-2 py-1 rounded border border-accent/35 text-accent hover:bg-accent/10 transition-colors"
+                  >
+                    skip
+                  </button>
+                )}
+              </div>
             </div>
 
             {/* Terminal Content */}
-            <div className="relative z-10 p-6 sm:p-8 font-mono text-primary-text text-sm sm:text-base">
+            <div className="terminal-font relative z-10 p-6 sm:p-8 text-primary-text text-sm sm:text-base">
               <pre className="whitespace-pre-wrap leading-relaxed">
                 <span className="text-accent font-bold">$ </span>
                 <span className="text-secondary-text">{command}</span>
                 {'\n'}
-                <span className="text-primary-text">{text.substring(command.length + 3)}</span>
+                <span className="text-primary-text">{text}</span>
                 {showCursor && (
                   <span className="inline-block w-2 h-5 ml-0.5 bg-accent animate-pulse align-middle"></span>
                 )}

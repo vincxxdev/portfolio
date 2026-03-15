@@ -12,8 +12,9 @@ h1, h2, h3, h4, h5, h6 {
 /* Theme Configuration con Tailwind V4 */
 @theme {
   /* Font Families */
-  --font-sans: var(--font-inter), sans-serif;
-  --font-heading: var(--font-jakarta-sans), sans-serif;
+  --font-sans: var(--font-manrope), sans-serif;
+  --font-heading: var(--font-sora), sans-serif;
+  --font-mono: var(--font-jetbrains-mono), ui-monospace, SFMono-Regular, Menlo, monospace;
 
   /* Colors - Light Theme */
   --color-primary-background: #ffffff;
@@ -45,8 +46,15 @@ h1, h2, h3, h4, h5, h6 {
 body {
   background: var(--color-primary-background);
   color: var(--color-primary-text);
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
   transition: background-color 0.5s cubic-bezier(0.4, 0, 0.2, 1), 
               color 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+::selection {
+  background: color-mix(in srgb, var(--color-accent) 35%, transparent);
+  color: var(--color-primary-text);
 }
 
 html {
@@ -114,6 +122,16 @@ html {
 
 .animate-blob {
   animation: blob 7s infinite;
+}
+
+.terminal-font {
+  font-family: var(--font-mono);
+  font-variant-ligatures: none;
+}
+
+:where(a, button, input, textarea, select):focus-visible {
+  outline: 2px solid color-mix(in srgb, var(--color-accent) 75%, white);
+  outline-offset: 2px;
 }
 
 /* Hide default cursor only when custom desktop cursor is enabled */

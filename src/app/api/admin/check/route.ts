@@ -10,19 +10,25 @@ export async function GET() {
     const tokenCookie = cookieStore.get(COOKIE_NAME);
 
     if (!tokenCookie?.value) {
-      return NextResponse.json({ isAdmin: false });
+      return NextResponse.json({ isAdmin: false }, { headers: { 'Cache-Control': 'no-store' } });
     }
 
     // Verify the JWT token
     const payload = await verifyAdminToken(tokenCookie.value);
     
     if (!payload || !payload.isAdmin) {
-      return NextResponse.json({ isAdmin: false });
+      cookieStore.set(COOKIE_NAME, '', {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'strict',
+        maxAge: 0,
+        path: '/',
+      });
+      return NextResponse.json({ isAdmin: false }, { headers: { 'Cache-Control': 'no-store' } });
     }
 
-    return NextResponse.json({ isAdmin: true });
-  } catch (error) {
-    console.error('Auth check error:', error);
-    return NextResponse.json({ isAdmin: false });
+    return NextResponse.json({ isAdmin: true }, { headers: { 'Cache-Control': 'no-store' } });
+  } catch {
+    return NextResponse.json({ isAdmin: false }, { headers: { 'Cache-Control': 'no-store' } });
   }
 }

@@ -1,6 +1,9 @@
 import { SignJWT, jwtVerify, type JWTPayload } from 'jose';
 
 const AUTH_SECRET = process.env.AUTH_SECRET;
+const TOKEN_TTL = process.env.ADMIN_TOKEN_TTL || '12h';
+const TOKEN_ISSUER = 'portfolio-admin-auth';
+const TOKEN_AUDIENCE = 'portfolio-admin';
 
 // Get the secret key as Uint8Array for jose
 function getSecretKey(): Uint8Array {
@@ -26,7 +29,9 @@ export async function createAdminToken(): Promise<string> {
   const token = await new SignJWT({ isAdmin: true })
     .setProtectedHeader({ alg: 'HS256' })
     .setIssuedAt()
-    .setExpirationTime('7d')
+    .setIssuer(TOKEN_ISSUER)
+    .setAudience(TOKEN_AUDIENCE)
+    .setExpirationTime(TOKEN_TTL)
     .sign(secretKey);
   
   return token;
@@ -39,12 +44,14 @@ export async function createAdminToken(): Promise<string> {
 export async function verifyAdminToken(token: string): Promise<AdminTokenPayload | null> {
   try {
     const secretKey = getSecretKey();
-    const { payload } = await jwtVerify(token, secretKey);
+    const { payload } = await jwtVerify(token, secretKey, {
+      algorithms: ['HS256'],
+      issuer: TOKEN_ISSUER,
+      audience: TOKEN_AUDIENCE,
+    });
     
     return payload as AdminTokenPayload;
-  } catch (error) {
-    // Token is invalid or expired
-    console.error('Token verification failed:', error);
+  } catch {
     return null;
   }
 }

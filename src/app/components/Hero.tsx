@@ -111,7 +111,7 @@ const Hero = () => {
           <div className="absolute inset-y-0 right-0 w-px bg-gradient-to-b from-transparent via-accent/30 to-transparent opacity-50" />
         </div>
 
-        <div className="relative z-10 mx-auto flex min-h-[92svh] w-full max-w-7xl items-center px-4 py-20 sm:px-6 lg:px-8">
+        <div className="relative z-10 mx-auto flex min-h-svh w-full max-w-7xl items-center px-4 py-20 sm:px-6 lg:px-8">
           <div className="grid w-full items-center gap-14 lg:grid-cols-[minmax(0,1.1fr)_minmax(320px,0.9fr)] lg:gap-8">
             <motion.div
               style={{ x: contentX, y: contentY }}

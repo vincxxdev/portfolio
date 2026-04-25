@@ -284,7 +284,7 @@ const Hero = () => {
                 </div>
               ))}
 
-              <div className="absolute inset-[22%] overflow-hidden rounded-full border border-accent/20 bg-primary-background/60">
+              <div className="absolute inset-[22%] overflow-hidden rounded-full border border-accent/20 bg-primary-background/25">
                 <div className="absolute inset-[12%] rounded-full border border-secondary-text/12" />
                 <div
                   className={`absolute left-[8%] right-[8%] top-1/2 h-px -translate-y-1/2 bg-gradient-to-r from-transparent via-accent/50 to-transparent ${shouldReduceMotion ? '' : 'animate-signal-sweep'}`}

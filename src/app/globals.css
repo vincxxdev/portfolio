@@ -29,6 +29,9 @@ h1, h2, h3, h4, h5, h6 {
   --animate-typewriter: typing 1.5s steps(9, end), blink-caret .75s step-end infinite;
   --animate-fade-out-bck: fade-out-bck 1s ease-in 1.5s both;
   --animate-blob: blob 7s infinite;
+  --animate-orbit: orbit 18s linear infinite;
+  --animate-orbit-reverse: orbit-reverse 18s linear infinite;
+  --animate-signal-sweep: signal-sweep 2.8s ease-in-out infinite;
 }
 
 /* Dark Theme Variables */
@@ -107,8 +110,50 @@ body {
   }
 }
 
+@keyframes orbit {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes orbit-reverse {
+  from {
+    transform: rotate(360deg);
+  }
+  to {
+    transform: rotate(0deg);
+  }
+}
+
+@keyframes signal-sweep {
+  0% {
+    transform: translateX(-38%) scaleX(0.8);
+    opacity: 0;
+  }
+  18% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.9;
+  }
+  82% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(38%) scaleX(1.05);
+    opacity: 0;
+  }
+}
+
 .animate-blob {
   animation: blob 7s infinite;
+}
+
+.animate-signal-sweep {
+  animation: signal-sweep 2.8s ease-in-out infinite;
 }
 
 /* Nasconde il cursore predefinito */

@@ -162,7 +162,7 @@ export const it: Translations = {
     viewSource: 'Visualizza il codice sorgente di',
     sendEmail: 'Invia email a',
     callPhone: 'Chiama il numero',
-    switchToEnglish: 'Switch to English',
+    switchToEnglish: "Passa all'Inglese",
     switchToItalian: "Passa all'Italiano",
   },
 };

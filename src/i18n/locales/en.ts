@@ -162,7 +162,7 @@ export const en: Translations = {
     viewSource: 'View source code of',
     sendEmail: 'Send email to',
     callPhone: 'Call',
-    switchToEnglish: "Passa all'italiano",
-    switchToItalian: 'Switch to English',
+    switchToEnglish: 'Switch to English',
+    switchToItalian: 'Switch to Italian',
   },
 };

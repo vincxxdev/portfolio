@@ -17,7 +17,6 @@ const projects = projectsData;
 const Projects = () => {
   const { t } = useLocale();
   const [imageErrors, setImageErrors] = useState<{ [key: number]: boolean }>({});
-  const [hoveredProject, setHoveredProject] = useState<number | null>(null);
 
   const handleImageError = (projectId: number) => {
     setImageErrors(prev => ({ ...prev, [projectId]: true }));
@@ -76,8 +75,6 @@ const Projects = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: index * 0.15, ease: "easeOut" as const }}
-              onMouseEnter={() => setHoveredProject(project.id)}
-              onMouseLeave={() => setHoveredProject(null)}
             >
 
               {/* Image container */}
@@ -107,22 +104,10 @@ const Projects = () => {
                 )}
 
                 {/* Floating badge with star icon on hover */}
-                <motion.div 
-                  className="absolute top-4 right-4 px-3 py-1 bg-primary-background/90 backdrop-blur-md rounded-full border border-accent/30 z-20 flex items-center gap-1"
-                  whileHover={{ scale: 1.1 }}
-                  transition={{ type: "spring", stiffness: 400, damping: 10 }}
-                >
-                  {hoveredProject === project.id && (
-                    <motion.div
-                      initial={{ scale: 0, rotate: -180 }}
-                      animate={{ scale: 1, rotate: 0 }}
-                      transition={{ type: "spring", stiffness: 300 }}
-                    >
-                      <Star className="w-3 h-3 text-accent fill-accent" />
-                    </motion.div>
-                  )}
+                <div className="absolute top-4 right-4 px-3 py-1 bg-primary-background/90 backdrop-blur-md rounded-full border border-accent/30 z-20 flex items-center gap-1 transition-transform duration-200 group-hover:scale-110">
+                  <Star className="w-3 h-3 text-accent fill-accent scale-0 group-hover:scale-100 transition-transform duration-300" />
                   <span className="text-xs font-semibold text-accent">#{String(index + 1).padStart(2, '0')}</span>
-                </motion.div>
+                </div>
               </div>
 
               {/* Content */}

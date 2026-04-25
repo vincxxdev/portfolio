@@ -1,7 +1,7 @@
 'use client';
 
-import React, { useRef, useState } from 'react';
-import { motion } from 'framer-motion';
+import React, { useRef } from 'react';
+import { motion, useMotionValue, useSpring } from 'framer-motion';
 import { useSound } from '../hooks/useSound';
 
 interface MagneticButtonProps {
@@ -9,17 +9,21 @@ interface MagneticButtonProps {
   className?: string;
 }
 
+const springConfig = { stiffness: 150, damping: 15, mass: 0.1 };
+
 export const MagneticButton: React.FC<MagneticButtonProps> = ({ children, className = '' }) => {
   const ref = useRef<HTMLDivElement>(null);
-  const [position, setPosition] = useState({ x: 0, y: 0 });
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
+  const springX = useSpring(x, springConfig);
+  const springY = useSpring(y, springConfig);
   const { playSound } = useSound();
 
   const handleMouse = (e: React.MouseEvent<HTMLDivElement>) => {
     const { clientX, clientY } = e;
     const { width, height, left, top } = ref.current!.getBoundingClientRect();
-    const middleX = clientX - (left + width / 2);
-    const middleY = clientY - (top + height / 2);
-    setPosition({ x: middleX * 0.15, y: middleY * 0.15 });
+    x.set((clientX - (left + width / 2)) * 0.15);
+    y.set((clientY - (top + height / 2)) * 0.15);
   };
 
   const handleMouseEnter = () => {
@@ -27,10 +31,9 @@ export const MagneticButton: React.FC<MagneticButtonProps> = ({ children, classN
   };
 
   const reset = () => {
-    setPosition({ x: 0, y: 0 });
+    x.set(0);
+    y.set(0);
   };
-
-  const { x, y } = position;
 
   return (
     <motion.div
@@ -38,8 +41,7 @@ export const MagneticButton: React.FC<MagneticButtonProps> = ({ children, classN
       onMouseMove={handleMouse}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={reset}
-      animate={{ x, y }}
-      transition={{ type: 'spring', stiffness: 150, damping: 15, mass: 0.1 }}
+      style={{ x: springX, y: springY }}
       className={className}
     >
       {children}

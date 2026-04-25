@@ -30,11 +30,17 @@ const Navbar = () => {
     ];
 
     useEffect(() => {
+        let ticking = false;
         const handleScroll = () => {
-            setHasScrolled(window.scrollY > 10);
+            if (ticking) return;
+            ticking = true;
+            requestAnimationFrame(() => {
+                setHasScrolled(window.scrollY > 10);
+                ticking = false;
+            });
         };
         handleScroll();
-        window.addEventListener('scroll', handleScroll);
+        window.addEventListener('scroll', handleScroll, { passive: true });
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
 
@@ -67,7 +73,7 @@ const Navbar = () => {
     };
 
     return (
-        <nav className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ${
+        <nav className={`fixed top-0 left-0 w-full z-50 transition-[background-color,border-color,box-shadow] duration-500 ${
             hasScrolled
                 ? 'bg-primary-background/80 backdrop-blur-lg border-b border-secondary-text/10 shadow-lg shadow-accent/5'
                 : 'bg-transparent'

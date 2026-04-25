@@ -95,7 +95,7 @@ const Projects = () => {
                     onError={() => handleImageError(project.id)}
                   />
                 ) : (
-                  <div className="w-full h-full flex items-center justify-center backdrop-blur-sm">
+                  <div className="w-full h-full flex items-center justify-center bg-secondary-background/60">
                     <div className="text-center">
                       <Code2 className="w-16 h-16 text-accent/50 mx-auto mb-2" />
                       <p className="text-secondary-text text-sm">{t.projects.previewUnavailable}</p>

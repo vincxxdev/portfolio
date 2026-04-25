@@ -170,7 +170,7 @@ const Experience = () => {
                 href={cert.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center justify-center gap-2 px-4 py-3 border-2 border-accent/50 text-accent hover:bg-accent hover:text-white hover:border-accent font-semibold rounded-xl transition-all duration-300 transform hover:scale-105"
+                className="flex items-center justify-center gap-2 px-4 py-3 border-2 border-accent/50 text-accent hover:bg-accent hover:text-white hover:border-accent font-semibold rounded-xl transition-[background-color,color,border-color,transform] duration-300 transform hover:scale-105"
               >
                 <ExternalLink className="w-4 h-4" />
                 <span className="text-sm">{t.experience.viewCert}</span>

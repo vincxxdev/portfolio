@@ -180,22 +180,6 @@ const Hero = () => {
                 initial={{ opacity: 0, y: 18 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.55 }}
-                className="mt-8 flex flex-wrap gap-3"
-              >
-                {orbitSkills.map((skill) => (
-                  <span
-                    key={skill}
-                    className="rounded-full border border-secondary-text/15 bg-primary-background/35 px-4 py-2 text-sm font-medium text-secondary-text backdrop-blur-sm"
-                  >
-                    {skill}
-                  </span>
-                ))}
-              </motion.div>
-
-              <motion.div
-                initial={{ opacity: 0, y: 18 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.65 }}
                 className="mt-10 flex flex-col gap-4 sm:flex-row sm:flex-wrap"
               >
                 <Button href="#projects" variant="primary" size="lg" className="gap-2">

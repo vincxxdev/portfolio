@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { Menu, X, Sparkles } from 'lucide-react';
+import Button from './ui/Button';
 import { ThemeSwitcher } from './ThemeSwitcher';
 import { SoundToggle } from './ui/SoundToggle';
 import { LanguageSwitcher } from './LanguageSwitcher';
@@ -115,13 +116,9 @@ const Navbar = () => {
                 <div className="hidden md:flex items-center gap-6">
                     <div className="flex items-center gap-1">
                         {navLinks.map((link) => (
-                            <a
-                                key={link.href}
-                                href={link.href}
-                                className="px-3 py-2 text-xs font-semibold uppercase tracking-[0.22em] text-secondary-text/75 transition-colors duration-300 hover:text-accent"
-                            >
+                            <Button key={link.href} href={link.href} variant="nav" size="nav">
                                 {link.label}
-                            </a>
+                            </Button>
                         ))}
                     </div>
                     <div className="h-5 w-px bg-gradient-to-b from-transparent via-secondary-text/20 to-transparent" />
@@ -179,17 +176,19 @@ const Navbar = () => {
 
                         <div className="flex flex-col items-center gap-8 relative z-10">
                             {navLinks.map((link, index) => (
-                                <motion.a
+                                <Button
                                     key={link.href}
                                     href={link.href}
+                                    variant="nav"
+                                    size="nav"
                                     onClick={closeMenu}
                                     initial={{ opacity: 0, y: 20 }}
                                     animate={{ opacity: 1, y: 0 }}
                                     transition={{ duration: 0.4, delay: index * 0.08 }}
-                                    className="text-sm font-semibold uppercase tracking-[0.34em] text-secondary-text/80 transition-colors duration-300 hover:text-accent"
+                                    className="text-sm tracking-[0.34em]"
                                 >
                                     {link.label}
-                                </motion.a>
+                                </Button>
                             ))}
 
                             <motion.div

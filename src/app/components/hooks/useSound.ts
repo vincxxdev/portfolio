@@ -1,11 +1,24 @@
 'use client';
 
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
 type SoundType = 'click' | 'hover' | 'success' | 'pop';
 
+let sharedAudioContext: AudioContext | null = null;
+
+function getAudioContext(): AudioContext {
+  if (!sharedAudioContext || sharedAudioContext.state === 'closed') {
+    sharedAudioContext = new (window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext)();
+  }
+  if (sharedAudioContext.state === 'suspended') {
+    sharedAudioContext.resume();
+  }
+  return sharedAudioContext;
+}
+
 export const useSound = () => {
   const [soundEnabled, setSoundEnabled] = useState(true);
+  const lastHoverTime = useRef(0);
 
   useEffect(() => {
     // Check localStorage on mount
@@ -27,8 +40,13 @@ export const useSound = () => {
   const playSound = useCallback((type: SoundType) => {
     if (!soundEnabled) return;
 
-    // Create audio context for Web Audio API
-    const audioContext = new (window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext)();
+    if (type === 'hover') {
+      const now = Date.now();
+      if (now - lastHoverTime.current < 80) return;
+      lastHoverTime.current = now;
+    }
+
+    const audioContext = getAudioContext();
     const oscillator = audioContext.createOscillator();
     const gainNode = audioContext.createGain();
 

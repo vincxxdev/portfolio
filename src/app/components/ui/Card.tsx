@@ -17,6 +17,8 @@ interface CardProps extends Omit<HTMLMotionProps<'div'>, 'children'> {
   glowIntensity?: 'light' | 'medium' | 'strong' | 'none';
   /** Padding size */
   padding?: 'sm' | 'md' | 'lg' | 'xl';
+  /** Disable backdrop-blur for performance when many cards are visible */
+  disableBlur?: boolean;
   /** Custom className for additional styling */
   className?: string;
   /** Optional badge configuration */
@@ -54,6 +56,7 @@ const Card = React.forwardRef<HTMLDivElement, CardProps>(
       cornerAccent = true,
       glowIntensity = 'medium',
       padding = 'md',
+      disableBlur = false,
       className = '',
       badge,
       icon,
@@ -88,7 +91,7 @@ const Card = React.forwardRef<HTMLDivElement, CardProps>(
           group relative flex flex-col
           ${paddingMap[padding]}
           rounded-2xl border border-secondary-text/20
-          bg-secondary-background/50 backdrop-blur-lg
+          ${disableBlur ? 'bg-secondary-background/80' : 'bg-secondary-background/50 backdrop-blur-lg'}
           shadow-xl hover:shadow-2xl ${glowMap[glowIntensity]}
           transition-all duration-500
           overflow-hidden

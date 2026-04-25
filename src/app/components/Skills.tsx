@@ -4,7 +4,7 @@ import { skillsData } from '@/data/skills';
 import SkillIcon from './ui/SkillIcon';
 import { motion, useMotionValue, useTransform, animate } from 'framer-motion';
 import { Code2, Zap } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import { useRef, useState, memo } from 'react';
 import Card from './ui/Card';
 import { SectionHeader } from './ui/CardComponents';
 import { useLocale } from '@/i18n';
@@ -23,41 +23,31 @@ interface SkillCardProps {
   };
 }
 
-const SkillCard = ({ name, percentage, iconName, color, index, levelLabels }: SkillCardProps) => {
-  const [hasAnimated, setHasAnimated] = useState(false);
-  
-  // Add a slight random variation to make it more realistic (±1-2%)
+const CIRCUMFERENCE = 2 * Math.PI * 52;
+
+const SkillCard = memo(({ name, percentage, iconName, color, index, levelLabels }: SkillCardProps) => {
+  const hasAnimated = useRef(false);
+
   const [targetPercentage] = useState(() => {
-    const variation = (Math.random() - 0.5) * 2; // Random between -1 and 1
+    const variation = (Math.random() - 0.5) * 2;
     return Math.min(100, Math.max(0, percentage + variation));
   });
-  
-  // Animated counter for percentage
+
   const count = useMotionValue(0);
   const rounded = useTransform(count, Math.round);
-  const [displayValue, setDisplayValue] = useState(0);
+  const percentageText = useTransform(rounded, (v) => `${v}%`);
+  const progressWidth = useTransform(count, (v) => `${v}%`);
+  const dashOffset = useTransform(count, (v) => CIRCUMFERENCE - (v / 100) * CIRCUMFERENCE);
 
-  // Trigger animation on mount/view
   const handleViewportEnter = () => {
-    if (!hasAnimated) {
-      setHasAnimated(true);
+    if (!hasAnimated.current) {
+      hasAnimated.current = true;
       animate(count, targetPercentage, {
         duration: 2,
         ease: "easeOut",
       });
     }
   };
-
-  // Update display value
-  useEffect(() => {
-    const unsubscribe = rounded.on('change', (latest) => {
-      setDisplayValue(latest);
-    });
-    return unsubscribe;
-  }, [rounded]);
-
-  const circumference = 2 * Math.PI * 52;
-  const offset = circumference - (displayValue / 100) * circumference;
 
   const getSkillLevel = (percentage: number) => {
     if (percentage >= 80) return { label: levelLabels.expert, color: 'from-green-500 to-emerald-500' };
@@ -72,16 +62,13 @@ const SkillCard = ({ name, percentage, iconName, color, index, levelLabels }: Sk
     <Card
       hoverEffect="lift"
       padding="md"
+      disableBlur
       className="items-center justify-center"
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.5, delay: index * 0.05 }}
       onViewportEnter={handleViewportEnter}
-      whileHover={{ 
-        y: -8,
-        transition: { type: "spring", stiffness: 300 }
-      }}
     >
       {/* Skill level badge */}
       <div className="absolute top-3 right-3 z-20">
@@ -95,7 +82,7 @@ const SkillCard = ({ name, percentage, iconName, color, index, levelLabels }: Sk
         <div className="relative w-28 h-28 flex items-center justify-center mb-4">
           {/* Outer glow effect */}
           <div className="absolute inset-0 rounded-full bg-accent/10 blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-          
+
           <svg className="absolute w-full h-full transform -rotate-90" viewBox="0 0 120 120">
             {/* Background circle */}
             <circle
@@ -108,20 +95,17 @@ const SkillCard = ({ name, percentage, iconName, color, index, levelLabels }: Sk
               cy="60"
             />
             {/* Progress circle */}
-            <circle
-              className="text-accent transition-all duration-1000"
+            <motion.circle
+              className="text-accent"
               strokeWidth="6"
-              strokeDasharray={circumference}
-              strokeDashoffset={offset}
+              strokeDasharray={CIRCUMFERENCE}
+              style={{ strokeDashoffset: dashOffset }}
               strokeLinecap="round"
               stroke="currentColor"
               fill="transparent"
               r="52"
               cx="60"
               cy="60"
-              style={{
-                filter: 'drop-shadow(0 0 8px currentColor)',
-              }}
             />
           </svg>
 
@@ -134,9 +118,9 @@ const SkillCard = ({ name, percentage, iconName, color, index, levelLabels }: Sk
 
           {/* Percentage badge */}
           <div className="absolute -bottom-2 bg-primary-background border-2 border-accent/30 rounded-full px-3 py-1 shadow-lg">
-            <span className="text-sm font-bold bg-gradient-to-r from-cyan-400 to-blue-600 bg-clip-text text-transparent">
-              {displayValue}%
-            </span>
+            <motion.span className="text-sm font-bold bg-gradient-to-r from-cyan-400 to-blue-600 bg-clip-text text-transparent">
+              {percentageText}
+            </motion.span>
           </div>
         </div>
 
@@ -148,14 +132,15 @@ const SkillCard = ({ name, percentage, iconName, color, index, levelLabels }: Sk
         {/* Progress bar */}
         <div className="w-full mt-3 h-1.5 bg-secondary-text/20 rounded-full overflow-hidden">
           <motion.div
-            style={{ width: `${displayValue}%` }}
-            className="h-full bg-gradient-to-r from-cyan-400 to-blue-600 rounded-full transition-all duration-300"
+            style={{ width: progressWidth }}
+            className="h-full bg-gradient-to-r from-cyan-400 to-blue-600 rounded-full"
           />
         </div>
       </div>
     </Card>
   );
-};
+});
+SkillCard.displayName = 'SkillCard';
 
 const Skills = () => {
   const { t } = useLocale();

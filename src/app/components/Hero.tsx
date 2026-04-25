@@ -171,7 +171,7 @@ const Hero = () => {
                 initial={{ opacity: 0, y: 18 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.45 }}
-                className="mt-6 max-w-2xl text-lg leading-relaxed text-secondary-text sm:text-xl"
+                className="mt-6 max-w-2xl text-sm leading-relaxed tracking-wide text-secondary-text/70 sm:text-base"
               >
                 {t.hero.tagline}
               </motion.p>

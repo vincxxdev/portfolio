@@ -1,54 +1,43 @@
 "use client";
 
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { Terminal } from 'lucide-react';
 import { SectionHeader } from './ui/CardComponents';
-import { siteConfig } from '@/config/site';
+import { useLocale } from '@/i18n';
 
 
 const About = () => {
+  const { t } = useLocale();
   const [text, setText] = useState('');
   const [showCursor, setShowCursor] = useState(true);
+  const typingTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const cursorIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
-  const command = 'cat ./about.txt';
-  const content = `
-${siteConfig.personal.bio}`;
-  
-  const fullText = useMemo(() => `$ ${command}\n${content}`, [command, content]);
+  const command = t.about.terminalCommand;
+  const content = `\n${t.about.bio}`;
+
+  const fullText = useMemo(() => `$ ${command}${content}`, [command, content]);
 
   useEffect(() => {
     let i = 0;
-    let cursorInterval: NodeJS.Timeout | null = null;
-    
-    const typing = setInterval(() => {
-      if (i < fullText.length) {
-        setText(fullText.substring(0, i + 1));
-        i++;
-        
-        // Random speed variation for more realistic typing
-        const randomDelay = Math.random() * 30 + 20;
-        clearInterval(typing);
-        setTimeout(() => {
-          const newTyping = setInterval(() => {
-            if (i < fullText.length) {
-              setText(fullText.substring(0, i + 1));
-              i++;
-            } else {
-              clearInterval(newTyping);
-              cursorInterval = setInterval(() => setShowCursor(show => !show), 500);
-            }
-          }, randomDelay);
-        }, randomDelay);
-      } else {
-        clearInterval(typing);
-        cursorInterval = setInterval(() => setShowCursor(show => !show), 500);
+
+    const typeNext = () => {
+      if (i >= fullText.length) {
+        cursorIntervalRef.current = setInterval(() => setShowCursor((s) => !s), 500);
+        return;
       }
-    }, 50);
+      setText(fullText.substring(0, i + 1));
+      i++;
+      const randomDelay = Math.random() * 30 + 20;
+      typingTimeoutRef.current = setTimeout(typeNext, randomDelay);
+    };
+
+    typingTimeoutRef.current = setTimeout(typeNext, 50);
 
     return () => {
-      clearInterval(typing);
-      if (cursorInterval) clearInterval(cursorInterval);
+      if (typingTimeoutRef.current) clearTimeout(typingTimeoutRef.current);
+      if (cursorIntervalRef.current) clearInterval(cursorIntervalRef.current);
     };
   }, [fullText]);
 
@@ -72,10 +61,10 @@ ${siteConfig.personal.bio}`;
           <SectionHeader
             title={
               <>
-                About <span className="bg-gradient-to-r from-cyan-400 to-blue-600 bg-clip-text text-transparent">Me</span>
+                {t.about.title} <span className="bg-gradient-to-r from-cyan-400 to-blue-600 bg-clip-text text-transparent">{t.about.titleHighlight}</span>
               </>
             }
-            description="Scopri di più sul mio percorso e le mie passioni"
+            description={t.about.subtitle}
           />
         </motion.div>
 
@@ -103,7 +92,7 @@ ${siteConfig.personal.bio}`;
               </div>
               <div className="flex-grow flex items-center justify-center gap-2">
                 <Terminal className="w-4 h-4 text-accent" />
-                <span className="text-sm font-semibold text-accent">vincxsh@portfolio</span>
+                <span className="text-sm font-semibold text-accent">{t.about.terminalUser}</span>
               </div>
               <div className="w-16"></div>
             </div>

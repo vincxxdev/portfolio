@@ -10,10 +10,12 @@ import { projectsData } from '@/data/projects';
 import Card from './ui/Card';
 import { SectionHeader } from './ui/CardComponents';
 import { MagneticButton } from './ui/MagneticButton';
+import { useLocale } from '@/i18n';
 
 const projects = projectsData;
 
 const Projects = () => {
+  const { t } = useLocale();
   const [imageErrors, setImageErrors] = useState<{ [key: number]: boolean }>({});
   const [hoveredProject, setHoveredProject] = useState<number | null>(null);
 
@@ -50,10 +52,10 @@ const Projects = () => {
           <SectionHeader
             title={
               <>
-                I Miei <span className="bg-gradient-to-r from-cyan-400 to-blue-600 bg-clip-text text-transparent">Progetti</span>
+                {t.projects.title} <span className="bg-gradient-to-r from-cyan-400 to-blue-600 bg-clip-text text-transparent">{t.projects.titleHighlight}</span>
               </>
             }
-            description="Esplora una selezione dei miei progetti più significativi"
+            description={t.projects.subtitle}
           />
         </motion.div>
 
@@ -86,7 +88,7 @@ const Projects = () => {
                 {!imageErrors[project.id] ? (
                   <Image
                     src={project.previewImage}
-                    alt={`Anteprima del progetto ${project.title}`}
+                    alt={`${t.accessibility.projectPreview} ${t.projects.items[project.id]?.title ?? project.title}`}
                     width={400}
                     height={250}
                     className="w-full h-full object-cover transition-all duration-500 group-hover:scale-110 group-hover:rotate-1 relative z-10"
@@ -99,7 +101,7 @@ const Projects = () => {
                   <div className="w-full h-full flex items-center justify-center backdrop-blur-sm">
                     <div className="text-center">
                       <Code2 className="w-16 h-16 text-accent/50 mx-auto mb-2" />
-                      <p className="text-secondary-text text-sm">Anteprima non disponibile</p>
+                      <p className="text-secondary-text text-sm">{t.projects.previewUnavailable}</p>
                     </div>
                   </div>
                 )}
@@ -127,12 +129,12 @@ const Projects = () => {
               <div className="flex-1 flex flex-col p-6 relative z-20">
                 {/* Title */}
                 <h3 className="text-2xl font-bold text-primary-text mb-3 group-hover:text-accent transition-colors duration-300">
-                  {project.title}
+                  {t.projects.items[project.id]?.title ?? project.title}
                 </h3>
-                
+
                 {/* Description */}
                 <p className="text-secondary-text text-sm leading-relaxed mb-4 flex-grow">
-                  {project.description}
+                  {t.projects.items[project.id]?.description ?? project.description}
                 </p>
 
                 {/* Technologies */}
@@ -166,10 +168,10 @@ const Projects = () => {
                         target="_blank"
                         rel="noopener noreferrer"
                         className="flex items-center justify-center gap-2 px-4 py-3 bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600 text-white font-semibold rounded-xl transition-all duration-300 shadow-lg hover:shadow-cyan-500/50 w-full"
-                        aria-label={`Visualizza la demo live di ${project.title}`}
+                        aria-label={`${t.accessibility.viewDemo} ${t.projects.items[project.id]?.title ?? project.title}`}
                       >
                         <ExternalLink className="w-4 h-4" aria-hidden="true" />
-                        <span className="text-sm">Live Demo</span>
+                        <span className="text-sm">{t.projects.liveDemo}</span>
                       </a>
                     </MagneticButton>
                   )}
@@ -179,10 +181,10 @@ const Projects = () => {
                       target="_blank"
                       rel="noopener noreferrer"
                       className={`flex items-center justify-center gap-2 px-4 py-3 border-2 border-accent/50 text-accent hover:bg-accent hover:text-white hover:border-accent font-semibold rounded-xl transition-all duration-300 w-full`}
-                      aria-label={`Visualizza il codice sorgente di ${project.title} su GitHub`}
+                      aria-label={`${t.accessibility.viewSource} ${t.projects.items[project.id]?.title ?? project.title}`}
                     >
                       <SiGithub className="w-4 h-4" aria-hidden="true" />
-                      <span className="text-sm">GitHub</span>
+                      <span className="text-sm">{t.projects.github}</span>
                     </a>
                   </MagneticButton>
                 </div>

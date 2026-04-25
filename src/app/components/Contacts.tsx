@@ -5,8 +5,11 @@ import { Mail, Phone, MessageSquare, Send, MapPin, Globe } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 import { siteConfig } from '@/config/site';
+import { useLocale } from '@/i18n';
 
 const Contacts = () => {
+  const { t } = useLocale();
+
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -49,10 +52,10 @@ const Contacts = () => {
           className="mb-16"
         >
           <h2 className="text-4xl sm:text-5xl font-bold text-primary-text mb-4">
-            I miei <span className="bg-gradient-to-r from-cyan-400 to-blue-600 bg-clip-text text-transparent">Contatti</span>
+            {t.contacts.title} <span className="bg-gradient-to-r from-cyan-400 to-blue-600 bg-clip-text text-transparent">{t.contacts.titleHighlight}</span>
           </h2>
           <p className="text-lg text-secondary-text max-w-2xl mx-auto">
-            Sono sempre aperto a nuove opportunità e collaborazioni. Sentiti libero di contattarmi!
+            {t.contacts.subtitle}
           </p>
         </motion.div>
         
@@ -69,7 +72,7 @@ const Contacts = () => {
             variants={itemVariants}
             href={`mailto:${siteConfig.contact.email}`}
             className="group relative flex flex-col items-center gap-6 p-8 bg-secondary-background/50 backdrop-blur-lg rounded-2xl border border-secondary-text/20 shadow-xl hover:shadow-2xl hover:shadow-cyan-400/20 transition-all duration-500 hover:-translate-y-2 overflow-hidden"
-            aria-label={`Invia email a ${siteConfig.contact.email}`}
+            aria-label={`${t.accessibility.sendEmail} ${siteConfig.contact.email}`}
           >
             {/* Gradient overlay */}
             <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/0 via-blue-500/0 to-purple-500/0 group-hover:from-cyan-500/5 group-hover:via-blue-500/5 group-hover:to-purple-500/5 transition-all duration-500 rounded-2xl"></div>
@@ -87,9 +90,9 @@ const Contacts = () => {
 
             <div className="relative z-10">
               <h3 className="text-xl font-bold text-primary-text mb-2 group-hover:text-accent transition-colors duration-300">
-                Email
+                {t.contacts.email.title}
               </h3>
-              <p className="text-secondary-text text-sm mb-3">Scrivimi una mail</p>
+              <p className="text-secondary-text text-sm mb-3">{t.contacts.email.subtitle}</p>
               <p className="text-accent font-semibold break-all">{siteConfig.contact.email}</p>
             </div>
 
@@ -104,7 +107,7 @@ const Contacts = () => {
             variants={itemVariants}
             href={`tel:${siteConfig.contact.phone}`}
             className="group relative flex flex-col items-center gap-6 p-8 bg-secondary-background/50 backdrop-blur-lg rounded-2xl border border-secondary-text/20 shadow-xl hover:shadow-2xl hover:shadow-cyan-400/20 transition-all duration-500 hover:-translate-y-2 overflow-hidden"
-            aria-label={`Chiama il numero ${siteConfig.contact.phoneDisplay}`}
+            aria-label={`${t.accessibility.callPhone} ${siteConfig.contact.phoneDisplay}`}
           >
             {/* Gradient overlay */}
             <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/0 via-blue-500/0 to-purple-500/0 group-hover:from-cyan-500/5 group-hover:via-blue-500/5 group-hover:to-purple-500/5 transition-all duration-500 rounded-2xl"></div>
@@ -122,9 +125,9 @@ const Contacts = () => {
 
             <div className="relative z-10">
               <h3 className="text-xl font-bold text-primary-text mb-2 group-hover:text-accent transition-colors duration-300">
-                Telefono
+                {t.contacts.phone.title}
               </h3>
-              <p className="text-secondary-text text-sm mb-3">Chiamami direttamente</p>
+              <p className="text-secondary-text text-sm mb-3">{t.contacts.phone.subtitle}</p>
               <p className="text-accent font-semibold">{siteConfig.contact.phoneDisplay}</p>
             </div>
 
@@ -148,7 +151,7 @@ const Contacts = () => {
               <MapPin className="w-6 h-6 text-accent" />
             </div>
             <div>
-              <p className="text-sm text-secondary-text mb-1">Location</p>
+              <p className="text-sm text-secondary-text mb-1">{t.contacts.location}</p>
               <p className="text-base font-bold text-primary-text">{siteConfig.personal.location}</p>
             </div>
           </div>
@@ -158,8 +161,8 @@ const Contacts = () => {
               <Globe className="w-6 h-6 text-accent" />
             </div>
             <div>
-              <p className="text-sm text-secondary-text mb-1">Disponibilità</p>
-              <p className="text-base font-bold text-primary-text">Aperto a Opportunità</p>
+              <p className="text-sm text-secondary-text mb-1">{t.contacts.availability}</p>
+              <p className="text-base font-bold text-primary-text">{t.contacts.availabilityValue}</p>
             </div>
           </div>
 
@@ -168,8 +171,8 @@ const Contacts = () => {
               <MessageSquare className="w-6 h-6 text-accent" />
             </div>
             <div>
-              <p className="text-sm text-secondary-text mb-1">Tempo di Risposta</p>
-              <p className="text-base font-bold text-primary-text">24-48 ore</p>
+              <p className="text-sm text-secondary-text mb-1">{t.contacts.responseTime}</p>
+              <p className="text-base font-bold text-primary-text">{t.contacts.responseTimeValue}</p>
             </div>
           </div>
         </motion.div>

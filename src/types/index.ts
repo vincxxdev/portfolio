@@ -28,9 +28,11 @@ export interface Experience {
 
 // Certification type definition
 export interface Certification {
+  id: string;
   title: string;
   issuer: string;
   date: string;
+  sortDate: string;
   url: string;
 }
 

@@ -4,6 +4,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { Download, FileText, ChevronDown } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useAdmin } from '@/app/components/providers/AdminProvider';
+import { useLocale } from '@/i18n';
 
 interface DownloadCVButtonProps {
   variant?: 'primary' | 'secondary' | 'icon';
@@ -19,6 +20,7 @@ const DownloadCVButton: React.FC<DownloadCVButtonProps> = ({
   className = '' 
 }) => {
   const { isAdmin, isLoading } = useAdmin();
+  const { t } = useLocale();
   const [isGenerating, setIsGenerating] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [generatingType, setGeneratingType] = useState<CVType | null>(null);
@@ -50,8 +52,8 @@ const DownloadCVButton: React.FC<DownloadCVButtonProps> = ({
         await generateSimplifiedCV();
       }
     } catch (error) {
-      console.error('Errore durante la generazione del CV:', error);
-      alert('Si è verificato un errore durante la generazione del CV. Riprova.');
+      console.error('CV generation error:', error);
+      alert(t.cv.error);
     } finally {
       setIsGenerating(false);
       setGeneratingType(null);
@@ -89,7 +91,7 @@ const DownloadCVButton: React.FC<DownloadCVButtonProps> = ({
     return (
       <div className={`${baseStyles} ${variantStyles[variant]} ${variant !== 'icon' ? sizeStyles[size] : ''} ${className} opacity-50`}>
         <Download className="w-5 h-5" />
-        {variant !== 'icon' && <span>Scarica CV</span>}
+        {variant !== 'icon' && <span>{t.cv.download}</span>}
       </div>
     );
   }
@@ -105,7 +107,7 @@ const DownloadCVButton: React.FC<DownloadCVButtonProps> = ({
           className={`${baseStyles} ${variantStyles[variant]} ${className}`}
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.95 }}
-          title="Scarica CV"
+          title={t.cv.download}
         >
           {isGenerating ? (
             <motion.div
@@ -130,7 +132,7 @@ const DownloadCVButton: React.FC<DownloadCVButtonProps> = ({
           className={`${baseStyles} ${variantStyles[variant]} ${className}`}
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.95 }}
-          title="Scarica CV"
+          title={t.cv.download}
         >
           {isGenerating ? (
             <motion.div
@@ -159,7 +161,7 @@ const DownloadCVButton: React.FC<DownloadCVButtonProps> = ({
                 className={dropdownItemStyles}
               >
                 <FileText className="w-4 h-4 text-accent" />
-                <span>Scarica CV</span>
+                <span>{t.cv.download}</span>
               </button>
               <button
                 onClick={() => handleDownload('simplified')}
@@ -167,7 +169,7 @@ const DownloadCVButton: React.FC<DownloadCVButtonProps> = ({
                 className={`${dropdownItemStyles} border-t border-accent/20`}
               >
                 <FileText className="w-4 h-4 text-accent" />
-                <span>Scarica CV Semplificato</span>
+                <span>{t.cv.downloadSimplified}</span>
               </button>
             </motion.div>
           )}
@@ -194,12 +196,12 @@ const DownloadCVButton: React.FC<DownloadCVButtonProps> = ({
             >
               <FileText className="w-5 h-5" />
             </motion.div>
-            <span>Generazione...</span>
+            <span>{t.cv.generating}</span>
           </>
         ) : (
           <>
             <Download className="w-5 h-5" />
-            <span>Scarica CV</span>
+            <span>{t.cv.download}</span>
           </>
         )}
       </motion.button>
@@ -225,13 +227,13 @@ const DownloadCVButton: React.FC<DownloadCVButtonProps> = ({
               <FileText className="w-5 h-5" />
             </motion.div>
             <span>
-              {generatingType === 'simplified' ? 'Generazione Semplificato...' : 'Generazione...'}
+              {generatingType === 'simplified' ? t.cv.generatingSimplified : t.cv.generating}
             </span>
           </>
         ) : (
           <>
             <Download className="w-5 h-5" />
-            <span>Scarica CV</span>
+            <span>{t.cv.download}</span>
             <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${isDropdownOpen ? 'rotate-180' : ''}`} />
           </>
         )}
@@ -253,8 +255,8 @@ const DownloadCVButton: React.FC<DownloadCVButtonProps> = ({
             >
               <FileText className="w-4 h-4 text-accent" />
               <div className="flex flex-col items-start">
-                <span className="font-semibold">Scarica CV</span>
-                <span className="text-xs text-muted-foreground opacity-70">CV tecnico completo</span>
+                <span className="font-semibold">{t.cv.download}</span>
+                <span className="text-xs text-muted-foreground opacity-70">{t.cv.technicalCV}</span>
               </div>
             </button>
             <button
@@ -264,8 +266,8 @@ const DownloadCVButton: React.FC<DownloadCVButtonProps> = ({
             >
               <FileText className="w-4 h-4 text-accent" />
               <div className="flex flex-col items-start">
-                <span className="font-semibold">Scarica CV Semplificato</span>
-                <span className="text-xs text-muted-foreground opacity-70">Per posizioni amministrative</span>
+                <span className="font-semibold">{t.cv.downloadSimplified}</span>
+                <span className="text-xs text-muted-foreground opacity-70">{t.cv.administrativeCV}</span>
               </div>
             </button>
           </motion.div>

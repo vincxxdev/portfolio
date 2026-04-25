@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter, Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "./components/ThemeProvider";
+import { LocaleProvider } from "@/i18n";
 import { AdminProvider } from "./components/providers/AdminProvider";
 import Loader from "./components/Loader";
 import CursorProvider from "./components/ui/CursorProvider";
@@ -60,6 +61,7 @@ export default function RootLayout({
           defaultTheme="system"
           enableSystem
         >
+          <LocaleProvider>
           <AdminProvider>
             <CursorProvider />
             <ThemeTransition />
@@ -67,6 +69,7 @@ export default function RootLayout({
             <Analytics />
             <SpeedInsights />
           </AdminProvider>
+          </LocaleProvider>
         </ThemeProvider>
       </body>
     </html>

@@ -6,17 +6,11 @@ import { Menu, X, Sparkles } from 'lucide-react';
 import Button from './ui/Button';
 import { ThemeSwitcher } from './ThemeSwitcher';
 import { SoundToggle } from './ui/SoundToggle';
+import { LanguageSwitcher } from './LanguageSwitcher';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useSound } from './hooks/useSound';
 import DownloadCVButton from './ui/DownloadCVButton';
-
-const navLinks = [
-  { href: '#about', label: 'About' },
-  { href: '#experience', label: 'Esperienze' },
-  { href: '#skills', label: 'Skills' },
-  { href: '#projects', label: 'Progetti' },
-  { href: '#contacts', label: 'Contatti' },
-];
+import { useLocale } from '@/i18n';
 
 const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false);
@@ -24,6 +18,15 @@ const Navbar = () => {
     const [easterEgg, setEasterEgg] = useState(false);
     const [logoClicks, setLogoClicks] = useState(0);
     const { playSound } = useSound();
+    const { t } = useLocale();
+
+    const navLinks = [
+      { href: '#about', label: t.nav.about },
+      { href: '#experience', label: t.nav.experience },
+      { href: '#skills', label: t.nav.skills },
+      { href: '#projects', label: t.nav.projects },
+      { href: '#contacts', label: t.nav.contacts },
+    ];
 
     useEffect(() => {
         const handleScroll = () => {
@@ -122,16 +125,18 @@ const Navbar = () => {
                     <div className="flex items-center gap-2">
                         <DownloadCVButton variant="icon" />
                         <SoundToggle />
+                        <LanguageSwitcher />
                         <ThemeSwitcher />
                     </div>
                 </div>
 
                 <div className="md:hidden flex items-center gap-3">
                     <SoundToggle />
+                    <LanguageSwitcher />
                     <ThemeSwitcher />
                     <button 
                         onClick={() => setIsOpen(!isOpen)}
-                        aria-label="Apri menu di navigazione"
+                        aria-label={t.nav.openMenu}
                         aria-expanded={isOpen}
                         className="p-2 rounded-lg hover:bg-accent/10 transition-colors duration-300"
                     >
@@ -151,7 +156,7 @@ const Navbar = () => {
                     <button 
                         onClick={closeMenu} 
                         className="absolute top-7 right-4 p-2 rounded-lg hover:bg-accent/10 transition-colors duration-300 z-10"
-                        aria-label="Chiudi menu di navigazione"
+                        aria-label={t.nav.closeMenu}
                     >
                         <X className="h-8 w-8 text-primary-text" />
                     </button>

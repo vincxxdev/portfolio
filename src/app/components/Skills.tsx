@@ -7,6 +7,7 @@ import { Code2, Zap } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import Card from './ui/Card';
 import { SectionHeader } from './ui/CardComponents';
+import { useLocale } from '@/i18n';
 
 interface SkillCardProps {
   name: string;
@@ -14,9 +15,15 @@ interface SkillCardProps {
   iconName: string;
   color: string;
   index: number;
+  levelLabels: {
+    expert: string;
+    advanced: string;
+    intermediate: string;
+    beginner: string;
+  };
 }
 
-const SkillCard = ({ name, percentage, iconName, color, index }: SkillCardProps) => {
+const SkillCard = ({ name, percentage, iconName, color, index, levelLabels }: SkillCardProps) => {
   const [hasAnimated, setHasAnimated] = useState(false);
   
   // Add a slight random variation to make it more realistic (±1-2%)
@@ -53,10 +60,10 @@ const SkillCard = ({ name, percentage, iconName, color, index }: SkillCardProps)
   const offset = circumference - (displayValue / 100) * circumference;
 
   const getSkillLevel = (percentage: number) => {
-    if (percentage >= 80) return { label: 'Expert', color: 'from-green-500 to-emerald-500' };
-    if (percentage >= 60) return { label: 'Advanced', color: 'from-blue-500 to-cyan-500' };
-    if (percentage >= 40) return { label: 'Intermediate', color: 'from-yellow-500 to-orange-500' };
-    return { label: 'Beginner', color: 'from-orange-500 to-red-500' };
+    if (percentage >= 80) return { label: levelLabels.expert, color: 'from-green-500 to-emerald-500' };
+    if (percentage >= 60) return { label: levelLabels.advanced, color: 'from-blue-500 to-cyan-500' };
+    if (percentage >= 40) return { label: levelLabels.intermediate, color: 'from-yellow-500 to-orange-500' };
+    return { label: levelLabels.beginner, color: 'from-orange-500 to-red-500' };
   };
 
   const skillLevel = getSkillLevel(percentage);
@@ -151,6 +158,7 @@ const SkillCard = ({ name, percentage, iconName, color, index }: SkillCardProps)
 };
 
 const Skills = () => {
+  const { t } = useLocale();
   const sortedSkills = [...skillsData].sort((a, b) => b.percentage - a.percentage);
 
   const containerVariants = {
@@ -183,10 +191,10 @@ const Skills = () => {
           <SectionHeader
             title={
               <>
-                Le mie <span className="bg-gradient-to-r from-cyan-400 to-blue-600 bg-clip-text text-transparent">Competenze</span>
+                {t.skills.title} <span className="bg-gradient-to-r from-cyan-400 to-blue-600 bg-clip-text text-transparent">{t.skills.titleHighlight}</span>
               </>
             }
-            description="Tecnologie e linguaggi che utilizzo per creare soluzioni innovative"
+            description={t.skills.subtitle}
           />
         </motion.div>
 
@@ -199,13 +207,14 @@ const Skills = () => {
           className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6"
         >
           {sortedSkills.map((skill, index) => (
-            <SkillCard 
+            <SkillCard
               key={skill.name}
               name={skill.name}
               percentage={skill.percentage}
               iconName={skill.iconName}
               color={skill.color}
               index={index}
+              levelLabels={t.skills.levels}
             />
           ))}
         </motion.div>
@@ -230,7 +239,7 @@ const Skills = () => {
                 <p className="text-3xl font-bold bg-gradient-to-r from-cyan-400 to-blue-600 bg-clip-text text-transparent">
                   {sortedSkills.length}+
                 </p>
-                <p className="text-sm text-secondary-text font-medium">Tecnologie</p>
+                <p className="text-sm text-secondary-text font-medium">{t.skills.stats.technologies}</p>
               </div>
             </div>
           </Card>
@@ -253,7 +262,7 @@ const Skills = () => {
                 <p className="text-3xl font-bold bg-gradient-to-r from-cyan-400 to-blue-600 bg-clip-text text-transparent">
                   {Math.round(sortedSkills.reduce((acc, skill) => acc + skill.percentage, 0) / sortedSkills.length)}%
                 </p>
-                <p className="text-sm text-secondary-text font-medium">Media</p>
+                <p className="text-sm text-secondary-text font-medium">{t.skills.stats.average}</p>
               </div>
             </div>
           </Card>
@@ -276,7 +285,7 @@ const Skills = () => {
                 <p className="text-3xl font-bold bg-gradient-to-r from-cyan-400 to-blue-600 bg-clip-text text-transparent">
                   {sortedSkills.filter(s => s.percentage >= 80).length}
                 </p>
-                <p className="text-sm text-secondary-text font-medium">Esperte</p>
+                <p className="text-sm text-secondary-text font-medium">{t.skills.stats.expert}</p>
               </div>
             </div>
           </Card>

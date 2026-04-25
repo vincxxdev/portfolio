@@ -1,29 +1,25 @@
 'use client';
 
-import React from 'react';
+import React, { useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { Award, ExternalLink, Calendar, Building2 } from 'lucide-react';
 import Card from './ui/Card';
 import { CardTitle, CardDescription, CardDivider, SectionHeader } from './ui/CardComponents';
-import { experienceData } from '@/data/experiences';
 import { certificationData as certificationDataRaw } from '@/data/certifications';
-
-const monthMap: { [key:string]: number } = {
-  'gennaio': 0, 'febbraio': 1, 'marzo': 2, 'aprile': 3, 'maggio': 4, 'giugno': 5,
-  'luglio': 6, 'agosto': 7, 'settembre': 8, 'ottobre': 9, 'novembre': 10, 'dicembre': 11
-};
-
-const certificationData = [...certificationDataRaw].sort((a, b) => {
-  const [monthA, yearA] = a.date.toLowerCase().split(' ');
-  const [monthB, yearB] = b.date.toLowerCase().split(' ');
-
-  const dateA = new Date(parseInt(yearA), monthMap[monthA]);
-  const dateB = new Date(parseInt(yearB), monthMap[monthB]);
-
-  return dateB.getTime() - dateA.getTime();
-});
+import { useLocale } from '@/i18n';
 
 const Experience = () => {
+  const { t } = useLocale();
+
+  const certificationData = useMemo(() => {
+    const urlMap = new Map(certificationDataRaw.map((c) => [c.id, c.url]));
+    const certs = t.experience.certifications.map((cert) => ({
+      ...cert,
+      url: urlMap.get(cert.id) ?? '#',
+    }));
+    return [...certs].sort((a, b) => b.sortDate.localeCompare(a.sortDate));
+  }, [t]);
+
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -66,10 +62,10 @@ const Experience = () => {
           <SectionHeader
             title={
               <>
-                Le mie <span className="bg-gradient-to-r from-cyan-400 to-blue-600 bg-clip-text text-transparent">Esperienze</span>
+                {t.experience.title} <span className="bg-gradient-to-r from-cyan-400 to-blue-600 bg-clip-text text-transparent">{t.experience.titleHighlight}</span>
               </>
             }
-            description="Il mio percorso professionale e le competenze acquisite"
+            description={t.experience.subtitle}
           />
         </motion.div>
 
@@ -84,7 +80,7 @@ const Experience = () => {
             viewport={{ once: true, margin: "-100px" }}
             className="space-y-12"
           >
-            {experienceData.map((item, index) => (
+            {t.experience.items.map((item, index) => (
               <motion.div
                 key={index}
                 variants={itemVariants}
@@ -132,13 +128,12 @@ const Experience = () => {
           <SectionHeader
             title={
               <>
-                Le mie <span className="bg-gradient-to-r from-cyan-400 to-blue-600 bg-clip-text text-transparent">
-                  Certificazioni
+                {t.experience.certTitle} <span className="bg-gradient-to-r from-cyan-400 to-blue-600 bg-clip-text text-transparent">
+                  {t.experience.certTitleHighlight}
                 </span>
               </>
-              
             }
-            description="Corsi completati e certificazioni ottenute"
+            description={t.experience.certSubtitle}
           />
         </motion.div>
 
@@ -178,7 +173,7 @@ const Experience = () => {
                 className="flex items-center justify-center gap-2 px-4 py-3 border-2 border-accent/50 text-accent hover:bg-accent hover:text-white hover:border-accent font-semibold rounded-xl transition-all duration-300 transform hover:scale-105"
               >
                 <ExternalLink className="w-4 h-4" />
-                <span className="text-sm">Visualizza Certificato</span>
+                <span className="text-sm">{t.experience.viewCert}</span>
               </a>
             </Card>
           ))}

@@ -3,8 +3,10 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Rocket } from 'lucide-react';
+import { useLocale } from '@/i18n';
 
 export const ScrollToTop: React.FC = () => {
+  const { t } = useLocale();
   const [isVisible, setIsVisible] = useState(false);
   const [isLaunching, setIsLaunching] = useState(false);
 
@@ -52,7 +54,7 @@ export const ScrollToTop: React.FC = () => {
           whileTap={{ scale: 0.9 }}
           onClick={scrollToTop}
           className="fixed bottom-8 right-8 z-40 p-4 bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600 text-white rounded-full shadow-2xl shadow-cyan-500/50 backdrop-blur-lg border-2 border-white/20 group"
-          aria-label="Torna in cima"
+          aria-label={t.accessibility.scrollToTop}
         >
           <motion.div
             animate={isLaunching ? { y: -100, opacity: 0 } : { y: 0, opacity: 1 }}

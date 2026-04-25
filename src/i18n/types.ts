@@ -126,4 +126,69 @@ export interface Translations {
     switchToEnglish: string;
     switchToItalian: string;
   };
+  cvData: {
+    labels: {
+      profile: string;
+      education: string;
+      workExperience: string;
+      projects: string;
+      certifications: string;
+      availability: string;
+      privacyClause: string;
+      info: string;
+      contacts: string;
+      social: string;
+      languages: string;
+      technicalSkills: string;
+      softSkills: string;
+      bornOn: string;
+      nationality: string;
+      maritalStatus: string;
+      drivingLicense: string;
+      withVehicle: string;
+      immediateStart: string;
+      willingToTravel: string;
+      willingToRelocate: string;
+    };
+    personal: {
+      nationality: string;
+      maritalStatus: string;
+      drivingLicense: string;
+      vehicleNote: string;
+    };
+    profile: string;
+    education: {
+      title: string;
+      institution: string;
+      location: string;
+      period: string;
+      description: string;
+    }[];
+    languages: {
+      name: string;
+      level: string;
+      percentage: number;
+    }[];
+    softSkills: string[];
+    simplifiedCV: {
+      title: string;
+      profile: string;
+      skills: {
+        name: string;
+        percentage: number;
+      }[];
+      projects: {
+        title: string;
+        description: string;
+        technologies: string[];
+        githubLink: string;
+      }[];
+      experience: {
+        date: string;
+        title: string;
+        company: string;
+        description: string;
+      }[];
+    };
+  };
 }

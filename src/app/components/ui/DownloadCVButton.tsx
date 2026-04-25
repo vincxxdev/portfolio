@@ -20,7 +20,7 @@ const DownloadCVButton: React.FC<DownloadCVButtonProps> = ({
   className = '' 
 }) => {
   const { isAdmin, isLoading } = useAdmin();
-  const { t } = useLocale();
+  const { t, locale } = useLocale();
   const [isGenerating, setIsGenerating] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [generatingType, setGeneratingType] = useState<CVType | null>(null);
@@ -46,10 +46,10 @@ const DownloadCVButton: React.FC<DownloadCVButtonProps> = ({
     try {
       if (type === 'standard') {
         const { generateCV } = await import('@/lib/generateCV');
-        await generateCV();
+        await generateCV(locale);
       } else {
         const { generateSimplifiedCV } = await import('@/lib/generateSimplifiedCV');
-        await generateSimplifiedCV();
+        await generateSimplifiedCV(locale);
       }
     } catch (error) {
       console.error('CV generation error:', error);

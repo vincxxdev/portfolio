@@ -44,10 +44,11 @@ const TiltCard = React.forwardRef<HTMLDivElement, CardProps>(
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}
         style={{ perspective: 1000 }}
-        className="relative"
+        className="relative h-full"
       >
         <motion.div
           ref={ref}
+          className="h-full"
           style={{
             rotateX: springRotateX,
             rotateY: springRotateY,

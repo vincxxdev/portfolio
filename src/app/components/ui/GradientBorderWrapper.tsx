@@ -1,26 +1,26 @@
 'use client';
 
 import React from 'react';
-import { motion, useReducedMotion } from 'framer-motion';
+import { motion, useReducedMotion, HTMLMotionProps } from 'framer-motion';
 
-interface GradientBorderWrapperProps {
+interface GradientBorderWrapperProps extends HTMLMotionProps<'div'> {
   children: React.ReactNode;
-  className?: string;
 }
 
 const GradientBorderWrapper = React.forwardRef<
   HTMLDivElement,
   GradientBorderWrapperProps
->(({ children, className = '' }, ref) => {
+>(({ children, className = '', ...motionProps }, ref) => {
   const shouldReduceMotion = useReducedMotion();
 
   return (
     <motion.div
       ref={ref}
+      {...motionProps}
       className={`relative rounded-2xl p-[1px] overflow-hidden ${className}`}
     >
       <div
-        className={`absolute inset-[-50%] rounded-none ${shouldReduceMotion ? '' : 'animate-gradient-spin'}`}
+        className={`absolute inset-[-25%] rounded-none ${shouldReduceMotion ? '' : 'animate-gradient-spin'}`}
         style={{
           background:
             'conic-gradient(from 0deg, transparent 0deg, rgba(6,182,212,0.5) 60deg, transparent 120deg, transparent 240deg, rgba(6,182,212,0.5) 300deg, transparent 360deg)',

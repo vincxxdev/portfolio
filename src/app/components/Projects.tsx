@@ -7,6 +7,7 @@ import { ExternalLink, Code2, Star } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 import { projectsData } from '@/data/projects';
+import Button from './ui/Button';
 import Card from './ui/Card';
 import { SectionHeader } from './ui/CardComponents';
 import Printer3DText, { CHAR_DELAY } from './ui/Printer3DText';
@@ -41,11 +42,13 @@ const Projects = () => {
       id="projects"
       className="py-20 sm:py-32 relative overflow-hidden"
     >
-      {/* Background decorative elements */}
-      <div className="absolute top-20 left-10 w-72 h-72 bg-cyan-500/10 rounded-full filter blur-3xl animate-blob"></div>
-      <div className="absolute bottom-20 right-10 w-96 h-96 bg-blue-500/10 rounded-full filter blur-3xl animate-blob animation-delay-2000"></div>
+      {/* Background grid */}
+      <div className="absolute inset-0 opacity-25" style={{ backgroundImage: 'linear-gradient(to right, rgba(100, 116, 139, 0.18) 1px, transparent 1px), linear-gradient(to bottom, rgba(100, 116, 139, 0.18) 1px, transparent 1px)', backgroundSize: '72px 72px', maskImage: 'linear-gradient(to bottom, transparent, black 14%, black 86%, transparent)', WebkitMaskImage: 'linear-gradient(to bottom, transparent, black 14%, black 86%, transparent)' } as React.CSSProperties} />
+      <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(255,255,255,0.08)_0%,transparent_25%,transparent_72%,rgba(15,23,42,0.12)_100%)] dark:bg-[linear-gradient(180deg,rgba(15,23,42,0.12)_0%,transparent_22%,transparent_74%,rgba(10,25,47,0.32)_100%)]" />
+      <div className="absolute inset-y-0 left-0 w-px bg-gradient-to-b from-transparent via-accent/40 to-transparent opacity-70" />
+      <div className="absolute inset-y-0 right-0 w-px bg-gradient-to-b from-transparent via-accent/30 to-transparent opacity-50" />
 
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <SectionHeader
           title={<Printer3DText text={t.projects.title} highlightText={t.projects.titleHighlight} />}
           description={t.projects.subtitle}
@@ -142,29 +145,33 @@ const Projects = () => {
                 <div className="flex gap-3">
                   {project.liveDemo && (
                     <MagneticButton className="flex-1">
-                      <a
+                      <Button
                         href={project.liveDemo}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="flex items-center justify-center gap-2 px-4 py-3 bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600 text-white font-semibold rounded-xl transition-all duration-300 shadow-lg hover:shadow-cyan-500/50 w-full"
+                        variant="primary"
+                        size="default"
+                        className="w-full gap-2"
                         aria-label={`${t.accessibility.viewDemo} ${t.projects.items[project.id]?.title ?? project.title}`}
                       >
                         <ExternalLink className="w-4 h-4" aria-hidden="true" />
                         <span className="text-sm">{t.projects.liveDemo}</span>
-                      </a>
+                      </Button>
                     </MagneticButton>
                   )}
                   <MagneticButton className={project.liveDemo ? 'flex-1' : 'w-full'}>
-                    <a
+                    <Button
                       href={project.githubLink}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className={`flex items-center justify-center gap-2 px-4 py-3 border-2 border-accent/50 text-accent hover:bg-accent hover:text-white hover:border-accent font-semibold rounded-xl transition-all duration-300 w-full`}
+                      variant="secondary"
+                      size="default"
+                      className="w-full gap-2"
                       aria-label={`${t.accessibility.viewSource} ${t.projects.items[project.id]?.title ?? project.title}`}
                     >
                       <SiGithub className="w-4 h-4" aria-hidden="true" />
                       <span className="text-sm">{t.projects.github}</span>
-                    </a>
+                    </Button>
                   </MagneticButton>
                 </div>
               </div>

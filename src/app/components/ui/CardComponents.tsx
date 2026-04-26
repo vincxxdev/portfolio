@@ -75,12 +75,13 @@ export const SectionHeader: React.FC<SectionHeaderProps> = ({
       {badge && (
         <div className="inline-flex items-center gap-2 px-4 py-2 bg-accent/10 border border-accent/20 rounded-full mb-4">
           {badge.icon}
-          <span className="text-sm font-semibold text-accent">{badge.text}</span>
+          <span className="text-xs font-semibold uppercase tracking-[0.24em] text-accent">{badge.text}</span>
         </div>
       )}
-      <h2 className="text-4xl sm:text-5xl font-bold text-primary-text mb-4">
+      <h2 className="text-4xl sm:text-5xl font-black leading-[0.92] text-primary-text mb-4">
         {title}
       </h2>
+      <div className="h-px w-24 bg-gradient-to-r from-transparent via-accent/40 to-transparent mx-auto mt-4" />
       {description && (
         descriptionDelay != null ? (
           <motion.p
@@ -88,12 +89,12 @@ export const SectionHeader: React.FC<SectionHeaderProps> = ({
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, ease: 'easeOut', delay: descriptionDelay }}
-            className="text-lg text-secondary-text max-w-2xl mx-auto"
+            className="text-lg text-secondary-text/80 max-w-2xl mx-auto mt-4 tracking-wide"
           >
             {description}
           </motion.p>
         ) : (
-          <p className="text-lg text-secondary-text max-w-2xl mx-auto">
+          <p className="text-lg text-secondary-text/80 max-w-2xl mx-auto mt-4 tracking-wide">
             {description}
           </p>
         )

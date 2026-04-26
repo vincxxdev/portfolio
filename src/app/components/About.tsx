@@ -56,11 +56,13 @@ const About = () => {
       id="about"
       className="py-20 sm:py-32 relative overflow-hidden"
     >
-      {/* Background decorative elements */}
-      <div className="absolute top-1/4 left-10 w-96 h-96 bg-blue-500/10 rounded-full filter blur-3xl animate-blob"></div>
-      <div className="absolute bottom-1/4 right-10 w-72 h-72 bg-cyan-500/10 rounded-full filter blur-3xl animate-blob animation-delay-2000"></div>
+      {/* Background grid */}
+      <div className="absolute inset-0 opacity-25" style={{ backgroundImage: 'linear-gradient(to right, rgba(100, 116, 139, 0.18) 1px, transparent 1px), linear-gradient(to bottom, rgba(100, 116, 139, 0.18) 1px, transparent 1px)', backgroundSize: '72px 72px', maskImage: 'linear-gradient(to bottom, transparent, black 14%, black 86%, transparent)', WebkitMaskImage: 'linear-gradient(to bottom, transparent, black 14%, black 86%, transparent)' } as React.CSSProperties} />
+      <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(255,255,255,0.08)_0%,transparent_25%,transparent_72%,rgba(15,23,42,0.12)_100%)] dark:bg-[linear-gradient(180deg,rgba(15,23,42,0.12)_0%,transparent_22%,transparent_74%,rgba(10,25,47,0.32)_100%)]" />
+      <div className="absolute inset-y-0 left-0 w-px bg-gradient-to-b from-transparent via-accent/40 to-transparent opacity-70" />
+      <div className="absolute inset-y-0 right-0 w-px bg-gradient-to-b from-transparent via-accent/30 to-transparent opacity-50" />
 
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Header */}
         <SectionHeader
           title={<Printer3DText text={t.about.title} highlightText={t.about.titleHighlight} />}
@@ -76,13 +78,7 @@ const About = () => {
           transition={{ duration: 0.6, delay: 0.2 }}
           className="max-w-4xl mx-auto"
         >
-          <div className="group relative rounded-2xl border border-secondary-text/20 bg-secondary-background/80 shadow-xl hover:shadow-2xl hover:shadow-cyan-400/20 transition-[box-shadow] duration-500 overflow-hidden">
-            {/* Gradient overlay on hover */}
-            <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/0 via-blue-500/0 to-purple-500/0 group-hover:from-cyan-500/5 group-hover:via-blue-500/5 group-hover:to-purple-500/5 transition-[background] duration-500 rounded-2xl pointer-events-none"></div>
-
-            {/* Corner accent */}
-            <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-accent/10 to-transparent rounded-bl-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
-
+          <div className="group relative rounded-2xl border border-secondary-text/15 bg-primary-background/60 backdrop-blur-md shadow-lg hover:shadow-xl transition-[box-shadow] duration-500 overflow-hidden">
             {/* Terminal Header */}
             <div className="relative z-10 bg-secondary-background/90 p-4 flex items-center border-b border-secondary-text/20">
               <div className="flex space-x-2">

@@ -13,8 +13,7 @@ const Footer = () => {
   return (
     <footer className="relative bg-secondary-background/80 backdrop-blur-lg text-secondary-text border-t border-accent/10 overflow-hidden">
       {/* Subtle background decoration */}
-      <div className="absolute bottom-0 left-0 w-96 h-32 bg-cyan-500/5 rounded-full filter blur-3xl"></div>
-      <div className="absolute top-0 right-0 w-72 h-24 bg-blue-500/5 rounded-full filter blur-3xl"></div>
+      <div className="absolute inset-0 opacity-10" style={{ backgroundImage: 'linear-gradient(to right, rgba(100, 116, 139, 0.18) 1px, transparent 1px), linear-gradient(to bottom, rgba(100, 116, 139, 0.18) 1px, transparent 1px)', backgroundSize: '72px 72px', maskImage: 'linear-gradient(to bottom, transparent, black 20%, black 80%, transparent)', WebkitMaskImage: 'linear-gradient(to bottom, transparent, black 20%, black 80%, transparent)' } as React.CSSProperties} />
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-10 relative z-10">
         {/* Main content */}
@@ -46,7 +45,7 @@ const Footer = () => {
                 aria-label={t.footer.linkedinProfile}
                 whileHover={{ scale: 1.1, y: -2 }}
                 whileTap={{ scale: 0.95 }}
-                className="p-3 bg-secondary-background/50 backdrop-blur-sm rounded-xl border border-secondary-text/20 hover:border-accent/40 text-secondary-text hover:text-accent transition-all duration-300 shadow-lg hover:shadow-cyan-400/20"
+                className="p-3 bg-primary-background/40 backdrop-blur-md rounded-xl border border-secondary-text/15 hover:border-accent/40 text-secondary-text hover:text-accent transition-all duration-300 shadow-lg hover:shadow-cyan-400/20"
               >
                 <SiLinkedin className="w-5 h-5" />
               </motion.a>
@@ -57,7 +56,7 @@ const Footer = () => {
                 aria-label={t.footer.githubProfile}
                 whileHover={{ scale: 1.1, y: -2 }}
                 whileTap={{ scale: 0.95 }}
-                className="p-3 bg-secondary-background/50 backdrop-blur-sm rounded-xl border border-secondary-text/20 hover:border-accent/40 text-secondary-text hover:text-accent transition-all duration-300 shadow-lg hover:shadow-cyan-400/20"
+                className="p-3 bg-primary-background/40 backdrop-blur-md rounded-xl border border-secondary-text/15 hover:border-accent/40 text-secondary-text hover:text-accent transition-all duration-300 shadow-lg hover:shadow-cyan-400/20"
               >
                 <SiGithub className="w-5 h-5" />
               </motion.a>

@@ -54,7 +54,7 @@ const Card = React.forwardRef<HTMLDivElement, CardProps>(
       hoverEffect = 'both',
       gradientOverlay = true,
       cornerAccent = true,
-      glowIntensity = 'medium',
+      glowIntensity = 'light',
       padding = 'md',
       disableBlur = false,
       className = '',
@@ -90,9 +90,9 @@ const Card = React.forwardRef<HTMLDivElement, CardProps>(
         className={`
           group relative flex flex-col
           ${paddingMap[padding]}
-          rounded-2xl border border-secondary-text/20
-          ${disableBlur ? 'bg-secondary-background/80' : 'bg-secondary-background/50 backdrop-blur-lg'}
-          shadow-xl hover:shadow-2xl ${glowMap[glowIntensity]}
+          rounded-2xl border border-secondary-text/15
+          ${disableBlur ? 'bg-secondary-background/60' : 'bg-primary-background/40 backdrop-blur-md'}
+          shadow-lg hover:shadow-xl ${glowMap[glowIntensity]}
           transition-[transform,box-shadow,opacity] duration-500
           overflow-hidden
           ${className}
@@ -101,12 +101,12 @@ const Card = React.forwardRef<HTMLDivElement, CardProps>(
       >
         {/* Gradient overlay on hover */}
         {gradientOverlay && (
-          <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/0 via-blue-500/0 to-purple-500/0 group-hover:from-cyan-500/5 group-hover:via-blue-500/5 group-hover:to-purple-500/5 transition-all duration-500 rounded-2xl pointer-events-none" />
+          <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/0 via-blue-500/0 to-purple-500/0 group-hover:from-cyan-500/3 group-hover:via-blue-500/3 group-hover:to-purple-500/3 transition-all duration-500 rounded-2xl pointer-events-none" />
         )}
 
         {/* Corner accent */}
         {cornerAccent && (
-          <div className="absolute top-0 right-0 w-20 h-20 bg-gradient-to-br from-accent/10 to-transparent rounded-bl-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+          <div className="absolute top-0 right-0 w-20 h-20 bg-gradient-to-br from-accent/8 to-transparent rounded-bl-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
         )}
 
         {/* Content wrapper */}

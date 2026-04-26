@@ -3,6 +3,7 @@
 import React, { useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { Award, ExternalLink, Calendar, Building2 } from 'lucide-react';
+import Button from './ui/Button';
 import Card from './ui/Card';
 import { CardTitle, CardDescription, CardDivider, SectionHeader } from './ui/CardComponents';
 import Printer3DText, { CHAR_DELAY } from './ui/Printer3DText';
@@ -54,11 +55,13 @@ const Experience = () => {
       id="experience"
       className="py-20 sm:py-32 relative overflow-hidden"
     >
-      {/* Background decorative elements */}
-      <div className="absolute top-1/4 right-10 w-96 h-96 bg-purple-500/10 rounded-full filter blur-3xl animate-blob"></div>
-      <div className="absolute bottom-1/4 left-10 w-72 h-72 bg-cyan-500/10 rounded-full filter blur-3xl animate-blob animation-delay-2000"></div>
+      {/* Background grid */}
+      <div className="absolute inset-0 opacity-25" style={{ backgroundImage: 'linear-gradient(to right, rgba(100, 116, 139, 0.18) 1px, transparent 1px), linear-gradient(to bottom, rgba(100, 116, 139, 0.18) 1px, transparent 1px)', backgroundSize: '72px 72px', maskImage: 'linear-gradient(to bottom, transparent, black 14%, black 86%, transparent)', WebkitMaskImage: 'linear-gradient(to bottom, transparent, black 14%, black 86%, transparent)' } as React.CSSProperties} />
+      <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(255,255,255,0.08)_0%,transparent_25%,transparent_72%,rgba(15,23,42,0.12)_100%)] dark:bg-[linear-gradient(180deg,rgba(15,23,42,0.12)_0%,transparent_22%,transparent_74%,rgba(10,25,47,0.32)_100%)]" />
+      <div className="absolute inset-y-0 left-0 w-px bg-gradient-to-b from-transparent via-accent/40 to-transparent opacity-70" />
+      <div className="absolute inset-y-0 right-0 w-px bg-gradient-to-b from-transparent via-accent/30 to-transparent opacity-50" />
 
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Experiences Section */}
         <SectionHeader
           title={<Printer3DText text={t.experience.title} highlightText={t.experience.titleHighlight} />}
@@ -86,7 +89,7 @@ const Experience = () => {
                 {/* Timeline dot */}
                 <div className="absolute left-6 top-6 transform -translate-x-1/2">
                   <div className="relative">
-                    <div className="absolute inset-0 bg-accent/30 rounded-full blur-md"></div>
+                    <div className="absolute inset-0 bg-accent/30 rounded-full blur-md shadow-[0_0_18px_var(--color-accent)]"></div>
                     <div className="relative bg-accent w-4 h-4 rounded-full border-4 border-primary-background"></div>
                   </div>
                 </div>
@@ -151,15 +154,17 @@ const Experience = () => {
 
               <CardDivider className="mb-4" />
 
-              <a
+              <Button
                 href={cert.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center justify-center gap-2 px-4 py-3 border-2 border-accent/50 text-accent hover:bg-accent hover:text-white hover:border-accent font-semibold rounded-xl transition-[background-color,color,border-color,transform] duration-300 transform hover:scale-105"
+                variant="secondary"
+                size="default"
+                className="w-full gap-2"
               >
                 <ExternalLink className="w-4 h-4" />
                 <span className="text-sm">{t.experience.viewCert}</span>
-              </a>
+              </Button>
             </Card>
           ))}
         </motion.div>

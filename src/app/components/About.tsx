@@ -49,7 +49,7 @@ const About = () => {
   }, [startTyping]);
 
   const totalChars = t.about.title.length + 1 + t.about.titleHighlight.length;
-  const descDelay = totalChars * CHAR_DELAY + 200;
+  const descDelay = (totalChars * CHAR_DELAY + 200) / 1000;
 
   return (
     <section

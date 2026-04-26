@@ -87,7 +87,7 @@ export const SectionHeader: React.FC<SectionHeaderProps> = ({
             initial={{ opacity: 0, y: 8 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.6, ease: 'easeOut', delay: descriptionDelay / 1000 }}
+            transition={{ duration: 0.6, ease: 'easeOut', delay: descriptionDelay }}
             className="text-lg text-secondary-text max-w-2xl mx-auto"
           >
             {description}

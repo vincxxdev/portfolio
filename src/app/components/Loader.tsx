@@ -17,18 +17,19 @@ export default function Loader({ children }: { children: React.ReactNode }) {
     const hasLoaded = sessionStorage.getItem("hasLoaded");
 
     if (!hasLoaded) {
+      const prevOverflow = document.body.style.overflow;
       document.body.style.overflow = 'hidden';
       setPhase('intro');
 
       const timer = setTimeout(() => {
         setPhase('ready');
-        document.body.style.overflow = '';
+        document.body.style.overflow = prevOverflow;
         sessionStorage.setItem("hasLoaded", "true");
       }, 2500);
 
       return () => {
         clearTimeout(timer);
-        document.body.style.overflow = '';
+        document.body.style.overflow = prevOverflow;
       };
     }
 

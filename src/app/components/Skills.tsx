@@ -158,7 +158,7 @@ const Skills = () => {
   };
 
   const totalChars = t.skills.title.length + 1 + t.skills.titleHighlight.length;
-  const descDelay = totalChars * CHAR_DELAY + 200;
+  const descDelay = (totalChars * CHAR_DELAY + 200) / 1000;
 
   return (
     <section

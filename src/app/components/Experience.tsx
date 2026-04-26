@@ -44,10 +44,10 @@ const Experience = () => {
   };
 
   const expTotalChars = t.experience.title.length + 1 + t.experience.titleHighlight.length;
-  const expDescDelay = expTotalChars * CHAR_DELAY + 200;
+  const expDescDelay = (expTotalChars * CHAR_DELAY + 200) / 1000;
 
   const certTotalChars = t.experience.certTitle.length + 1 + t.experience.certTitleHighlight.length;
-  const certDescDelay = certTotalChars * CHAR_DELAY + 200;
+  const certDescDelay = (certTotalChars * CHAR_DELAY + 200) / 1000;
 
   return (
     <section

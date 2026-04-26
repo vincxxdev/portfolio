@@ -34,7 +34,7 @@ const Contacts = () => {
   };
 
   const totalChars = t.contacts.title.length + 1 + t.contacts.titleHighlight.length;
-  const descDelay = totalChars * CHAR_DELAY + 200;
+  const descDelay = (totalChars * CHAR_DELAY + 200) / 1000;
 
   return (
     <section

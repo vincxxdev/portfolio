@@ -15,10 +15,13 @@ const NBSP = ' ';
 
 const DecodeText = memo(({ text, className = '', delay = 400, duration = 1600 }: DecodeTextProps) => {
   const containerRef = useRef<HTMLSpanElement>(null);
+  const hasAnimatedRef = useRef(false);
   const shouldReduceMotion = useReducedMotion();
 
   useEffect(() => {
     if (shouldReduceMotion) return;
+    if (hasAnimatedRef.current) return;
+    hasAnimatedRef.current = true;
 
     const spans = containerRef.current?.querySelectorAll<HTMLSpanElement>('[data-decode]');
     if (!spans?.length) return;

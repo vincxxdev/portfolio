@@ -12,6 +12,7 @@ export default function Home() {
   return (
     <main className="min-h-screen bg-secondary-background text-primary-text">
       <Hero />
+      <div className="h-8 bg-gradient-to-b from-primary-background to-secondary-background" />
       <AnimatedSection>
         <About />
       </AnimatedSection>

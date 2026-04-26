@@ -187,6 +187,19 @@ body {
   animation: signal-sweep 2.8s ease-in-out infinite;
 }
 
+@keyframes gradient-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-gradient-spin {
+  animation: gradient-spin 4s linear infinite;
+}
+
 .bg-section-grid {
   background-image: linear-gradient(to right, rgba(100, 116, 139, 0.18) 1px, transparent 1px), linear-gradient(to bottom, rgba(100, 116, 139, 0.18) 1px, transparent 1px);
   background-size: 72px 72px;

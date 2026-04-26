@@ -4,7 +4,7 @@ import React, { useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { Award, ExternalLink, Calendar } from 'lucide-react';
 import Button from './ui/Button';
-import Card from './ui/Card';
+import GradientBorderCard from './ui/GradientBorderCard';
 import { CardTitle, CardDivider, SectionHeader } from './ui/CardComponents';
 import Printer3DText, { CHAR_DELAY } from './ui/Printer3DText';
 import { certificationData as certificationDataRaw } from '@/data/certifications';
@@ -61,9 +61,8 @@ const Certifications = () => {
           className="max-w-5xl mx-auto grid gap-6 md:grid-cols-2"
         >
           {certificationData.map((cert, index) => (
-            <Card
+            <GradientBorderCard
               key={index}
-              hoverEffect="both"
               padding="md"
               icon={{ Icon: Award }}
               badge={{ icon: Calendar, text: cert.date }}
@@ -93,7 +92,7 @@ const Certifications = () => {
                 <ExternalLink className="w-4 h-4" />
                 <span className="text-sm">{t.certifications.viewCert}</span>
               </Button>
-            </Card>
+            </GradientBorderCard>
           ))}
         </motion.div>
       </div>

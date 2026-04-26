@@ -7,6 +7,8 @@ import { motion } from 'framer-motion';
 import { siteConfig } from '@/config/site';
 import Printer3DText, { CHAR_DELAY } from './ui/Printer3DText';
 import { useLocale } from '@/i18n';
+import SpotlightWrapper from './ui/SpotlightWrapper';
+import GradientBorderWrapper from './ui/GradientBorderWrapper';
 
 const Contacts = () => {
   const { t } = useLocale();
@@ -73,64 +75,68 @@ const Contacts = () => {
           className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto mb-12"
         >
           {/* Email Card */}
-          <motion.a
-            variants={itemVariants}
-            href={`mailto:${siteConfig.contact.email}`}
-            className="group relative flex flex-col items-center gap-6 p-8 bg-primary-background/40 backdrop-blur-md rounded-2xl border border-secondary-text/15 shadow-lg hover:shadow-xl transition-[transform,box-shadow] duration-500 hover:-translate-y-2 overflow-hidden"
-            aria-label={`${t.accessibility.sendEmail} ${siteConfig.contact.email}`}
-          >
+          <motion.div variants={itemVariants}>
+            <SpotlightWrapper className="rounded-2xl h-full">
+              <a
+                href={`mailto:${siteConfig.contact.email}`}
+                className="group relative flex flex-col items-center gap-6 p-8 bg-primary-background/40 backdrop-blur-md rounded-2xl border border-secondary-text/15 shadow-lg hover:shadow-xl transition-[transform,box-shadow] duration-500 hover:-translate-y-2 overflow-hidden h-full"
+                aria-label={`${t.accessibility.sendEmail} ${siteConfig.contact.email}`}
+              >
+                {/* Icon with glow effect */}
+                <div className="relative">
+                  <div className="absolute inset-0 bg-accent/20 rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                  <div className="relative p-6 bg-gradient-to-br from-cyan-500/10 to-blue-500/10 rounded-2xl border border-accent/30 group-hover:border-accent/50 transition-all duration-300">
+                    <Mail className="w-12 h-12 text-accent group-hover:scale-110 transition-transform duration-300" aria-hidden="true" />
+                  </div>
+                </div>
 
-            {/* Icon with glow effect */}
-            <div className="relative">
-              <div className="absolute inset-0 bg-accent/20 rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-              <div className="relative p-6 bg-gradient-to-br from-cyan-500/10 to-blue-500/10 rounded-2xl border border-accent/30 group-hover:border-accent/50 transition-all duration-300">
-                <Mail className="w-12 h-12 text-accent group-hover:scale-110 transition-transform duration-300" aria-hidden="true" />
-              </div>
-            </div>
+                <div className="relative z-10">
+                  <h3 className="text-xl font-bold text-primary-text mb-2 group-hover:text-accent transition-colors duration-300">
+                    {t.contacts.email.title}
+                  </h3>
+                  <p className="text-secondary-text text-sm mb-3">{t.contacts.email.subtitle}</p>
+                  <p className="text-accent font-semibold break-all">{siteConfig.contact.email}</p>
+                </div>
 
-            <div className="relative z-10">
-              <h3 className="text-xl font-bold text-primary-text mb-2 group-hover:text-accent transition-colors duration-300">
-                {t.contacts.email.title}
-              </h3>
-              <p className="text-secondary-text text-sm mb-3">{t.contacts.email.subtitle}</p>
-              <p className="text-accent font-semibold break-all">{siteConfig.contact.email}</p>
-            </div>
-
-            {/* Arrow indicator */}
-            <div className="absolute bottom-4 right-4 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-x-2 group-hover:translate-x-0">
-              <Send className="w-5 h-5 text-accent" />
-            </div>
-          </motion.a>
+                {/* Arrow indicator */}
+                <div className="absolute bottom-4 right-4 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-x-2 group-hover:translate-x-0">
+                  <Send className="w-5 h-5 text-accent" />
+                </div>
+              </a>
+            </SpotlightWrapper>
+          </motion.div>
 
           {/* Phone Card */}
-          <motion.a
-            variants={itemVariants}
-            href={`tel:${siteConfig.contact.phone}`}
-            className="group relative flex flex-col items-center gap-6 p-8 bg-primary-background/40 backdrop-blur-md rounded-2xl border border-secondary-text/15 shadow-lg hover:shadow-xl transition-[transform,box-shadow] duration-500 hover:-translate-y-2 overflow-hidden"
-            aria-label={`${t.accessibility.callPhone} ${siteConfig.contact.phoneDisplay}`}
-          >
+          <motion.div variants={itemVariants}>
+            <SpotlightWrapper className="rounded-2xl h-full">
+              <a
+                href={`tel:${siteConfig.contact.phone}`}
+                className="group relative flex flex-col items-center gap-6 p-8 bg-primary-background/40 backdrop-blur-md rounded-2xl border border-secondary-text/15 shadow-lg hover:shadow-xl transition-[transform,box-shadow] duration-500 hover:-translate-y-2 overflow-hidden h-full"
+                aria-label={`${t.accessibility.callPhone} ${siteConfig.contact.phoneDisplay}`}
+              >
+                {/* Icon with glow effect */}
+                <div className="relative">
+                  <div className="absolute inset-0 bg-accent/20 rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                  <div className="relative p-6 bg-gradient-to-br from-blue-500/10 to-purple-500/10 rounded-2xl border border-accent/30 group-hover:border-accent/50 transition-all duration-300">
+                    <Phone className="w-12 h-12 text-accent group-hover:scale-110 transition-transform duration-300" aria-hidden="true" />
+                  </div>
+                </div>
 
-            {/* Icon with glow effect */}
-            <div className="relative">
-              <div className="absolute inset-0 bg-accent/20 rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-              <div className="relative p-6 bg-gradient-to-br from-blue-500/10 to-purple-500/10 rounded-2xl border border-accent/30 group-hover:border-accent/50 transition-all duration-300">
-                <Phone className="w-12 h-12 text-accent group-hover:scale-110 transition-transform duration-300" aria-hidden="true" />
-              </div>
-            </div>
+                <div className="relative z-10">
+                  <h3 className="text-xl font-bold text-primary-text mb-2 group-hover:text-accent transition-colors duration-300">
+                    {t.contacts.phone.title}
+                  </h3>
+                  <p className="text-secondary-text text-sm mb-3">{t.contacts.phone.subtitle}</p>
+                  <p className="text-accent font-semibold">{siteConfig.contact.phoneDisplay}</p>
+                </div>
 
-            <div className="relative z-10">
-              <h3 className="text-xl font-bold text-primary-text mb-2 group-hover:text-accent transition-colors duration-300">
-                {t.contacts.phone.title}
-              </h3>
-              <p className="text-secondary-text text-sm mb-3">{t.contacts.phone.subtitle}</p>
-              <p className="text-accent font-semibold">{siteConfig.contact.phoneDisplay}</p>
-            </div>
-
-            {/* Arrow indicator */}
-            <div className="absolute bottom-4 right-4 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-x-2 group-hover:translate-x-0">
-              <Send className="w-5 h-5 text-accent" />
-            </div>
-          </motion.a>
+                {/* Arrow indicator */}
+                <div className="absolute bottom-4 right-4 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-x-2 group-hover:translate-x-0">
+                  <Send className="w-5 h-5 text-accent" />
+                </div>
+              </a>
+            </SpotlightWrapper>
+          </motion.div>
         </motion.div>
 
         {/* Info Cards */}
@@ -141,35 +147,41 @@ const Contacts = () => {
           transition={{ duration: 0.6, delay: 0.3 }}
           className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto"
         >
-          <div className="flex flex-col items-center gap-3 p-6 bg-primary-background/40 backdrop-blur-md rounded-2xl border border-secondary-text/15 shadow-lg">
-            <div className="p-3 bg-gradient-to-br from-cyan-500/10 to-blue-500/10 rounded-xl">
-              <MapPin className="w-6 h-6 text-accent" />
+          <GradientBorderWrapper>
+            <div className="flex flex-col items-center gap-3 p-6 bg-primary-background/40 backdrop-blur-md h-full">
+              <div className="p-3 bg-gradient-to-br from-cyan-500/10 to-blue-500/10 rounded-xl">
+                <MapPin className="w-6 h-6 text-accent" />
+              </div>
+              <div>
+                <p className="text-sm text-secondary-text mb-1">{t.contacts.location}</p>
+                <p className="text-base font-bold text-primary-text">{siteConfig.personal.location}</p>
+              </div>
             </div>
-            <div>
-              <p className="text-sm text-secondary-text mb-1">{t.contacts.location}</p>
-              <p className="text-base font-bold text-primary-text">{siteConfig.personal.location}</p>
-            </div>
-          </div>
+          </GradientBorderWrapper>
 
-          <div className="flex flex-col items-center gap-3 p-6 bg-primary-background/40 backdrop-blur-md rounded-2xl border border-secondary-text/15 shadow-lg">
-            <div className="p-3 bg-gradient-to-br from-cyan-500/10 to-blue-500/10 rounded-xl">
-              <Globe className="w-6 h-6 text-accent" />
+          <GradientBorderWrapper>
+            <div className="flex flex-col items-center gap-3 p-6 bg-primary-background/40 backdrop-blur-md h-full">
+              <div className="p-3 bg-gradient-to-br from-cyan-500/10 to-blue-500/10 rounded-xl">
+                <Globe className="w-6 h-6 text-accent" />
+              </div>
+              <div>
+                <p className="text-sm text-secondary-text mb-1">{t.contacts.availability}</p>
+                <p className="text-base font-bold text-primary-text">{t.contacts.availabilityValue}</p>
+              </div>
             </div>
-            <div>
-              <p className="text-sm text-secondary-text mb-1">{t.contacts.availability}</p>
-              <p className="text-base font-bold text-primary-text">{t.contacts.availabilityValue}</p>
-            </div>
-          </div>
+          </GradientBorderWrapper>
 
-          <div className="flex flex-col items-center gap-3 p-6 bg-primary-background/40 backdrop-blur-md rounded-2xl border border-secondary-text/15 shadow-lg">
-            <div className="p-3 bg-gradient-to-br from-cyan-500/10 to-blue-500/10 rounded-xl">
-              <MessageSquare className="w-6 h-6 text-accent" />
+          <GradientBorderWrapper>
+            <div className="flex flex-col items-center gap-3 p-6 bg-primary-background/40 backdrop-blur-md h-full">
+              <div className="p-3 bg-gradient-to-br from-cyan-500/10 to-blue-500/10 rounded-xl">
+                <MessageSquare className="w-6 h-6 text-accent" />
+              </div>
+              <div>
+                <p className="text-sm text-secondary-text mb-1">{t.contacts.responseTime}</p>
+                <p className="text-base font-bold text-primary-text">{t.contacts.responseTimeValue}</p>
+              </div>
             </div>
-            <div>
-              <p className="text-sm text-secondary-text mb-1">{t.contacts.responseTime}</p>
-              <p className="text-base font-bold text-primary-text">{t.contacts.responseTimeValue}</p>
-            </div>
-          </div>
+          </GradientBorderWrapper>
         </motion.div>
       </div>
     </section>

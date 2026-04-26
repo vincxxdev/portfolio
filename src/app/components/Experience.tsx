@@ -3,7 +3,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Calendar, Building2 } from 'lucide-react';
-import Card from './ui/Card';
+import SpotlightCard from './ui/SpotlightCard';
 import { CardTitle, CardDescription, SectionHeader } from './ui/CardComponents';
 import Printer3DText, { CHAR_DELAY } from './ui/Printer3DText';
 import { useLocale } from '@/i18n';
@@ -80,8 +80,7 @@ const Experience = () => {
                 </div>
 
                 {/* Content card */}
-                <Card
-                  hoverEffect="lift"
+                <SpotlightCard
                   padding="md"
                   badge={{ icon: Calendar, text: item.date }}
                 >
@@ -97,7 +96,7 @@ const Experience = () => {
                   <CardDescription>
                     {item.description}
                   </CardDescription>
-                </Card>
+                </SpotlightCard>
               </motion.div>
             ))}
           </motion.div>

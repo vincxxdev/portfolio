@@ -5,7 +5,7 @@ import { motion, HTMLMotionProps } from 'framer-motion';
 import { LucideIcon } from 'lucide-react';
 import { useSound } from '../hooks/useSound';
 
-interface CardProps extends Omit<HTMLMotionProps<'div'>, 'children'> {
+export interface CardProps extends Omit<HTMLMotionProps<'div'>, 'children'> {
   children: ReactNode;
   /** Hover effects: lift, scale, or both */
   hoverEffect?: 'lift' | 'scale' | 'both' | 'none';

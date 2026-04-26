@@ -8,7 +8,7 @@ import { motion } from 'framer-motion';
 
 import { projectsData } from '@/data/projects';
 import Button from './ui/Button';
-import Card from './ui/Card';
+import TiltCard from './ui/TiltCard';
 import { SectionHeader } from './ui/CardComponents';
 import Printer3DText, { CHAR_DELAY } from './ui/Printer3DText';
 import { MagneticButton } from './ui/MagneticButton';
@@ -63,9 +63,8 @@ const Projects = () => {
           className="grid gap-8 md:grid-cols-2 lg:grid-cols-3"
         >
           {projects.map((project, index) => (
-            <Card
+            <TiltCard
               key={project.id}
-              hoverEffect="lift"
               padding="sm"
               className="h-full"
               initial={{ opacity: 0, y: 30 }}
@@ -176,7 +175,7 @@ const Projects = () => {
                 </div>
               </div>
 
-            </Card>
+            </TiltCard>
           ))}
         </motion.div>
       </div>

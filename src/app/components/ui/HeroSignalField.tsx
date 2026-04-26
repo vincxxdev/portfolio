@@ -14,40 +14,22 @@ interface FieldPoint {
   size: number;
 }
 
-const withAlpha = (color: string, alpha: number) => {
-  const normalized = color.trim();
-
-  if (normalized.startsWith('#')) {
-    let hex = normalized.slice(1);
-
-    if (hex.length === 3) {
-      hex = hex
-        .split('')
-        .map((char) => char + char)
-        .join('');
-    }
-
-    const value = Number.parseInt(hex, 16);
-
-    if (Number.isNaN(value)) {
-      return normalized;
-    }
-
-    const red = (value >> 16) & 255;
-    const green = (value >> 8) & 255;
-    const blue = value & 255;
-
-    return `rgba(${red}, ${green}, ${blue}, ${alpha})`;
+function parseRGB(color: string): [number, number, number] {
+  const s = color.trim();
+  if (s.startsWith('#')) {
+    let hex = s.slice(1);
+    if (hex.length === 3) hex = hex[0] + hex[0] + hex[1] + hex[1] + hex[2] + hex[2];
+    const v = Number.parseInt(hex, 16);
+    return [(v >> 16) & 255, (v >> 8) & 255, v & 255];
   }
+  const m = s.match(/\d+(\.\d+)?/g);
+  if (m && m.length >= 3) return [Number(m[0]), Number(m[1]), Number(m[2])];
+  return [0, 0, 0];
+}
 
-  const rgbValues = normalized.match(/\d+(\.\d+)?/g);
-
-  if (rgbValues && rgbValues.length >= 3) {
-    return `rgba(${rgbValues[0]}, ${rgbValues[1]}, ${rgbValues[2]}, ${alpha})`;
-  }
-
-  return normalized;
-};
+function rgbaString(rgb: [number, number, number], alpha: number): string {
+  return `rgba(${rgb[0]},${rgb[1]},${rgb[2]},${alpha})`;
+}
 
 const HeroSignalField = () => {
   const wrapperRef = useRef<HTMLDivElement>(null);
@@ -70,17 +52,16 @@ const HeroSignalField = () => {
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
     const pointer = { x: 0, y: 0, active: false };
     const size = { width: 0, height: 0, dpr: 1 };
-    let palette = readPalette();
+    let paletteRGB = readPaletteRGB();
     let points: FieldPoint[] = [];
     let animationFrame = 0;
 
-    function readPalette() {
+    function readPaletteRGB() {
       const styles = getComputedStyle(document.documentElement);
-
       return {
-        accent: styles.getPropertyValue('--color-accent').trim() || '#22d3ee',
-        text: styles.getPropertyValue('--color-secondary-text').trim() || '#1e293b',
-        background: styles.getPropertyValue('--color-primary-background').trim() || '#0f172a',
+        accent: parseRGB(styles.getPropertyValue('--color-accent').trim() || '#22d3ee'),
+        text: parseRGB(styles.getPropertyValue('--color-secondary-text').trim() || '#1e293b'),
+        background: parseRGB(styles.getPropertyValue('--color-primary-background').trim() || '#0f172a'),
       };
     }
 
@@ -127,34 +108,30 @@ const HeroSignalField = () => {
       const centerX = size.width / 2;
       const centerY = size.height / 2;
       const influenceRadius = Math.min(size.width, size.height) * 0.24;
+      const influenceRadiusSq = influenceRadius * influenceRadius;
       const scanX = ((t * 150) % (size.width + 280)) - 140;
 
       context.clearRect(0, 0, size.width, size.height);
-      context.fillStyle = withAlpha(palette.background, 0.08);
+      context.fillStyle = rgbaString(paletteRGB.background, 0.08);
       context.fillRect(0, 0, size.width, size.height);
 
       context.save();
-      context.fillStyle = withAlpha(palette.accent, 0.06);
+      context.fillStyle = rgbaString(paletteRGB.accent, 0.06);
       context.beginPath();
       context.ellipse(centerX, centerY, size.width * 0.22, size.height * 0.12, 0, 0, Math.PI * 2);
       context.fill();
       context.restore();
 
-      points.forEach((point) => {
+      for (let i = 0; i < points.length; i++) {
+        const point = points[i];
         point.anchorX += point.vx * point.depth;
         point.anchorY += point.vy * point.depth;
 
-        if (point.anchorX < -40) {
-          point.anchorX = size.width + 40;
-        } else if (point.anchorX > size.width + 40) {
-          point.anchorX = -40;
-        }
+        if (point.anchorX < -40) point.anchorX = size.width + 40;
+        else if (point.anchorX > size.width + 40) point.anchorX = -40;
 
-        if (point.anchorY < -40) {
-          point.anchorY = size.height + 40;
-        } else if (point.anchorY > size.height + 40) {
-          point.anchorY = -40;
-        }
+        if (point.anchorY < -40) point.anchorY = size.height + 40;
+        else if (point.anchorY > size.height + 40) point.anchorY = -40;
 
         point.x = point.anchorX + Math.sin(t * 0.6 + point.phase) * 10 * point.depth;
         point.y = point.anchorY + Math.cos(t * 0.4 + point.phase * 1.2) * 8 * point.depth;
@@ -162,33 +139,37 @@ const HeroSignalField = () => {
         if (pointer.active) {
           const dx = point.x - pointer.x;
           const dy = point.y - pointer.y;
-          const distance = Math.hypot(dx, dy);
+          const distSq = dx * dx + dy * dy;
 
-          if (distance < influenceRadius && distance > 0) {
+          if (distSq < influenceRadiusSq && distSq > 0) {
+            const distance = Math.sqrt(distSq);
             const force = (influenceRadius - distance) / influenceRadius;
             point.x += (dx / distance) * force * 26 * point.depth;
             point.y += (dy / distance) * force * 22 * point.depth;
           }
         }
-      });
+      }
 
       const linkDistance = Math.min(180, size.width * 0.14);
+      const linkDistSq = linkDistance * linkDistance;
+      const accentR = paletteRGB.accent[0];
+      const accentG = paletteRGB.accent[1];
+      const accentB = paletteRGB.accent[2];
 
-      for (let index = 0; index < points.length; index += 1) {
-        for (let innerIndex = index + 1; innerIndex < points.length; innerIndex += 1) {
-          const first = points[index];
-          const second = points[innerIndex];
+      context.lineWidth = 1;
+      for (let i = 0; i < points.length; i++) {
+        const first = points[i];
+        for (let j = i + 1; j < points.length; j++) {
+          const second = points[j];
           const dx = first.x - second.x;
           const dy = first.y - second.y;
-          const distance = Math.hypot(dx, dy);
+          const distSq = dx * dx + dy * dy;
 
-          if (distance > linkDistance) {
-            continue;
-          }
+          if (distSq > linkDistSq) continue;
 
+          const distance = Math.sqrt(distSq);
           const opacity = (1 - distance / linkDistance) * 0.17 * Math.min(first.depth, second.depth);
-          context.strokeStyle = withAlpha(palette.accent, opacity);
-          context.lineWidth = 1;
+          context.strokeStyle = `rgba(${accentR},${accentG},${accentB},${opacity})`;
           context.beginPath();
           context.moveTo(first.x, first.y);
           context.lineTo(second.x, second.y);
@@ -196,25 +177,29 @@ const HeroSignalField = () => {
         }
       }
 
-      points.forEach((point) => {
+      for (let i = 0; i < points.length; i++) {
+        const point = points[i];
         const glow = 0.12 + point.depth * 0.15;
-        context.fillStyle = withAlpha(palette.accent, glow);
+        context.fillStyle = `rgba(${accentR},${accentG},${accentB},${glow})`;
         context.beginPath();
         context.arc(point.x, point.y, point.size, 0, Math.PI * 2);
         context.fill();
-      });
+      }
 
       const scanGradient = context.createLinearGradient(scanX - 150, 0, scanX + 150, 0);
       scanGradient.addColorStop(0, 'transparent');
-      scanGradient.addColorStop(0.5, withAlpha(palette.accent, 0.16));
+      scanGradient.addColorStop(0.5, `rgba(${accentR},${accentG},${accentB},0.16)`);
       scanGradient.addColorStop(1, 'transparent');
       context.fillStyle = scanGradient;
       context.fillRect(scanX - 150, 0, 300, size.height);
 
-      for (let ring = 0; ring < 3; ring += 1) {
+      const textR = paletteRGB.text[0];
+      const textG = paletteRGB.text[1];
+      const textB = paletteRGB.text[2];
+      context.lineWidth = 1;
+      for (let ring = 0; ring < 3; ring++) {
         const pulse = Math.sin(t * 1.7 + ring * 0.8) * 10;
-        context.strokeStyle = withAlpha(palette.text, 0.07 - ring * 0.01);
-        context.lineWidth = 1;
+        context.strokeStyle = `rgba(${textR},${textG},${textB},${0.07 - ring * 0.01})`;
         context.beginPath();
         context.ellipse(
           centerX,
@@ -270,7 +255,7 @@ const HeroSignalField = () => {
     };
 
     const handlePaletteChange = () => {
-      palette = readPalette();
+      paletteRGB = readPaletteRGB();
     };
 
     const resizeObserver = new ResizeObserver(resize);

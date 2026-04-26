@@ -93,7 +93,7 @@ const Card = React.forwardRef<HTMLDivElement, CardProps>(
           rounded-2xl border border-secondary-text/20
           ${disableBlur ? 'bg-secondary-background/80' : 'bg-secondary-background/50 backdrop-blur-lg'}
           shadow-xl hover:shadow-2xl ${glowMap[glowIntensity]}
-          transition-all duration-500
+          transition-[transform,box-shadow,opacity] duration-500
           overflow-hidden
           ${className}
         `}

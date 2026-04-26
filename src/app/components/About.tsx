@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useMemo, useRef } from 'react';
+import React, { useEffect, useMemo, useRef, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import { Terminal } from 'lucide-react';
 import { SectionHeader } from './ui/CardComponents';
@@ -9,37 +9,42 @@ import { useLocale } from '@/i18n';
 
 const About = () => {
   const { t } = useLocale();
-  const [text, setText] = useState('');
-  const [showCursor, setShowCursor] = useState(true);
+  const textRef = useRef<HTMLSpanElement>(null);
+  const cursorRef = useRef<HTMLSpanElement>(null);
   const typingTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const cursorIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   const command = t.about.terminalCommand;
   const content = `\n${t.about.bio}`;
+  const bioText = useMemo(() => content, [content]);
 
-  const fullText = useMemo(() => `$ ${command}${content}`, [command, content]);
-
-  useEffect(() => {
+  const startTyping = useCallback(() => {
     let i = 0;
-
     const typeNext = () => {
-      if (i >= fullText.length) {
-        cursorIntervalRef.current = setInterval(() => setShowCursor((s) => !s), 500);
+      if (i >= bioText.length) {
+        cursorIntervalRef.current = setInterval(() => {
+          if (cursorRef.current) {
+            cursorRef.current.style.opacity = cursorRef.current.style.opacity === '0' ? '1' : '0';
+          }
+        }, 500);
         return;
       }
-      setText(fullText.substring(0, i + 1));
+      if (textRef.current) {
+        textRef.current.textContent = bioText.substring(0, i + 1);
+      }
       i++;
-      const randomDelay = Math.random() * 30 + 20;
-      typingTimeoutRef.current = setTimeout(typeNext, randomDelay);
+      typingTimeoutRef.current = setTimeout(typeNext, Math.random() * 30 + 20);
     };
-
     typingTimeoutRef.current = setTimeout(typeNext, 50);
+  }, [bioText]);
 
+  useEffect(() => {
+    startTyping();
     return () => {
       if (typingTimeoutRef.current) clearTimeout(typingTimeoutRef.current);
       if (cursorIntervalRef.current) clearInterval(cursorIntervalRef.current);
     };
-  }, [fullText]);
+  }, [startTyping]);
 
   return (
     <section 
@@ -76,15 +81,15 @@ const About = () => {
           transition={{ duration: 0.6, delay: 0.2 }}
           className="max-w-4xl mx-auto"
         >
-          <div className="group relative rounded-2xl border border-secondary-text/20 bg-secondary-background/50 backdrop-blur-lg shadow-xl hover:shadow-2xl hover:shadow-cyan-400/20 transition-all duration-500 overflow-hidden">
+          <div className="group relative rounded-2xl border border-secondary-text/20 bg-secondary-background/80 shadow-xl hover:shadow-2xl hover:shadow-cyan-400/20 transition-[box-shadow] duration-500 overflow-hidden">
             {/* Gradient overlay on hover */}
-            <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/0 via-blue-500/0 to-purple-500/0 group-hover:from-cyan-500/5 group-hover:via-blue-500/5 group-hover:to-purple-500/5 transition-all duration-500 rounded-2xl pointer-events-none"></div>
+            <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/0 via-blue-500/0 to-purple-500/0 group-hover:from-cyan-500/5 group-hover:via-blue-500/5 group-hover:to-purple-500/5 transition-[background] duration-500 rounded-2xl pointer-events-none"></div>
 
             {/* Corner accent */}
             <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-accent/10 to-transparent rounded-bl-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
 
             {/* Terminal Header */}
-            <div className="relative z-10 bg-gradient-to-r from-secondary-background/80 to-secondary-background/60 backdrop-blur-md p-4 flex items-center border-b border-secondary-text/20">
+            <div className="relative z-10 bg-secondary-background/90 p-4 flex items-center border-b border-secondary-text/20">
               <div className="flex space-x-2">
                 <div className="w-3 h-3 rounded-full bg-red-500 hover:bg-red-600 transition-colors cursor-pointer"></div>
                 <div className="w-3 h-3 rounded-full bg-yellow-500 hover:bg-yellow-600 transition-colors cursor-pointer"></div>
@@ -103,10 +108,8 @@ const About = () => {
                 <span className="text-accent font-bold">$ </span>
                 <span className="text-secondary-text">{command}</span>
                 {'\n'}
-                <span className="text-primary-text">{text.substring(command.length + 3)}</span>
-                {showCursor && (
-                  <span className="inline-block w-2 h-5 ml-0.5 bg-accent animate-pulse align-middle"></span>
-                )}
+                <span ref={textRef} className="text-primary-text" />
+                <span ref={cursorRef} className="inline-block w-2 h-5 ml-0.5 bg-accent align-middle" />
               </pre>
             </div>
 

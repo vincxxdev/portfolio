@@ -153,8 +153,9 @@ body {
 }
 
 /* Nasconde il cursore predefinito */
-*,
-*::before,
-*::after {
-  cursor: none !important;
+html {
+  cursor: none;
+}
+a, button, [role="button"], input, textarea, select, label, [data-cursor-hover] {
+  cursor: none;
 }

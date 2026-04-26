@@ -137,8 +137,6 @@ export const en: Translations = {
   },
   footer: {
     allRightsReserved: 'All rights reserved',
-    privacyNote: 'This site uses anonymized analytics to improve user experience.',
-    privacyNoteSecond: 'No personal data is collected or shared with third parties.',
     linkedinProfile: 'LinkedIn Profile',
     githubProfile: 'GitHub Profile',
   },

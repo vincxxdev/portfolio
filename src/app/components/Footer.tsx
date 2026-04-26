@@ -64,20 +64,6 @@ const Footer = () => {
             </div>
           </motion.div>
 
-          {/* Privacy note */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            className="text-center sm:text-left"
-          >
-            <p className="text-xs text-secondary-text/70">
-              {t.footer.privacyNote}
-              <br className="hidden sm:inline" />
-              {t.footer.privacyNoteSecond}
-            </p>
-          </motion.div>
         </div>
       </div>
     </footer>

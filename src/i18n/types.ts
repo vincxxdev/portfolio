@@ -98,8 +98,6 @@ export interface Translations {
   };
   footer: {
     allRightsReserved: string;
-    privacyNote: string;
-    privacyNoteSecond: string;
     linkedinProfile: string;
     githubProfile: string;
   };

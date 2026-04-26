@@ -45,6 +45,11 @@ h1, h2, h3, h4, h5, h6 {
   --color-accent-text: #0A192F;
 }
 
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 6rem;
+}
+
 body {
   background: var(--color-primary-background);
   color: var(--color-primary-text);

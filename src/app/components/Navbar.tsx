@@ -56,6 +56,7 @@ const Navbar = () => {
 
     const handleLogoClick = (e: React.MouseEvent) => {
         e.preventDefault();
+        window.scrollTo({ top: 0 });
         playSound('click');
         const newClicks = logoClicks + 1;
         setLogoClicks(newClicks);

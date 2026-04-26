@@ -43,13 +43,11 @@ const Experience = () => {
     },
   };
 
-  const expTitleLen = t.experience.title.length;
-  const expHighlightDelay = expTitleLen * CHAR_DELAY + 80;
-  const expDescDelay = expHighlightDelay + t.experience.titleHighlight.length * CHAR_DELAY + 200;
+  const expTotalChars = t.experience.title.length + 1 + t.experience.titleHighlight.length;
+  const expDescDelay = expTotalChars * CHAR_DELAY + 200;
 
-  const certTitleLen = t.experience.certTitle.length;
-  const certHighlightDelay = certTitleLen * CHAR_DELAY + 80;
-  const certDescDelay = certHighlightDelay + t.experience.certTitleHighlight.length * CHAR_DELAY + 200;
+  const certTotalChars = t.experience.certTitle.length + 1 + t.experience.certTitleHighlight.length;
+  const certDescDelay = certTotalChars * CHAR_DELAY + 200;
 
   return (
     <section
@@ -63,12 +61,7 @@ const Experience = () => {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Experiences Section */}
         <SectionHeader
-          title={
-            <>
-              <Printer3DText text={t.experience.title} />{' '}
-              <Printer3DText text={t.experience.titleHighlight} highlight startDelay={expHighlightDelay} />
-            </>
-          }
+          title={<Printer3DText text={t.experience.title} highlightText={t.experience.titleHighlight} />}
           description={t.experience.subtitle}
           descriptionDelay={expDescDelay}
         />
@@ -124,12 +117,7 @@ const Experience = () => {
 
         {/* Certifications Section */}
         <SectionHeader
-          title={
-            <>
-              <Printer3DText text={t.experience.certTitle} />{' '}
-              <Printer3DText text={t.experience.certTitleHighlight} highlight startDelay={certHighlightDelay} />
-            </>
-          }
+          title={<Printer3DText text={t.experience.certTitle} highlightText={t.experience.certTitleHighlight} />}
           description={t.experience.certSubtitle}
           descriptionDelay={certDescDelay}
         />

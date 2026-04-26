@@ -157,9 +157,8 @@ const Skills = () => {
     },
   };
 
-  const titleLen = t.skills.title.length;
-  const highlightDelay = titleLen * CHAR_DELAY + 80;
-  const descDelay = highlightDelay + t.skills.titleHighlight.length * CHAR_DELAY + 200;
+  const totalChars = t.skills.title.length + 1 + t.skills.titleHighlight.length;
+  const descDelay = totalChars * CHAR_DELAY + 200;
 
   return (
     <section
@@ -173,12 +172,7 @@ const Skills = () => {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Header */}
         <SectionHeader
-          title={
-            <>
-              <Printer3DText text={t.skills.title} />{' '}
-              <Printer3DText text={t.skills.titleHighlight} highlight startDelay={highlightDelay} />
-            </>
-          }
+          title={<Printer3DText text={t.skills.title} highlightText={t.skills.titleHighlight} />}
           description={t.skills.subtitle}
           descriptionDelay={descDelay}
         />

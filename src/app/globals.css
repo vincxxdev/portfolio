@@ -137,13 +137,19 @@ body {
   }
 }
 
-@keyframes print3d-reveal {
-  from {
-    clip-path: inset(0 100% 0 0);
+@keyframes nozzle-glow {
+  0%, 100% {
+    opacity: 0.1;
+    transform: scale(1);
   }
-  to {
-    clip-path: inset(0 0 0 0);
+  50% {
+    opacity: 0.28;
+    transform: scale(1.45);
   }
+}
+
+.animate-nozzle-glow {
+  animation: nozzle-glow 0.7s ease-in-out infinite;
 }
 
 @keyframes signal-sweep {

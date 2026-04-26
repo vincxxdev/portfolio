@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import { Terminal } from 'lucide-react';
 import { SectionHeader } from './ui/CardComponents';
 import Printer3DText, { CHAR_DELAY } from './ui/Printer3DText';
+
 import { useLocale } from '@/i18n';
 
 
@@ -47,9 +48,8 @@ const About = () => {
     };
   }, [startTyping]);
 
-  const titleLen = t.about.title.length;
-  const highlightDelay = titleLen * CHAR_DELAY + 80;
-  const descDelay = highlightDelay + t.about.titleHighlight.length * CHAR_DELAY + 200;
+  const totalChars = t.about.title.length + 1 + t.about.titleHighlight.length;
+  const descDelay = totalChars * CHAR_DELAY + 200;
 
   return (
     <section
@@ -63,12 +63,7 @@ const About = () => {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Header */}
         <SectionHeader
-          title={
-            <>
-              <Printer3DText text={t.about.title} />{' '}
-              <Printer3DText text={t.about.titleHighlight} highlight startDelay={highlightDelay} />
-            </>
-          }
+          title={<Printer3DText text={t.about.title} highlightText={t.about.titleHighlight} />}
           description={t.about.subtitle}
           descriptionDelay={descDelay}
         />

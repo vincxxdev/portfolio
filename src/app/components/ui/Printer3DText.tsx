@@ -157,6 +157,7 @@ const Printer3DText = ({ text, highlightText, className = '' }: Printer3DTextPro
     if (!triggered || shouldReduceMotion || !containerRef.current || !headRef.current) return;
 
     const charEls = containerRef.current.querySelectorAll<HTMLSpanElement>('[data-char]');
+    if (charEls.length === 0) return;
     const head = headRef.current;
     const startTime = performance.now();
     let animFrame = 0;
@@ -170,6 +171,7 @@ const Printer3DText = ({ text, highlightText, className = '' }: Printer3DTextPro
       if (elapsed < hideAfter) {
         const activeIndex = Math.min(Math.floor(elapsed / CHAR_DELAY), charEls.length - 1);
         const el = charEls[activeIndex];
+        if (!el) { animFrame = requestAnimationFrame(animate); return; }
         const posX = el.offsetLeft + el.offsetWidth / 2;
         const posY = el.offsetTop;
         head.style.opacity = '1';

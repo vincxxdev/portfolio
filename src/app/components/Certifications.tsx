@@ -34,31 +34,33 @@ const Certifications = () => {
     },
   };
 
-  const cardVariants = shouldReduceMotion
-    ? {
-        hidden: { opacity: 0 },
-        visible: { opacity: 1, transition: { duration: 0.3 } },
-      }
-    : {
-        hidden: {
-          opacity: 0,
-          y: 70,
-          scale: 0.65,
-          rotateX: 20,
-        },
-        visible: {
+  const cardVariants = {
+    hidden: (i: number) =>
+      shouldReduceMotion
+        ? { opacity: 0 }
+        : {
+            opacity: 0,
+            x: i % 2 === 0 ? -160 : 160,
+            y: 50,
+            scale: 0.7,
+            rotateY: i % 2 === 0 ? -18 : 18,
+          },
+    visible: shouldReduceMotion
+      ? { opacity: 1, transition: { duration: 0.3 } }
+      : {
           opacity: 1,
+          x: 0,
           y: 0,
           scale: 1,
-          rotateX: 0,
+          rotateY: 0,
           transition: {
-            type: 'spring',
-            stiffness: 80,
-            damping: 14,
-            mass: 0.8,
+            type: 'spring' as const,
+            stiffness: 65,
+            damping: 13,
+            mass: 0.9,
           },
         },
-      };
+  };
 
   const totalChars = t.certifications.title.length + 1 + t.certifications.titleHighlight.length;
   const descDelay = (totalChars * CHAR_DELAY + 200) / 1000;
@@ -66,7 +68,7 @@ const Certifications = () => {
   return (
     <section
       id="certifications"
-      className="py-20 sm:py-32 relative overflow-hidden"
+      className="py-20 sm:py-32 relative"
     >
       {/* Background grid */}
       <div className="absolute inset-0 opacity-25" style={{ backgroundImage: 'linear-gradient(to right, rgba(100, 116, 139, 0.18) 1px, transparent 1px), linear-gradient(to bottom, rgba(100, 116, 139, 0.18) 1px, transparent 1px)', backgroundSize: '72px 72px', maskImage: 'linear-gradient(to bottom, transparent, black 14%, black 86%, transparent)', WebkitMaskImage: 'linear-gradient(to bottom, transparent, black 14%, black 86%, transparent)' } as React.CSSProperties} />
@@ -95,6 +97,7 @@ const Certifications = () => {
               padding="md"
               icon={{ Icon: Award }}
               badge={{ icon: Calendar, text: cert.date }}
+              custom={index}
               variants={cardVariants}
             >
               <CardTitle className="mb-2 flex-grow">

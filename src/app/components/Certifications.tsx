@@ -100,13 +100,15 @@ const Certifications = () => {
               custom={index}
               variants={cardVariants}
             >
-              <CardTitle className="mb-2 flex-grow">
+              <CardTitle className="mb-2">
                 {cert.title}
               </CardTitle>
 
               <p className="text-sm text-secondary-text mb-4 font-semibold">
                 {cert.issuer}
               </p>
+
+              <div className="flex-grow" />
 
               <CardDivider className="mb-4" />
 

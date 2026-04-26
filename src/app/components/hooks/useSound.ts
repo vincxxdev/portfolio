@@ -5,8 +5,23 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 type SoundType = 'click' | 'hover' | 'success' | 'pop';
 
 let sharedAudioContext: AudioContext | null = null;
+let userHasInteracted = false;
 
-function getAudioContext(): AudioContext {
+if (typeof window !== 'undefined') {
+  const unlock = () => {
+    userHasInteracted = true;
+    if (sharedAudioContext?.state === 'suspended') sharedAudioContext.resume();
+    window.removeEventListener('click', unlock);
+    window.removeEventListener('touchstart', unlock);
+    window.removeEventListener('keydown', unlock);
+  };
+  window.addEventListener('click', unlock, { once: true });
+  window.addEventListener('touchstart', unlock, { once: true });
+  window.addEventListener('keydown', unlock, { once: true });
+}
+
+function getAudioContext(): AudioContext | null {
+  if (!userHasInteracted) return null;
   if (!sharedAudioContext || sharedAudioContext.state === 'closed') {
     sharedAudioContext = new (window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext)();
   }
@@ -47,6 +62,7 @@ export const useSound = () => {
     }
 
     const audioContext = getAudioContext();
+    if (!audioContext) return;
     const oscillator = audioContext.createOscillator();
     const gainNode = audioContext.createGain();
 

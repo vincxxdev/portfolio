@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useMemo } from 'react';
-import { motion } from 'framer-motion';
+import { motion, useReducedMotion } from 'framer-motion';
 import { Award, ExternalLink, Calendar } from 'lucide-react';
 import Button from './ui/Button';
 import GradientBorderCard from './ui/GradientBorderCard';
@@ -12,6 +12,7 @@ import { useLocale } from '@/i18n';
 
 const Certifications = () => {
   const { t } = useLocale();
+  const shouldReduceMotion = useReducedMotion();
 
   const certificationData = useMemo(() => {
     const urlMap = new Map(certificationDataRaw.map((c) => [c.id, c.url]));
@@ -27,10 +28,37 @@ const Certifications = () => {
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.2,
+        staggerChildren: shouldReduceMotion ? 0 : 0.15,
+        delayChildren: 0.1,
       },
     },
   };
+
+  const cardVariants = shouldReduceMotion
+    ? {
+        hidden: { opacity: 0 },
+        visible: { opacity: 1, transition: { duration: 0.3 } },
+      }
+    : {
+        hidden: {
+          opacity: 0,
+          y: 70,
+          scale: 0.65,
+          rotateX: 20,
+        },
+        visible: {
+          opacity: 1,
+          y: 0,
+          scale: 1,
+          rotateX: 0,
+          transition: {
+            type: 'spring',
+            stiffness: 80,
+            damping: 14,
+            mass: 0.8,
+          },
+        },
+      };
 
   const totalChars = t.certifications.title.length + 1 + t.certifications.titleHighlight.length;
   const descDelay = (totalChars * CHAR_DELAY + 200) / 1000;
@@ -59,6 +87,7 @@ const Certifications = () => {
           whileInView="visible"
           viewport={{ once: true, margin: "-100px" }}
           className="max-w-5xl mx-auto grid gap-6 md:grid-cols-2"
+          style={{ perspective: 800 }}
         >
           {certificationData.map((cert, index) => (
             <GradientBorderCard
@@ -66,10 +95,7 @@ const Certifications = () => {
               padding="md"
               icon={{ Icon: Award }}
               badge={{ icon: Calendar, text: cert.date }}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: index * 0.1, ease: "easeOut" as const }}
+              variants={cardVariants}
             >
               <CardTitle className="mb-2 flex-grow">
                 {cert.title}

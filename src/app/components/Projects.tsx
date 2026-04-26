@@ -9,6 +9,7 @@ import { motion } from 'framer-motion';
 import { projectsData } from '@/data/projects';
 import Card from './ui/Card';
 import { SectionHeader } from './ui/CardComponents';
+import Printer3DText, { CHAR_DELAY } from './ui/Printer3DText';
 import { MagneticButton } from './ui/MagneticButton';
 import { useLocale } from '@/i18n';
 
@@ -32,9 +33,13 @@ const Projects = () => {
     },
   };
 
+  const titleLen = t.projects.title.length;
+  const highlightDelay = titleLen * CHAR_DELAY + 80;
+  const descDelay = highlightDelay + t.projects.titleHighlight.length * CHAR_DELAY + 200;
+
   return (
-    <section 
-      id="projects" 
+    <section
+      id="projects"
       className="py-20 sm:py-32 relative overflow-hidden"
     >
       {/* Background decorative elements */}
@@ -42,21 +47,16 @@ const Projects = () => {
       <div className="absolute bottom-20 right-10 w-96 h-96 bg-blue-500/10 rounded-full filter blur-3xl animate-blob animation-delay-2000"></div>
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-        >
-          <SectionHeader
-            title={
-              <>
-                {t.projects.title} <span className="bg-gradient-to-r from-cyan-400 to-blue-600 bg-clip-text text-transparent">{t.projects.titleHighlight}</span>
-              </>
-            }
-            description={t.projects.subtitle}
-          />
-        </motion.div>
+        <SectionHeader
+          title={
+            <>
+              <Printer3DText text={t.projects.title} />{' '}
+              <Printer3DText text={t.projects.titleHighlight} highlight startDelay={highlightDelay} />
+            </>
+          }
+          description={t.projects.subtitle}
+          descriptionDelay={descDelay}
+        />
 
         <motion.div
           variants={containerVariants}
@@ -81,7 +81,7 @@ const Projects = () => {
               <div className="relative h-56 overflow-hidden bg-gradient-to-br from-cyan-500/10 to-blue-500/10">
                 {/* Animated border effect */}
                 <div className="absolute inset-0 bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-500 opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-xl z-0"></div>
-                
+
                 {!imageErrors[project.id] ? (
                   <Image
                     src={project.previewImage}
@@ -126,8 +126,8 @@ const Projects = () => {
                 <div className="mb-6">
                   <div className="flex flex-wrap gap-2">
                     {project.technologies.slice(0, 4).map((tech) => (
-                      <span 
-                        key={tech} 
+                      <span
+                        key={tech}
                         className="px-3 py-1 bg-accent/10 border border-accent/20 text-accent text-xs font-semibold rounded-lg hover:bg-accent/20 transition-colors duration-300"
                       >
                         {tech}

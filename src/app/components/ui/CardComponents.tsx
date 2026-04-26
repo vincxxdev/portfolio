@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import { motion } from 'framer-motion';
 
 interface CardDividerProps {
   className?: string;
@@ -58,6 +59,7 @@ interface SectionHeaderProps {
   };
   title: React.ReactNode;
   description?: string;
+  descriptionDelay?: number;
   className?: string;
 }
 
@@ -65,6 +67,7 @@ export const SectionHeader: React.FC<SectionHeaderProps> = ({
   badge,
   title,
   description,
+  descriptionDelay,
   className = ''
 }) => {
   return (
@@ -79,9 +82,21 @@ export const SectionHeader: React.FC<SectionHeaderProps> = ({
         {title}
       </h2>
       {description && (
-        <p className="text-lg text-secondary-text max-w-2xl mx-auto">
-          {description}
-        </p>
+        descriptionDelay != null ? (
+          <motion.p
+            initial={{ opacity: 0, y: 8 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, ease: 'easeOut', delay: descriptionDelay / 1000 }}
+            className="text-lg text-secondary-text max-w-2xl mx-auto"
+          >
+            {description}
+          </motion.p>
+        ) : (
+          <p className="text-lg text-secondary-text max-w-2xl mx-auto">
+            {description}
+          </p>
+        )
       )}
     </div>
   );

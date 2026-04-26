@@ -122,6 +122,30 @@ body {
   }
 }
 
+@keyframes print3d-build {
+  0% {
+    opacity: 0;
+    transform: translateY(40%) scaleY(0.3);
+  }
+  60% {
+    opacity: 1;
+    transform: translateY(-4%) scaleY(1.02);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scaleY(1);
+  }
+}
+
+@keyframes print3d-reveal {
+  from {
+    clip-path: inset(0 100% 0 0);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+
 @keyframes signal-sweep {
   0% {
     transform: translateX(-38%) scaleX(0.8);

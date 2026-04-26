@@ -4,6 +4,7 @@ export const it: Translations = {
   nav: {
     about: 'About',
     experience: 'Esperienze',
+    certifications: 'Certificazioni',
     skills: 'Skills',
     projects: 'Progetti',
     contacts: 'Contatti',
@@ -36,10 +37,6 @@ export const it: Translations = {
     title: 'Le mie',
     titleHighlight: 'Esperienze',
     subtitle: 'Il mio percorso professionale e le competenze acquisite',
-    certTitle: 'Le mie',
-    certTitleHighlight: 'Certificazioni',
-    certSubtitle: 'Corsi completati e certificazioni ottenute',
-    viewCert: 'Visualizza Certificato',
     items: [
       {
         date: '26/11/2017 - 10/12/2017 - 10/02/2018',
@@ -48,7 +45,13 @@ export const it: Translations = {
         description: 'Cameriere presso lo Stadio San Nicola tramite Scuola Alberghiera Molfetta, servizio a buffet presso la tribuna d\'onore.',
       },
     ],
-    certifications: [
+  },
+  certifications: {
+    title: 'Le mie',
+    titleHighlight: 'Certificazioni',
+    subtitle: 'Corsi completati e certificazioni ottenute',
+    viewCert: 'Visualizza Certificato',
+    items: [
       {
         id: '100-days-web-development',
         title: '100 Days Of Code - 2022 Web Development Bootcamp',

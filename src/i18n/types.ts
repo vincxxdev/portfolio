@@ -4,6 +4,7 @@ export interface Translations {
   nav: {
     about: string;
     experience: string;
+    certifications: string;
     skills: string;
     projects: string;
     contacts: string;
@@ -32,17 +33,19 @@ export interface Translations {
     title: string;
     titleHighlight: string;
     subtitle: string;
-    certTitle: string;
-    certTitleHighlight: string;
-    certSubtitle: string;
-    viewCert: string;
     items: {
       date: string;
       title: string;
       company: string;
       description: string;
     }[];
-    certifications: {
+  };
+  certifications: {
+    title: string;
+    titleHighlight: string;
+    subtitle: string;
+    viewCert: string;
+    items: {
       id: string;
       title: string;
       issuer: string;

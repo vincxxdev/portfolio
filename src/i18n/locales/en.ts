@@ -4,6 +4,7 @@ export const en: Translations = {
   nav: {
     about: 'About',
     experience: 'Experience',
+    certifications: 'Certifications',
     skills: 'Skills',
     projects: 'Projects',
     contacts: 'Contact',
@@ -36,10 +37,6 @@ export const en: Translations = {
     title: 'My',
     titleHighlight: 'Experience',
     subtitle: 'My professional journey and acquired skills',
-    certTitle: 'My',
-    certTitleHighlight: 'Certifications',
-    certSubtitle: 'Completed courses and obtained certifications',
-    viewCert: 'View Certificate',
     items: [
       {
         date: '26/11/2017 - 10/12/2017 - 10/02/2018',
@@ -48,7 +45,13 @@ export const en: Translations = {
         description: 'Waiter at San Nicola Stadium through Molfetta Hotel School, buffet service in the VIP stand.',
       },
     ],
-    certifications: [
+  },
+  certifications: {
+    title: 'My',
+    titleHighlight: 'Certifications',
+    subtitle: 'Completed courses and obtained certifications',
+    viewCert: 'View Certificate',
+    items: [
       {
         id: '100-days-web-development',
         title: '100 Days Of Code - 2022 Web Development Bootcamp',

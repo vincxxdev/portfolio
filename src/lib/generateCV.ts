@@ -372,10 +372,10 @@ export const generateCV = async (locale: Locale = 'it'): Promise<void> => {
   }
 
   // ============ CERTIFICATIONS SECTION ============
-  if (t.experience.certifications.length > 0) {
+  if (t.certifications.items.length > 0) {
     contentY = drawContentSection(doc, t.cvData.labels.certifications, contentY);
 
-    const sortedCerts = [...t.experience.certifications].sort((a, b) => {
+    const sortedCerts = [...t.certifications.items].sort((a, b) => {
       const dateA = parseDateString(a.date, locale);
       const dateB = parseDateString(b.date, locale);
       return dateB.getTime() - dateA.getTime();

@@ -1,26 +1,15 @@
 'use client';
 
-import React, { useMemo } from 'react';
+import React from 'react';
 import { motion } from 'framer-motion';
-import { Award, ExternalLink, Calendar, Building2 } from 'lucide-react';
-import Button from './ui/Button';
+import { Calendar, Building2 } from 'lucide-react';
 import Card from './ui/Card';
-import { CardTitle, CardDescription, CardDivider, SectionHeader } from './ui/CardComponents';
+import { CardTitle, CardDescription, SectionHeader } from './ui/CardComponents';
 import Printer3DText, { CHAR_DELAY } from './ui/Printer3DText';
-import { certificationData as certificationDataRaw } from '@/data/certifications';
 import { useLocale } from '@/i18n';
 
 const Experience = () => {
   const { t } = useLocale();
-
-  const certificationData = useMemo(() => {
-    const urlMap = new Map(certificationDataRaw.map((c) => [c.id, c.url]));
-    const certs = t.experience.certifications.map((cert) => ({
-      ...cert,
-      url: urlMap.get(cert.id) ?? '#',
-    }));
-    return [...certs].sort((a, b) => b.sortDate.localeCompare(a.sortDate));
-  }, [t]);
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -47,9 +36,6 @@ const Experience = () => {
   const expTotalChars = t.experience.title.length + 1 + t.experience.titleHighlight.length;
   const expDescDelay = (expTotalChars * CHAR_DELAY + 200) / 1000;
 
-  const certTotalChars = t.experience.certTitle.length + 1 + t.experience.certTitleHighlight.length;
-  const certDescDelay = (certTotalChars * CHAR_DELAY + 200) / 1000;
-
   return (
     <section
       id="experience"
@@ -62,14 +48,13 @@ const Experience = () => {
       <div className="absolute inset-y-0 right-0 w-px bg-gradient-to-b from-transparent via-accent/30 to-transparent opacity-50" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        {/* Experiences Section */}
         <SectionHeader
           title={<Printer3DText text={t.experience.title} highlightText={t.experience.titleHighlight} />}
           description={t.experience.subtitle}
           descriptionDelay={expDescDelay}
         />
 
-        <div className="relative max-w-4xl mx-auto mb-24">
+        <div className="relative max-w-4xl mx-auto">
           {/* Timeline line */}
           <div className="absolute left-8 top-0 h-full w-0.5 bg-gradient-to-b from-accent/50 via-accent/30 to-accent/10"></div>
 
@@ -117,57 +102,6 @@ const Experience = () => {
             ))}
           </motion.div>
         </div>
-
-        {/* Certifications Section */}
-        <SectionHeader
-          title={<Printer3DText text={t.experience.certTitle} highlightText={t.experience.certTitleHighlight} />}
-          description={t.experience.certSubtitle}
-          descriptionDelay={certDescDelay}
-        />
-
-        <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-100px" }}
-          className="max-w-5xl mx-auto grid gap-6 md:grid-cols-2"
-        >
-          {certificationData.map((cert, index) => (
-            <Card
-              key={index}
-              hoverEffect="both"
-              padding="md"
-              icon={{ Icon: Award }}
-              badge={{ icon: Calendar, text: cert.date }}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: index * 0.1, ease: "easeOut" as const }}
-            >
-              <CardTitle className="mb-2 flex-grow">
-                {cert.title}
-              </CardTitle>
-
-              <p className="text-sm text-secondary-text mb-4 font-semibold">
-                {cert.issuer}
-              </p>
-
-              <CardDivider className="mb-4" />
-
-              <Button
-                href={cert.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                variant="secondary"
-                size="default"
-                className="w-full gap-2"
-              >
-                <ExternalLink className="w-4 h-4" />
-                <span className="text-sm">{t.experience.viewCert}</span>
-              </Button>
-            </Card>
-          ))}
-        </motion.div>
       </div>
     </section>
   );

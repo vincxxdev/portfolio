@@ -3,6 +3,7 @@ import Hero from "./components/Hero";
 import Projects from "./components/Projects";
 import About from "./components/About";
 import Experience from "./components/Experience";
+import Certifications from "./components/Certifications";
 import Contacts from "./components/Contacts";
 import AnimatedSection from "./components/ui/AnimatedSection";
 import { ScrollToTop } from "./components/ui/ScrollToTop";
@@ -16,6 +17,9 @@ export default function Home() {
       </AnimatedSection>
       <AnimatedSection>
         <Experience />
+      </AnimatedSection>
+      <AnimatedSection>
+        <Certifications />
       </AnimatedSection>
       <AnimatedSection>
         <Skills />

@@ -14,6 +14,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 import dynamic from 'next/dynamic';
 import { ArrowDown, ArrowRight, Mail } from 'lucide-react';
 import DownloadCVButton from './ui/DownloadCVButton';
+import DecodeText from './ui/DecodeText';
 import { siteConfig } from '@/config/site';
 import { useLocale } from '@/i18n';
 import { skillsData } from '@/data/skills';
@@ -121,33 +122,44 @@ const Hero = () => {
               className="max-w-3xl"
             >
               <motion.div
-                initial={{ opacity: 0, y: 16 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.7, delay: 0.15 }}
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.6, delay: 0.2 }}
                 className="inline-flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.3em] text-secondary-text/80 sm:text-sm"
               >
                 <span className="h-2 w-2 rounded-full bg-accent shadow-[0_0_18px_var(--color-accent)]" />
                 <span>{t.hero.greeting}</span>
               </motion.div>
 
-              <motion.h1
-                initial={{ opacity: 0, y: 18 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.25 }}
-                className="mt-6 text-5xl font-black leading-[0.92] text-primary-text sm:text-6xl md:text-7xl lg:text-[6.5rem]"
-              >
-                <span className="block">{primaryName}</span>
-                {accentName ? (
-                  <span className="block bg-gradient-to-r from-accent via-cyan-300 to-primary-text bg-clip-text text-transparent">
-                    {accentName}
-                  </span>
-                ) : null}
-              </motion.h1>
+              <div className="relative mt-6">
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 0.4 }}
+                  transition={{ duration: 1.5, delay: 0.8 }}
+                  className="pointer-events-none absolute -inset-x-6 -inset-y-3 rounded-2xl bg-accent/[0.03] blur-2xl"
+                />
+                <h1 className="text-5xl font-black leading-[0.92] text-primary-text sm:text-6xl md:text-7xl lg:text-[6.5rem]">
+                  <DecodeText
+                    text={primaryName}
+                    className="block"
+                    delay={500}
+                    duration={1400}
+                  />
+                  {accentName ? (
+                    <DecodeText
+                      text={accentName}
+                      className="block bg-gradient-to-r from-accent via-cyan-300 to-primary-text bg-clip-text text-transparent"
+                      delay={800}
+                      duration={1400}
+                    />
+                  ) : null}
+                </h1>
+              </div>
 
               <motion.div
                 initial={{ opacity: 0, y: 18 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.35 }}
+                transition={{ duration: 0.7, delay: 1.6 }}
                 className="mt-8 flex items-center gap-4"
               >
                 <div className="h-px w-12 shrink-0 bg-gradient-to-r from-accent/50 to-transparent sm:w-16" />
@@ -168,18 +180,18 @@ const Hero = () => {
               </motion.div>
 
               <motion.p
-                initial={{ opacity: 0, y: 18 }}
+                initial={{ opacity: 0, y: 14 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.45 }}
+                transition={{ duration: 0.7, delay: 1.8 }}
                 className="mt-6 max-w-2xl text-sm leading-relaxed tracking-wide text-secondary-text/70 sm:text-base"
               >
                 {t.hero.tagline}
               </motion.p>
 
               <motion.div
-                initial={{ opacity: 0, y: 18 }}
+                initial={{ opacity: 0, y: 14 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.55 }}
+                transition={{ duration: 0.7, delay: 2.0 }}
                 className="mt-10 flex flex-col gap-4 sm:flex-row sm:flex-wrap"
               >
                 <Button href="#projects" variant="primary" size="lg" className="gap-2">
@@ -197,12 +209,12 @@ const Hero = () => {
                 href="#about"
                 data-cursor-hover
                 aria-label={t.hero.scrollDown}
-                initial={{ opacity: 0, y: 18 }}
-                animate={shouldReduceMotion ? { opacity: 1, y: 0 } : { opacity: 1, y: [0, 8, 0] }}
+                initial={{ opacity: 0 }}
+                animate={shouldReduceMotion ? { opacity: 1 } : { opacity: 1, y: [0, 8, 0] }}
                 transition={
                   shouldReduceMotion
-                    ? { duration: 0.8, delay: 0.75 }
-                    : { duration: 2.8, repeat: Infinity, ease: 'easeInOut', delay: 1 }
+                    ? { duration: 0.6, delay: 2.2 }
+                    : { duration: 2.8, repeat: Infinity, ease: 'easeInOut', delay: 2.4 }
                 }
                 className="mt-14 inline-flex items-center gap-4 text-sm font-semibold uppercase tracking-[0.24em] text-secondary-text/75 transition-colors duration-300 hover:text-accent"
               >
@@ -215,9 +227,9 @@ const Hero = () => {
 
             <motion.div
               style={{ x: visualX, y: visualY }}
-              initial={{ opacity: 0, scale: 0.94 }}
+              initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 1, delay: 0.2, ease: 'easeOut' }}
+              transition={{ duration: 1.2, delay: 0.1, ease: 'easeOut' }}
               className="relative mx-auto aspect-square w-full max-w-[34rem]"
             >
               <div className="absolute inset-0 rounded-full border border-secondary-text/10" />

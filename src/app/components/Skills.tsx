@@ -7,6 +7,7 @@ import { Code2, Zap } from 'lucide-react';
 import { useRef, useState, memo } from 'react';
 import Card from './ui/Card';
 import { SectionHeader } from './ui/CardComponents';
+import Printer3DText, { CHAR_DELAY } from './ui/Printer3DText';
 import { useLocale } from '@/i18n';
 
 interface SkillCardProps {
@@ -156,9 +157,12 @@ const Skills = () => {
     },
   };
 
+  const totalChars = t.skills.title.length + 1 + t.skills.titleHighlight.length;
+  const descDelay = (totalChars * CHAR_DELAY + 200) / 1000;
+
   return (
-    <section 
-      id="skills" 
+    <section
+      id="skills"
       className="py-20 sm:py-32 relative overflow-hidden"
     >
       {/* Background decorative elements */}
@@ -167,21 +171,11 @@ const Skills = () => {
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-        >
-          <SectionHeader
-            title={
-              <>
-                {t.skills.title} <span className="bg-gradient-to-r from-cyan-400 to-blue-600 bg-clip-text text-transparent">{t.skills.titleHighlight}</span>
-              </>
-            }
-            description={t.skills.subtitle}
-          />
-        </motion.div>
+        <SectionHeader
+          title={<Printer3DText text={t.skills.title} highlightText={t.skills.titleHighlight} />}
+          description={t.skills.subtitle}
+          descriptionDelay={descDelay}
+        />
 
         {/* Skills Grid */}
         <motion.div
@@ -264,7 +258,7 @@ const Skills = () => {
           >
             <div className="flex items-center gap-4 flex-1">
               <div className="flex-shrink-0 w-12 h-12 flex items-center justify-center bg-gradient-to-r from-cyan-400 to-blue-600 rounded-xl shadow-lg shadow-cyan-500/30 group-hover:shadow-cyan-500/50 transition-all duration-300">
-                <span className="text-white font-bold text-xl">★</span>
+                <span className="text-white font-bold text-xl">&#9733;</span>
               </div>
               <div className="flex items-baseline gap-2">
                 <p className="text-3xl font-bold bg-gradient-to-r from-cyan-400 to-blue-600 bg-clip-text text-transparent">

@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import { Award, ExternalLink, Calendar, Building2 } from 'lucide-react';
 import Card from './ui/Card';
 import { CardTitle, CardDescription, CardDivider, SectionHeader } from './ui/CardComponents';
+import Printer3DText, { CHAR_DELAY } from './ui/Printer3DText';
 import { certificationData as certificationDataRaw } from '@/data/certifications';
 import { useLocale } from '@/i18n';
 
@@ -42,9 +43,15 @@ const Experience = () => {
     },
   };
 
+  const expTotalChars = t.experience.title.length + 1 + t.experience.titleHighlight.length;
+  const expDescDelay = (expTotalChars * CHAR_DELAY + 200) / 1000;
+
+  const certTotalChars = t.experience.certTitle.length + 1 + t.experience.certTitleHighlight.length;
+  const certDescDelay = (certTotalChars * CHAR_DELAY + 200) / 1000;
+
   return (
-    <section 
-      id="experience" 
+    <section
+      id="experience"
       className="py-20 sm:py-32 relative overflow-hidden"
     >
       {/* Background decorative elements */}
@@ -53,26 +60,16 @@ const Experience = () => {
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Experiences Section */}
-        <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-        >
-          <SectionHeader
-            title={
-              <>
-                {t.experience.title} <span className="bg-gradient-to-r from-cyan-400 to-blue-600 bg-clip-text text-transparent">{t.experience.titleHighlight}</span>
-              </>
-            }
-            description={t.experience.subtitle}
-          />
-        </motion.div>
+        <SectionHeader
+          title={<Printer3DText text={t.experience.title} highlightText={t.experience.titleHighlight} />}
+          description={t.experience.subtitle}
+          descriptionDelay={expDescDelay}
+        />
 
         <div className="relative max-w-4xl mx-auto mb-24">
           {/* Timeline line */}
           <div className="absolute left-8 top-0 h-full w-0.5 bg-gradient-to-b from-accent/50 via-accent/30 to-accent/10"></div>
-          
+
           <motion.div
             variants={containerVariants}
             initial="hidden"
@@ -103,7 +100,7 @@ const Experience = () => {
                   <CardTitle className="text-2xl mb-2">
                     {item.title}
                   </CardTitle>
-                  
+
                   <div className="flex items-center gap-2 mb-4">
                     <Building2 className="w-4 h-4 text-secondary-text" />
                     <p className="text-base text-secondary-text font-semibold">{item.company}</p>
@@ -119,23 +116,11 @@ const Experience = () => {
         </div>
 
         {/* Certifications Section */}
-        <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-        >
-          <SectionHeader
-            title={
-              <>
-                {t.experience.certTitle} <span className="bg-gradient-to-r from-cyan-400 to-blue-600 bg-clip-text text-transparent">
-                  {t.experience.certTitleHighlight}
-                </span>
-              </>
-            }
-            description={t.experience.certSubtitle}
-          />
-        </motion.div>
+        <SectionHeader
+          title={<Printer3DText text={t.experience.certTitle} highlightText={t.experience.certTitleHighlight} />}
+          description={t.experience.certSubtitle}
+          descriptionDelay={certDescDelay}
+        />
 
         <motion.div
           variants={containerVariants}

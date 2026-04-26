@@ -45,6 +45,11 @@ h1, h2, h3, h4, h5, h6 {
   --color-accent-text: #0A192F;
 }
 
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 6rem;
+}
+
 body {
   background: var(--color-primary-background);
   color: var(--color-primary-text);
@@ -120,6 +125,36 @@ body {
   to {
     transform: rotate(0deg);
   }
+}
+
+@keyframes print3d-build {
+  0% {
+    opacity: 0;
+    transform: translateY(40%) scaleY(0.3);
+  }
+  60% {
+    opacity: 1;
+    transform: translateY(-4%) scaleY(1.02);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scaleY(1);
+  }
+}
+
+@keyframes nozzle-glow {
+  0%, 100% {
+    opacity: 0.1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.28;
+    transform: scale(1.45);
+  }
+}
+
+.animate-nozzle-glow {
+  animation: nozzle-glow 0.7s ease-in-out infinite;
 }
 
 @keyframes signal-sweep {

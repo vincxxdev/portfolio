@@ -11,44 +11,42 @@ const Animation = dynamic(() => import("./Animation"), {
 });
 
 export default function Loader({ children }: { children: React.ReactNode }) {
-  const [showAnimation, setShowAnimation] = useState(false);
+  const [phase, setPhase] = useState<'intro' | 'ready' | null>(null);
 
   useEffect(() => {
-    // Check if the animation has already been shown in this session
-    if (typeof window !== 'undefined') {
-      const hasLoaded = sessionStorage.getItem("hasLoaded");
-      
-      if (!hasLoaded) {
-        // Show the animation only if it hasn't been seen yet
-        setShowAnimation(true);
-        
-        const timer = setTimeout(() => {
-          setShowAnimation(false);
-          sessionStorage.setItem("hasLoaded", "true");
-        }, 2500);
-        
-        return () => clearTimeout(timer);
-      }
+    const hasLoaded = sessionStorage.getItem("hasLoaded");
+
+    if (!hasLoaded) {
+      const prevOverflow = document.body.style.overflow;
+      document.body.style.overflow = 'hidden';
+      setPhase('intro');
+
+      const timer = setTimeout(() => {
+        setPhase('ready');
+        document.body.style.overflow = prevOverflow;
+        sessionStorage.setItem("hasLoaded", "true");
+      }, 2500);
+
+      return () => {
+        clearTimeout(timer);
+        document.body.style.overflow = prevOverflow;
+      };
     }
-    
+
+    setPhase('ready');
     return undefined;
   }, []);
 
   return (
     <>
-      {/* Animation - shown first on initial load */}
-      {showAnimation && <Animation />}
-
-      {/* Main content */}
-      <div 
-        className={`transition-opacity duration-500 ${
-          showAnimation ? 'opacity-0 pointer-events-none' : 'opacity-100'
-        }`}
-      >
-        <Navbar />
-        {children}
-        <Footer />
-      </div>
+      {phase === 'intro' && <Animation />}
+      {phase === 'ready' && (
+        <>
+          <Navbar />
+          {children}
+          <Footer />
+        </>
+      )}
     </>
   );
 }

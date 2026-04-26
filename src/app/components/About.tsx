@@ -4,6 +4,8 @@ import React, { useEffect, useMemo, useRef, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import { Terminal } from 'lucide-react';
 import { SectionHeader } from './ui/CardComponents';
+import Printer3DText, { CHAR_DELAY } from './ui/Printer3DText';
+
 import { useLocale } from '@/i18n';
 
 
@@ -46,9 +48,12 @@ const About = () => {
     };
   }, [startTyping]);
 
+  const totalChars = t.about.title.length + 1 + t.about.titleHighlight.length;
+  const descDelay = (totalChars * CHAR_DELAY + 200) / 1000;
+
   return (
-    <section 
-      id="about" 
+    <section
+      id="about"
       className="py-20 sm:py-32 relative overflow-hidden"
     >
       {/* Background decorative elements */}
@@ -57,21 +62,11 @@ const About = () => {
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-        >
-          <SectionHeader
-            title={
-              <>
-                {t.about.title} <span className="bg-gradient-to-r from-cyan-400 to-blue-600 bg-clip-text text-transparent">{t.about.titleHighlight}</span>
-              </>
-            }
-            description={t.about.subtitle}
-          />
-        </motion.div>
+        <SectionHeader
+          title={<Printer3DText text={t.about.title} highlightText={t.about.titleHighlight} />}
+          description={t.about.subtitle}
+          descriptionDelay={descDelay}
+        />
 
         {/* Terminal Card */}
         <motion.div

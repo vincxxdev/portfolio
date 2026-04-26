@@ -5,6 +5,7 @@ import { Mail, Phone, MessageSquare, Send, MapPin, Globe } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 import { siteConfig } from '@/config/site';
+import Printer3DText, { CHAR_DELAY } from './ui/Printer3DText';
 import { useLocale } from '@/i18n';
 
 const Contacts = () => {
@@ -32,9 +33,12 @@ const Contacts = () => {
     },
   };
 
+  const totalChars = t.contacts.title.length + 1 + t.contacts.titleHighlight.length;
+  const descDelay = (totalChars * CHAR_DELAY + 200) / 1000;
+
   return (
-    <section 
-      id="contacts" 
+    <section
+      id="contacts"
       className="py-20 sm:py-32 relative overflow-hidden"
     >
       {/* Background decorative elements */}
@@ -43,21 +47,21 @@ const Contacts = () => {
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
         {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="mb-16"
-        >
+        <div className="mb-16">
           <h2 className="text-4xl sm:text-5xl font-bold text-primary-text mb-4">
-            {t.contacts.title} <span className="bg-gradient-to-r from-cyan-400 to-blue-600 bg-clip-text text-transparent">{t.contacts.titleHighlight}</span>
+            <Printer3DText text={t.contacts.title} highlightText={t.contacts.titleHighlight} />
           </h2>
-          <p className="text-lg text-secondary-text max-w-2xl mx-auto">
+          <motion.p
+            initial={{ opacity: 0, y: 8 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, ease: 'easeOut', delay: descDelay / 1000 }}
+            className="text-lg text-secondary-text max-w-2xl mx-auto"
+          >
             {t.contacts.subtitle}
-          </p>
-        </motion.div>
-        
+          </motion.p>
+        </div>
+
         {/* Main contact cards */}
         <motion.div
           variants={containerVariants}
@@ -67,7 +71,7 @@ const Contacts = () => {
           className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto mb-12"
         >
           {/* Email Card */}
-          <motion.a 
+          <motion.a
             variants={itemVariants}
             href={`mailto:${siteConfig.contact.email}`}
             className="group relative flex flex-col items-center gap-6 p-8 bg-secondary-background/80 rounded-2xl border border-secondary-text/20 shadow-xl hover:shadow-2xl hover:shadow-cyan-400/20 transition-[transform,box-shadow] duration-500 hover:-translate-y-2 overflow-hidden"
@@ -75,7 +79,7 @@ const Contacts = () => {
           >
             {/* Gradient overlay */}
             <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/0 via-blue-500/0 to-purple-500/0 group-hover:from-cyan-500/5 group-hover:via-blue-500/5 group-hover:to-purple-500/5 transition-[background] duration-500 rounded-2xl"></div>
-            
+
             {/* Corner accent */}
             <div className="absolute top-0 right-0 w-20 h-20 bg-gradient-to-br from-cyan-500/20 to-transparent rounded-bl-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
 
@@ -100,9 +104,9 @@ const Contacts = () => {
               <Send className="w-5 h-5 text-accent" />
             </div>
           </motion.a>
-          
+
           {/* Phone Card */}
-          <motion.a 
+          <motion.a
             variants={itemVariants}
             href={`tel:${siteConfig.contact.phone}`}
             className="group relative flex flex-col items-center gap-6 p-8 bg-secondary-background/80 rounded-2xl border border-secondary-text/20 shadow-xl hover:shadow-2xl hover:shadow-cyan-400/20 transition-[transform,box-shadow] duration-500 hover:-translate-y-2 overflow-hidden"
@@ -110,7 +114,7 @@ const Contacts = () => {
           >
             {/* Gradient overlay */}
             <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/0 via-blue-500/0 to-purple-500/0 group-hover:from-cyan-500/5 group-hover:via-blue-500/5 group-hover:to-purple-500/5 transition-[background] duration-500 rounded-2xl"></div>
-            
+
             {/* Corner accent */}
             <div className="absolute top-0 right-0 w-20 h-20 bg-gradient-to-br from-blue-500/20 to-transparent rounded-bl-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
 

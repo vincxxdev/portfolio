@@ -14,23 +14,26 @@ export default function Loader({ children }: { children: React.ReactNode }) {
   const [showAnimation, setShowAnimation] = useState(false);
 
   useEffect(() => {
-    // Check if the animation has already been shown in this session
     if (typeof window !== 'undefined') {
       const hasLoaded = sessionStorage.getItem("hasLoaded");
-      
+
       if (!hasLoaded) {
-        // Show the animation only if it hasn't been seen yet
+        document.body.style.overflow = 'hidden';
         setShowAnimation(true);
-        
+
         const timer = setTimeout(() => {
           setShowAnimation(false);
+          document.body.style.overflow = '';
           sessionStorage.setItem("hasLoaded", "true");
         }, 2500);
-        
-        return () => clearTimeout(timer);
+
+        return () => {
+          clearTimeout(timer);
+          document.body.style.overflow = '';
+        };
       }
     }
-    
+
     return undefined;
   }, []);
 

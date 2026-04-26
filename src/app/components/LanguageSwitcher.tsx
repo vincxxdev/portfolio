@@ -7,7 +7,7 @@ import { useSound } from './hooks/useSound';
 
 export const LanguageSwitcher = () => {
   const [mounted, setMounted] = useState(false);
-  const { locale, setLocale, t } = useLocale();
+  const { locale, setLocale, t, isSwitching } = useLocale();
   const { playSound } = useSound();
 
   useEffect(() => {
@@ -19,6 +19,7 @@ export const LanguageSwitcher = () => {
   }
 
   const handleToggle = () => {
+    if (isSwitching) return;
     playSound('pop');
     setLocale(locale === 'it' ? 'en' : 'it');
   };
@@ -27,10 +28,11 @@ export const LanguageSwitcher = () => {
     <motion.button
       aria-label={locale === 'it' ? t.accessibility.switchToEnglish : t.accessibility.switchToItalian}
       type="button"
-      className="h-9 w-9 flex items-center justify-center rounded-lg bg-gray-200 dark:bg-gray-700 hover:ring-2 ring-cyan-500 transition-all relative overflow-hidden"
+      disabled={isSwitching}
+      className="h-9 w-9 flex items-center justify-center rounded-lg bg-gray-200 dark:bg-gray-700 hover:ring-2 ring-cyan-500 transition-all relative overflow-hidden disabled:opacity-60 disabled:cursor-not-allowed"
       onClick={handleToggle}
-      whileHover={{ scale: 1.05 }}
-      whileTap={{ scale: 0.95 }}
+      whileHover={isSwitching ? undefined : { scale: 1.05 }}
+      whileTap={isSwitching ? undefined : { scale: 0.95 }}
     >
       <AnimatePresence mode="wait" initial={false}>
         <motion.span

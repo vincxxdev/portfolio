@@ -10,6 +10,8 @@ const Animation = dynamic(() => import("./Animation"), {
   ssr: false,
 });
 
+import { LocaleTransition } from "./LocaleTransition";
+
 export default function Loader({ children }: { children: React.ReactNode }) {
   const [phase, setPhase] = useState<'intro' | 'ready' | null>(null);
 
@@ -41,11 +43,11 @@ export default function Loader({ children }: { children: React.ReactNode }) {
     <>
       {phase === 'intro' && <Animation />}
       {phase === 'ready' && (
-        <>
+        <LocaleTransition>
           <Navbar />
           {children}
           <Footer />
-        </>
+        </LocaleTransition>
       )}
     </>
   );

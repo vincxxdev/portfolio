@@ -29,7 +29,7 @@ const GradientBorderCard = React.forwardRef<HTMLDivElement, CardProps>(
           disableBlur={disableBlur}
           badge={badge}
           icon={icon}
-          className="border-0 shadow-none"
+          className="border-0 shadow-none h-full"
         >
           {children}
         </Card>

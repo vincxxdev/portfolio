@@ -334,7 +334,7 @@ const Hero = () => {
         </div>
 
         {/* Smooth transition to About section */}
-        <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-b from-primary-background to-secondary-background z-[5] pointer-events-none" />
+        <div className="absolute -bottom-8 left-0 right-0 h-16 bg-gradient-to-b from-primary-background to-secondary-background z-[5] pointer-events-none" />
       </section>
     </MotionConfig>
   );

@@ -18,7 +18,7 @@ const Animation = () => {
 
   return (
     <div
-      style={{ backgroundColor: 'var(--secondary-background)' }}
+      style={{ backgroundColor: 'var(--color-secondary-background)' }}
       className="fixed inset-0 z-50 flex justify-center items-center overflow-hidden animate-fade-out-bck"
       onMouseMove={handleMouseMove}
     >

@@ -36,10 +36,10 @@ export default function Loader({ children }: { children: React.ReactNode }) {
     <>
       {phase === 'intro' && <Animation />}
       <div
-        style={phase === 'ready' ? undefined : {
-          position: 'relative',
-          zIndex: 0,
-          pointerEvents: 'none',
+        style={{
+          opacity: phase === 'ready' ? 1 : 0,
+          transition: phase === 'ready' ? 'opacity 0.4s ease' : 'none',
+          pointerEvents: phase === 'ready' ? 'auto' : 'none',
         }}
       >
         <Navbar />

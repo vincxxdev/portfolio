@@ -35,13 +35,17 @@ export default function Loader({ children }: { children: React.ReactNode }) {
   return (
     <>
       {phase === 'intro' && <Animation />}
-      {phase === 'ready' && (
-        <>
-          <Navbar />
-          {children}
-          <Footer />
-        </>
-      )}
+      <div
+        style={{
+          opacity: phase === 'ready' ? 1 : 0,
+          transition: phase === 'ready' ? 'opacity 0.4s ease' : 'none',
+          pointerEvents: phase === 'ready' ? 'auto' : 'none',
+        }}
+      >
+        <Navbar />
+        {children}
+        <Footer />
+      </div>
     </>
   );
 }

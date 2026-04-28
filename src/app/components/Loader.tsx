@@ -5,13 +5,12 @@ import Navbar from "./Navbar";
 import Footer from "./Footer";
 import dynamic from "next/dynamic";
 
-// Lazy load the animation component
 const Animation = dynamic(() => import("./Animation"), {
   ssr: false,
 });
 
 export default function Loader({ children }: { children: React.ReactNode }) {
-  const [phase, setPhase] = useState<'intro' | 'ready' | null>(null);
+  const [showIntro, setShowIntro] = useState(false);
 
   useEffect(() => {
     const hasLoaded = sessionStorage.getItem("hasLoaded");
@@ -19,10 +18,10 @@ export default function Loader({ children }: { children: React.ReactNode }) {
     if (!hasLoaded) {
       const prevOverflow = document.body.style.overflow;
       document.body.style.overflow = 'hidden';
-      setPhase('intro');
+      setShowIntro(true);
 
       const timer = setTimeout(() => {
-        setPhase('ready');
+        setShowIntro(false);
         document.body.style.overflow = prevOverflow;
         sessionStorage.setItem("hasLoaded", "true");
       }, 2500);
@@ -33,20 +32,15 @@ export default function Loader({ children }: { children: React.ReactNode }) {
       };
     }
 
-    setPhase('ready');
     return undefined;
   }, []);
 
   return (
     <>
-      {phase === 'intro' && <Animation />}
-      {phase === 'ready' && (
-        <>
-          <Navbar />
-          {children}
-          <Footer />
-        </>
-      )}
+      {showIntro && <Animation />}
+      <Navbar />
+      {children}
+      <Footer />
     </>
   );
 }

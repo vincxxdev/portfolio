@@ -19,7 +19,7 @@ const Animation = () => {
   return (
     <div
       style={{ backgroundColor: 'var(--secondary-background)' }}
-      className="h-screen w-full flex justify-center items-center overflow-hidden  absolute z-20 animate-fade-out-bck"
+      className="fixed inset-0 z-50 flex justify-center items-center overflow-hidden animate-fade-out-bck"
       onMouseMove={handleMouseMove}
     >
       <motion.div

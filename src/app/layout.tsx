@@ -33,9 +33,6 @@ export default function RootLayout({
   return (
     <html lang="it" suppressHydrationWarning>
       <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        {/* Inline critical CSS for instant rendering */}
         <style dangerouslySetInnerHTML={{
           __html: `
             body { 

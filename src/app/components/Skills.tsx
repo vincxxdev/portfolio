@@ -4,7 +4,7 @@ import { skillsData } from '@/data/skills';
 import SkillIcon from './ui/SkillIcon';
 import { motion, useMotionValue, useTransform, animate } from 'framer-motion';
 import { Code2, Zap } from 'lucide-react';
-import { useRef, useState, memo } from 'react';
+import { useRef, memo } from 'react';
 import Card from './ui/Card';
 import { SectionHeader } from './ui/CardComponents';
 import Printer3DText, { CHAR_DELAY } from './ui/Printer3DText';
@@ -26,13 +26,19 @@ interface SkillCardProps {
 
 const CIRCUMFERENCE = 2 * Math.PI * 52;
 
+const getStableVariation = (name: string, index: number) => {
+  let hash = 0;
+  for (const char of `${name}-${index}`) {
+    hash = (hash * 31 + char.charCodeAt(0)) % 1000;
+  }
+
+  return (hash / 999) * 2 - 1;
+};
+
 const SkillCard = memo(({ name, percentage, iconName, color, index, levelLabels }: SkillCardProps) => {
   const hasAnimated = useRef(false);
 
-  const [targetPercentage] = useState(() => {
-    const variation = (Math.random() - 0.5) * 2;
-    return Math.min(100, Math.max(0, percentage + variation));
-  });
+  const targetPercentage = Math.min(100, Math.max(0, percentage + getStableVariation(name, index)));
 
   const count = useMotionValue(0);
   const rounded = useTransform(count, Math.round);

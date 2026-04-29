@@ -29,7 +29,7 @@ const Footer = () => {
             {/* Copyright */}
             <div className="text-center sm:text-left order-2 sm:order-1">
               <p className="text-sm flex items-center justify-center sm:justify-start gap-2">
-                &copy; {currentYear} {siteConfig.personal.fullName}
+                &copy; <span suppressHydrationWarning>{currentYear}</span> {siteConfig.personal.fullName}
               </p>
               <p className="text-xs text-secondary-text/70 mt-1">
                 {t.footer.allRightsReserved}

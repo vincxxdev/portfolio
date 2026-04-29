@@ -84,14 +84,15 @@ const DecodeText = memo(({ text, className = '', delay = 400, duration = 1600 }:
   }, [text, shouldReduceMotion, delay, duration]);
 
   return (
-    <span ref={containerRef} className={className} aria-label={text}>
+    <span ref={containerRef} className={className}>
+      <span className="sr-only">{text}</span>
       {text.split('').map((char, i) => (
         <span
           key={i}
           data-decode
           className="inline-block transition-colors duration-150"
           style={{ opacity: shouldReduceMotion ? 1 : 0 }}
-          aria-hidden
+          aria-hidden="true"
         >
           {char === ' ' ? NBSP : char}
         </span>

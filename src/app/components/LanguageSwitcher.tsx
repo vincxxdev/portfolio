@@ -39,7 +39,7 @@ export const LanguageSwitcher = () => {
           animate={{ y: 0, opacity: 1 }}
           exit={{ y: 20, opacity: 0 }}
           transition={{ duration: 0.3, ease: 'easeInOut' }}
-          className="text-xs font-bold text-cyan-500 select-none"
+          className="text-xs font-bold text-cyan-800 dark:text-cyan-300 select-none"
         >
           {locale.toUpperCase()}
         </motion.span>

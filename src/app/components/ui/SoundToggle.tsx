@@ -41,7 +41,7 @@ export const SoundToggle = () => {
       title={soundEnabled ? t.accessibility.soundOn : t.accessibility.soundOff}
     >
       {soundEnabled ? (
-        <Volume2 className="h-5 w-5 text-cyan-500" />
+        <Volume2 className="h-5 w-5 text-cyan-800 dark:text-cyan-300" />
       ) : (
         <VolumeX className="h-5 w-5 text-gray-500" />
       )}

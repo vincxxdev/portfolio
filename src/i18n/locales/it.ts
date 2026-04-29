@@ -15,12 +15,6 @@ export const it: Translations = {
     greeting: 'Ciao, sono',
     titles: ['Software Engineer', 'Full Stack Developer'],
     tagline: 'appassionato di creare soluzioni innovative e scalabili e di esplorare nuove tecnologie.',
-    lighthouse: {
-      label: 'Lighthouse score',
-      score: '100/100',
-      caption: 'Audit performance del sito live',
-      metrics: ['Perf', 'A11y', 'Best', 'SEO'],
-    },
     buttons: {
       projects: 'I miei Progetti',
       contact: 'Contattami',
@@ -148,6 +142,21 @@ export const it: Translations = {
     allRightsReserved: 'Tutti i diritti riservati',
     linkedinProfile: 'Profilo LinkedIn',
     githubProfile: 'Profilo GitHub',
+    lighthouse: {
+      label: 'Lighthouse',
+      caption: 'Audit reale del sito in produzione locale',
+      audited: 'Ultimo audit',
+      metrics: {
+        performance: 'Performance',
+        accessibility: 'Accessibilità',
+        bestPractices: 'Best practices',
+        seo: 'SEO',
+      },
+      formFactors: {
+        desktop: 'Desktop',
+        mobile: 'Mobile',
+      },
+    },
   },
   cv: {
     download: 'Scarica CV',

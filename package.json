@@ -6,7 +6,10 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "lighthouse:report": "lighthouse http://127.0.0.1:3000 --preset=desktop --throttling-method=provided --output=json --output-path=reports/lighthouse-report.json --chrome-flags=\"--headless=new\" --max-wait-for-load=15000 --quiet",
+    "lighthouse:generate": "node scripts/generate-lighthouse-data.mjs",
+    "lighthouse:update": "npm run lighthouse:report && npm run lighthouse:generate"
   },
   "dependencies": {
     "@tailwindcss/postcss": "^4.0.0",
@@ -34,6 +37,7 @@
     "critters": "^0.0.23",
     "cssnano": "^7.1.1",
     "eslint": "^9.36.0",
+    "lighthouse": "^13.1.0",
     "postcss": "^8.4.38",
     "tailwindcss": "^4.0.0",
     "typescript": "^5"

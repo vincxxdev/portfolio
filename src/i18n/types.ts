@@ -15,12 +15,6 @@ export interface Translations {
     greeting: string;
     titles: string[];
     tagline: string;
-    lighthouse: {
-      label: string;
-      score: string;
-      caption: string;
-      metrics: string[];
-    };
     buttons: {
       projects: string;
       contact: string;
@@ -109,6 +103,21 @@ export interface Translations {
     allRightsReserved: string;
     linkedinProfile: string;
     githubProfile: string;
+    lighthouse: {
+      label: string;
+      caption: string;
+      audited: string;
+      metrics: {
+        performance: string;
+        accessibility: string;
+        bestPractices: string;
+        seo: string;
+      };
+      formFactors: {
+        desktop: string;
+        mobile: string;
+      };
+    };
   };
   cv: {
     download: string;

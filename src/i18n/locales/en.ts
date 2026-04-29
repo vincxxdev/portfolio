@@ -15,12 +15,6 @@ export const en: Translations = {
     greeting: "Hi, I'm",
     titles: ['Software Engineer', 'Full Stack Developer'],
     tagline: 'passionate about building innovative, scalable solutions and exploring new technologies.',
-    lighthouse: {
-      label: 'Lighthouse score',
-      score: '100/100',
-      caption: 'Live site performance audit',
-      metrics: ['Perf', 'A11y', 'Best', 'SEO'],
-    },
     buttons: {
       projects: 'My Projects',
       contact: 'Contact Me',
@@ -148,6 +142,21 @@ export const en: Translations = {
     allRightsReserved: 'All rights reserved',
     linkedinProfile: 'LinkedIn Profile',
     githubProfile: 'GitHub Profile',
+    lighthouse: {
+      label: 'Lighthouse',
+      caption: 'Real audit of the locally served production site',
+      audited: 'Last audit',
+      metrics: {
+        performance: 'Performance',
+        accessibility: 'Accessibility',
+        bestPractices: 'Best practices',
+        seo: 'SEO',
+      },
+      formFactors: {
+        desktop: 'Desktop',
+        mobile: 'Mobile',
+      },
+    },
   },
   cv: {
     download: 'Download CV',

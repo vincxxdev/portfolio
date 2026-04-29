@@ -12,7 +12,7 @@ import {
 import Button from './ui/Button';
 import React, { useEffect, useMemo, useState } from 'react';
 import dynamic from 'next/dynamic';
-import { ArrowDown, ArrowRight, Mail } from 'lucide-react';
+import { ArrowDown, ArrowRight, Gauge, Mail } from 'lucide-react';
 import DownloadCVButton from './ui/DownloadCVButton';
 import DecodeText from './ui/DecodeText';
 import { siteConfig } from '@/config/site';
@@ -41,6 +41,7 @@ const Hero = () => {
   const nameSegments = displayName.trim().split(/\s+/);
   const primaryName = nameSegments.slice(0, -1).join(' ') || nameSegments[0] || displayName;
   const accentName = nameSegments.length > 1 ? nameSegments[nameSegments.length - 1] : '';
+  const [lighthouseScore, lighthouseScoreMax = '100'] = t.hero.lighthouse.score.split('/');
 
   const orbitSkills = useMemo(() => {
     const preferredNames = ['TypeScript', 'React', 'Node.js', 'JavaScript', 'Git', 'Java'];
@@ -191,8 +192,52 @@ const Hero = () => {
               <motion.div
                 initial={{ opacity: 0, y: 14 }}
                 animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.7, delay: 1.95 }}
+                className="mt-8 max-w-2xl rounded-2xl border border-accent/20 bg-primary-background/45 p-4 shadow-lg shadow-accent/5 backdrop-blur-md"
+              >
+                <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+                  <div className="flex min-w-0 items-center gap-3">
+                    <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border border-accent/20 bg-accent/10 text-accent">
+                      <Gauge className="h-6 w-6" aria-hidden="true" />
+                    </span>
+                    <span className="min-w-0">
+                      <span className="block text-xs font-semibold uppercase tracking-[0.24em] text-accent">
+                        {t.hero.lighthouse.label}
+                      </span>
+                      <span className="mt-1 block text-sm leading-relaxed text-secondary-text/75">
+                        {t.hero.lighthouse.caption}
+                      </span>
+                    </span>
+                  </div>
+
+                  <div className="flex shrink-0 items-end gap-1">
+                    <span className="bg-gradient-to-r from-cyan-400 to-blue-600 bg-clip-text text-4xl font-black leading-none text-transparent">
+                      {lighthouseScore}
+                    </span>
+                    <span className="pb-1 text-sm font-semibold text-secondary-text/70">
+                      /{lighthouseScoreMax}
+                    </span>
+                  </div>
+                </div>
+
+                <div className="mt-4 flex flex-wrap gap-2">
+                  {t.hero.lighthouse.metrics.map((metric) => (
+                    <span
+                      key={metric}
+                      className="inline-flex h-8 items-center gap-2 rounded-full border border-secondary-text/15 bg-secondary-background/50 px-3 text-[0.65rem] font-semibold uppercase tracking-[0.18em] text-secondary-text/80"
+                    >
+                      <span className="text-accent">100</span>
+                      <span>{metric}</span>
+                    </span>
+                  ))}
+                </div>
+              </motion.div>
+
+              <motion.div
+                initial={{ opacity: 0, y: 14 }}
+                animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.7, delay: 2.0 }}
-                className="mt-10 flex flex-col gap-4 sm:flex-row sm:flex-wrap"
+                className="mt-8 flex flex-col gap-4 sm:flex-row sm:flex-wrap"
               >
                 <Button href="#projects" variant="primary" size="lg" className="gap-2">
                   <span>{t.hero.buttons.projects}</span>

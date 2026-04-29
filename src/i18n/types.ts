@@ -15,6 +15,12 @@ export interface Translations {
     greeting: string;
     titles: string[];
     tagline: string;
+    lighthouse: {
+      label: string;
+      score: string;
+      caption: string;
+      metrics: string[];
+    };
     buttons: {
       projects: string;
       contact: string;

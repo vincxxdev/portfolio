@@ -15,6 +15,12 @@ export const it: Translations = {
     greeting: 'Ciao, sono',
     titles: ['Software Engineer', 'Full Stack Developer'],
     tagline: 'appassionato di creare soluzioni innovative e scalabili e di esplorare nuove tecnologie.',
+    lighthouse: {
+      label: 'Lighthouse score',
+      score: '100/100',
+      caption: 'Audit performance del sito live',
+      metrics: ['Perf', 'A11y', 'Best', 'SEO'],
+    },
     buttons: {
       projects: 'I miei Progetti',
       contact: 'Contattami',

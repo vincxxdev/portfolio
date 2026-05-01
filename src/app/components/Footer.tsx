@@ -90,14 +90,14 @@ const Footer = () => {
                 </div>
               </div>
 
-              <div className="mt-4 flex flex-wrap gap-2">
+              <div className="mt-4 grid grid-cols-2 gap-2">
                 {lighthouseMetrics.map((metric) => (
                   <span
                     key={metric.label}
-                    className="inline-flex h-8 items-center gap-2 rounded-full border border-secondary-text/15 bg-secondary-background/50 px-3 text-[0.65rem] font-semibold uppercase tracking-[0.16em] text-secondary-text/80"
+                    className="inline-flex h-8 min-w-0 items-center justify-center gap-2 rounded-full border border-secondary-text/15 bg-secondary-background/50 px-3 text-center text-[0.65rem] font-semibold uppercase tracking-[0.14em] text-secondary-text/80"
                   >
                     <span className="text-accent">{metric.score}</span>
-                    <span>{metric.label}</span>
+                    <span className="whitespace-nowrap">{metric.label}</span>
                   </span>
                 ))}
               </div>

@@ -147,9 +147,9 @@ export const en: Translations = {
       caption: 'Real audit of the locally served production site',
       audited: 'Last audit',
       metrics: {
-        performance: 'Performance',
-        accessibility: 'Accessibility',
-        bestPractices: 'Best practices',
+        performance: 'Perf',
+        accessibility: 'A11y',
+        bestPractices: 'Best',
         seo: 'SEO',
       },
       formFactors: {

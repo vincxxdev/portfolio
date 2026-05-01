@@ -5,10 +5,10 @@ import { useReducedMotion } from 'framer-motion';
 
 const CHAR_DELAY = 45;
 const CHAR_DURATION = 400;
-const HEAD_GAP = 4;
-const SVG_W = 64;
-const SVG_H = 80;
-const TIP_Y = 76;
+const HEAD_GAP = 6;
+const SVG_W = 82;
+const SVG_H = 108;
+const TIP_Y = 104;
 
 interface Printer3DTextProps {
   text: string;
@@ -28,81 +28,95 @@ const PrinterHead = () => (
     width={SVG_W}
     height={SVG_H}
     fill="none"
-    className="text-accent"
+    className="overflow-visible"
     aria-hidden
   >
-    {/* X-axis linear rail */}
-    <line x1="0" y1="5" x2="64" y2="5" stroke="currentColor" strokeWidth="2.5" opacity="0.22" strokeLinecap="round" />
-    <line x1="0" y1="8" x2="64" y2="8" stroke="currentColor" strokeWidth="1.2" opacity="0.12" strokeLinecap="round" />
-
-    {/* Carriage block riding the rail */}
-    <rect
-      x="14"
-      y="9"
-      width="36"
-      height="14"
-      rx="4"
-      stroke="currentColor"
-      strokeWidth="0.9"
-      opacity="0.5"
-      fill="currentColor"
-      fillOpacity="0.06"
+    {/* X-axis rail and cable hint */}
+    <path d="M5 8H77" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" className="text-accent" opacity="0.18" />
+    <path d="M10 13H72" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" className="text-accent" opacity="0.16" />
+    <path
+      d="M19 17C28 8 44 7 53 17"
+      stroke="#cbd5e1"
+      strokeWidth="2"
+      strokeLinecap="round"
+      opacity="0.9"
     />
-    {/* Carriage wheels / bearings */}
-    <circle cx="21" cy="23" r="3" stroke="currentColor" strokeWidth="0.6" opacity="0.35" />
-    <circle cx="43" cy="23" r="3" stroke="currentColor" strokeWidth="0.6" opacity="0.35" />
 
-    {/* Extruder motor body */}
+    {/* Carriage tower */}
     <rect
-      x="19"
-      y="26"
-      width="26"
+      x="25"
+      y="10"
+      width="32"
       height="18"
-      rx="4"
-      stroke="currentColor"
-      strokeWidth="0.8"
-      opacity="0.45"
-      fill="currentColor"
-      fillOpacity="0.05"
+      rx="6"
+      fill="#f8fafc"
+      stroke="#cbd5e1"
+      strokeWidth="1"
+      opacity="0.96"
     />
-    {/* Fan grille */}
-    <circle cx="32" cy="35" r="6" stroke="currentColor" strokeWidth="0.5" opacity="0.2" />
-    <line x1="26.5" y1="35" x2="37.5" y2="35" stroke="currentColor" strokeWidth="0.5" opacity="0.15" />
-    <line x1="32" y1="29.5" x2="32" y2="40.5" stroke="currentColor" strokeWidth="0.5" opacity="0.15" />
+    <path d="M29 28H53L59 36H23L29 28Z" fill="#e2e8f0" stroke="#cbd5e1" strokeWidth="1" />
 
-    {/* Heatsink fins */}
-    <line x1="21" y1="46.5" x2="43" y2="46.5" stroke="currentColor" strokeWidth="1.3" opacity="0.32" strokeLinecap="round" />
-    <line x1="20" y1="49.5" x2="44" y2="49.5" stroke="currentColor" strokeWidth="1.5" opacity="0.35" strokeLinecap="round" />
-    <line x1="21" y1="52.5" x2="43" y2="52.5" stroke="currentColor" strokeWidth="1.3" opacity="0.32" strokeLinecap="round" />
-
-    {/* Heat block (silicone sock area) */}
+    {/* White printer-inspired front cover */}
     <rect
-      x="23"
-      y="55"
-      width="18"
-      height="10"
-      rx="2"
-      stroke="currentColor"
-      strokeWidth="0.8"
-      opacity="0.55"
-      fill="currentColor"
-      fillOpacity="0.1"
+      x="13"
+      y="26"
+      width="56"
+      height="58"
+      rx="9"
+      fill="#f8f4ec"
+      stroke="#d7dce3"
+      strokeWidth="1.4"
+      style={{ filter: 'drop-shadow(0 8px 12px rgba(15, 23, 42, 0.2))' }}
     />
-    <line x1="23" y1="58.5" x2="41" y2="58.5" stroke="currentColor" strokeWidth="0.6" opacity="0.25" strokeLinecap="round" />
-    <line x1="23" y1="61.5" x2="41" y2="61.5" stroke="currentColor" strokeWidth="0.6" opacity="0.25" strokeLinecap="round" />
+    <path d="M18 32H64" stroke="#ffffff" strokeWidth="1.5" strokeLinecap="round" opacity="0.74" />
+    <circle cx="22" cy="32" r="2.2" fill="#d7dce3" />
+    <circle cx="60" cy="32" r="2.2" fill="#d7dce3" />
+    <circle cx="22" cy="78" r="2.2" fill="#cbd5e1" />
+    <circle cx="60" cy="78" r="2.2" fill="#cbd5e1" />
+    <path d="M25 72H57" stroke="#cbd5e1" strokeWidth="1" strokeLinecap="round" opacity="0.42" />
 
-    {/* Nozzle taper */}
-    <path d="M27 65 L37 65 L34.5 72.5 L29.5 72.5 Z" fill="currentColor" opacity="0.65" />
+    {/* Dark circular fan with warm orange details */}
+    <g transform="translate(41 56)">
+      <circle r="17" fill="#111827" />
+      <circle r="14.2" fill="#1f2937" stroke="#020617" strokeWidth="1" />
+      <g className="animate-printer-fan origin-center">
+        <path d="M0 -10C5 -10 7 -6 4 -3C2 -1 -3 -2 -5 -5C-7 -8 -4 -10 0 -10Z" fill="#334155" />
+        <path d="M9 4C7 8 2 9 1 5C0 2 4 -1 8 -1C11 -1 12 2 9 4Z" fill="#334155" />
+        <path d="M-8 6C-11 3 -9 -2 -5 -2C-2 -2 0 3 -1 7C-2 10 -6 9 -8 6Z" fill="#334155" />
+      </g>
+      <circle r="4.2" fill="#0f172a" stroke="#64748b" strokeWidth="1" />
+      <path d="M-12 -1A12 12 0 0 1 -3 -12" stroke="#f59e0b" strokeWidth="2.8" strokeLinecap="round" />
+      <path d="M4 12A12 12 0 0 1 12 3" stroke="#f59e0b" strokeWidth="2.8" strokeLinecap="round" />
+      <circle cx="-10" cy="-9" r="2.4" fill="#f59e0b" />
+      <circle cx="11" cy="-8" r="2.4" fill="#fbbf24" />
+      <circle cx="-11" cy="10" r="2.4" fill="#f59e0b" />
+      <circle cx="10" cy="10" r="2.4" fill="#f59e0b" />
+    </g>
 
-    {/* Nozzle tip */}
-    <circle cx="32" cy={TIP_Y} r="1.6" fill="currentColor" opacity="0.95" />
-
-    {/* Glow halo (pulses via CSS) */}
+    {/* Lower hotend and nozzle */}
+    <path d="M24 84H58L53 96H29L24 84Z" fill="#334155" stroke="#475569" strokeWidth="1" />
+    <rect
+      x="31"
+      y="83"
+      width="20"
+      height="14"
+      rx="3"
+      fill="#111827"
+      stroke="#1f2937"
+      strokeWidth="1"
+    />
+    <g className="animate-hotend-heat">
+      <path d="M35 88C33 91 37 92 35 95" stroke="#f97316" strokeWidth="1.5" strokeLinecap="round" />
+      <path d="M41 87C39 90 43 91 41 94" stroke="#f97316" strokeWidth="1.5" strokeLinecap="round" />
+      <path d="M47 88C45 91 49 92 47 95" stroke="#f97316" strokeWidth="1.5" strokeLinecap="round" />
+    </g>
+    <path d="M36 97H46L43 103.5H39L36 97Z" fill="#64748b" />
+    <circle cx="41" cy={TIP_Y} r="1.7" fill="#f97316" />
     <circle
-      cx="32"
+      cx="41"
       cy={TIP_Y}
-      r="5.5"
-      fill="currentColor"
+      r="5.8"
+      fill="#f97316"
       className="animate-nozzle-glow origin-center"
     />
   </svg>

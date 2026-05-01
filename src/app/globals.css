@@ -154,8 +154,39 @@ body {
   }
 }
 
+@keyframes printer-fan-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes hotend-heat {
+  0%, 100% {
+    opacity: 0.55;
+    transform: translateY(0);
+  }
+  50% {
+    opacity: 1;
+    transform: translateY(-1px);
+  }
+}
+
 .animate-nozzle-glow {
   animation: nozzle-glow 0.7s ease-in-out infinite;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.animate-printer-fan {
+  animation: printer-fan-spin 1.4s linear infinite;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.animate-hotend-heat {
+  animation: hotend-heat 0.85s ease-in-out infinite;
+  transform-box: fill-box;
+  transform-origin: center;
 }
 
 @keyframes signal-sweep {

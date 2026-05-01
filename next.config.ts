@@ -25,6 +25,7 @@ const nextConfig: NextConfig = {
     optimizePackageImports: ['lucide-react', 'framer-motion', 'react-icons'],
     // Enable aggressive optimizations for production
     optimizeCss: true,
+    inlineCss: true,
   },
 
   // Headers for performance

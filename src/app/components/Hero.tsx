@@ -179,14 +179,11 @@ const Hero = () => {
                 </div>
               </motion.div>
 
-              <motion.p
-                initial={{ opacity: 0, y: 14 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.7, delay: 1.8 }}
+              <p
                 className="mt-6 max-w-2xl text-sm leading-relaxed tracking-wide text-secondary-text/70 sm:text-base"
               >
                 {t.hero.tagline}
-              </motion.p>
+              </p>
 
               <motion.div
                 initial={{ opacity: 0, y: 14 }}

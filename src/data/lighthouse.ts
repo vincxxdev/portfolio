@@ -17,11 +17,11 @@ export const lighthouseSummary = {
   "sourceReport": "reports/lighthouse-report.json",
   "requestedUrl": "http://127.0.0.1:3000/",
   "finalUrl": "http://127.0.0.1:3000/",
-  "generatedAt": "2026-04-29T20:19:45.985Z",
+  "generatedAt": "2026-05-01T07:42:09.734Z",
   "formFactor": "desktop",
   "lighthouseVersion": "13.1.0",
   "scores": {
-    "performance": 69,
+    "performance": 100,
     "accessibility": 100,
     "bestPractices": 100,
     "seo": 100

@@ -1,47 +1,44 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
 import Animation from "./Animation";
 
+const INTRO_DURATION_MS = 600;
+const useIsomorphicLayoutEffect = typeof window === 'undefined' ? useEffect : useLayoutEffect;
+
 export default function Loader({ children }: { children: React.ReactNode }) {
-  const [phase, setPhase] = useState<'intro' | 'ready' | null>(null);
+  const [showIntro, setShowIntro] = useState(true);
+
+  useIsomorphicLayoutEffect(() => {
+    setShowIntro(!sessionStorage.getItem("hasLoaded"));
+  }, []);
 
   useEffect(() => {
-    const hasLoaded = sessionStorage.getItem("hasLoaded");
-
-    if (!hasLoaded) {
-      const prevOverflow = document.body.style.overflow;
-      document.body.style.overflow = 'hidden';
-      setPhase('intro');
-
-      const timer = setTimeout(() => {
-        setPhase('ready');
-        document.body.style.overflow = prevOverflow;
-        sessionStorage.setItem("hasLoaded", "true");
-      }, 2500);
-
-      return () => {
-        clearTimeout(timer);
-        document.body.style.overflow = prevOverflow;
-      };
+    if (!showIntro) {
+      return undefined;
     }
 
-    setPhase('ready');
-    return undefined;
-  }, []);
+    const prevOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+
+    const timer = setTimeout(() => {
+      setShowIntro(false);
+      document.body.style.overflow = prevOverflow;
+      sessionStorage.setItem("hasLoaded", "true");
+    }, INTRO_DURATION_MS);
+
+    return () => {
+      clearTimeout(timer);
+      document.body.style.overflow = prevOverflow;
+    };
+  }, [showIntro]);
 
   return (
     <>
-      {phase === 'intro' && <Animation />}
-      <div
-        style={{
-          opacity: phase === 'ready' ? 1 : 0,
-          transition: phase === 'ready' ? 'opacity 0.4s ease' : 'none',
-          pointerEvents: phase === 'ready' ? 'auto' : 'none',
-        }}
-      >
+      {showIntro && <Animation />}
+      <div style={{ pointerEvents: showIntro ? 'none' : 'auto' }}>
         <Navbar />
         {children}
         <Footer />

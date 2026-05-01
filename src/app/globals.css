@@ -26,8 +26,8 @@ h1, h2, h3, h4, h5, h6 {
 
   /* Animations */
   --animate-content-fade-in: fade-in 1s ease-in-out;
-  --animate-typewriter: typing 1.5s steps(9, end), blink-caret .75s step-end infinite;
-  --animate-fade-out-bck: fade-out-bck 1s ease-in 1.5s both;
+  --animate-typewriter: typing 0.35s steps(9, end), blink-caret .75s step-end infinite;
+  --animate-fade-out-bck: fade-out-bck 0.2s ease-in 0.4s both;
   --animate-blob: blob 7s infinite;
   --animate-orbit: orbit 18s linear infinite;
   --animate-orbit-reverse: orbit-reverse 18s linear infinite;

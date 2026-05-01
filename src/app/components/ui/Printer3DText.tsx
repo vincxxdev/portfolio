@@ -58,6 +58,15 @@ const PrinterHead = () => (
 
     {/* White printer-inspired front cover */}
     <rect
+      x="15"
+      y="30"
+      width="56"
+      height="58"
+      rx="9"
+      fill="#0f172a"
+      opacity="0.16"
+    />
+    <rect
       x="13"
       y="26"
       width="56"
@@ -66,7 +75,6 @@ const PrinterHead = () => (
       fill="#f8f4ec"
       stroke="#d7dce3"
       strokeWidth="1.4"
-      style={{ filter: 'drop-shadow(0 8px 12px rgba(15, 23, 42, 0.2))' }}
     />
     <path d="M18 32H64" stroke="#ffffff" strokeWidth="1.5" strokeLinecap="round" opacity="0.74" />
     <circle cx="22" cy="32" r="2.2" fill="#d7dce3" />
@@ -176,6 +184,10 @@ const Printer3DText = ({ text, highlightText, className = '' }: Printer3DTextPro
     const startTime = performance.now();
     let animFrame = 0;
     let ended = false;
+    let hideTimeout = 0;
+
+    head.style.display = 'block';
+    head.style.opacity = '0';
 
     const animate = (time: number) => {
       if (ended) return;
@@ -194,6 +206,9 @@ const Printer3DText = ({ text, highlightText, className = '' }: Printer3DTextPro
       } else {
         head.style.opacity = '0';
         ended = true;
+        hideTimeout = window.setTimeout(() => {
+          head.style.display = 'none';
+        }, 180);
       }
     };
 
@@ -201,7 +216,9 @@ const Printer3DText = ({ text, highlightText, className = '' }: Printer3DTextPro
 
     return () => {
       cancelAnimationFrame(animFrame);
+      window.clearTimeout(hideTimeout);
       head.style.opacity = '0';
+      head.style.display = 'none';
     };
   }, [triggered, shouldReduceMotion, chars.length]);
 
@@ -227,7 +244,13 @@ const Printer3DText = ({ text, highlightText, className = '' }: Printer3DTextPro
       <span
         ref={headRef}
         className="absolute top-0 left-0 pointer-events-none z-10"
-        style={{ opacity: 0, transition: 'transform 38ms linear, opacity 180ms ease-out' }}
+        style={{
+          contain: 'layout paint',
+          display: 'none',
+          opacity: 0,
+          transition: 'transform 38ms linear, opacity 180ms ease-out',
+          willChange: 'transform, opacity',
+        }}
       >
         <PrinterHead />
       </span>

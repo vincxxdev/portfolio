@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Bricolage_Grotesque } from "next/font/google";
+import { Inter, Space_Grotesk } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "./components/ThemeProvider";
 import { LocaleProvider } from "@/i18n";
@@ -7,16 +7,16 @@ import { AdminProvider } from "./components/providers/AdminProvider";
 import Loader from "./components/Loader";
 import CursorProvider from "./components/ui/CursorProvider";
 import { ThemeTransition } from "./components/ThemeTransition";
-const geist = Geist({
+const inter = Inter({
   subsets: ["latin"],
-  variable: "--font-geist",
+  variable: "--font-inter",
   display: 'swap',
   preload: true,
 });
 
-const bricolage = Bricolage_Grotesque({
+const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
-  variable: "--font-bricolage",
+  variable: "--font-space-grotesk",
   display: 'swap',
   preload: true,
 });
@@ -49,7 +49,7 @@ export default function RootLayout({
           `
         }} />
       </head>
-      <body className={`${geist.variable} ${bricolage.variable} font-sans`}>
+      <body className={`${inter.variable} ${spaceGrotesk.variable} font-sans`}>
         <ThemeProvider
           attribute="class"
           defaultTheme="system"

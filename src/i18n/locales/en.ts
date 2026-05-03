@@ -42,7 +42,7 @@ export const en: Translations = {
         date: '30/03/2026 - Present',
         title: 'Microsoft Power Platform',
         company: 'Deloitte NextHub Bari',
-        description: 'Junior developer for solutions on Microsoft Power Platform, including Power Apps, Power Automate, and Dataverse, to optimize business processes and support service digitalization.',
+        description: 'Junior developer for solutions on Microsoft Power Platform, including Power Apps, Power Automate, Dataverse and C# plugin development, to optimize business processes and support service digitalization.',
       },
       {
         date: '26/11/2017 - 10/12/2017 - 10/02/2018',

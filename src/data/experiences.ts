@@ -1,5 +1,11 @@
 export const experienceData = [
   {
+    "date": "30/03/2026 - Presente",
+    "title": "Microsoft Power Platform",
+    "company": "Deloitte NextHub Bari",
+    "description": "Sviluppatore junior per soluzioni su Microsoft Power Platform, inclusi Power Apps, Power Automate e Dataverse, per ottimizzare i processi aziendali e supportare la digitalizzazione dei servizi."
+  },
+  {
     "date": "26/11/2017 - 10/12/2017 - 10/02/2018",
     "title": "Cameriere",
     "company": "Bari",

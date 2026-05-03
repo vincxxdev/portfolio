@@ -12,8 +12,8 @@ h1, h2, h3, h4, h5, h6 {
 /* Theme Configuration con Tailwind V4 */
 @theme {
   /* Font Families */
-  --font-sans: var(--font-inter), sans-serif;
-  --font-heading: var(--font-space-grotesk), sans-serif;
+  --font-sans: var(--font-dm-sans), sans-serif;
+  --font-heading: var(--font-syne), sans-serif;
 
   /* Colors - Light Theme */
   --color-primary-background: #ffffff;

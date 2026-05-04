@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter, Plus_Jakarta_Sans } from "next/font/google";
+import { DM_Sans, Syne } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "./components/ThemeProvider";
 import { LocaleProvider } from "@/i18n";
@@ -7,16 +7,16 @@ import { AdminProvider } from "./components/providers/AdminProvider";
 import Loader from "./components/Loader";
 import CursorProvider from "./components/ui/CursorProvider";
 import { ThemeTransition } from "./components/ThemeTransition";
-const inter = Inter({
+const dmSans = DM_Sans({
   subsets: ["latin"],
-  variable: "--font-inter",
+  variable: "--font-dm-sans",
   display: 'swap',
   preload: true,
 });
 
-const jakarta = Plus_Jakarta_Sans({
+const syne = Syne({
   subsets: ["latin"],
-  variable: "--font-jakarta-sans",
+  variable: "--font-syne",
   display: 'swap',
   preload: true,
 });
@@ -49,7 +49,7 @@ export default function RootLayout({
           `
         }} />
       </head>
-      <body className={`${inter.variable} ${jakarta.variable} font-sans`}>
+      <body className={`${dmSans.variable} ${syne.variable} font-sans`}>
         <ThemeProvider
           attribute="class"
           defaultTheme="system"

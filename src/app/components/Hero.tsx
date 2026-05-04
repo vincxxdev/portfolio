@@ -157,6 +157,9 @@ const Hero = () => {
                     />
                   ) : null}
                 </h1>
+                <h2 className="sr-only">
+                  {displayName} — Software Engineer & Full Stack Developer
+                </h2>
               </div>
 
               <motion.div

@@ -1,27 +1,35 @@
 import { Metadata } from 'next';
 import { siteConfig } from '@/config/site';
 
+const titleDefault = `${siteConfig.author} · Software Engineer & Full Stack Developer`;
+const titleTemplate = `%s | ${siteConfig.author}`;
+
 export const defaultMetadata: Metadata = {
   metadataBase: new URL(siteConfig.url),
   title: {
-    default: 'vincxxdev - Portfolio',
-    template: '%s | vincxxdev',
+    default: titleDefault,
+    template: titleTemplate,
   },
   description: siteConfig.description,
+  applicationName: `${siteConfig.author} Portfolio`,
   keywords: [
     'Vincenzo Buttari',
-    'Software Engineer',
-    'Portfolio',
-    'Web Developer',
+    'vincxxdev',
+    'vincxx dev',
+    'vincxx.dev',
+    'Software Engineer Bari',
+    'Full Stack Developer',
+    'Frontend Developer',
+    'Backend Developer',
+    'Web Developer Bari',
+    'Portfolio Vincenzo Buttari',
     'JavaScript',
     'TypeScript',
     'React',
     'Next.js',
     'Node.js',
     'Java',
-    'Frontend Developer',
-    'Backend Developer',
-    'Full Stack Developer',
+    'Università di Bari',
   ],
   authors: [{ name: siteConfig.author, url: siteConfig.url }],
   creator: siteConfig.author,
@@ -43,28 +51,35 @@ export const defaultMetadata: Metadata = {
     apple: '/logo.svg',
   },
   openGraph: {
-    type: 'website',
+    type: 'profile',
     locale: 'it_IT',
+    alternateLocale: ['en_US'],
     url: siteConfig.url,
-    title: `${siteConfig.name} - Portfolio`,
+    title: titleDefault,
     description: siteConfig.description,
-    siteName: `${siteConfig.name} Portfolio`,
+    siteName: `${siteConfig.author} Portfolio`,
     images: [
       {
         url: `${siteConfig.url}/images/og-image.png`,
         width: 1200,
         height: 630,
-        alt: `Portfolio di ${siteConfig.name}`,
+        alt: `Portfolio di ${siteConfig.author} - Software Engineer & Full Stack Developer`,
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: `${siteConfig.name} - Portfolio`,
+    title: titleDefault,
     description: siteConfig.description,
     images: [`${siteConfig.url}/images/og-image.png`],
   },
   alternates: {
     canonical: siteConfig.url,
+    languages: {
+      'it-IT': siteConfig.url,
+      'en-US': siteConfig.url,
+      'x-default': siteConfig.url,
+    },
   },
+  category: 'technology',
 };

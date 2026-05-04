@@ -8,7 +8,7 @@ export const siteConfig = {
   // Basic info about the site
   name: 'vincxxdev',
   author: 'Vincenzo Buttari',
-  description: 'Portfolio di Vincenzo Buttari - Software Engineer appassionato di creare soluzioni innovative e scalabili.',
+  description: 'Portfolio ufficiale di Vincenzo Buttari (vincxxdev), Software Engineer e Full Stack Developer di Bari. Sviluppo soluzioni web innovative e scalabili con React, Next.js, TypeScript, Node.js e Java.',
   url: process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000',
 
   // Personal information

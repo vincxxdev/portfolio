@@ -296,8 +296,11 @@ const HeroSignalField = () => {
       attributeFilter: ['class', 'style'],
     });
 
-    window.addEventListener('pointermove', handlePointerMove);
-    window.addEventListener('pointerleave', handlePointerLeave);
+    const hasFinePointer = window.matchMedia('(pointer: fine)').matches;
+    if (hasFinePointer) {
+      window.addEventListener('pointermove', handlePointerMove);
+      window.addEventListener('pointerleave', handlePointerLeave);
+    }
     document.addEventListener('visibilitychange', handleVisibilityChange);
     prefersReducedMotion.addEventListener('change', handleMotionPreference);
 
@@ -310,8 +313,10 @@ const HeroSignalField = () => {
       resizeObserver.disconnect();
       intersectionObserver.disconnect();
       themeObserver.disconnect();
-      window.removeEventListener('pointermove', handlePointerMove);
-      window.removeEventListener('pointerleave', handlePointerLeave);
+      if (hasFinePointer) {
+        window.removeEventListener('pointermove', handlePointerMove);
+        window.removeEventListener('pointerleave', handlePointerLeave);
+      }
       document.removeEventListener('visibilitychange', handleVisibilityChange);
       prefersReducedMotion.removeEventListener('change', handleMotionPreference);
     };

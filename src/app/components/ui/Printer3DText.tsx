@@ -134,6 +134,7 @@ const Printer3DText = ({ text, highlightText, className = '' }: Printer3DTextPro
   const containerRef = useRef<HTMLSpanElement>(null);
   const headRef = useRef<HTMLSpanElement>(null);
   const [triggered, setTriggered] = useState(false);
+  const [hasPrinted, setHasPrinted] = useState(false);
   const shouldReduceMotion = useReducedMotion();
 
   const chars = useMemo(() => {
@@ -177,6 +178,7 @@ const Printer3DText = ({ text, highlightText, className = '' }: Printer3DTextPro
 
   useEffect(() => {
     if (!triggered || shouldReduceMotion || !containerRef.current || !headRef.current) return;
+    if (hasPrinted) return;
 
     const charEls = containerRef.current.querySelectorAll<HTMLSpanElement>('[data-char]');
     if (charEls.length === 0) return;
@@ -221,6 +223,7 @@ const Printer3DText = ({ text, highlightText, className = '' }: Printer3DTextPro
         ended = true;
         hideTimeout = window.setTimeout(() => {
           head.style.display = 'none';
+          setHasPrinted(true);
         }, 180);
       }
     };
@@ -233,7 +236,7 @@ const Printer3DText = ({ text, highlightText, className = '' }: Printer3DTextPro
       head.style.opacity = '0';
       head.style.display = 'none';
     };
-  }, [triggered, shouldReduceMotion, text, highlightText]);
+  }, [triggered, shouldReduceMotion, text, highlightText, hasPrinted]);
 
   if (shouldReduceMotion) {
     return (
@@ -275,9 +278,9 @@ const Printer3DText = ({ text, highlightText, className = '' }: Printer3DTextPro
           data-char
           className="inline-block origin-bottom"
           style={{
-            opacity: 0,
+            opacity: hasPrinted ? 1 : 0,
             color: item.isHighlight ? lerpColor(item.hIdx, item.hTotal) : undefined,
-            animation: triggered
+            animation: triggered && !hasPrinted
               ? `print3d-build ${CHAR_DURATION}ms cubic-bezier(0.22,1,0.36,1) ${i * CHAR_DELAY}ms both`
               : 'none',
           }}

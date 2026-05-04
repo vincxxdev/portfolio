@@ -158,11 +158,23 @@ const Printer3DText = ({ text, highlightText, className = '' }: Printer3DTextPro
 
   useEffect(() => {
     if (shouldReduceMotion) {
-      setTriggered(true);
+      setHasPrinted(true);
       return;
     }
     const el = containerRef.current;
     if (!el) return;
+
+    // Refresh-while-scrolled: section already on-screen at mount means there is
+    // no entrance to animate. Skip straight to printed state — otherwise the
+    // head can race scroll restoration and get stranded next to the title.
+    const rect = el.getBoundingClientRect();
+    const alreadyVisible =
+      rect.height > 0 && rect.top < window.innerHeight && rect.bottom > 0;
+    if (alreadyVisible) {
+      setHasPrinted(true);
+      return;
+    }
+
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {

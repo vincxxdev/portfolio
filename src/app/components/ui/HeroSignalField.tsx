@@ -55,6 +55,7 @@ const HeroSignalField = () => {
     let paletteRGB = readPaletteRGB();
     let points: FieldPoint[] = [];
     let animationFrame = 0;
+    let isVisible = true;
 
     function readPaletteRGB() {
       const styles = getComputedStyle(document.documentElement);
@@ -217,9 +218,22 @@ const HeroSignalField = () => {
     const render = (time: number) => {
       drawFrame(time);
 
-      if (!prefersReducedMotion.matches) {
+      if (!prefersReducedMotion.matches && isVisible) {
         animationFrame = window.requestAnimationFrame(render);
+      } else {
+        animationFrame = 0;
       }
+    };
+
+    const startLoop = () => {
+      if (animationFrame !== 0 || prefersReducedMotion.matches || !isVisible) return;
+      animationFrame = window.requestAnimationFrame(render);
+    };
+
+    const stopLoop = () => {
+      if (animationFrame === 0) return;
+      window.cancelAnimationFrame(animationFrame);
+      animationFrame = 0;
     };
 
     const handlePointerMove = (event: PointerEvent) => {
@@ -245,23 +259,38 @@ const HeroSignalField = () => {
     };
 
     const handleMotionPreference = () => {
-      window.cancelAnimationFrame(animationFrame);
-      animationFrame = 0;
+      stopLoop();
       drawFrame(performance.now());
-
-      if (!prefersReducedMotion.matches) {
-        animationFrame = window.requestAnimationFrame(render);
-      }
+      startLoop();
     };
 
     const handlePaletteChange = () => {
       paletteRGB = readPaletteRGB();
     };
 
+    const handleVisibilityChange = () => {
+      if (document.hidden) {
+        isVisible = false;
+        stopLoop();
+      } else {
+        isVisible = true;
+        startLoop();
+      }
+    };
+
     const resizeObserver = new ResizeObserver(resize);
     const themeObserver = new MutationObserver(handlePaletteChange);
+    const intersectionObserver = new IntersectionObserver(
+      ([entry]) => {
+        isVisible = entry.isIntersecting && !document.hidden;
+        if (isVisible) startLoop();
+        else stopLoop();
+      },
+      { threshold: 0 },
+    );
 
     resizeObserver.observe(wrapper);
+    intersectionObserver.observe(wrapper);
     themeObserver.observe(document.documentElement, {
       attributes: true,
       attributeFilter: ['class', 'style'],
@@ -269,21 +298,21 @@ const HeroSignalField = () => {
 
     window.addEventListener('pointermove', handlePointerMove);
     window.addEventListener('pointerleave', handlePointerLeave);
+    document.addEventListener('visibilitychange', handleVisibilityChange);
     prefersReducedMotion.addEventListener('change', handleMotionPreference);
 
     resize();
     drawFrame(performance.now());
-
-    if (!prefersReducedMotion.matches) {
-      animationFrame = window.requestAnimationFrame(render);
-    }
+    startLoop();
 
     return () => {
-      window.cancelAnimationFrame(animationFrame);
+      stopLoop();
       resizeObserver.disconnect();
+      intersectionObserver.disconnect();
       themeObserver.disconnect();
       window.removeEventListener('pointermove', handlePointerMove);
       window.removeEventListener('pointerleave', handlePointerLeave);
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
       prefersReducedMotion.removeEventListener('change', handleMotionPreference);
     };
   }, []);

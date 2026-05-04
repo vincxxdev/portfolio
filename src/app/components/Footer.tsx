@@ -41,7 +41,7 @@ const Footer = () => {
   ];
 
   return (
-    <footer className="relative bg-secondary-background/80 backdrop-blur-lg text-secondary-text border-t border-accent/10 overflow-hidden">
+    <footer className="relative bg-secondary-background/95 text-secondary-text border-t border-accent/10 overflow-hidden">
       {/* Subtle background decoration */}
       <div className="absolute inset-0 opacity-10" style={{ backgroundImage: 'linear-gradient(to right, rgba(100, 116, 139, 0.18) 1px, transparent 1px), linear-gradient(to bottom, rgba(100, 116, 139, 0.18) 1px, transparent 1px)', backgroundSize: '72px 72px', maskImage: 'linear-gradient(to bottom, transparent, black 20%, black 80%, transparent)', WebkitMaskImage: 'linear-gradient(to bottom, transparent, black 20%, black 80%, transparent)' } as React.CSSProperties} />
 
@@ -66,7 +66,7 @@ const Footer = () => {
               </p>
             </div>
 
-            <div className="w-full max-w-2xl rounded-2xl border border-accent/20 bg-primary-background/45 p-4 shadow-lg shadow-accent/5 backdrop-blur-md lg:max-w-xl">
+            <div className="w-full max-w-2xl rounded-2xl border border-accent/20 bg-primary-background/65 p-4 shadow-lg shadow-accent/5 lg:max-w-xl">
               <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                 <div className="flex min-w-0 items-center gap-3">
                   <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-accent/20 bg-accent/10 text-accent">
@@ -116,7 +116,7 @@ const Footer = () => {
                 aria-label={t.footer.linkedinProfile}
                 whileHover={{ scale: 1.1, y: -2 }}
                 whileTap={{ scale: 0.95 }}
-                className="p-3 bg-primary-background/40 backdrop-blur-md rounded-xl border border-secondary-text/15 hover:border-accent/40 text-secondary-text hover:text-accent transition-all duration-300 shadow-lg hover:shadow-cyan-400/20"
+                className="p-3 bg-primary-background/60 rounded-xl border border-secondary-text/15 hover:border-accent/40 text-secondary-text hover:text-accent transition-all duration-300 shadow-lg hover:shadow-cyan-400/20"
               >
                 <SiLinkedin className="w-5 h-5" />
               </motion.a>
@@ -127,7 +127,7 @@ const Footer = () => {
                 aria-label={t.footer.githubProfile}
                 whileHover={{ scale: 1.1, y: -2 }}
                 whileTap={{ scale: 0.95 }}
-                className="p-3 bg-primary-background/40 backdrop-blur-md rounded-xl border border-secondary-text/15 hover:border-accent/40 text-secondary-text hover:text-accent transition-all duration-300 shadow-lg hover:shadow-cyan-400/20"
+                className="p-3 bg-primary-background/60 rounded-xl border border-secondary-text/15 hover:border-accent/40 text-secondary-text hover:text-accent transition-all duration-300 shadow-lg hover:shadow-cyan-400/20"
               >
                 <SiGithub className="w-5 h-5" />
               </motion.a>

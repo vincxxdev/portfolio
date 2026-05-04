@@ -113,10 +113,10 @@ const PrinterHead = () => (
       stroke="#1f2937"
       strokeWidth="1"
     />
-    <g className="animate-hotend-heat">
-      <path d="M35 88C33 91 37 92 35 95" stroke="#f97316" strokeWidth="1.5" strokeLinecap="round" />
-      <path d="M41 87C39 90 43 91 41 94" stroke="#f97316" strokeWidth="1.5" strokeLinecap="round" />
-      <path d="M47 88C45 91 49 92 47 95" stroke="#f97316" strokeWidth="1.5" strokeLinecap="round" />
+    <g>
+      <path d="M35 88C33 91 37 92 35 95" stroke="#f97316" strokeWidth="1.5" strokeLinecap="round" opacity="0.85" />
+      <path d="M41 87C39 90 43 91 41 94" stroke="#f97316" strokeWidth="1.5" strokeLinecap="round" opacity="0.85" />
+      <path d="M47 88C45 91 49 92 47 95" stroke="#f97316" strokeWidth="1.5" strokeLinecap="round" opacity="0.85" />
     </g>
     <path d="M36 97H46L43 103.5H39L36 97Z" fill="#64748b" />
     <circle cx="41" cy={TIP_Y} r="1.7" fill="#f97316" />
@@ -125,7 +125,7 @@ const PrinterHead = () => (
       cy={TIP_Y}
       r="5.8"
       fill="#f97316"
-      className="animate-nozzle-glow origin-center"
+      opacity="0.22"
     />
   </svg>
 );
@@ -134,6 +134,7 @@ const Printer3DText = ({ text, highlightText, className = '' }: Printer3DTextPro
   const containerRef = useRef<HTMLSpanElement>(null);
   const headRef = useRef<HTMLSpanElement>(null);
   const [triggered, setTriggered] = useState(false);
+  const [hasPrinted, setHasPrinted] = useState(false);
   const shouldReduceMotion = useReducedMotion();
 
   const chars = useMemo(() => {
@@ -177,11 +178,29 @@ const Printer3DText = ({ text, highlightText, className = '' }: Printer3DTextPro
 
   useEffect(() => {
     if (!triggered || shouldReduceMotion || !containerRef.current || !headRef.current) return;
+    if (hasPrinted) return;
 
     const charEls = containerRef.current.querySelectorAll<HTMLSpanElement>('[data-char]');
     if (charEls.length === 0) return;
     const head = headRef.current;
+
+    // Reset state in case a previous run left the head mid-animation (e.g., locale switch).
+    head.style.opacity = '0';
+    head.style.display = 'none';
+
+    // Cache char measurements once — print3d-build animates transform/opacity only,
+    // so offsets remain stable during the run. Reading them inside rAF would force reflow.
+    const positions: Array<{ x: number; y: number }> = [];
+    for (let i = 0; i < charEls.length; i++) {
+      const el = charEls[i];
+      positions.push({
+        x: el.offsetLeft + el.offsetWidth / 2,
+        y: el.offsetTop,
+      });
+    }
+
     const startTime = performance.now();
+    const hideAfter = charEls.length * CHAR_DELAY + CHAR_DURATION * 0.6;
     let animFrame = 0;
     let ended = false;
     let hideTimeout = 0;
@@ -192,22 +211,19 @@ const Printer3DText = ({ text, highlightText, className = '' }: Printer3DTextPro
     const animate = (time: number) => {
       if (ended) return;
       const elapsed = time - startTime;
-      const hideAfter = charEls.length * CHAR_DELAY + CHAR_DURATION * 0.6;
 
       if (elapsed < hideAfter) {
-        const activeIndex = Math.min(Math.floor(elapsed / CHAR_DELAY), charEls.length - 1);
-        const el = charEls[activeIndex];
-        if (!el) { animFrame = requestAnimationFrame(animate); return; }
-        const posX = el.offsetLeft + el.offsetWidth / 2;
-        const posY = el.offsetTop;
+        const activeIndex = Math.min(Math.floor(elapsed / CHAR_DELAY), positions.length - 1);
+        const pos = positions[activeIndex];
         head.style.opacity = '1';
-        head.style.transform = `translate(${posX}px, ${posY - TIP_Y - HEAD_GAP}px) translateX(-50%)`;
+        head.style.transform = `translate(${pos.x}px, ${pos.y - TIP_Y - HEAD_GAP}px) translateX(-50%)`;
         animFrame = requestAnimationFrame(animate);
       } else {
         head.style.opacity = '0';
         ended = true;
         hideTimeout = window.setTimeout(() => {
           head.style.display = 'none';
+          setHasPrinted(true);
         }, 180);
       }
     };
@@ -220,7 +236,7 @@ const Printer3DText = ({ text, highlightText, className = '' }: Printer3DTextPro
       head.style.opacity = '0';
       head.style.display = 'none';
     };
-  }, [triggered, shouldReduceMotion, chars.length]);
+  }, [triggered, shouldReduceMotion, text, highlightText, hasPrinted]);
 
   if (shouldReduceMotion) {
     return (
@@ -248,7 +264,7 @@ const Printer3DText = ({ text, highlightText, className = '' }: Printer3DTextPro
           contain: 'layout paint',
           display: 'none',
           opacity: 0,
-          transition: 'transform 38ms linear, opacity 180ms ease-out',
+          transition: 'opacity 180ms ease-out',
           willChange: 'transform, opacity',
         }}
       >
@@ -262,9 +278,9 @@ const Printer3DText = ({ text, highlightText, className = '' }: Printer3DTextPro
           data-char
           className="inline-block origin-bottom"
           style={{
-            opacity: 0,
+            opacity: hasPrinted ? 1 : 0,
             color: item.isHighlight ? lerpColor(item.hIdx, item.hTotal) : undefined,
-            animation: triggered
+            animation: triggered && !hasPrinted
               ? `print3d-build ${CHAR_DURATION}ms cubic-bezier(0.22,1,0.36,1) ${i * CHAR_DELAY}ms both`
               : 'none',
           }}

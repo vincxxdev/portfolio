@@ -78,7 +78,7 @@ const About = () => {
           transition={{ duration: 0.6, delay: 0.2 }}
           className="max-w-4xl mx-auto"
         >
-          <div className="group relative rounded-2xl border border-secondary-text/15 bg-primary-background/60 backdrop-blur-md shadow-lg hover:shadow-xl transition-[box-shadow] duration-500 overflow-hidden">
+          <div className="group relative rounded-2xl border border-secondary-text/15 bg-primary-background/75 shadow-lg hover:shadow-xl transition-[box-shadow] duration-500 overflow-hidden">
             {/* Terminal Header */}
             <div className="relative z-10 bg-secondary-background/90 p-4 flex items-center border-b border-secondary-text/20">
               <div className="flex space-x-2">

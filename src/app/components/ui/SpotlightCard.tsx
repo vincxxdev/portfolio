@@ -32,7 +32,7 @@ const SpotlightCard = React.forwardRef<HTMLDivElement, CardProps>(
               aria-hidden="true"
             />
           )}
-          <div className="relative z-10">{children}</div>
+          <div className="relative z-10 flex flex-col h-full">{children}</div>
         </Card>
       </div>
     );

@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import { Lock, LogOut, Eye, EyeOff, ArrowLeft } from 'lucide-react';
 import { useAdmin } from '@/app/components/providers/AdminProvider';
 import Link from 'next/link';
+import { usePauseOffscreen } from '@/app/components/hooks/usePauseOffscreen';
 
 export default function AdminLoginPage() {
   const { isAdmin, isLoading, login, logout } = useAdmin();
@@ -12,6 +13,7 @@ export default function AdminLoginPage() {
   const [error, setError] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const { ref: containerRef, isInView } = usePauseOffscreen<HTMLDivElement>();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -48,10 +50,16 @@ export default function AdminLoginPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-primary-background px-4">
+    <div ref={containerRef} className="min-h-screen flex items-center justify-center bg-primary-background px-4">
       {/* Background decorations */}
-      <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-cyan-500/10 rounded-full filter blur-3xl animate-blob" />
-      <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-blue-500/10 rounded-full filter blur-3xl animate-blob animation-delay-2000" />
+      <div
+        className="absolute top-1/4 left-1/4 w-96 h-96 bg-cyan-500/10 rounded-full filter blur-3xl animate-blob"
+        style={{ animationPlayState: isInView ? 'running' : 'paused' }}
+      />
+      <div
+        className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-blue-500/10 rounded-full filter blur-3xl animate-blob animation-delay-2000"
+        style={{ animationPlayState: isInView ? 'running' : 'paused' }}
+      />
 
       <motion.div
         initial={{ opacity: 0, y: 20 }}

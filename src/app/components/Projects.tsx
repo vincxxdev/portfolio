@@ -66,6 +66,7 @@ const Projects = () => {
             <TiltCard
               key={project.id}
               padding="sm"
+              disableBlur
               className="h-full"
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -100,7 +101,7 @@ const Projects = () => {
                 )}
 
                 {/* Floating badge with star icon on hover */}
-                <div className="absolute top-4 right-4 px-3 py-1 bg-primary-background/90 backdrop-blur-md rounded-full border border-accent/30 z-20 flex items-center gap-1 transition-transform duration-200 group-hover:scale-110">
+                <div className="absolute top-4 right-4 px-3 py-1 bg-primary-background/95 rounded-full border border-accent/30 z-20 flex items-center gap-1 transition-transform duration-200 group-hover:scale-110">
                   <Star className="w-3 h-3 text-accent fill-accent scale-0 group-hover:scale-100 transition-transform duration-300" />
                   <span className="text-xs font-semibold text-accent">#{String(index + 1).padStart(2, '0')}</span>
                 </div>

@@ -97,6 +97,7 @@ const Certifications = () => {
               padding="md"
               icon={{ Icon: Award }}
               badge={{ icon: Calendar, text: cert.date }}
+              disableBlur
               custom={index}
               variants={cardVariants}
             >

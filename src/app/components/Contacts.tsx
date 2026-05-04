@@ -79,7 +79,7 @@ const Contacts = () => {
             <SpotlightWrapper className="rounded-2xl h-full">
               <a
                 href={`mailto:${siteConfig.contact.email}`}
-                className="group relative flex flex-col items-center gap-6 p-8 bg-primary-background/40 backdrop-blur-md rounded-2xl border border-secondary-text/15 shadow-lg hover:shadow-xl transition-[transform,box-shadow] duration-500 hover:-translate-y-2 overflow-hidden h-full"
+                className="group relative flex flex-col items-center gap-6 p-8 bg-primary-background/60 rounded-2xl border border-secondary-text/15 shadow-lg hover:shadow-xl transition-[transform,box-shadow] duration-500 hover:-translate-y-2 overflow-hidden h-full"
                 aria-label={`${t.accessibility.sendEmail} ${siteConfig.contact.email}`}
               >
                 {/* Icon with glow effect */}
@@ -111,7 +111,7 @@ const Contacts = () => {
             <SpotlightWrapper className="rounded-2xl h-full">
               <a
                 href={`tel:${siteConfig.contact.phone}`}
-                className="group relative flex flex-col items-center gap-6 p-8 bg-primary-background/40 backdrop-blur-md rounded-2xl border border-secondary-text/15 shadow-lg hover:shadow-xl transition-[transform,box-shadow] duration-500 hover:-translate-y-2 overflow-hidden h-full"
+                className="group relative flex flex-col items-center gap-6 p-8 bg-primary-background/60 rounded-2xl border border-secondary-text/15 shadow-lg hover:shadow-xl transition-[transform,box-shadow] duration-500 hover:-translate-y-2 overflow-hidden h-full"
                 aria-label={`${t.accessibility.callPhone} ${siteConfig.contact.phoneDisplay}`}
               >
                 {/* Icon with glow effect */}
@@ -148,7 +148,7 @@ const Contacts = () => {
           className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto"
         >
           <GradientBorderWrapper>
-            <div className="flex flex-col items-center gap-3 p-6 bg-primary-background/40 backdrop-blur-md h-full">
+            <div className="flex flex-col items-center gap-3 p-6 bg-primary-background/60 h-full">
               <div className="p-3 bg-gradient-to-br from-cyan-500/10 to-blue-500/10 rounded-xl">
                 <MapPin className="w-6 h-6 text-accent" />
               </div>
@@ -160,7 +160,7 @@ const Contacts = () => {
           </GradientBorderWrapper>
 
           <GradientBorderWrapper>
-            <div className="flex flex-col items-center gap-3 p-6 bg-primary-background/40 backdrop-blur-md h-full">
+            <div className="flex flex-col items-center gap-3 p-6 bg-primary-background/60 h-full">
               <div className="p-3 bg-gradient-to-br from-cyan-500/10 to-blue-500/10 rounded-xl">
                 <Globe className="w-6 h-6 text-accent" />
               </div>
@@ -172,7 +172,7 @@ const Contacts = () => {
           </GradientBorderWrapper>
 
           <GradientBorderWrapper>
-            <div className="flex flex-col items-center gap-3 p-6 bg-primary-background/40 backdrop-blur-md h-full">
+            <div className="flex flex-col items-center gap-3 p-6 bg-primary-background/60 h-full">
               <div className="p-3 bg-gradient-to-br from-cyan-500/10 to-blue-500/10 rounded-xl">
                 <MessageSquare className="w-6 h-6 text-accent" />
               </div>

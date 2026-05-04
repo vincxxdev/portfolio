@@ -260,7 +260,7 @@ const Hero = () => {
                         }}
                       >
                         <div
-                          className="rounded-full border border-secondary-text/15 bg-primary-background/45 px-3 py-1.5 text-[0.65rem] font-semibold uppercase tracking-[0.24em] text-primary-text/85 backdrop-blur-md sm:text-xs"
+                          className="rounded-full border border-secondary-text/15 bg-primary-background/80 px-3 py-1.5 text-[0.65rem] font-semibold uppercase tracking-[0.24em] text-primary-text/85 sm:text-xs"
                           style={{
                             transform: `rotate(${-angle}deg)`,
                             animation:

@@ -15,7 +15,7 @@ const SpotlightCard = React.forwardRef<HTMLDivElement, CardProps>(
         ref={trackRef}
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}
-        className="group relative"
+        className="group relative h-full"
       >
         <Card
           ref={ref}

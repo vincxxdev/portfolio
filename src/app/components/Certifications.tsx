@@ -88,7 +88,7 @@ const Certifications = () => {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-100px" }}
-          className="max-w-5xl mx-auto grid gap-6 lg:grid-cols-2"
+          className="max-w-5xl mx-auto grid gap-6 lg:grid-cols-2 auto-rows-fr"
           style={{ perspective: 800 }}
         >
           {certificationData.map((cert, index) => (

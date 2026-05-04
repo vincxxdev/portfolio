@@ -4,7 +4,7 @@ import React, { useMemo } from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
 import { Award, ExternalLink, Calendar } from 'lucide-react';
 import Button from './ui/Button';
-import GradientBorderCard from './ui/GradientBorderCard';
+import SpotlightCard from './ui/SpotlightCard';
 import { CardTitle, CardDivider, SectionHeader } from './ui/CardComponents';
 import Printer3DText, { CHAR_DELAY } from './ui/Printer3DText';
 import { certificationData as certificationDataRaw } from '@/data/certifications';
@@ -92,39 +92,49 @@ const Certifications = () => {
           style={{ perspective: 800 }}
         >
           {certificationData.map((cert, index) => (
-            <GradientBorderCard
+            <motion.div
               key={index}
-              padding="md"
-              icon={{ Icon: Award }}
-              badge={{ icon: Calendar, text: cert.date }}
-              disableBlur
               custom={index}
               variants={cardVariants}
+              className="h-full"
             >
-              <CardTitle className="mb-2">
-                {cert.title}
-              </CardTitle>
-
-              <p className="text-sm text-secondary-text mb-4 font-semibold">
-                {cert.issuer}
-              </p>
-
-              <div className="flex-grow" />
-
-              <CardDivider className="mb-4" />
-
-              <Button
-                href={cert.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                variant="secondary"
-                size="default"
-                className="w-full gap-2"
+              <SpotlightCard
+                padding="md"
+                icon={{ Icon: Award }}
+                badge={{ icon: Calendar, text: cert.date }}
+                disableBlur
+                glowIntensity="medium"
+                className="h-full"
               >
-                <ExternalLink className="w-4 h-4" />
-                <span className="text-sm">{t.certifications.viewCert}</span>
-              </Button>
-            </GradientBorderCard>
+                <span className="absolute top-5 right-5 text-[0.65rem] font-mono uppercase tracking-[0.24em] text-accent/70 group-hover:text-accent transition-colors duration-300">
+                  {String(index + 1).padStart(2, '0')} / {String(certificationData.length).padStart(2, '0')}
+                </span>
+
+                <CardTitle className="mb-2 pr-16">
+                  {cert.title}
+                </CardTitle>
+
+                <p className="text-sm text-secondary-text mb-4 font-semibold">
+                  {cert.issuer}
+                </p>
+
+                <div className="flex-grow" />
+
+                <CardDivider className="mb-4" />
+
+                <Button
+                  href={cert.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  variant="secondary"
+                  size="default"
+                  className="w-full gap-2"
+                >
+                  <ExternalLink className="w-4 h-4" />
+                  <span className="text-sm">{t.certifications.viewCert}</span>
+                </Button>
+              </SpotlightCard>
+            </motion.div>
           ))}
         </motion.div>
       </div>

@@ -6,6 +6,14 @@ type SoundType = 'click' | 'hover' | 'success' | 'pop';
 
 let sharedAudioContext: AudioContext | null = null;
 let userHasInteracted = false;
+let cachedHasFinePointer: boolean | null = null;
+
+function hasFinePointer(): boolean {
+  if (cachedHasFinePointer !== null) return cachedHasFinePointer;
+  if (typeof window === 'undefined') return false;
+  cachedHasFinePointer = window.matchMedia('(pointer: fine)').matches;
+  return cachedHasFinePointer;
+}
 
 if (typeof window !== 'undefined') {
   const unlock = () => {
@@ -56,6 +64,7 @@ export const useSound = () => {
     if (!soundEnabled) return;
 
     if (type === 'hover') {
+      if (!hasFinePointer()) return;
       const now = Date.now();
       if (now - lastHoverTime.current < 80) return;
       lastHoverTime.current = now;

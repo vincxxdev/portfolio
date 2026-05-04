@@ -5,9 +5,21 @@ import React, { useRef, useState, useEffect } from 'react';
 const CustomCursor = () => {
   const cursorRef = useRef<HTMLDivElement>(null);
   const [isHovering, setIsHovering] = useState(false);
+  const [isFinePointer, setIsFinePointer] = useState(false);
   const isHoveringRef = useRef(false);
 
   useEffect(() => {
+    const mq = window.matchMedia('(pointer: fine)');
+    setIsFinePointer(mq.matches);
+
+    const handleChange = (e: MediaQueryListEvent) => setIsFinePointer(e.matches);
+    mq.addEventListener('change', handleChange);
+    return () => mq.removeEventListener('change', handleChange);
+  }, []);
+
+  useEffect(() => {
+    if (!isFinePointer) return;
+
     const moveCursor = (e: MouseEvent) => {
       if (cursorRef.current) {
         cursorRef.current.style.transform = `translate3d(${e.clientX}px, ${e.clientY}px, 0)`;
@@ -30,7 +42,9 @@ const CustomCursor = () => {
       window.removeEventListener('mousemove', moveCursor);
       document.removeEventListener('mouseover', handleMouseOver);
     };
-  }, []);
+  }, [isFinePointer]);
+
+  if (!isFinePointer) return null;
 
   return (
     <div

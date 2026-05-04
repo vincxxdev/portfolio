@@ -18,6 +18,7 @@ import DecodeText from './ui/DecodeText';
 import { siteConfig } from '@/config/site';
 import { useLocale } from '@/i18n';
 import { skillsData } from '@/data/skills';
+import { usePauseOffscreen } from './hooks/usePauseOffscreen';
 
 const HeroSignalField = dynamic(() => import('./ui/HeroSignalField'), {
   ssr: false,
@@ -36,6 +37,7 @@ const Hero = () => {
   const visualX = useTransform(smoothPointerX, [-0.5, 0.5], shouldReduceMotion ? [0, 0] : [24, -24]);
   const visualY = useTransform(smoothPointerY, [-0.5, 0.5], shouldReduceMotion ? [0, 0] : [16, -16]);
   const [activeRole, setActiveRole] = useState(0);
+  const { ref: sectionRef, isInView } = usePauseOffscreen<HTMLElement>({ rootMargin: '200px' });
 
   const displayName = siteConfig.personal.fullName || siteConfig.author;
   const nameSegments = displayName.trim().split(/\s+/);
@@ -89,6 +91,7 @@ const Hero = () => {
   return (
     <MotionConfig reducedMotion="user">
       <section
+        ref={sectionRef}
         id="home"
         className="relative isolate overflow-hidden bg-primary-background"
         onMouseMove={handleMouseMove}
@@ -246,6 +249,7 @@ const Hero = () => {
                       shouldReduceMotion || ring.items.length === 0
                         ? undefined
                         : `${ring.reverse ? 'orbit-reverse' : 'orbit'} ${ring.duration}s linear infinite`,
+                    animationPlayState: isInView ? 'running' : 'paused',
                   }}
                 >
                   {ring.items.map((skill, itemIndex) => {
@@ -267,6 +271,7 @@ const Hero = () => {
                               shouldReduceMotion || ring.items.length === 0
                                 ? undefined
                                 : `${ring.reverse ? 'orbit' : 'orbit-reverse'} ${ring.duration}s linear infinite`,
+                            animationPlayState: isInView ? 'running' : 'paused',
                           }}
                         >
                           {skill}
@@ -281,6 +286,7 @@ const Hero = () => {
                 <div className="absolute inset-[12%] rounded-full border border-secondary-text/12" />
                 <div
                   className={`absolute left-[8%] right-[8%] top-1/2 h-px -translate-y-1/2 bg-gradient-to-r from-transparent via-accent/50 to-transparent ${shouldReduceMotion ? '' : 'animate-signal-sweep'}`}
+                  style={shouldReduceMotion ? undefined : { animationPlayState: isInView ? 'running' : 'paused' }}
                 />
 
                 <div className="absolute inset-0 flex flex-col items-center justify-center px-8 text-center">
@@ -308,12 +314,12 @@ const Hero = () => {
                       key={`bar-${index}`}
                       className="w-1 rounded-full bg-accent/75"
                       animate={
-                        shouldReduceMotion
+                        shouldReduceMotion || !isInView
                           ? { height: 10 + (index % 3) * 4, opacity: 0.65 }
                           : { height: [8, 14 + (index % 4) * 6, 8], opacity: [0.4, 1, 0.4] }
                       }
                       transition={
-                        shouldReduceMotion
+                        shouldReduceMotion || !isInView
                           ? { duration: 0 }
                           : {
                               duration: 1.6 + index * 0.08,

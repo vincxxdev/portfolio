@@ -155,7 +155,7 @@ const Projects = () => {
                         aria-label={`${t.accessibility.viewDemo} ${t.projects.items[project.id]?.title ?? project.title}`}
                       >
                         <ExternalLink className="w-4 h-4" aria-hidden="true" />
-                        <span className="text-sm">{t.projects.liveDemo}</span>
+                        <span className="text-sm lg:hidden xl:inline">{t.projects.liveDemo}</span>
                       </Button>
                     </MagneticButton>
                   )}

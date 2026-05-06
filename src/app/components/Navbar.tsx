@@ -121,7 +121,7 @@ const Navbar = () => {
                     </AnimatePresence>
                 </div>
 
-                <div className="hidden md:flex items-center gap-6">
+                <div className="hidden min-[1100px]:flex items-center gap-6">
                     <div className="flex items-center gap-1">
                         {navLinks.map((link) => (
                             <Button key={link.href} href={link.href} variant="nav" size="nav">
@@ -138,7 +138,7 @@ const Navbar = () => {
                     </div>
                 </div>
 
-                <div className="md:hidden flex items-center gap-3">
+                <div className="min-[1100px]:hidden flex items-center gap-3">
                     <SoundToggle />
                     <LanguageSwitcher />
                     <ThemeSwitcher />
@@ -161,7 +161,7 @@ const Navbar = () => {
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
                         transition={{ duration: 0.3 }}
-                        className="md:hidden fixed inset-0 bg-primary-background/95 backdrop-blur-lg flex flex-col items-center justify-center"
+                        className="min-[1100px]:hidden fixed inset-0 bg-primary-background/95 backdrop-blur-lg flex flex-col items-center justify-center"
                     >
                         <div
                             className="absolute inset-0 opacity-20 [mask-image:linear-gradient(to_bottom,transparent,black_20%,black_80%,transparent)]"

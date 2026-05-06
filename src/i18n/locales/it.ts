@@ -92,16 +92,19 @@ export const it: Translations = {
     title: 'Le mie',
     titleHighlight: 'Competenze',
     subtitle: 'Tecnologie e linguaggi che utilizzo per creare soluzioni innovative',
-    levels: {
-      expert: 'Esperto',
-      advanced: 'Avanzato',
-      intermediate: 'Intermedio',
-      beginner: 'Principiante',
+    tiers: {
+      core: 'Stack principale',
+      regular: 'Uso frequente',
+      occasional: 'Conoscenza di base',
     },
-    stats: {
-      technologies: 'Tecnologie',
-      average: 'Media',
-      expert: 'Esperte',
+    tierDescriptions: {
+      core: 'Strumenti quotidiani — esperienza approfondita',
+      regular: 'Usati con scioltezza in progetti reali',
+      occasional: 'Studiati all’università o usati sporadicamente',
+    },
+    projectCount: {
+      one: 'Usato in {n} progetto',
+      many: 'Usato in {n} progetti',
     },
   },
   projects: {

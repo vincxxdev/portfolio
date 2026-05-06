@@ -20,13 +20,13 @@ export default function Home() {
         <Experience />
       </AnimatedSection>
       <AnimatedSection>
-        <Certifications />
+        <Projects />
       </AnimatedSection>
       <AnimatedSection>
         <Skills />
       </AnimatedSection>
       <AnimatedSection>
-        <Projects />
+        <Certifications />
       </AnimatedSection>
       <AnimatedSection>
         <Contacts />

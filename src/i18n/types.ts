@@ -57,16 +57,19 @@ export interface Translations {
     title: string;
     titleHighlight: string;
     subtitle: string;
-    levels: {
-      expert: string;
-      advanced: string;
-      intermediate: string;
-      beginner: string;
+    tiers: {
+      core: string;
+      regular: string;
+      occasional: string;
     };
-    stats: {
-      technologies: string;
-      average: string;
-      expert: string;
+    tierDescriptions: {
+      core: string;
+      regular: string;
+      occasional: string;
+    };
+    projectCount: {
+      one: string;
+      many: string;
     };
   };
   projects: {

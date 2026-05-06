@@ -151,11 +151,11 @@ const Projects = () => {
                         rel="noopener noreferrer"
                         variant="primary"
                         size="default"
-                        className="w-full gap-2"
+                        className="w-full h-full gap-2 leading-5"
                         aria-label={`${t.accessibility.viewDemo} ${t.projects.items[project.id]?.title ?? project.title}`}
                       >
                         <ExternalLink className="w-4 h-4" aria-hidden="true" />
-                        <span className="text-sm">{t.projects.liveDemo}</span>
+                        <span className="text-sm lg:hidden xl:inline">{t.projects.liveDemo}</span>
                       </Button>
                     </MagneticButton>
                   )}
@@ -166,7 +166,7 @@ const Projects = () => {
                       rel="noopener noreferrer"
                       variant="secondary"
                       size="default"
-                      className="w-full gap-2"
+                      className="w-full h-full gap-2 leading-5"
                       aria-label={`${t.accessibility.viewSource} ${t.projects.items[project.id]?.title ?? project.title}`}
                     >
                       <SiGithub className="w-4 h-4" aria-hidden="true" />

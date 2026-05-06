@@ -57,8 +57,8 @@ const Footer = () => {
             className="flex flex-col items-center justify-between gap-8 lg:flex-row lg:items-center"
           >
             {/* Copyright */}
-            <div className="text-center lg:text-left lg:w-56">
-              <p className="text-sm flex items-center justify-center sm:justify-start gap-2">
+            <div className="text-center lg:text-left lg:w-auto lg:shrink-0">
+              <p className="text-sm whitespace-nowrap">
                 &copy; <span suppressHydrationWarning>{currentYear}</span> {siteConfig.personal.fullName}
               </p>
               <p className="text-xs text-secondary-text/70 mt-1">

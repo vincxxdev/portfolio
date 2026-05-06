@@ -3,7 +3,7 @@ import { siteConfig } from '@/config/site';
 import { skillsData } from '@/data/skills';
 import { projectsData } from '@/data/projects';
 import { registerRobotoFont } from '@/lib/fonts/roboto';
-import { TIER_RANK, TIER_DOTS } from '@/types';
+import { TIER_RANK, TIER_DOTS, GROUP_RANK } from '@/types';
 import type { Locale } from '@/i18n/types';
 import { it } from '@/i18n/locales/it';
 import { en } from '@/i18n/locales/en';
@@ -152,10 +152,13 @@ export const generateCV = async (locale: Locale = 'it'): Promise<void> => {
   // ============ SKILLS SECTION ============
   sidebarY = drawSidebarSection(doc, t.cvData.labels.technicalSkills, sidebarY);
 
+  const skillIndex = new Map(skillsData.map((s, i) => [s.name, i]));
   const sortedSkills = [...skillsData].sort((a, b) => {
     const tierDiff = TIER_RANK[b.tier] - TIER_RANK[a.tier];
     if (tierDiff !== 0) return tierDiff;
-    return a.name.localeCompare(b.name);
+    const groupDiff = GROUP_RANK[a.group] - GROUP_RANK[b.group];
+    if (groupDiff !== 0) return groupDiff;
+    return (skillIndex.get(a.name) ?? 0) - (skillIndex.get(b.name) ?? 0);
   });
 
   sortedSkills.forEach(skill => {

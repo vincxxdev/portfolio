@@ -9,7 +9,7 @@ import Card from './ui/Card';
 import { SectionHeader } from './ui/CardComponents';
 import Printer3DText, { CHAR_DELAY } from './ui/Printer3DText';
 import { useLocale } from '@/i18n';
-import type { SkillTier } from '@/types';
+import { GROUP_RANK, type SkillTier } from '@/types';
 
 const TIER_VISUAL: Record<SkillTier, {
   iconSize: number;
@@ -111,9 +111,14 @@ const Skills = () => {
 
   const groupedSkills = useMemo(() => {
     const groups: Record<SkillTier, typeof skillsData> = { core: [], regular: [], occasional: [] };
+    const indexOf = new Map(skillsData.map((s, i) => [s.name, i]));
     for (const skill of skillsData) groups[skill.tier].push(skill);
     for (const tier of TIER_ORDER) {
-      groups[tier].sort((a, b) => a.name.localeCompare(b.name));
+      groups[tier].sort((a, b) => {
+        const groupDiff = GROUP_RANK[a.group] - GROUP_RANK[b.group];
+        if (groupDiff !== 0) return groupDiff;
+        return (indexOf.get(a.name) ?? 0) - (indexOf.get(b.name) ?? 0);
+      });
     }
     return groups;
   }, []);

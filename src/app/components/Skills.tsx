@@ -1,148 +1,103 @@
 'use client';
 
 import { skillsData } from '@/data/skills';
+import { projectsData } from '@/data/projects';
 import SkillIcon from './ui/SkillIcon';
-import { motion, useMotionValue, useTransform, animate } from 'framer-motion';
-import { Code2, Zap } from 'lucide-react';
-import { useRef, memo } from 'react';
+import { FolderGit2 } from 'lucide-react';
+import { memo, useMemo } from 'react';
 import Card from './ui/Card';
 import { SectionHeader } from './ui/CardComponents';
 import Printer3DText, { CHAR_DELAY } from './ui/Printer3DText';
 import { useLocale } from '@/i18n';
+import { TIER_RANK, type SkillTier } from '@/types';
+
+const TIER_VISUAL: Record<SkillTier, {
+  iconSize: number;
+  ring: string;
+  iconWrap: string;
+  glow: string;
+  opacity: string;
+}> = {
+  core: {
+    iconSize: 52,
+    ring: 'border-accent/40',
+    iconWrap: 'bg-accent/10 shadow-[0_0_28px_rgba(56,189,248,0.18)]',
+    glow: 'group-hover:shadow-[0_0_36px_rgba(56,189,248,0.35)]',
+    opacity: 'opacity-100',
+  },
+  regular: {
+    iconSize: 40,
+    ring: 'border-secondary-text/20',
+    iconWrap: 'bg-primary-background/40',
+    glow: 'group-hover:shadow-[0_0_24px_rgba(56,189,248,0.18)]',
+    opacity: 'opacity-95',
+  },
+  occasional: {
+    iconSize: 32,
+    ring: 'border-secondary-text/15',
+    iconWrap: 'bg-primary-background/30',
+    glow: '',
+    opacity: 'opacity-70 group-hover:opacity-100',
+  },
+};
 
 interface SkillCardProps {
   name: string;
-  percentage: number;
+  tier: SkillTier;
   iconName: string;
   color: string;
   index: number;
-  levelLabels: {
-    expert: string;
-    advanced: string;
-    intermediate: string;
-    beginner: string;
-  };
+  projectCount: number;
+  tierLabel: string;
+  countText: string;
 }
 
-const CIRCUMFERENCE = 2 * Math.PI * 52;
-
-const getStableVariation = (name: string, index: number) => {
-  let hash = 0;
-  for (const char of `${name}-${index}`) {
-    hash = (hash * 31 + char.charCodeAt(0)) % 1000;
-  }
-
-  return (hash / 999) * 2 - 1;
-};
-
-const SkillCard = memo(({ name, percentage, iconName, color, index, levelLabels }: SkillCardProps) => {
-  const hasAnimated = useRef(false);
-
-  const targetPercentage = Math.min(100, Math.max(0, percentage + getStableVariation(name, index)));
-
-  const count = useMotionValue(0);
-  const rounded = useTransform(count, Math.round);
-  const percentageText = useTransform(rounded, (v) => `${v}%`);
-  const progressWidth = useTransform(count, (v) => `${v}%`);
-  const dashOffset = useTransform(count, (v) => CIRCUMFERENCE - (v / 100) * CIRCUMFERENCE);
-
-  const handleViewportEnter = () => {
-    if (!hasAnimated.current) {
-      hasAnimated.current = true;
-      animate(count, targetPercentage, {
-        duration: 2,
-        ease: "easeOut",
-      });
-    }
-  };
-
-  const getSkillLevel = (percentage: number) => {
-    if (percentage >= 80) return { label: levelLabels.expert, color: 'from-green-500 to-emerald-500' };
-    if (percentage >= 60) return { label: levelLabels.advanced, color: 'from-blue-500 to-cyan-500' };
-    if (percentage >= 40) return { label: levelLabels.intermediate, color: 'from-yellow-500 to-orange-500' };
-    return { label: levelLabels.beginner, color: 'from-orange-500 to-red-500' };
-  };
-
-  const skillLevel = getSkillLevel(percentage);
+const SkillCard = memo(({
+  name,
+  tier,
+  iconName,
+  color,
+  index,
+  projectCount,
+  tierLabel,
+  countText,
+}: SkillCardProps) => {
+  const visual = TIER_VISUAL[tier];
 
   return (
     <Card
       hoverEffect="lift"
       padding="md"
       disableBlur
-      className="items-center justify-center"
+      cornerAccent={false}
+      className="items-center justify-center text-center"
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.5, delay: index * 0.05 }}
-      onViewportEnter={handleViewportEnter}
+      title={tierLabel}
     >
-      {/* Skill level badge */}
-      <div className="absolute top-3 right-3 z-20">
-        <div className={`min-w-[85px] px-2.5 py-1 bg-gradient-to-r ${skillLevel.color} rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center shadow-lg`}>
-          <span className="text-xs font-bold text-white whitespace-nowrap antialiased">{skillLevel.label}</span>
+      {projectCount > 0 && (
+        <div
+          className="absolute top-3 right-3 z-20 flex items-center gap-1 rounded-full border border-secondary-text/15 bg-primary-background/70 px-2 py-0.5 text-[0.65rem] font-semibold text-secondary-text"
+          title={countText}
+        >
+          <FolderGit2 className="h-3 w-3 text-accent" aria-hidden="true" />
+          <span aria-label={countText}>{projectCount}</span>
         </div>
-      </div>
+      )}
 
-      <div className="flex flex-col items-center w-full">
-        {/* Circular progress */}
-        <div className="relative w-28 h-28 flex items-center justify-center mb-4">
-          {/* Outer glow effect */}
-          <div className="absolute inset-0 rounded-full bg-accent/10 blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-
-          <svg className="absolute w-full h-full transform -rotate-90" viewBox="0 0 120 120">
-            {/* Background circle */}
-            <circle
-              className="text-secondary-text/20"
-              strokeWidth="6"
-              stroke="currentColor"
-              fill="transparent"
-              r="52"
-              cx="60"
-              cy="60"
-            />
-            {/* Progress circle */}
-            <motion.circle
-              className="text-accent"
-              strokeWidth="6"
-              strokeDasharray={CIRCUMFERENCE}
-              style={{ strokeDashoffset: dashOffset }}
-              strokeLinecap="round"
-              stroke="currentColor"
-              fill="transparent"
-              r="52"
-              cx="60"
-              cy="60"
-            />
-          </svg>
-
-          {/* Center content */}
-          <div className="absolute flex flex-col items-center">
-            <div className="transform transition-transform duration-300 group-hover:scale-110">
-              <SkillIcon name={iconName} className={color} size={36} />
-            </div>
-          </div>
-
-          {/* Percentage badge */}
-          <div className="absolute -bottom-2 bg-primary-background border-2 border-accent/30 rounded-full px-3 py-1 shadow-lg">
-            <motion.span className="text-sm font-bold bg-gradient-to-r from-cyan-400 to-blue-600 bg-clip-text text-transparent">
-              {percentageText}
-            </motion.span>
-          </div>
+      <div className={`flex flex-col items-center gap-3 transition-opacity duration-300 ${visual.opacity}`}>
+        <div
+          className={`relative flex items-center justify-center rounded-2xl border ${visual.ring} ${visual.iconWrap} ${visual.glow} transition-all duration-300 group-hover:scale-105`}
+          style={{ width: visual.iconSize + 24, height: visual.iconSize + 24 }}
+        >
+          <SkillIcon name={iconName} className={color} size={visual.iconSize} />
         </div>
 
-        {/* Skill name */}
-        <h3 className="text-base font-bold text-primary-text group-hover:text-accent transition-colors duration-300 text-center">
+        <h3 className="text-sm font-bold text-primary-text group-hover:text-accent transition-colors duration-300">
           {name}
         </h3>
-
-        {/* Progress bar */}
-        <div className="w-full mt-3 h-1.5 bg-secondary-text/20 rounded-full overflow-hidden">
-          <motion.div
-            style={{ width: progressWidth }}
-            className="h-full bg-gradient-to-r from-cyan-400 to-blue-600 rounded-full"
-          />
-        </div>
       </div>
     </Card>
   );
@@ -151,17 +106,35 @@ SkillCard.displayName = 'SkillCard';
 
 const Skills = () => {
   const { t } = useLocale();
-  const sortedSkills = [...skillsData].sort((a, b) => b.percentage - a.percentage);
 
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1,
-      },
-    },
-  };
+  const sortedSkills = useMemo(
+    () =>
+      [...skillsData].sort((a, b) => {
+        const tierDiff = TIER_RANK[b.tier] - TIER_RANK[a.tier];
+        if (tierDiff !== 0) return tierDiff;
+        return a.name.localeCompare(b.name);
+      }),
+    [],
+  );
+
+  const projectCounts = useMemo(() => {
+    const counts = new Map<string, number>();
+    for (const skill of skillsData) {
+      const tokens = new Set(
+        [skill.name, ...(skill.aliases ?? [])].map((s) => s.toLowerCase()),
+      );
+      const n = projectsData.reduce(
+        (acc, project) =>
+          acc + (project.technologies.some((tech) => tokens.has(tech.toLowerCase())) ? 1 : 0),
+        0,
+      );
+      counts.set(skill.name, n);
+    }
+    return counts;
+  }, []);
+
+  const formatCount = (n: number) =>
+    (n === 1 ? t.skills.projectCount.one : t.skills.projectCount.many).replace('{n}', String(n));
 
   const totalChars = t.skills.title.length + 1 + t.skills.titleHighlight.length;
   const descDelay = (totalChars * CHAR_DELAY + 200) / 1000;
@@ -186,96 +159,23 @@ const Skills = () => {
         />
 
         {/* Skills Grid */}
-        <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-100px" }}
-          className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6"
-        >
-          {sortedSkills.map((skill, index) => (
-            <SkillCard
-              key={skill.name}
-              name={skill.name}
-              percentage={skill.percentage}
-              iconName={skill.iconName}
-              color={skill.color}
-              index={index}
-              levelLabels={t.skills.levels}
-            />
-          ))}
-        </motion.div>
-
-        {/* Stats section */}
-        <div className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-6">
-          <Card
-            hoverEffect="scale"
-            padding="lg"
-            glowIntensity="light"
-            className="flex-row items-center justify-between gap-4"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.3 }}
-          >
-            <div className="flex items-center gap-4 flex-1">
-              <div className="flex-shrink-0 w-12 h-12 flex items-center justify-center bg-accent/10 rounded-xl group-hover:bg-accent/20 transition-colors duration-300">
-                <Code2 className="w-7 h-7 text-accent" />
-              </div>
-              <div className="flex items-baseline gap-2">
-                <p className="text-3xl font-bold bg-gradient-to-r from-cyan-400 to-blue-600 bg-clip-text text-transparent">
-                  {sortedSkills.length}+
-                </p>
-                <p className="text-sm text-secondary-text font-medium">{t.skills.stats.technologies}</p>
-              </div>
-            </div>
-          </Card>
-
-          <Card
-            hoverEffect="scale"
-            padding="lg"
-            glowIntensity="light"
-            className="flex-row items-center justify-between gap-4"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.4 }}
-          >
-            <div className="flex items-center gap-4 flex-1">
-              <div className="flex-shrink-0 w-12 h-12 flex items-center justify-center bg-accent/10 rounded-xl group-hover:bg-accent/20 transition-colors duration-300">
-                <Zap className="w-7 h-7 text-accent" />
-              </div>
-              <div className="flex items-baseline gap-2">
-                <p className="text-3xl font-bold bg-gradient-to-r from-cyan-400 to-blue-600 bg-clip-text text-transparent">
-                  {Math.round(sortedSkills.reduce((acc, skill) => acc + skill.percentage, 0) / sortedSkills.length)}%
-                </p>
-                <p className="text-sm text-secondary-text font-medium">{t.skills.stats.average}</p>
-              </div>
-            </div>
-          </Card>
-
-          <Card
-            hoverEffect="scale"
-            padding="lg"
-            glowIntensity="light"
-            className="flex-row items-center justify-between gap-4"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.5 }}
-          >
-            <div className="flex items-center gap-4 flex-1">
-              <div className="flex-shrink-0 w-12 h-12 flex items-center justify-center bg-gradient-to-r from-cyan-400 to-blue-600 rounded-xl shadow-lg shadow-cyan-500/30 group-hover:shadow-cyan-500/50 transition-all duration-300">
-                <span className="text-white font-bold text-xl">&#9733;</span>
-              </div>
-              <div className="flex items-baseline gap-2">
-                <p className="text-3xl font-bold bg-gradient-to-r from-cyan-400 to-blue-600 bg-clip-text text-transparent">
-                  {sortedSkills.filter(s => s.percentage >= 80).length}
-                </p>
-                <p className="text-sm text-secondary-text font-medium">{t.skills.stats.expert}</p>
-              </div>
-            </div>
-          </Card>
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6">
+          {sortedSkills.map((skill, index) => {
+            const count = projectCounts.get(skill.name) ?? 0;
+            return (
+              <SkillCard
+                key={skill.name}
+                name={skill.name}
+                tier={skill.tier}
+                iconName={skill.iconName}
+                color={skill.color}
+                index={index}
+                projectCount={count}
+                tierLabel={t.skills.tiers[skill.tier]}
+                countText={formatCount(count)}
+              />
+            );
+          })}
         </div>
       </div>
 

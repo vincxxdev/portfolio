@@ -3,6 +3,7 @@ import { siteConfig } from '@/config/site';
 import { skillsData } from '@/data/skills';
 import { projectsData } from '@/data/projects';
 import { registerRobotoFont } from '@/lib/fonts/roboto';
+import { TIER_RANK, TIER_DOTS } from '@/types';
 import type { Locale } from '@/i18n/types';
 import { it } from '@/i18n/locales/it';
 import { en } from '@/i18n/locales/en';
@@ -151,7 +152,11 @@ export const generateCV = async (locale: Locale = 'it'): Promise<void> => {
   // ============ SKILLS SECTION ============
   sidebarY = drawSidebarSection(doc, t.cvData.labels.technicalSkills, sidebarY);
 
-  const sortedSkills = [...skillsData].sort((a, b) => b.percentage - a.percentage);
+  const sortedSkills = [...skillsData].sort((a, b) => {
+    const tierDiff = TIER_RANK[b.tier] - TIER_RANK[a.tier];
+    if (tierDiff !== 0) return tierDiff;
+    return a.name.localeCompare(b.name);
+  });
 
   sortedSkills.forEach(skill => {
     if (sidebarY > PAGE_HEIGHT - 10) return;
@@ -163,7 +168,7 @@ export const generateCV = async (locale: Locale = 'it'): Promise<void> => {
 
     // Draw skill level indicator (dots)
     const maxDots = 5;
-    const filledDots = Math.round((skill.percentage / 100) * maxDots);
+    const filledDots = TIER_DOTS[skill.tier];
     const dotStartX = SIDEBAR_WIDTH - SIDEBAR_PADDING - 18;
 
     for (let i = 0; i < maxDots; i++) {

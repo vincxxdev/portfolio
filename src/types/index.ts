@@ -11,12 +11,18 @@ export interface Project {
 }
 
 // Skill type definition
+export type SkillTier = 'core' | 'regular' | 'occasional';
+
 export interface Skill {
   name: string;
-  percentage: number;
+  tier: SkillTier;
   iconName: string;
   color: string;
+  aliases?: string[];
 }
+
+export const TIER_RANK: Record<SkillTier, number> = { core: 3, regular: 2, occasional: 1 };
+export const TIER_DOTS: Record<SkillTier, number> = { core: 5, regular: 3, occasional: 2 };
 
 // Experience type definition
 export interface Experience {

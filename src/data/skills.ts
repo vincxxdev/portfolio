@@ -1,14 +1,16 @@
-export const skillsData = [
-  { "name": "Java", "percentage": 70, "iconName": "FaJava", "color": "text-orange-500" },
-  { "name": "C", "percentage": 45, "iconName": "SiC", "color": "text-blue-600" },
-  { "name": "JavaScript", "percentage": 70, "iconName": "FaJs", "color": "text-yellow-400" },
-  { "name": "TypeScript", "percentage": 70, "iconName": "SiTypescript", "color": "text-blue-500" },
-  { "name": "Python", "percentage": 50, "iconName": "FaPython", "color": "text-blue-400" },
-  { "name": "C++", "percentage": 20, "iconName": "SiCplusplus", "color": "text-blue-700" },
-  { "name": "React", "percentage": 60, "iconName": "FaReact", "color": "text-cyan-400" },
-  { "name": "HTML", "percentage": 90, "iconName": "FaHtml5", "color": "text-orange-500" },
-  { "name": "CSS", "percentage": 50, "iconName": "FaCss3", "color": "text-blue-500" },
-  { "name": "Node.js", "percentage": 60, "iconName": "FaNodeJs", "color": "text-green-500" },
-  { "name": "Git", "percentage": 70, "iconName": "FaGit", "color": "text-red-500" },
-  { "name": "MySQL", "percentage": 50, "iconName": "SiMysql", "color": "text-purple-500" }
+import type { Skill } from '@/types';
+
+export const skillsData: Skill[] = [
+  { name: 'TypeScript', tier: 'core', iconName: 'SiTypescript', color: 'text-blue-500' },
+  { name: 'JavaScript', tier: 'core', iconName: 'FaJs', color: 'text-yellow-400' },
+  { name: 'React', tier: 'core', iconName: 'FaReact', color: 'text-cyan-400' },
+  { name: 'Node.js', tier: 'core', iconName: 'FaNodeJs', color: 'text-green-500', aliases: ['Express'] },
+  { name: 'HTML', tier: 'core', iconName: 'FaHtml5', color: 'text-orange-500' },
+  { name: 'CSS', tier: 'core', iconName: 'FaCss3', color: 'text-blue-500', aliases: ['Tailwind CSS'] },
+  { name: 'Git', tier: 'core', iconName: 'FaGit', color: 'text-red-500', aliases: ['GitHub'] },
+  { name: 'Java', tier: 'regular', iconName: 'FaJava', color: 'text-orange-500' },
+  { name: 'Python', tier: 'regular', iconName: 'FaPython', color: 'text-blue-400' },
+  { name: 'MySQL', tier: 'regular', iconName: 'SiMysql', color: 'text-purple-500' },
+  { name: 'C', tier: 'occasional', iconName: 'SiC', color: 'text-blue-600' },
+  { name: 'C++', tier: 'occasional', iconName: 'SiCplusplus', color: 'text-blue-700' },
 ];

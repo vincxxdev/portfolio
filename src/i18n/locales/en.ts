@@ -97,9 +97,14 @@ export const en: Translations = {
       regular: 'Regular use',
       occasional: 'Working knowledge',
     },
+    tierDescriptions: {
+      core: 'Daily drivers — deep, hands-on experience',
+      regular: 'Comfortable, used on real projects',
+      occasional: 'Studied at university or used sporadically',
+    },
     projectCount: {
-      one: '{n} project',
-      many: '{n} projects',
+      one: 'Used in {n} project',
+      many: 'Used in {n} projects',
     },
   },
   projects: {

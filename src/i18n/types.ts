@@ -62,6 +62,11 @@ export interface Translations {
       regular: string;
       occasional: string;
     };
+    tierDescriptions: {
+      core: string;
+      regular: string;
+      occasional: string;
+    };
     projectCount: {
       one: string;
       many: string;

@@ -9,7 +9,7 @@ import Card from './ui/Card';
 import { SectionHeader } from './ui/CardComponents';
 import Printer3DText, { CHAR_DELAY } from './ui/Printer3DText';
 import { useLocale } from '@/i18n';
-import { TIER_RANK, type SkillTier } from '@/types';
+import type { SkillTier } from '@/types';
 
 const TIER_VISUAL: Record<SkillTier, {
   iconSize: number;
@@ -48,7 +48,6 @@ interface SkillCardProps {
   color: string;
   index: number;
   projectCount: number;
-  tierLabel: string;
   countText: string;
 }
 
@@ -59,7 +58,6 @@ const SkillCard = memo(({
   color,
   index,
   projectCount,
-  tierLabel,
   countText,
 }: SkillCardProps) => {
   const visual = TIER_VISUAL[tier];
@@ -75,18 +73,7 @@ const SkillCard = memo(({
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.5, delay: index * 0.05 }}
-      title={tierLabel}
     >
-      {projectCount > 0 && (
-        <div
-          className="absolute top-3 right-3 z-20 flex items-center gap-1 rounded-full border border-secondary-text/15 bg-primary-background/70 px-2 py-0.5 text-[0.65rem] font-semibold text-secondary-text"
-          title={countText}
-        >
-          <FolderGit2 className="h-3 w-3 text-accent" aria-hidden="true" />
-          <span aria-label={countText}>{projectCount}</span>
-        </div>
-      )}
-
       <div className={`flex flex-col items-center gap-3 transition-opacity duration-300 ${visual.opacity}`}>
         <div
           className={`relative flex items-center justify-center rounded-2xl border ${visual.ring} ${visual.iconWrap} ${visual.glow} transition-all duration-300 group-hover:scale-105`}
@@ -98,24 +85,38 @@ const SkillCard = memo(({
         <h3 className="text-sm font-bold text-primary-text group-hover:text-accent transition-colors duration-300">
           {name}
         </h3>
+
+        {projectCount > 0 && (
+          <p className="flex items-center gap-1 text-[0.7rem] text-secondary-text/80">
+            <FolderGit2 className="h-3 w-3 text-accent" aria-hidden="true" />
+            <span>{countText}</span>
+          </p>
+        )}
       </div>
     </Card>
   );
 });
 SkillCard.displayName = 'SkillCard';
 
+const TIER_ORDER: SkillTier[] = ['core', 'regular', 'occasional'];
+
+const TIER_HEADER_ACCENT: Record<SkillTier, string> = {
+  core: 'bg-accent',
+  regular: 'bg-accent/60',
+  occasional: 'bg-secondary-text/40',
+};
+
 const Skills = () => {
   const { t } = useLocale();
 
-  const sortedSkills = useMemo(
-    () =>
-      [...skillsData].sort((a, b) => {
-        const tierDiff = TIER_RANK[b.tier] - TIER_RANK[a.tier];
-        if (tierDiff !== 0) return tierDiff;
-        return a.name.localeCompare(b.name);
-      }),
-    [],
-  );
+  const groupedSkills = useMemo(() => {
+    const groups: Record<SkillTier, typeof skillsData> = { core: [], regular: [], occasional: [] };
+    for (const skill of skillsData) groups[skill.tier].push(skill);
+    for (const tier of TIER_ORDER) {
+      groups[tier].sort((a, b) => a.name.localeCompare(b.name));
+    }
+    return groups;
+  }, []);
 
   const projectCounts = useMemo(() => {
     const counts = new Map<string, number>();
@@ -158,22 +159,46 @@ const Skills = () => {
           descriptionDelay={descDelay}
         />
 
-        {/* Skills Grid */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6">
-          {sortedSkills.map((skill, index) => {
-            const count = projectCounts.get(skill.name) ?? 0;
+        {/* Skills grouped by tier */}
+        <div className="space-y-12">
+          {TIER_ORDER.map((tier) => {
+            const skills = groupedSkills[tier];
+            if (skills.length === 0) return null;
             return (
-              <SkillCard
-                key={skill.name}
-                name={skill.name}
-                tier={skill.tier}
-                iconName={skill.iconName}
-                color={skill.color}
-                index={index}
-                projectCount={count}
-                tierLabel={t.skills.tiers[skill.tier]}
-                countText={formatCount(count)}
-              />
+              <div key={tier}>
+                <div className="mb-6 flex flex-col gap-1 sm:flex-row sm:items-baseline sm:gap-4">
+                  <div className="flex items-center gap-3">
+                    <span className={`h-2 w-2 rounded-full ${TIER_HEADER_ACCENT[tier]}`} aria-hidden="true" />
+                    <h3 className="text-base font-semibold uppercase tracking-[0.18em] text-primary-text">
+                      {t.skills.tiers[tier]}
+                    </h3>
+                    <span className="text-xs font-medium text-secondary-text/70">
+                      {skills.length}
+                    </span>
+                  </div>
+                  <p className="text-sm text-secondary-text">
+                    {t.skills.tierDescriptions[tier]}
+                  </p>
+                </div>
+
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6">
+                  {skills.map((skill, index) => {
+                    const count = projectCounts.get(skill.name) ?? 0;
+                    return (
+                      <SkillCard
+                        key={skill.name}
+                        name={skill.name}
+                        tier={skill.tier}
+                        iconName={skill.iconName}
+                        color={skill.color}
+                        index={index}
+                        projectCount={count}
+                        countText={formatCount(count)}
+                      />
+                    );
+                  })}
+                </div>
+              </div>
             );
           })}
         </div>

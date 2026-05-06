@@ -97,9 +97,14 @@ export const it: Translations = {
       regular: 'Uso frequente',
       occasional: 'Conoscenza di base',
     },
+    tierDescriptions: {
+      core: 'Strumenti quotidiani — esperienza approfondita',
+      regular: 'Usati con scioltezza in progetti reali',
+      occasional: 'Studiati all’università o usati sporadicamente',
+    },
     projectCount: {
-      one: '{n} progetto',
-      many: '{n} progetti',
+      one: 'Usato in {n} progetto',
+      many: 'Usato in {n} progetti',
     },
   },
   projects: {

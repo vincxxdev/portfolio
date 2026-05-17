@@ -114,18 +114,124 @@ export const it: Translations = {
     liveDemo: 'Live Demo',
     github: 'GitHub',
     previewUnavailable: 'Anteprima non disponibile',
+    caseStudy: {
+      cta: 'Approfondisci',
+      backToProjects: '← Torna ai Progetti',
+      overviewLabel: 'Panoramica',
+      problemLabel: 'Problema',
+      approachLabel: 'Approccio',
+      solutionLabel: 'Soluzione',
+      resultsLabel: 'Risultati',
+      technologiesLabel: 'Stack tecnologico',
+      notFoundTitle: 'Progetto non trovato',
+      notFoundDescription: 'Il progetto che cerchi non esiste o è stato rimosso.',
+      notFoundCta: 'Vedi tutti i progetti',
+    },
     items: {
       1: {
         title: 'Portfolio Personale',
         description: 'Portfolio personale moderno e responsivo costruito con Next.js 15, TypeScript e Tailwind CSS. Include animazioni fluide, tema dark/light, e architettura scalabile.',
+        caseStudy: {
+          tagline: 'TODO: aggiungere una frase di apertura per Portfolio Personale.',
+          problem: {
+            title: 'TODO: titolo della sezione Problema',
+            paragraphs: [
+              'TODO: descrivere il problema o la motivazione del progetto.',
+              'TODO: aggiungere contesto, vincoli o esigenze affrontate.',
+            ],
+          },
+          approach: {
+            title: 'TODO: titolo della sezione Approccio',
+            paragraphs: [
+              'TODO: spiegare come hai analizzato il problema e quali alternative hai valutato.',
+              'TODO: motivare scelte architetturali e trade-off.',
+            ],
+          },
+          solution: {
+            title: 'TODO: titolo della sezione Soluzione',
+            paragraphs: [
+              'TODO: descrivere la soluzione implementata e gli aspetti tecnici principali.',
+              'TODO: evidenziare componenti, pattern o decisioni di design rilevanti.',
+            ],
+          },
+          results: {
+            title: 'TODO: titolo della sezione Risultati',
+            paragraphs: [
+              'TODO: riportare risultati misurabili, metriche o impatti del progetto.',
+              'TODO: includere lezioni apprese e prossimi passi.',
+            ],
+          },
+        },
       },
       2: {
         title: 'Railway Simulator',
         description: 'Progetto realizzato in gruppo con un collega universitario. Backend in Node.js (Express) e frontend in FlexSim. Simula una stazione ferroviaria interagendo via Arduino.',
+        caseStudy: {
+          tagline: 'TODO: aggiungere una frase di apertura per Railway Simulator.',
+          problem: {
+            title: 'TODO: titolo della sezione Problema',
+            paragraphs: [
+              'TODO: descrivere il problema o la motivazione del progetto.',
+              'TODO: aggiungere contesto, vincoli o esigenze affrontate.',
+            ],
+          },
+          approach: {
+            title: 'TODO: titolo della sezione Approccio',
+            paragraphs: [
+              'TODO: spiegare come hai analizzato il problema e quali alternative hai valutato.',
+              'TODO: motivare scelte architetturali e trade-off.',
+            ],
+          },
+          solution: {
+            title: 'TODO: titolo della sezione Soluzione',
+            paragraphs: [
+              'TODO: descrivere la soluzione implementata e gli aspetti tecnici principali.',
+              'TODO: evidenziare componenti, pattern o decisioni di design rilevanti.',
+            ],
+          },
+          results: {
+            title: 'TODO: titolo della sezione Risultati',
+            paragraphs: [
+              'TODO: riportare risultati misurabili, metriche o impatti del progetto.',
+              'TODO: includere lezioni apprese e prossimi passi.',
+            ],
+          },
+        },
       },
       3: {
         title: 'Ataxx',
         description: 'Progetto universitario in gruppo per la realizzazione del gioco Ataxx in Java usando la tecnica di sviluppo Agile Scrum.',
+        caseStudy: {
+          tagline: 'TODO: aggiungere una frase di apertura per Ataxx.',
+          problem: {
+            title: 'TODO: titolo della sezione Problema',
+            paragraphs: [
+              'TODO: descrivere il problema o la motivazione del progetto.',
+              'TODO: aggiungere contesto, vincoli o esigenze affrontate.',
+            ],
+          },
+          approach: {
+            title: 'TODO: titolo della sezione Approccio',
+            paragraphs: [
+              'TODO: spiegare come hai analizzato il problema e quali alternative hai valutato.',
+              'TODO: motivare scelte architetturali e trade-off.',
+            ],
+          },
+          solution: {
+            title: 'TODO: titolo della sezione Soluzione',
+            paragraphs: [
+              'TODO: descrivere la soluzione implementata e gli aspetti tecnici principali.',
+              'TODO: evidenziare componenti, pattern o decisioni di design rilevanti.',
+            ],
+          },
+          results: {
+            title: 'TODO: titolo della sezione Risultati',
+            paragraphs: [
+              'TODO: riportare risultati misurabili, metriche o impatti del progetto.',
+              'TODO: includere lezioni apprese e prossimi passi.',
+            ],
+          },
+        },
       },
     },
   },

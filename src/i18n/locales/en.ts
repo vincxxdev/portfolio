@@ -114,18 +114,124 @@ export const en: Translations = {
     liveDemo: 'Live Demo',
     github: 'GitHub',
     previewUnavailable: 'Preview not available',
+    caseStudy: {
+      cta: 'Case Study',
+      backToProjects: '← Back to Projects',
+      overviewLabel: 'Overview',
+      problemLabel: 'Problem',
+      approachLabel: 'Approach',
+      solutionLabel: 'Solution',
+      resultsLabel: 'Results',
+      technologiesLabel: 'Tech stack',
+      notFoundTitle: 'Project not found',
+      notFoundDescription: 'The project you are looking for does not exist or was removed.',
+      notFoundCta: 'See all projects',
+    },
     items: {
       1: {
         title: 'Personal Portfolio',
         description: 'Modern and responsive personal portfolio built with Next.js 15, TypeScript, and Tailwind CSS. Features smooth animations, dark/light theme, and scalable architecture.',
+        caseStudy: {
+          tagline: 'TODO: add an opening line for Personal Portfolio.',
+          problem: {
+            title: 'TODO: Problem section title',
+            paragraphs: [
+              'TODO: describe the problem or motivation behind the project.',
+              'TODO: add context, constraints, or needs that were addressed.',
+            ],
+          },
+          approach: {
+            title: 'TODO: Approach section title',
+            paragraphs: [
+              'TODO: explain how you analyzed the problem and which alternatives you weighed.',
+              'TODO: justify architectural choices and trade-offs.',
+            ],
+          },
+          solution: {
+            title: 'TODO: Solution section title',
+            paragraphs: [
+              'TODO: describe the implemented solution and its main technical aspects.',
+              'TODO: highlight key components, patterns, or design decisions.',
+            ],
+          },
+          results: {
+            title: 'TODO: Results section title',
+            paragraphs: [
+              'TODO: report measurable results, metrics, or project impact.',
+              'TODO: include lessons learned and next steps.',
+            ],
+          },
+        },
       },
       2: {
         title: 'Railway Simulator',
         description: 'Group project built with a university colleague. Node.js (Express) backend and FlexSim frontend. Simulates a railway station with Arduino interaction.',
+        caseStudy: {
+          tagline: 'TODO: add an opening line for Railway Simulator.',
+          problem: {
+            title: 'TODO: Problem section title',
+            paragraphs: [
+              'TODO: describe the problem or motivation behind the project.',
+              'TODO: add context, constraints, or needs that were addressed.',
+            ],
+          },
+          approach: {
+            title: 'TODO: Approach section title',
+            paragraphs: [
+              'TODO: explain how you analyzed the problem and which alternatives you weighed.',
+              'TODO: justify architectural choices and trade-offs.',
+            ],
+          },
+          solution: {
+            title: 'TODO: Solution section title',
+            paragraphs: [
+              'TODO: describe the implemented solution and its main technical aspects.',
+              'TODO: highlight key components, patterns, or design decisions.',
+            ],
+          },
+          results: {
+            title: 'TODO: Results section title',
+            paragraphs: [
+              'TODO: report measurable results, metrics, or project impact.',
+              'TODO: include lessons learned and next steps.',
+            ],
+          },
+        },
       },
       3: {
         title: 'Ataxx',
         description: 'University group project for developing the Ataxx board game in Java using Agile Scrum methodology.',
+        caseStudy: {
+          tagline: 'TODO: add an opening line for Ataxx.',
+          problem: {
+            title: 'TODO: Problem section title',
+            paragraphs: [
+              'TODO: describe the problem or motivation behind the project.',
+              'TODO: add context, constraints, or needs that were addressed.',
+            ],
+          },
+          approach: {
+            title: 'TODO: Approach section title',
+            paragraphs: [
+              'TODO: explain how you analyzed the problem and which alternatives you weighed.',
+              'TODO: justify architectural choices and trade-offs.',
+            ],
+          },
+          solution: {
+            title: 'TODO: Solution section title',
+            paragraphs: [
+              'TODO: describe the implemented solution and its main technical aspects.',
+              'TODO: highlight key components, patterns, or design decisions.',
+            ],
+          },
+          results: {
+            title: 'TODO: Results section title',
+            paragraphs: [
+              'TODO: report measurable results, metrics, or project impact.',
+              'TODO: include lessons learned and next steps.',
+            ],
+          },
+        },
       },
     },
   },

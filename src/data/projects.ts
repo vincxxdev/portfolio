@@ -1,6 +1,9 @@
-export const projectsData = [
+import type { Project } from '@/types';
+
+export const projectsData: Project[] = [
   {
     "id": 1,
+    "slug": "personal-portfolio",
     "title": "Portfolio Personale",
     "description": "Portfolio personale moderno e responsivo costruito con Next.js 15, TypeScript e Tailwind CSS. Include animazioni fluide, tema dark/light, e architettura scalabile.",
     "technologies": ["Next.js", "React", "TypeScript", "Tailwind CSS", "Framer Motion", "Vercel"],
@@ -11,6 +14,7 @@ export const projectsData = [
   },
   {
     "id": 2,
+    "slug": "railway-simulator",
     "title": "Railway Simulator",
     "description": "Progetto realizzato in gruppo con un collega universitario. Backend in Node.js (Express) e frontend in FlexSim. Simula una stazione ferroviaria interagendo via Arduino.",
     "technologies": ["Node.js", "Express", "FlexSim", "Arduino", "Git", "GitHub"],
@@ -20,6 +24,7 @@ export const projectsData = [
   },
   {
     "id": 3,
+    "slug": "ataxx",
     "title": "Ataxx",
     "description": "Progetto universitario in gruppo per la realizzazione del gioco Ataxx in Java usando la tecnica di sviluppo Agile Scrum.",
     "technologies": ["Java", "JUnit", "Git", "GitHub"],

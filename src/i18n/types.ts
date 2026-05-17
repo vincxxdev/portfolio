@@ -79,9 +79,29 @@ export interface Translations {
     liveDemo: string;
     github: string;
     previewUnavailable: string;
+    caseStudy: {
+      cta: string;
+      backToProjects: string;
+      overviewLabel: string;
+      problemLabel: string;
+      approachLabel: string;
+      solutionLabel: string;
+      resultsLabel: string;
+      technologiesLabel: string;
+      notFoundTitle: string;
+      notFoundDescription: string;
+      notFoundCta: string;
+    };
     items: Record<number, {
       title: string;
       description: string;
+      caseStudy?: {
+        tagline: string;
+        problem: { title: string; paragraphs: string[] };
+        approach: { title: string; paragraphs: string[] };
+        solution: { title: string; paragraphs: string[] };
+        results: { title: string; paragraphs: string[] };
+      };
     }>;
   };
   contacts: {

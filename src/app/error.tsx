@@ -18,20 +18,20 @@ export default function Error({
   }, [error]);
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-primary-background px-4">
+    <div className="bg-canvas flex min-h-screen items-center justify-center px-4">
       <div className="max-w-md text-center">
-        <h2 className="text-4xl font-bold text-primary-text mb-4">
-          Oops! Qualcosa è andato storto
+        <h2 className="font-display mb-4 text-3xl font-bold text-ink sm:text-4xl">
+          Qualcosa è andato storto
         </h2>
-        <p className="text-secondary-text mb-8">
+        <p className="mb-8 text-ink-2">
           Si è verificato un errore inaspettato. Riprova o torna alla home.
         </p>
-        <div className="flex gap-4 justify-center">
+        <div className="flex justify-center gap-4">
           <Button onClick={reset} variant="primary">
             Riprova
           </Button>
           <Button href="/" variant="secondary">
-            Torna alla Home
+            Torna alla home
           </Button>
         </div>
       </div>

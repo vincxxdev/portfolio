@@ -66,13 +66,13 @@ const DownloadCVButton: React.FC<DownloadCVButtonProps> = ({
   };
 
   // Base styles for the button
-  const baseStyles = "inline-flex items-center justify-center gap-2 font-semibold rounded-lg transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed";
+  const baseStyles = "inline-flex items-center justify-center gap-2 font-semibold rounded-sm transition-colors duration-150 disabled:opacity-50 disabled:cursor-not-allowed focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-signal";
 
   // Styles for different variants
   const variantStyles = {
-    primary: "bg-gradient-to-r from-cyan-400 to-blue-600 text-white hover:from-cyan-500 hover:to-blue-700 shadow-lg hover:shadow-xl hover:shadow-cyan-400/50",
-    secondary: "bg-secondary-background text-primary-text border-2 border-accent hover:bg-accent hover:text-white shadow-md hover:shadow-lg",
-    icon: "bg-secondary-background/80 backdrop-blur-sm text-primary-text hover:bg-accent hover:text-white p-2 rounded-full shadow-md hover:shadow-lg"
+    primary: "bg-signal text-on-signal hover:bg-signal-hover",
+    secondary: "bg-raised text-ink border border-hairline-strong hover:bg-signal hover:text-on-signal hover:border-signal",
+    icon: "bg-raised text-ink border border-hairline hover:bg-signal hover:text-on-signal p-2"
   };
 
   // Size styles
@@ -256,7 +256,7 @@ const DownloadCVButton: React.FC<DownloadCVButtonProps> = ({
               <FileText className="w-4 h-4 text-accent" />
               <div className="flex flex-col items-start">
                 <span className="font-semibold">{t.cv.download}</span>
-                <span className="text-xs text-muted-foreground opacity-70">{t.cv.technicalCV}</span>
+                <span className="text-xs text-ink-3">{t.cv.technicalCV}</span>
               </div>
             </button>
             <button
@@ -267,7 +267,7 @@ const DownloadCVButton: React.FC<DownloadCVButtonProps> = ({
               <FileText className="w-4 h-4 text-accent" />
               <div className="flex flex-col items-start">
                 <span className="font-semibold">{t.cv.downloadSimplified}</span>
-                <span className="text-xs text-muted-foreground opacity-70">{t.cv.administrativeCV}</span>
+                <span className="text-xs text-ink-3">{t.cv.administrativeCV}</span>
               </div>
             </button>
           </motion.div>

@@ -7,7 +7,7 @@ import { useSound } from '../hooks/useSound';
 import { motion, type HTMLMotionProps, useReducedMotion } from 'framer-motion';
 
 const buttonVariants = cva(
-  'inline-flex items-center justify-center font-medium disabled:opacity-40 disabled:pointer-events-none transition-colors duration-[180ms] ease-[cubic-bezier(0.2,0,0,1)]',
+  'inline-flex items-center justify-center font-medium disabled:opacity-40 disabled:pointer-events-none aria-disabled:opacity-40 aria-disabled:pointer-events-none transition-colors duration-[180ms] ease-[cubic-bezier(0.2,0,0,1)]',
   {
     variants: {
       variant: {
@@ -26,7 +26,7 @@ const buttonVariants = cva(
       },
       size: {
         default: 'px-5 py-2.5 text-sm',
-        sm: 'px-3.5 py-2 text-xs tracking-normal',
+        sm: 'px-3.5 py-2 text-xs',
         lg: 'px-7 py-3.5 text-base',
         nav: 'px-3 py-2 text-2xs',
       },
@@ -77,28 +77,37 @@ const Button = ({
   const isNav = variant === 'nav';
 
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
+    if (disabled) {
+      event.preventDefault();
+      return;
+    }
     playSound('click');
     onClick?.(event);
   };
 
   const handleHover = () => {
+    if (disabled) return;
     playSound('hover');
   };
 
   // A key travelling in its housing, rather than a scale bounce.
-  const hoverAnimation = isNav || shouldReduceMotion ? undefined : { y: -1 };
-  const tapAnimation = isNav || shouldReduceMotion ? undefined : { y: 1 };
+  const suppressMotion = isNav || shouldReduceMotion || disabled;
+  const hoverAnimation = suppressMotion ? undefined : { y: -1 };
+  const tapAnimation = suppressMotion ? undefined : { y: 1 };
   const motionTransition = transition ?? { duration: 0.12, ease: [0.2, 0, 0, 1] };
 
   if (href) {
     return (
       <motion.a
-        href={href}
+        href={disabled ? undefined : href}
         onClick={handleClick}
         onMouseEnter={handleHover}
         target={target}
         rel={rel}
         aria-label={ariaLabel}
+        aria-disabled={disabled || undefined}
+        role={disabled ? 'link' : undefined}
+        tabIndex={disabled ? -1 : undefined}
         className={classes}
         whileHover={hoverAnimation}
         whileTap={tapAnimation}

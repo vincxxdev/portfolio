@@ -1,9 +1,9 @@
 'use client';
 
 import React from 'react';
+import Link from 'next/link';
 import { SiGithub, SiLinkedin } from 'react-icons/si';
-import { motion } from 'framer-motion';
-import { Gauge } from 'lucide-react';
+
 import { siteConfig } from '@/config/site';
 import { useLocale } from '@/i18n';
 import { lighthouseSummary } from '@/data/lighthouse';
@@ -11,129 +11,117 @@ import { lighthouseSummary } from '@/data/lighthouse';
 const Footer = () => {
   const { locale, t } = useLocale();
   const currentYear = new Date().getFullYear();
+
   const auditDate = new Intl.DateTimeFormat(locale, {
     day: '2-digit',
     month: 'short',
     year: 'numeric',
   }).format(new Date(lighthouseSummary.generatedAt));
-  const auditedFormFactor = lighthouseSummary.formFactor as string;
+
   const formFactorLabel =
-    auditedFormFactor === 'mobile'
+    (lighthouseSummary.formFactor as string) === 'mobile'
       ? t.footer.lighthouse.formFactors.mobile
       : t.footer.lighthouse.formFactors.desktop;
+
   const lighthouseMetrics = [
-    {
-      label: t.footer.lighthouse.metrics.performance,
-      score: lighthouseSummary.scores.performance,
-    },
-    {
-      label: t.footer.lighthouse.metrics.accessibility,
-      score: lighthouseSummary.scores.accessibility,
-    },
-    {
-      label: t.footer.lighthouse.metrics.bestPractices,
-      score: lighthouseSummary.scores.bestPractices,
-    },
-    {
-      label: t.footer.lighthouse.metrics.seo,
-      score: lighthouseSummary.scores.seo,
-    },
+    { label: t.footer.lighthouse.metrics.performance, score: lighthouseSummary.scores.performance },
+    { label: t.footer.lighthouse.metrics.accessibility, score: lighthouseSummary.scores.accessibility },
+    { label: t.footer.lighthouse.metrics.bestPractices, score: lighthouseSummary.scores.bestPractices },
+    { label: t.footer.lighthouse.metrics.seo, score: lighthouseSummary.scores.seo },
+  ];
+
+  const navLinks = [
+    { href: '/', label: t.nav.home },
+    { href: '/work', label: t.nav.work },
+    { href: '/about', label: t.nav.about },
+    { href: '/contact', label: t.nav.contact },
   ];
 
   return (
-    <footer className="relative bg-secondary-background/95 text-secondary-text border-t border-accent/10 overflow-hidden">
-      {/* Subtle background decoration */}
-      <div className="absolute inset-0 opacity-10" style={{ backgroundImage: 'linear-gradient(to right, rgba(100, 116, 139, 0.18) 1px, transparent 1px), linear-gradient(to bottom, rgba(100, 116, 139, 0.18) 1px, transparent 1px)', backgroundSize: '72px 72px', maskImage: 'linear-gradient(to bottom, transparent, black 20%, black 80%, transparent)', WebkitMaskImage: 'linear-gradient(to bottom, transparent, black 20%, black 80%, transparent)' } as React.CSSProperties} />
-
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-10 relative z-10">
-        {/* Main content */}
-        <div className="flex flex-col gap-8">
-          {/* Social links and copyright */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.1 }}
-            className="flex flex-col items-center justify-between gap-8 lg:flex-row lg:items-center"
-          >
-            {/* Copyright */}
-            <div className="text-center lg:text-left lg:w-auto lg:shrink-0">
-              <p className="text-sm whitespace-nowrap">
-                &copy; <span suppressHydrationWarning>{currentYear}</span> {siteConfig.personal.fullName}
-              </p>
-              <p className="text-xs text-secondary-text/70 mt-1">
-                {t.footer.allRightsReserved}
-              </p>
-            </div>
-
-            <div className="w-full max-w-2xl rounded-2xl border border-accent/20 bg-primary-background/65 p-4 shadow-lg shadow-accent/5 lg:max-w-xl">
-              <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-                <div className="flex min-w-0 items-center gap-3">
-                  <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-accent/20 bg-accent/10 text-accent">
-                    <Gauge className="h-5 w-5" aria-hidden="true" />
-                  </span>
-                  <span className="min-w-0">
-                    <span className="block text-xs font-semibold uppercase tracking-[0.24em] text-accent">
-                      {t.footer.lighthouse.label}
-                    </span>
-                    <span className="mt-1 block text-xs leading-relaxed text-secondary-text/75">
-                      {t.footer.lighthouse.caption}
-                    </span>
-                  </span>
-                </div>
-
-                <div className="flex shrink-0 items-end gap-1">
-                  <span className="bg-gradient-to-r from-cyan-400 to-blue-600 bg-clip-text text-3xl font-black leading-none text-transparent">
-                    {lighthouseSummary.scores.performance}
-                  </span>
-                  <span className="pb-0.5 text-xs font-semibold text-secondary-text/70">/100</span>
-                </div>
-              </div>
-
-              <div className="mt-4 grid grid-cols-2 gap-2">
-                {lighthouseMetrics.map((metric) => (
-                  <span
-                    key={metric.label}
-                    className="inline-flex h-8 min-w-0 items-center justify-center gap-2 rounded-full border border-secondary-text/15 bg-secondary-background/50 px-3 text-center text-[0.65rem] font-semibold uppercase tracking-[0.14em] text-secondary-text/80"
-                  >
-                    <span className="text-accent">{metric.score}</span>
-                    <span className="whitespace-nowrap">{metric.label}</span>
-                  </span>
+    <footer className="border-t border-hairline bg-raised text-ink-2">
+      <div className="mx-auto max-w-6xl px-5 py-14 sm:px-8">
+        <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_auto]">
+          <div>
+            <nav aria-label={t.footer.navLabel}>
+              <ul className="flex flex-wrap gap-x-6 gap-y-2">
+                {navLinks.map((link) => (
+                  <li key={link.href}>
+                    <Link
+                      href={link.href}
+                      className="label-mono text-ink-2 transition-colors duration-[180ms] ease-[cubic-bezier(0.2,0,0,1)] hover:text-signal-ink"
+                    >
+                      {link.label}
+                    </Link>
+                  </li>
                 ))}
-              </div>
+              </ul>
+            </nav>
 
-              <p className="mt-3 text-[0.68rem] font-medium uppercase tracking-[0.18em] text-secondary-text/60">
-                {t.footer.lighthouse.audited}: {auditDate} - {formFactorLabel}
-              </p>
-            </div>
-
-            {/* Social links */}
-            <div className="flex items-center justify-center gap-4 lg:w-56 lg:justify-end">
-              <motion.a
+            <div className="mt-10 flex items-center gap-3">
+              <a
                 href={siteConfig.social.linkedin}
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label={t.footer.linkedinProfile}
-                whileHover={{ scale: 1.1, y: -2 }}
-                whileTap={{ scale: 0.95 }}
-                className="p-3 bg-primary-background/60 rounded-xl border border-secondary-text/15 hover:border-accent/40 text-secondary-text hover:text-accent transition-all duration-300 shadow-lg hover:shadow-cyan-400/20"
+                className="flex h-10 w-10 items-center justify-center border border-hairline text-ink-2 transition-colors duration-[180ms] ease-[cubic-bezier(0.2,0,0,1)] hover:border-hairline-strong hover:text-signal-ink"
               >
-                <SiLinkedin className="w-5 h-5" />
-              </motion.a>
-              <motion.a
+                <SiLinkedin className="h-4 w-4" aria-hidden="true" />
+              </a>
+              <a
                 href={siteConfig.social.github}
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label={t.footer.githubProfile}
-                whileHover={{ scale: 1.1, y: -2 }}
-                whileTap={{ scale: 0.95 }}
-                className="p-3 bg-primary-background/60 rounded-xl border border-secondary-text/15 hover:border-accent/40 text-secondary-text hover:text-accent transition-all duration-300 shadow-lg hover:shadow-cyan-400/20"
+                className="flex h-10 w-10 items-center justify-center border border-hairline text-ink-2 transition-colors duration-[180ms] ease-[cubic-bezier(0.2,0,0,1)] hover:border-hairline-strong hover:text-signal-ink"
               >
-                <SiGithub className="w-5 h-5" />
-              </motion.a>
+                <SiGithub className="h-4 w-4" aria-hidden="true" />
+              </a>
             </div>
-          </motion.div>
+          </div>
 
+          {/* Lighthouse badge. Scores are measured, not asserted. */}
+          <div className="w-full border border-hairline bg-canvas p-5 lg:w-80">
+            <div className="flex items-start justify-between gap-4">
+              <div className="min-w-0">
+                <p className="label-mono text-signal-ink">{t.footer.lighthouse.label}</p>
+                <p className="mt-1.5 text-xs leading-relaxed text-ink-3">
+                  {t.footer.lighthouse.caption}
+                </p>
+              </div>
+              <p className="flex shrink-0 items-baseline gap-0.5">
+                <span className="text-3xl leading-none text-ink">
+                  {lighthouseSummary.scores.performance}
+                </span>
+                <span className="text-xs text-ink-3">/100</span>
+              </p>
+            </div>
+
+            <dl className="mt-5 grid grid-cols-2 gap-2">
+              {lighthouseMetrics.map((metric) => (
+                <div
+                  key={metric.label}
+                  className="flex min-w-0 items-center gap-2 border border-hairline px-2.5 py-1.5"
+                >
+                  <dd className="text-xs font-medium text-signal-ink">{metric.score}</dd>
+                  <dt className="label-mono truncate text-ink-3">{metric.label}</dt>
+                </div>
+              ))}
+            </dl>
+
+            <p className="label-mono mt-4 text-ink-3" suppressHydrationWarning>
+              {t.footer.lighthouse.audited}: {auditDate} — {formFactorLabel}
+            </p>
+          </div>
+        </div>
+
+        {/* Plain <p>, never a flex container: flex makes each text node its own
+            item and breaks the name onto a second line at narrow widths. */}
+        <div className="mt-14 border-t border-hairline pt-6">
+          <p className="whitespace-nowrap text-sm text-ink-3">
+            &copy; <span suppressHydrationWarning>{currentYear}</span>{' '}
+            {siteConfig.personal.fullName}
+          </p>
+          <p className="mt-1 text-xs text-ink-3">{t.footer.allRightsReserved}</p>
         </div>
       </div>
     </footer>

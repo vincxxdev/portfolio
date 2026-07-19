@@ -3,13 +3,14 @@
 import { useState, useEffect } from 'react';
 import { useTheme } from 'next-themes';
 import { Moon, Sun } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
 import { useSound } from './hooks/useSound';
 
 export const ThemeSwitcher = () => {
   const [mounted, setMounted] = useState(false);
   const { theme, setTheme } = useTheme();
   const { playSound } = useSound();
+  const shouldReduceMotion = useReducedMotion();
 
   useEffect(() => {
     setMounted(true);
@@ -31,10 +32,11 @@ export const ThemeSwitcher = () => {
     <motion.button
       aria-label="Toggle Dark Mode"
       type="button"
-      className="h-9 w-9 flex items-center justify-center rounded-lg bg-gray-200 dark:bg-gray-700 hover:ring-2 ring-cyan-500 transition-all relative overflow-hidden"
+      className="h-9 w-9 flex items-center justify-center rounded-sm border border-hairline bg-sunken text-ink hover:border-signal hover:text-signal-ink transition-colors duration-[180ms] ease-[cubic-bezier(0.2,0,0,1)] relative overflow-hidden"
       onClick={handleThemeToggle}
-      whileHover={{ scale: 1.05 }}
-      whileTap={{ scale: 0.95 }}
+      whileHover={shouldReduceMotion ? undefined : { y: -1 }}
+      whileTap={shouldReduceMotion ? undefined : { y: 1 }}
+      transition={{ duration: 0.12, ease: [0.2, 0, 0, 1] }}
     >
       <AnimatePresence mode="wait" initial={false}>
         {isDark ? (
@@ -43,9 +45,9 @@ export const ThemeSwitcher = () => {
             initial={{ y: -20, opacity: 0, rotate: -90 }}
             animate={{ y: 0, opacity: 1, rotate: 0 }}
             exit={{ y: 20, opacity: 0, rotate: 90 }}
-            transition={{ duration: 0.3, ease: 'easeInOut' }}
+            transition={{ duration: 0.18, ease: [0.2, 0, 0, 1] }}
           >
-            <Moon className="h-5 w-5 text-slate-200" />
+            <Moon className="h-[18px] w-[18px]" />
           </motion.div>
         ) : (
           <motion.div
@@ -53,9 +55,9 @@ export const ThemeSwitcher = () => {
             initial={{ y: -20, opacity: 0, rotate: -90 }}
             animate={{ y: 0, opacity: 1, rotate: 0 }}
             exit={{ y: 20, opacity: 0, rotate: 90 }}
-            transition={{ duration: 0.3, ease: 'easeInOut' }}
+            transition={{ duration: 0.18, ease: [0.2, 0, 0, 1] }}
           >
-            <Sun className="h-5 w-5 text-slate-800" />
+            <Sun className="h-[18px] w-[18px]" />
           </motion.div>
         )}
       </AnimatePresence>

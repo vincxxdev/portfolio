@@ -2,12 +2,17 @@ import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { it } from '@/i18n/locales/it';
 import { siteConfig } from '@/config/site';
-import { getAllProjectSlugs, getProjectBySlug } from '@/lib/projects';
+import { getAllProjectSlugs, getNextProject, getProjectBySlug } from '@/lib/projects';
+import { routeAlternates } from '@/lib/metadata';
 import CaseStudyView from './CaseStudyView';
 
 export function generateStaticParams() {
   return getAllProjectSlugs().map((slug) => ({ slug }));
 }
+
+// The project set is fixed at build time. Without this, an unknown slug is
+// rendered on demand and answers 200 — a soft 404 Google indexes as a real page.
+export const dynamicParams = false;
 
 export async function generateMetadata(
   { params }: { params: Promise<{ slug: string }> },
@@ -25,14 +30,7 @@ export async function generateMetadata(
   return {
     title,
     description,
-    alternates: {
-      canonical: url,
-      languages: {
-        'it-IT': url,
-        'en-US': url,
-        'x-default': url,
-      },
-    },
+    alternates: routeAlternates(`/projects/${slug}`),
     openGraph: {
       title,
       description,
@@ -55,5 +53,5 @@ export default async function ProjectCaseStudyPage(
   const { slug } = await params;
   const project = getProjectBySlug(slug);
   if (!project) notFound();
-  return <CaseStudyView project={project} />;
+  return <CaseStudyView project={project} nextProject={getNextProject(slug)} />;
 }

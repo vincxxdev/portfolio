@@ -30,12 +30,12 @@ export const ThemeTransition = () => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          transition={{ duration: 0.25, ease: 'easeInOut' }}
+          transition={{ duration: 0.25, ease: [0.2, 0, 0, 1] }}
           className="fixed inset-0 z-[9998] pointer-events-none"
           style={{
             background: theme === 'dark'
-              ? 'radial-gradient(ellipse at center, rgba(10, 25, 47, 0.55) 0%, rgba(10, 25, 47, 0.25) 50%, transparent 80%)'
-              : 'radial-gradient(ellipse at center, rgba(255, 255, 255, 0.55) 0%, rgba(255, 255, 255, 0.25) 50%, transparent 80%)',
+              ? 'radial-gradient(ellipse at center, rgba(19, 20, 22, 0.55) 0%, rgba(19, 20, 22, 0.25) 50%, transparent 80%)'
+              : 'radial-gradient(ellipse at center, rgba(231, 232, 228, 0.55) 0%, rgba(231, 232, 228, 0.25) 50%, transparent 80%)',
           }}
         />
       )}

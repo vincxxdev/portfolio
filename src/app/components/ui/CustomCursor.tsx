@@ -20,6 +20,12 @@ const CustomCursor = () => {
   useEffect(() => {
     if (!isFinePointer) return;
 
+    // Park it offscreen imperatively. Keeping this out of the style prop is
+    // what stops a re-render from snapping the cursor back to the corner.
+    if (cursorRef.current) {
+      cursorRef.current.style.transform = 'translate3d(-100px, -100px, 0)';
+    }
+
     const moveCursor = (e: MouseEvent) => {
       if (cursorRef.current) {
         cursorRef.current.style.transform = `translate3d(${e.clientX}px, ${e.clientY}px, 0)`;
@@ -49,19 +55,19 @@ const CustomCursor = () => {
   return (
     <div
       ref={cursorRef}
-      className="fixed pointer-events-none z-[9999] mix-blend-difference rounded-full"
-      style={{
-        width: isHovering ? '3rem' : '1.5rem',
-        height: isHovering ? '3rem' : '1.5rem',
-        left: isHovering ? '-1.5rem' : '-0.75rem',
-        top: isHovering ? '-1.5rem' : '-0.75rem',
-        backgroundColor: isHovering ? 'rgba(255, 255, 255, 0.1)' : 'var(--color-accent)',
-        border: '2px solid var(--color-accent)',
-        transition: 'width 0.2s ease-out, height 0.2s ease-out, left 0.2s ease-out, top 0.2s ease-out, background-color 0.2s ease-out',
-        willChange: 'transform',
-        transform: 'translate3d(-100px, -100px, 0)',
-      }}
-    />
+      className="fixed left-0 top-0 pointer-events-none z-[9999] mix-blend-difference"
+      style={{ willChange: 'transform' }}
+    >
+      <div
+        className="h-12 w-12 rounded-full"
+        style={{
+          transform: `translate(-50%, -50%) scale(${isHovering ? 1 : 0.5})`,
+          backgroundColor: isHovering ? 'rgba(255, 255, 255, 0.1)' : 'var(--color-accent)',
+          border: '2px solid var(--color-accent)',
+          transition: 'transform 180ms cubic-bezier(0.2, 0, 0, 1), background-color 180ms cubic-bezier(0.2, 0, 0, 1)',
+        }}
+      />
+    </div>
   );
 };
 

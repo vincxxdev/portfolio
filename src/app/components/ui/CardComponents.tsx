@@ -8,9 +8,7 @@ interface CardDividerProps {
 }
 
 export const CardDivider: React.FC<CardDividerProps> = ({ className = '' }) => {
-  return (
-    <div className={`h-px bg-gradient-to-r from-transparent via-accent/30 to-transparent ${className}`} />
-  );
+  return <div className={`h-px bg-hairline ${className}`} />;
 };
 
 interface CardTitleProps {
@@ -19,18 +17,20 @@ interface CardTitleProps {
   hoverColor?: boolean;
 }
 
-export const CardTitle: React.FC<CardTitleProps> = ({ 
-  children, 
+export const CardTitle: React.FC<CardTitleProps> = ({
+  children,
   className = '',
-  hoverColor = true 
+  hoverColor = true,
 }) => {
   return (
-    <h3 className={`
-      text-xl font-bold text-primary-text 
-      ${hoverColor ? 'group-hover:text-accent' : ''} 
-      transition-colors duration-300 
-      ${className}
-    `}>
+    <h3
+      className={`
+        font-display text-xl font-bold text-ink
+        ${hoverColor ? 'group-hover:text-signal-ink' : ''}
+        transition-colors duration-[180ms] ease-[cubic-bezier(0.2,0,0,1)]
+        ${className}
+      `}
+    >
       {children}
     </h3>
   );
@@ -41,15 +41,11 @@ interface CardDescriptionProps {
   className?: string;
 }
 
-export const CardDescription: React.FC<CardDescriptionProps> = ({ 
-  children, 
-  className = '' 
+export const CardDescription: React.FC<CardDescriptionProps> = ({
+  children,
+  className = '',
 }) => {
-  return (
-    <p className={`text-sm text-secondary-text leading-relaxed ${className}`}>
-      {children}
-    </p>
-  );
+  return <p className={`text-sm text-ink-2 ${className}`}>{children}</p>;
 };
 
 interface SectionHeaderProps {
@@ -60,6 +56,7 @@ interface SectionHeaderProps {
   title: React.ReactNode;
   description?: string;
   descriptionDelay?: number;
+  align?: 'center' | 'left';
   className?: string;
 }
 
@@ -68,37 +65,52 @@ export const SectionHeader: React.FC<SectionHeaderProps> = ({
   title,
   description,
   descriptionDelay,
-  className = ''
+  align = 'center',
+  className = '',
 }) => {
+  const isLeft = align === 'left';
+
   return (
-    <div className={`text-center mb-16 ${className}`}>
+    <div className={`${isLeft ? 'text-left' : 'text-center'} mb-16 ${className}`}>
       {badge && (
-        <div className="inline-flex items-center gap-2 px-4 py-2 bg-accent/10 border border-accent/20 rounded-full mb-4">
+        <div
+          className={`
+            inline-flex items-center gap-2 mb-5 text-signal-ink
+            ${isLeft ? '' : 'justify-center'}
+          `}
+        >
+          <span aria-hidden="true" className="h-px w-6 bg-signal" />
           {badge.icon}
-          <span className="text-xs font-semibold uppercase tracking-[0.24em] text-accent">{badge.text}</span>
+          <span className="label-mono">{badge.text}</span>
         </div>
       )}
-      <h2 className="text-4xl sm:text-5xl font-black leading-[0.92] text-primary-text mb-4">
+
+      <h2 className="font-display text-4xl sm:text-5xl font-extrabold text-ink">
         {title}
       </h2>
-      <div className="h-px w-24 bg-gradient-to-r from-transparent via-accent/40 to-transparent mx-auto mt-4" />
-      {description && (
-        descriptionDelay != null ? (
+
+      {/* Measure mark: a signal segment butted against a hairline run. */}
+      <div className={`mt-5 flex items-center gap-0 ${isLeft ? '' : 'justify-center'}`}>
+        <span className="h-0.5 w-10 bg-signal" />
+        <span className="h-px w-24 bg-hairline" />
+      </div>
+
+      {description &&
+        (descriptionDelay != null ? (
           <motion.p
             initial={{ opacity: 0, y: 8 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.6, ease: 'easeOut', delay: descriptionDelay }}
-            className="text-lg text-secondary-text/80 max-w-2xl mx-auto mt-4 tracking-wide"
+            transition={{ duration: 0.38, ease: [0.2, 0, 0, 1], delay: descriptionDelay }}
+            className={`text-lg text-ink-2 max-w-2xl mt-5 ${isLeft ? '' : 'mx-auto'}`}
           >
             {description}
           </motion.p>
         ) : (
-          <p className="text-lg text-secondary-text/80 max-w-2xl mx-auto mt-4 tracking-wide">
+          <p className={`text-lg text-ink-2 max-w-2xl mt-5 ${isLeft ? '' : 'mx-auto'}`}>
             {description}
           </p>
-        )
-      )}
+        ))}
     </div>
   );
 };

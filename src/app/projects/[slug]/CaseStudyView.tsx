@@ -4,50 +4,52 @@ import React, { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { SiGithub } from 'react-icons/si';
-import { ExternalLink, Code2 } from 'lucide-react';
+import { ExternalLink, Code2, ArrowLeft, ArrowRight } from 'lucide-react';
 
 import type { Project } from '@/types';
+import type { NarrativeBlock } from '@/i18n/types';
 import { useLocale } from '@/i18n';
 import Button from '@/app/components/ui/Button';
 import Card from '@/app/components/ui/Card';
 import { CardDivider } from '@/app/components/ui/CardComponents';
 import { MagneticButton } from '@/app/components/ui/MagneticButton';
-import Printer3DText from '@/app/components/ui/Printer3DText';
 
-const gridBackgroundStyle: React.CSSProperties = {
-  backgroundImage:
-    'linear-gradient(to right, rgba(100, 116, 139, 0.18) 1px, transparent 1px), linear-gradient(to bottom, rgba(100, 116, 139, 0.18) 1px, transparent 1px)',
-  backgroundSize: '72px 72px',
-  maskImage:
-    'linear-gradient(to bottom, transparent, black 14%, black 86%, transparent)',
-  WebkitMaskImage:
-    'linear-gradient(to bottom, transparent, black 14%, black 86%, transparent)',
-};
-
-interface CaseStudySectionProps {
+interface MetaItemProps {
   label: string;
-  title: string;
-  paragraphs: string[];
+  children: React.ReactNode;
 }
 
-const CaseStudySection = ({ label, title, paragraphs }: CaseStudySectionProps) => (
-  <section className="relative py-16 sm:py-20 overflow-hidden">
-    <div className="absolute inset-0 opacity-20" style={gridBackgroundStyle} />
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-      <Card padding="lg" cornerAccent glowIntensity="light">
-        <span className="text-xs font-semibold uppercase tracking-[0.24em] text-accent">
-          {label}
-        </span>
-        <h2 className="text-3xl sm:text-4xl font-bold text-primary-text mt-3">
-          {title}
+const MetaItem = ({ label, children }: MetaItemProps) => (
+  <div className="flex flex-col gap-1.5">
+    <span className="font-mono text-2xs uppercase text-ink-3">{label}</span>
+    <div className="text-sm text-ink">{children}</div>
+  </div>
+);
+
+interface CaseStudySectionProps {
+  index: number;
+  label: string;
+  block: NarrativeBlock;
+}
+
+const CaseStudySection = ({ index, label, block }: CaseStudySectionProps) => (
+  <section className="relative py-14 sm:py-20">
+    <div className="bg-section-grid absolute inset-0" aria-hidden="true" />
+    <div className="relative z-10 mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
+      <Card padding="lg">
+        <div className="flex items-baseline gap-3">
+          <span className="font-mono text-2xs uppercase text-signal-ink">
+            {String(index).padStart(2, '0')}
+          </span>
+          <span className="font-mono text-2xs uppercase text-ink-3">{label}</span>
+        </div>
+        <h2 className="font-display mt-3 text-2xl font-bold text-ink sm:text-3xl">
+          {block.title}
         </h2>
         <CardDivider className="my-6" />
         <div className="space-y-4">
-          {paragraphs.map((paragraph, i) => (
-            <p
-              key={i}
-              className="text-base sm:text-lg text-secondary-text leading-relaxed"
-            >
+          {block.paragraphs.map((paragraph, i) => (
+            <p key={i} className="text-base leading-relaxed text-ink-2">
               {paragraph}
             </p>
           ))}
@@ -59,9 +61,10 @@ const CaseStudySection = ({ label, title, paragraphs }: CaseStudySectionProps) =
 
 interface CaseStudyViewProps {
   project: Project;
+  nextProject?: Project;
 }
 
-const CaseStudyView = ({ project }: CaseStudyViewProps) => {
+const CaseStudyView = ({ project, nextProject }: CaseStudyViewProps) => {
   const { t } = useLocale();
   const [imageError, setImageError] = useState(false);
 
@@ -69,95 +72,94 @@ const CaseStudyView = ({ project }: CaseStudyViewProps) => {
   const title = localized?.title ?? project.title;
   const description = localized?.description ?? project.description;
   const caseStudy = localized?.caseStudy;
-  const labels = t.projects.caseStudy;
+  const labels = t.work.caseStudy;
+
+  const nextLocalized = nextProject ? t.projects.items[nextProject.id] : undefined;
+  const nextTitle = nextLocalized?.title ?? nextProject?.title;
 
   return (
     <main className="relative">
-      {/* Hero */}
-      <section className="relative pt-32 pb-16 sm:pt-40 sm:pb-20 overflow-hidden">
-        <div className="absolute inset-0 opacity-25" style={gridBackgroundStyle} />
-        <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(255,255,255,0.08)_0%,transparent_25%,transparent_72%,rgba(15,23,42,0.12)_100%)] dark:bg-[linear-gradient(180deg,rgba(15,23,42,0.12)_0%,transparent_22%,transparent_74%,rgba(10,25,47,0.32)_100%)]" />
-        <div className="absolute inset-y-0 left-0 w-px bg-gradient-to-b from-transparent via-accent/40 to-transparent opacity-70" />
-        <div className="absolute inset-y-0 right-0 w-px bg-gradient-to-b from-transparent via-accent/30 to-transparent opacity-50" />
+      <section className="relative pt-32 pb-14 sm:pt-40 sm:pb-20">
+        <div className="bg-section-grid absolute inset-0" aria-hidden="true" />
 
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div className="relative z-10 mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
           <Link
-            href="/#projects"
-            className="inline-flex items-center text-sm font-semibold uppercase tracking-[0.22em] text-secondary-text hover:text-accent transition-colors duration-300 mb-8"
+            href="/work"
+            className="font-mono text-2xs uppercase inline-flex items-center gap-2 text-ink-2 transition-colors duration-[180ms] ease-[cubic-bezier(0.2,0,0,1)] hover:text-signal-ink"
           >
-            {labels.backToProjects}
+            <ArrowLeft className="h-3.5 w-3.5" aria-hidden="true" />
+            {labels.backToWork}
           </Link>
 
-          <span className="inline-flex items-center gap-2 px-3 py-1 mb-6 bg-accent/10 border border-accent/20 rounded-full">
-            <span className="text-xs font-semibold uppercase tracking-[0.24em] text-accent">
-              {labels.overviewLabel}
-            </span>
-          </span>
-
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black leading-[0.95] text-primary-text mb-6">
-            <Printer3DText text={title} />
+          <h1 className="font-display mt-8 text-4xl leading-[1.02] font-bold text-ink sm:text-5xl lg:text-6xl">
+            {title}
           </h1>
 
-          {caseStudy?.tagline && (
-            <p className="text-lg sm:text-xl text-secondary-text/90 max-w-3xl mb-8 leading-relaxed">
-              {caseStudy.tagline}
+          {localized?.tagline && (
+            <p className="mt-5 max-w-2xl text-lg text-ink-2 sm:text-xl">
+              {localized.tagline}
             </p>
           )}
 
-          <p className="text-base text-secondary-text max-w-3xl mb-8 leading-relaxed">
+          <p className="mt-5 max-w-2xl text-base leading-relaxed text-ink-2">
             {description}
           </p>
 
-          <div className="mb-8">
-            <span className="block text-xs font-semibold uppercase tracking-[0.22em] text-secondary-text/70 mb-3">
-              {labels.technologiesLabel}
-            </span>
-            <div className="flex flex-wrap gap-2">
-              {project.technologies.map((tech) => (
-                <span
-                  key={tech}
-                  className="px-3 py-1 bg-accent/10 border border-accent/20 text-accent text-xs font-semibold rounded-lg hover:bg-accent/20 transition-colors duration-300"
-                >
-                  {tech}
-                </span>
-              ))}
-            </div>
-          </div>
+          <CardDivider className="my-10" />
 
-          <div className="flex flex-wrap gap-3 mb-12">
-            {project.liveDemo && (
-              <MagneticButton>
-                <Button
-                  href={project.liveDemo}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  variant="secondary"
-                  size="default"
-                  className="gap-2 leading-5"
-                  aria-label={`${t.accessibility.viewDemo} ${title}`}
-                >
-                  <ExternalLink className="w-4 h-4" aria-hidden="true" />
-                  <span>{t.projects.liveDemo}</span>
-                </Button>
-              </MagneticButton>
+          <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
+            {localized?.role && (
+              <MetaItem label={labels.roleLabel}>{localized.role}</MetaItem>
             )}
-            <MagneticButton>
-              <Button
-                href={project.githubLink}
-                target="_blank"
-                rel="noopener noreferrer"
-                variant="ghost"
-                size="default"
-                className="gap-2 leading-5"
-                aria-label={`${t.accessibility.viewSource} ${title}`}
-              >
-                <SiGithub className="w-4 h-4" aria-hidden="true" />
-                <span>{t.projects.github}</span>
-              </Button>
-            </MagneticButton>
+            {localized?.period && (
+              <MetaItem label={labels.periodLabel}>{localized.period}</MetaItem>
+            )}
+            <MetaItem label={labels.stackLabel}>
+              <div className="flex flex-wrap gap-x-3 gap-y-1.5">
+                {project.technologies.map((tech) => (
+                  <span key={tech} className="font-mono text-xs text-ink-2">
+                    {tech}
+                  </span>
+                ))}
+              </div>
+            </MetaItem>
+            <MetaItem label={labels.linksLabel}>
+              <div className="flex flex-wrap gap-2">
+                {project.liveDemo && (
+                  <MagneticButton>
+                    <Button
+                      href={project.liveDemo}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      variant="outline"
+                      size="sm"
+                      className="gap-2"
+                      aria-label={`${t.accessibility.viewDemo} ${title}`}
+                    >
+                      <ExternalLink className="h-3.5 w-3.5" aria-hidden="true" />
+                      <span>{t.work.card.liveDemo}</span>
+                    </Button>
+                  </MagneticButton>
+                )}
+                <MagneticButton>
+                  <Button
+                    href={project.githubLink}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    variant="outline"
+                    size="sm"
+                    className="gap-2"
+                    aria-label={`${t.accessibility.viewSource} ${title}`}
+                  >
+                    <SiGithub className="h-3.5 w-3.5" aria-hidden="true" />
+                    <span>{t.work.card.github}</span>
+                  </Button>
+                </MagneticButton>
+              </div>
+            </MetaItem>
           </div>
 
-          <div className="relative w-full overflow-hidden rounded-2xl border border-secondary-text/15 bg-gradient-to-br from-cyan-500/10 to-blue-500/10">
+          <div className="border-hairline bg-raised relative mt-12 w-full overflow-hidden rounded-sm border">
             {!imageError ? (
               <Image
                 src={project.previewImage}
@@ -165,16 +167,14 @@ const CaseStudyView = ({ project }: CaseStudyViewProps) => {
                 width={1200}
                 height={630}
                 priority
-                className="w-full h-auto max-h-[480px] object-cover"
+                className="h-auto max-h-[480px] w-full object-cover"
                 onError={() => setImageError(true)}
               />
             ) : (
-              <div className="w-full aspect-[16/9] flex items-center justify-center bg-secondary-background/60">
+              <div className="bg-sunken flex aspect-[16/9] w-full items-center justify-center">
                 <div className="text-center">
-                  <Code2 className="w-16 h-16 text-accent/50 mx-auto mb-2" />
-                  <p className="text-secondary-text text-sm">
-                    {t.projects.previewUnavailable}
-                  </p>
+                  <Code2 className="text-ink-3 mx-auto mb-2 h-12 w-12" aria-hidden="true" />
+                  <p className="text-sm text-ink-2">{t.work.card.previewUnavailable}</p>
                 </div>
               </div>
             )}
@@ -184,42 +184,43 @@ const CaseStudyView = ({ project }: CaseStudyViewProps) => {
 
       {caseStudy && (
         <>
-          <CaseStudySection
-            label={labels.problemLabel}
-            title={caseStudy.problem.title}
-            paragraphs={caseStudy.problem.paragraphs}
-          />
-          <CaseStudySection
-            label={labels.approachLabel}
-            title={caseStudy.approach.title}
-            paragraphs={caseStudy.approach.paragraphs}
-          />
-          <CaseStudySection
-            label={labels.solutionLabel}
-            title={caseStudy.solution.title}
-            paragraphs={caseStudy.solution.paragraphs}
-          />
-          <CaseStudySection
-            label={labels.resultsLabel}
-            title={caseStudy.results.title}
-            paragraphs={caseStudy.results.paragraphs}
-          />
+          <CaseStudySection index={1} label={labels.contextLabel} block={caseStudy.context} />
+          <CaseStudySection index={2} label={labels.approachLabel} block={caseStudy.approach} />
+          <CaseStudySection index={3} label={labels.outcomeLabel} block={caseStudy.outcome} />
         </>
       )}
 
-      <section className="relative py-20 overflow-hidden">
-        <div className="absolute inset-0 opacity-20" style={gridBackgroundStyle} />
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
-          <MagneticButton className="inline-block">
-            <Button
-              href="/#projects"
-              variant="secondary"
-              size="lg"
-              className="gap-2"
+      <section className="relative py-16 sm:py-20">
+        <div className="bg-section-grid absolute inset-0" aria-hidden="true" />
+        <div className="relative z-10 mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
+          <CardDivider className="mb-10" />
+          <div className="flex flex-col gap-8 sm:flex-row sm:items-end sm:justify-between">
+            <Link
+              href="/work"
+              className="font-mono text-2xs uppercase inline-flex items-center gap-2 text-ink-2 transition-colors duration-[180ms] ease-[cubic-bezier(0.2,0,0,1)] hover:text-signal-ink"
             >
-              {labels.backToProjects}
-            </Button>
-          </MagneticButton>
+              <ArrowLeft className="h-3.5 w-3.5" aria-hidden="true" />
+              {labels.backToWork}
+            </Link>
+
+            {nextProject && nextTitle && (
+              <Link
+                href={`/projects/${nextProject.slug}`}
+                className="group flex flex-col gap-2 sm:items-end"
+              >
+                <span className="font-mono text-2xs uppercase text-ink-3">
+                  {labels.nextProject}
+                </span>
+                <span className="font-display inline-flex items-center gap-2 text-2xl font-bold text-ink transition-colors duration-[180ms] ease-[cubic-bezier(0.2,0,0,1)] group-hover:text-signal-ink sm:text-3xl">
+                  {nextTitle}
+                  <ArrowRight
+                    className="h-5 w-5 transition-transform duration-[180ms] ease-[cubic-bezier(0.2,0,0,1)] group-hover:translate-x-1"
+                    aria-hidden="true"
+                  />
+                </span>
+              </Link>
+            )}
+          </div>
         </div>
       </section>
     </main>

@@ -17,7 +17,7 @@
   --text-2xs--letter-spacing: 0.18em;
   --text-xs: 0.75rem;
   --text-xs--line-height: 1.5;
-  --text-xs--letter-spacing: 0.12em;
+  --text-xs--letter-spacing: 0.01em;
   --text-sm: 0.875rem;
   --text-sm--line-height: 1.6;
   --text-sm--letter-spacing: 0em;
@@ -57,7 +57,7 @@
   /* ---- Ink ---- */
   --color-ink: #17191a;
   --color-ink-2: #4e5356;
-  --color-ink-3: #5c6163;
+  --color-ink-3: #63686b;
 
   /* ---- Signal: the one chromatic accent. `signal` fills, `signal-ink`
          is the text-safe variant on light surfaces. ---- */
@@ -98,6 +98,9 @@
   --shadow-lifted: 0 2px 3px rgb(23 25 26 / 0.07), 0 10px 24px rgb(23 25 26 / 0.07);
   --shadow-stark: 4px 4px 0 0 var(--color-ink);
   --shadow-stark-signal: 4px 4px 0 0 var(--color-signal);
+  /* Fill for the offset plate Card renders behind a notched stark surface,
+     where a box-shadow would be clipped square by the cut corner. */
+  --color-plate: var(--color-ink);
 
   /* ---- Motion: mechanical. Short, decisive, no overshoot. ---- */
   --ease-snap: cubic-bezier(0.2, 0, 0, 1);
@@ -140,6 +143,8 @@
   --shadow-raised: 0 1px 1px rgb(0 0 0 / 0.4), 0 2px 6px rgb(0 0 0 / 0.3);
   --shadow-lifted: 0 2px 3px rgb(0 0 0 / 0.45), 0 10px 24px rgb(0 0 0 / 0.4);
   --shadow-stark: 4px 4px 0 0 var(--color-hairline-strong);
+  /* Ink is near-white on graphite — far too loud for an offset plate. */
+  --color-plate: var(--color-hairline-strong);
 }
 
 html {

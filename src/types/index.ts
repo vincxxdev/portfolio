@@ -60,7 +60,3 @@ export interface Certification {
   sortDate: string;
   url: string;
 }
-
-// Type definition for button variants
-export type ButtonVariant = 'primary' | 'secondary' | 'ghost' | 'outline';
-export type ButtonSize = 'default' | 'sm' | 'lg';

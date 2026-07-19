@@ -1,36 +1,23 @@
-import Skills from "./components/Skills";
-import Hero from "./components/Hero";
-import Projects from "./components/Projects";
-import About from "./components/About";
-import Experience from "./components/Experience";
-import Certifications from "./components/Certifications";
-import Contacts from "./components/Contacts";
-import AnimatedSection from "./components/ui/AnimatedSection";
-import { ScrollToTop } from "./components/ui/ScrollToTop";
+import Hero from './components/Hero';
+import LandingStatus from './components/LandingStatus';
+import LandingPaths from './components/LandingPaths';
+import SelectedWork from './components/SelectedWork';
+import { ScrollToTop } from './components/ui/ScrollToTop';
+import { routeAlternates } from '@/lib/metadata';
+
+// Alternates only: the branded title/description from defaultMetadata is the
+// one CLAUDE.md says branded queries rank on, so it must not be overridden.
+export const metadata = {
+  alternates: routeAlternates(''),
+};
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-secondary-background text-primary-text">
+    <main className="min-h-screen bg-canvas text-ink">
       <Hero />
-      <div className="h-8 bg-gradient-to-b from-primary-background to-secondary-background" />
-      <AnimatedSection>
-        <About />
-      </AnimatedSection>
-      <AnimatedSection>
-        <Experience />
-      </AnimatedSection>
-      <AnimatedSection>
-        <Projects />
-      </AnimatedSection>
-      <AnimatedSection>
-        <Skills />
-      </AnimatedSection>
-      <AnimatedSection>
-        <Certifications />
-      </AnimatedSection>
-      <AnimatedSection>
-        <Contacts />
-      </AnimatedSection>
+      <LandingStatus />
+      <LandingPaths />
+      <SelectedWork />
       <ScrollToTop />
     </main>
   );

@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useRef, useSyncExternalStore } from 'react';
 
 type SoundType = 'click' | 'hover' | 'success' | 'pop';
 
@@ -28,6 +28,39 @@ if (typeof window !== 'undefined') {
   window.addEventListener('keydown', unlock, { once: true });
 }
 
+/* Card and Button both call useSound, so a per-instance listener plus a
+   localStorage read would run once per rendered card. One module-level store
+   fans out to every consumer instead. SoundToggle still owns the write side
+   and announces changes with the `soundToggle` event. */
+let soundEnabled = true;
+let soundStoreReady = false;
+const soundSubscribers = new Set<() => void>();
+
+function getSoundEnabled(): boolean {
+  return soundEnabled;
+}
+
+function subscribeToSound(onChange: () => void): () => void {
+  soundSubscribers.add(onChange);
+
+  if (!soundStoreReady) {
+    soundStoreReady = true;
+    const saved = localStorage.getItem('soundEnabled');
+    if (saved !== null) soundEnabled = JSON.parse(saved);
+
+    window.addEventListener('soundToggle', (e: Event) => {
+      soundEnabled = (e as CustomEvent<boolean>).detail;
+      soundSubscribers.forEach((fn) => fn());
+    });
+
+    soundSubscribers.forEach((fn) => fn());
+  }
+
+  return () => {
+    soundSubscribers.delete(onChange);
+  };
+}
+
 function getAudioContext(): AudioContext | null {
   if (!userHasInteracted) return null;
   if (!sharedAudioContext || sharedAudioContext.state === 'closed') {
@@ -40,25 +73,8 @@ function getAudioContext(): AudioContext | null {
 }
 
 export const useSound = () => {
-  const [soundEnabled, setSoundEnabled] = useState(true);
+  const soundEnabled = useSyncExternalStore(subscribeToSound, getSoundEnabled, () => true);
   const lastHoverTime = useRef(0);
-
-  useEffect(() => {
-    // Check localStorage on mount
-    const saved = localStorage.getItem('soundEnabled');
-    if (saved !== null) {
-      setSoundEnabled(JSON.parse(saved));
-    }
-
-    // Listen for sound toggle events
-    const handleSoundToggle = (e: Event) => {
-      const customEvent = e as CustomEvent<boolean>;
-      setSoundEnabled(customEvent.detail);
-    };
-
-    window.addEventListener('soundToggle', handleSoundToggle);
-    return () => window.removeEventListener('soundToggle', handleSoundToggle);
-  }, []);
 
   const playSound = useCallback((type: SoundType) => {
     if (!soundEnabled) return;

@@ -83,3 +83,61 @@ export const defaultMetadata: Metadata = {
   },
   category: 'technology',
 };
+
+/**
+ * Language is client-side via LocaleProvider, so every hreflang points at the
+ * same URL. Each route must call this: Next inherits the parent's `alternates`
+ * when a child omits it, which would canonicalise every page to the home page.
+ */
+export function routeAlternates(path: string): Metadata['alternates'] {
+  const url = `${siteConfig.url}${path}`;
+  return {
+    canonical: url,
+    languages: {
+      'it-IT': url,
+      'en-US': url,
+      'x-default': url,
+    },
+  };
+}
+
+interface RouteMetadataOptions {
+  /** Root-relative, with a leading slash. Use '' for the home page. */
+  path: string;
+  title: string;
+  description: string;
+  /** Root-relative path to the OG image. Defaults to the site-wide one. */
+  image?: string;
+}
+
+/** Per-route metadata for the landing, work, about and contact pages. */
+export function buildRouteMetadata({
+  path,
+  title,
+  description,
+  image = '/images/og-image.png',
+}: RouteMetadataOptions): Metadata {
+  const url = `${siteConfig.url}${path}`;
+  const imageUrl = `${siteConfig.url}${image}`;
+
+  return {
+    title,
+    description,
+    alternates: routeAlternates(path),
+    openGraph: {
+      title,
+      description,
+      url,
+      siteName: `${siteConfig.author} Portfolio`,
+      locale: 'it_IT',
+      alternateLocale: ['en_US'],
+      images: [{ url: imageUrl, width: 1200, height: 630, alt: title }],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description,
+      images: [imageUrl],
+    },
+  };
+}

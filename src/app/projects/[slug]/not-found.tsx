@@ -5,21 +5,19 @@ import { useLocale } from '@/i18n';
 
 export default function ProjectNotFound() {
   const { t } = useLocale();
-  const labels = t.projects.caseStudy;
+  const labels = t.work.caseStudy.notFound;
 
   return (
-    <main className="min-h-screen flex flex-col items-center justify-center px-4 text-center">
-      <h1 className="text-4xl sm:text-5xl font-bold text-primary-text mb-4">
-        {labels.notFoundTitle}
+    <main className="flex min-h-screen flex-col items-center justify-center px-4 text-center">
+      <h1 className="font-display text-4xl font-bold text-ink sm:text-5xl">
+        {labels.title}
       </h1>
-      <p className="text-secondary-text max-w-md mb-8">
-        {labels.notFoundDescription}
-      </p>
+      <p className="mt-4 mb-8 max-w-md text-ink-2">{labels.description}</p>
       <Link
-        href="/#projects"
-        className="inline-flex items-center px-6 py-3 rounded-lg bg-gradient-to-r from-cyan-400 to-blue-600 text-white font-semibold shadow-lg hover:from-cyan-500 hover:to-blue-700 transition-all duration-300"
+        href="/work"
+        className="bg-signal text-on-signal hover:bg-signal-hover shadow-raised inline-flex items-center rounded-sm px-5 py-2.5 text-sm font-medium transition-colors duration-[180ms] ease-[cubic-bezier(0.2,0,0,1)]"
       >
-        {labels.notFoundCta}
+        {labels.cta}
       </Link>
     </main>
   );

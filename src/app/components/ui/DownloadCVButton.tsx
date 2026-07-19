@@ -2,7 +2,7 @@
 
 import React, { useState, useRef, useEffect } from 'react';
 import { Download, FileText, ChevronDown } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
 import { useAdmin } from '@/app/components/providers/AdminProvider';
 import { useLocale } from '@/i18n';
 
@@ -21,6 +21,11 @@ const DownloadCVButton: React.FC<DownloadCVButtonProps> = ({
 }) => {
   const { isAdmin, isLoading } = useAdmin();
   const { t, locale } = useLocale();
+  // These are JS-driven Framer values, which the global CSS
+  // prefers-reduced-motion rule in globals.css cannot reach. Gating has to
+  // happen here or this component animates for users who asked it not to.
+  const shouldReduceMotion = useReducedMotion();
+  const press = shouldReduceMotion ? {} : { whileTap: { scale: 0.97 } };
   const [isGenerating, setIsGenerating] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [generatingType, setGeneratingType] = useState<CVType | null>(null);
@@ -83,8 +88,8 @@ const DownloadCVButton: React.FC<DownloadCVButtonProps> = ({
   };
 
   // Dropdown menu styles - z-[9999] ensures it appears above all other content including Hero
-  const dropdownStyles = "absolute top-full left-0 mt-2 w-full min-w-[220px] bg-secondary-background border border-accent/30 rounded-lg shadow-2xl overflow-hidden z-[9999]";
-  const dropdownItemStyles = "w-full px-4 py-3 text-left text-primary-text hover:bg-accent/20 transition-colors duration-200 flex items-center gap-2";
+  const dropdownStyles = "absolute top-full left-0 mt-2 w-full min-w-[220px] bg-raised border border-hairline-strong rounded-sm shadow-lifted overflow-hidden z-[9999]";
+  const dropdownItemStyles = "w-full px-4 py-3 text-left text-ink hover:bg-signal hover:text-on-signal transition-colors duration-200 flex items-center gap-2";
 
   // Don't render anything while loading auth state
   if (isLoading) {
@@ -105,13 +110,12 @@ const DownloadCVButton: React.FC<DownloadCVButtonProps> = ({
           onClick={handleDirectDownload}
           disabled={isGenerating}
           className={`${baseStyles} ${variantStyles[variant]} ${className}`}
-          whileHover={{ scale: 1.1 }}
-          whileTap={{ scale: 0.95 }}
+          {...press}
           title={t.cv.download}
         >
           {isGenerating ? (
             <motion.div
-              animate={{ rotate: 360 }}
+              animate={shouldReduceMotion ? undefined : { rotate: 360 }}
               transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
             >
               <FileText className="w-5 h-5" />
@@ -130,13 +134,12 @@ const DownloadCVButton: React.FC<DownloadCVButtonProps> = ({
           onClick={() => setIsDropdownOpen(!isDropdownOpen)}
           disabled={isGenerating}
           className={`${baseStyles} ${variantStyles[variant]} ${className}`}
-          whileHover={{ scale: 1.1 }}
-          whileTap={{ scale: 0.95 }}
+          {...press}
           title={t.cv.download}
         >
           {isGenerating ? (
             <motion.div
-              animate={{ rotate: 360 }}
+              animate={shouldReduceMotion ? undefined : { rotate: 360 }}
               transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
             >
               <FileText className="w-5 h-5" />
@@ -160,15 +163,15 @@ const DownloadCVButton: React.FC<DownloadCVButtonProps> = ({
                 disabled={isGenerating}
                 className={dropdownItemStyles}
               >
-                <FileText className="w-4 h-4 text-accent" />
+                <FileText className="w-4 h-4 text-signal-ink" />
                 <span>{t.cv.download}</span>
               </button>
               <button
                 onClick={() => handleDownload('simplified')}
                 disabled={isGenerating}
-                className={`${dropdownItemStyles} border-t border-accent/20`}
+                className={`${dropdownItemStyles} border-t border-hairline`}
               >
-                <FileText className="w-4 h-4 text-accent" />
+                <FileText className="w-4 h-4 text-signal-ink" />
                 <span>{t.cv.downloadSimplified}</span>
               </button>
             </motion.div>
@@ -185,13 +188,12 @@ const DownloadCVButton: React.FC<DownloadCVButtonProps> = ({
         onClick={handleDirectDownload}
         disabled={isGenerating}
         className={`${baseStyles} ${variantStyles[variant]} ${sizeStyles[size]} ${className}`}
-        whileHover={{ scale: 1.05 }}
-        whileTap={{ scale: 0.95 }}
+        {...press}
       >
         {isGenerating ? (
           <>
             <motion.div
-              animate={{ rotate: 360 }}
+              animate={shouldReduceMotion ? undefined : { rotate: 360 }}
               transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
             >
               <FileText className="w-5 h-5" />
@@ -215,13 +217,12 @@ const DownloadCVButton: React.FC<DownloadCVButtonProps> = ({
         onClick={() => setIsDropdownOpen(!isDropdownOpen)}
         disabled={isGenerating}
         className={`${baseStyles} ${variantStyles[variant]} ${sizeStyles[size]} ${className}`}
-        whileHover={{ scale: 1.05 }}
-        whileTap={{ scale: 0.95 }}
+        {...press}
       >
         {isGenerating ? (
           <>
             <motion.div
-              animate={{ rotate: 360 }}
+              animate={shouldReduceMotion ? undefined : { rotate: 360 }}
               transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
             >
               <FileText className="w-5 h-5" />
@@ -253,7 +254,7 @@ const DownloadCVButton: React.FC<DownloadCVButtonProps> = ({
               disabled={isGenerating}
               className={dropdownItemStyles}
             >
-              <FileText className="w-4 h-4 text-accent" />
+              <FileText className="w-4 h-4 text-signal-ink" />
               <div className="flex flex-col items-start">
                 <span className="font-semibold">{t.cv.download}</span>
                 <span className="text-xs text-ink-3">{t.cv.technicalCV}</span>
@@ -262,9 +263,9 @@ const DownloadCVButton: React.FC<DownloadCVButtonProps> = ({
             <button
               onClick={() => handleDownload('simplified')}
               disabled={isGenerating}
-              className={`${dropdownItemStyles} border-t border-accent/20`}
+              className={`${dropdownItemStyles} border-t border-hairline`}
             >
-              <FileText className="w-4 h-4 text-accent" />
+              <FileText className="w-4 h-4 text-signal-ink" />
               <div className="flex flex-col items-start">
                 <span className="font-semibold">{t.cv.downloadSimplified}</span>
                 <span className="text-xs text-ink-3">{t.cv.administrativeCV}</span>

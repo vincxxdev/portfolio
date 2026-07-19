@@ -10,6 +10,7 @@ import Certifications from './Certifications';
 import Skills from './Skills';
 import Languages from './Languages';
 import { useLocale } from '@/i18n';
+import { registerIn } from './motion';
 
 interface AboutProps {
   as?: 'h1' | 'h2';
@@ -20,17 +21,14 @@ const About = ({ as = 'h1' }: AboutProps) => {
   const shouldReduceMotion = useReducedMotion();
 
   return (
-    <section id="about" className="relative overflow-hidden bg-canvas">
+    <section id="about" className="relative overflow-clip bg-canvas">
       <div aria-hidden="true" className="bg-section-grid absolute inset-0" />
 
       <div className="relative z-10 mx-auto max-w-6xl px-5 py-20 sm:px-8 sm:py-28">
         <SectionIntro title={t.about.title} lead={t.about.lead} as={as} />
 
         <motion.div
-          initial={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: 12 }}
-          whileInView={shouldReduceMotion ? { opacity: 1 } : { opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-60px' }}
-          transition={{ duration: 0.32, ease: [0.2, 0, 0, 1] }}
+          {...registerIn(!!shouldReduceMotion, 12)}
           className="mt-12 max-w-3xl space-y-5"
         >
           {t.about.bio.map((paragraph, index) => (

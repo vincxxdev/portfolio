@@ -7,6 +7,7 @@ import ProjectCard from './ProjectCard';
 import SectionIntro from './SectionIntro';
 import { projectsData } from '@/data/projects';
 import { useLocale } from '@/i18n';
+import { DUR, EASE_SNAP } from './motion';
 
 interface WorkProps {
   as?: 'h1' | 'h2';
@@ -94,9 +95,12 @@ const Work = ({ as = 'h1', basePath = '/projects' }: WorkProps) => {
             {visibleProjects.map((project, index) => (
               <motion.div
                 key={project.id}
-                initial={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: 16 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.26, ease: [0.2, 0, 0, 1], delay: index * 0.05 }}
+                // Mount animation, not a scroll reveal: the grid remounts when
+                // the technology filter changes. Translate-only, so results are
+                // legible in the prerender rather than starting invisible.
+                initial={shouldReduceMotion ? false : { y: 16 }}
+                animate={{ y: 0 }}
+                transition={{ duration: DUR.d3, ease: EASE_SNAP, delay: index * 0.05 }}
                 className="h-full"
               >
                 <ProjectCard project={project} index={index} basePath={basePath} />

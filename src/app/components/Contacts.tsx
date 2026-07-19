@@ -10,6 +10,7 @@ import Button from './ui/Button';
 import DownloadCVButton from './ui/DownloadCVButton';
 import { siteConfig } from '@/config/site';
 import { useLocale } from '@/i18n';
+import { registerIn } from './motion';
 
 interface ContactsProps {
   as?: 'h1' | 'h2';
@@ -45,7 +46,7 @@ const Contacts = ({ as = 'h1' }: ContactsProps) => {
   ];
 
   return (
-    <section id="contact" className="relative overflow-hidden bg-canvas">
+    <section id="contact" className="relative overflow-clip bg-canvas">
       <div aria-hidden="true" className="bg-section-grid absolute inset-0" />
 
       <div className="relative z-10 mx-auto max-w-6xl px-5 py-20 sm:px-8 sm:py-28">
@@ -55,10 +56,7 @@ const Contacts = ({ as = 'h1' }: ContactsProps) => {
           {channels.map((channel, index) => (
             <motion.div
               key={channel.href}
-              initial={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: 14 }}
-              whileInView={shouldReduceMotion ? { opacity: 1 } : { opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: '-60px' }}
-              transition={{ duration: 0.32, ease: [0.2, 0, 0, 1], delay: index * 0.07 }}
+              {...registerIn(!!shouldReduceMotion, 14, index * 0.07)}
               className="h-full"
             >
               <a href={channel.href} aria-label={channel.ariaLabel} className="block h-full">
@@ -71,7 +69,7 @@ const Contacts = ({ as = 'h1' }: ContactsProps) => {
                     />
                   </span>
 
-                  <h3 className="mt-7 text-xl text-ink">{channel.title}</h3>
+                  <h2 className="mt-7 text-xl text-ink">{channel.title}</h2>
                   <p className="mt-1.5 text-sm text-ink-2">{channel.subtitle}</p>
                   <p className="mt-5 break-all font-mono text-sm text-signal-ink">
                     {channel.value}
@@ -97,7 +95,7 @@ const Contacts = ({ as = 'h1' }: ContactsProps) => {
         </dl>
 
         <div className="mt-16 border-t border-hairline pt-16">
-          <h3 className="text-2xl text-ink sm:text-3xl">{t.contact.cta.title}</h3>
+          <h2 className="text-2xl text-ink sm:text-3xl">{t.contact.cta.title}</h2>
           <p className="mt-3 max-w-2xl text-base text-ink-2">{t.contact.cta.description}</p>
 
           <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">

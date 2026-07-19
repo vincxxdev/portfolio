@@ -7,6 +7,7 @@ import { ArrowUpRight } from 'lucide-react';
 
 import Card from './ui/Card';
 import { useLocale } from '@/i18n';
+import { registerIn } from './motion';
 
 interface LandingPathsProps {
   workHref?: string;
@@ -30,7 +31,7 @@ const LandingPaths = ({
   ];
 
   return (
-    <section className="relative overflow-hidden bg-canvas">
+    <section className="relative overflow-clip bg-canvas">
       <div aria-hidden="true" className="bg-section-grid absolute inset-0" />
 
       <div className="relative z-10 mx-auto max-w-6xl px-5 py-20 sm:px-8 sm:py-28">
@@ -40,10 +41,7 @@ const LandingPaths = ({
           {entries.map((entry, index) => (
             <motion.div
               key={entry.href}
-              initial={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: 14 }}
-              whileInView={shouldReduceMotion ? { opacity: 1 } : { opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: '-60px' }}
-              transition={{ duration: 0.32, ease: [0.2, 0, 0, 1], delay: index * 0.07 }}
+              {...registerIn(!!shouldReduceMotion, 14, index * 0.07)}
               className="h-full"
             >
               <Link href={entry.href} className="block h-full">

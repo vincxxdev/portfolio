@@ -7,6 +7,7 @@ import SkillIcon from './ui/SkillIcon';
 import { skillsData } from '@/data/skills';
 import { projectsData } from '@/data/projects';
 import { useLocale } from '@/i18n';
+import { registerIn } from './motion';
 import { GROUP_RANK, type SkillTier } from '@/types';
 
 const TIER_ORDER: SkillTier[] = ['core', 'regular', 'occasional'];
@@ -80,7 +81,7 @@ const Skills = () => {
 
   return (
     <div>
-      <h3 className="text-2xl text-ink sm:text-3xl">{t.about.skills.title}</h3>
+      <h2 className="text-2xl text-ink sm:text-3xl">{t.about.skills.title}</h2>
       <p className="mt-3 max-w-2xl text-sm text-ink-2 sm:text-base">
         {t.about.skills.description}
       </p>
@@ -93,17 +94,14 @@ const Skills = () => {
           return (
             <motion.div
               key={tier}
-              initial={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: 12 }}
-              whileInView={shouldReduceMotion ? { opacity: 1 } : { opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: '-60px' }}
-              transition={{ duration: 0.32, ease: [0.2, 0, 0, 1], delay: tierIndex * 0.06 }}
+              {...registerIn(!!shouldReduceMotion, 12, tierIndex * 0.06)}
             >
               <div className="flex flex-col gap-1.5 border-b border-hairline pb-3 sm:flex-row sm:items-baseline sm:justify-between sm:gap-6">
-                <h4 className="label-mono flex items-center gap-2.5 text-ink">
+                <h3 className="label-mono flex items-center gap-2.5 text-ink">
                   <span aria-hidden="true" className={`h-1.5 w-1.5 shrink-0 ${TIER_VISUAL[tier].dot}`} />
                   {t.about.skills.tiers[tier]}
                   <span className="text-ink-3">{skills.length}</span>
-                </h4>
+                </h3>
                 <p className="text-xs text-ink-3">{t.about.skills.tierDescriptions[tier]}</p>
               </div>
 

@@ -9,6 +9,7 @@ import SectionIntro from './SectionIntro';
 import Button from './ui/Button';
 import { projectsData } from '@/data/projects';
 import { useLocale } from '@/i18n';
+import { registerIn } from './motion';
 
 interface SelectedWorkProps {
   limit?: number;
@@ -22,7 +23,7 @@ const SelectedWork = ({ limit = 3, workHref = '/work', basePath = '/projects' }:
   const selected = projectsData.slice(0, limit);
 
   return (
-    <section id="work" className="relative overflow-hidden border-t border-hairline bg-raised">
+    <section id="work" className="relative overflow-clip border-t border-hairline bg-raised">
       <div className="relative z-10 mx-auto max-w-6xl px-5 py-20 sm:px-8 sm:py-28">
         <SectionIntro
           eyebrow={t.landing.selectedWork.label}
@@ -34,10 +35,7 @@ const SelectedWork = ({ limit = 3, workHref = '/work', basePath = '/projects' }:
           {selected.map((project, index) => (
             <motion.div
               key={project.id}
-              initial={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: 16 }}
-              whileInView={shouldReduceMotion ? { opacity: 1 } : { opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: '-60px' }}
-              transition={{ duration: 0.32, ease: [0.2, 0, 0, 1], delay: index * 0.07 }}
+              {...registerIn(!!shouldReduceMotion, 16, index * 0.07)}
               className="h-full"
             >
               <ProjectCard project={project} index={index} basePath={basePath} />

@@ -5,6 +5,7 @@ import { motion, useReducedMotion } from 'framer-motion';
 
 import { siteConfig } from '@/config/site';
 import { useLocale } from '@/i18n';
+import { registerIn } from './motion';
 
 const LandingStatus = () => {
   const { t } = useLocale();
@@ -27,10 +28,7 @@ const LandingStatus = () => {
           {rows.map((row, index) => (
             <motion.div
               key={row.label}
-              initial={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: 10 }}
-              whileInView={shouldReduceMotion ? { opacity: 1 } : { opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: '-60px' }}
-              transition={{ duration: 0.26, ease: [0.2, 0, 0, 1], delay: index * 0.05 }}
+              {...registerIn(!!shouldReduceMotion, 10, index * 0.05)}
               className="flex flex-col gap-2.5 bg-raised p-5"
             >
               <dt className="label-mono text-ink-3">{row.label}</dt>

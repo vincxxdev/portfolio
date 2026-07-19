@@ -116,7 +116,7 @@ const Navbar = () => {
   return (
     <nav
       className={`fixed left-0 top-0 z-50 w-full transition-[background-color,border-color] duration-[260ms] ease-[cubic-bezier(0.2,0,0,1)] ${
-        hasScrolled ? 'border-b border-hairline bg-canvas/90 backdrop-blur-md' : 'border-b border-transparent bg-transparent'
+        hasScrolled ? 'border-b border-hairline bg-canvas' : 'border-b border-transparent bg-transparent'
       }`}
     >
       <div className="mx-auto max-w-6xl px-5 sm:px-8">

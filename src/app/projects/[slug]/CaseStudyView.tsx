@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import { motion, useReducedMotion } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
 import { SiGithub } from 'react-icons/si';
@@ -11,6 +12,7 @@ import type { NarrativeBlock } from '@/i18n/types';
 import { useLocale } from '@/i18n';
 import Button from '@/app/components/ui/Button';
 import Card from '@/app/components/ui/Card';
+import { registerIn } from '@/app/components/motion';
 import { CardDivider } from '@/app/components/ui/CardComponents';
 import { MagneticButton } from '@/app/components/ui/MagneticButton';
 
@@ -32,10 +34,16 @@ interface CaseStudySectionProps {
   block: NarrativeBlock;
 }
 
-const CaseStudySection = ({ index, label, block }: CaseStudySectionProps) => (
+const CaseStudySection = ({ index, label, block }: CaseStudySectionProps) => {
+  const shouldReduceMotion = useReducedMotion();
+
+  return (
   <section className="relative py-14 sm:py-20">
     <div className="bg-section-grid absolute inset-0" aria-hidden="true" />
     <div className="relative z-10 mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
+      {/* Known subtree with no positioned descendants, so a transformed
+          wrapper is safe here — unlike a wrapper around arbitrary children. */}
+      <motion.div {...registerIn(!!shouldReduceMotion, 18)}>
       <Card padding="lg">
         <div className="flex items-baseline gap-3">
           <span className="font-mono text-2xs uppercase text-signal-ink">
@@ -55,9 +63,11 @@ const CaseStudySection = ({ index, label, block }: CaseStudySectionProps) => (
           ))}
         </div>
       </Card>
+      </motion.div>
     </div>
   </section>
-);
+  );
+};
 
 interface CaseStudyViewProps {
   project: Project;

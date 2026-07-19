@@ -76,7 +76,7 @@ export default function AdminLoginPage() {
           <span>Torna al portfolio</span>
         </Link>
 
-        <div className="bg-secondary-background/80 backdrop-blur-lg p-8 rounded-2xl shadow-xl border border-secondary-text/20">
+        <div className="bg-raised p-8 rounded-sm shadow-lifted border border-hairline-strong">
           {/* Header */}
           <div className="text-center mb-8">
             <div className="inline-flex items-center justify-center w-16 h-16 bg-accent/20 rounded-full mb-4">

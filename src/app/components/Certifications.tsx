@@ -6,6 +6,7 @@ import { ExternalLink } from 'lucide-react';
 
 import { certificationData as certificationDataRaw } from '@/data/certifications';
 import { useLocale } from '@/i18n';
+import { registerIn } from './motion';
 
 const Certifications = () => {
   const { t } = useLocale();
@@ -20,7 +21,7 @@ const Certifications = () => {
 
   return (
     <div>
-      <h3 className="text-2xl text-ink sm:text-3xl">{t.about.certifications.title}</h3>
+      <h2 className="text-2xl text-ink sm:text-3xl">{t.about.certifications.title}</h2>
       <p className="mt-3 max-w-2xl text-sm text-ink-2 sm:text-base">
         {t.about.certifications.description}
       </p>
@@ -29,10 +30,7 @@ const Certifications = () => {
         {certifications.map((cert, index) => (
           <motion.li
             key={cert.id}
-            initial={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: 10 }}
-            whileInView={shouldReduceMotion ? { opacity: 1 } : { opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: '-60px' }}
-            transition={{ duration: 0.26, ease: [0.2, 0, 0, 1], delay: index * 0.05 }}
+            {...registerIn(!!shouldReduceMotion, 10, index * 0.05)}
             className="border-b border-hairline"
           >
             <a

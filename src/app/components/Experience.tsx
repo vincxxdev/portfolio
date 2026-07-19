@@ -4,6 +4,7 @@ import React from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
 
 import { useLocale } from '@/i18n';
+import { registerIn } from './motion';
 
 const Experience = () => {
   const { t } = useLocale();
@@ -11,7 +12,7 @@ const Experience = () => {
 
   return (
     <div>
-      <h3 className="text-2xl text-ink sm:text-3xl">{t.about.experience.title}</h3>
+      <h2 className="text-2xl text-ink sm:text-3xl">{t.about.experience.title}</h2>
       <p className="mt-3 max-w-2xl text-sm text-ink-2 sm:text-base">
         {t.about.experience.description}
       </p>
@@ -27,10 +28,7 @@ const Experience = () => {
         {t.experience.items.map((item, index) => (
           <motion.li
             key={`${item.company}-${item.date}`}
-            initial={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, x: -12 }}
-            whileInView={shouldReduceMotion ? { opacity: 1 } : { opacity: 1, x: 0 }}
-            viewport={{ once: true, margin: '-60px' }}
-            transition={{ duration: 0.32, ease: [0.2, 0, 0, 1], delay: index * 0.08 }}
+            {...registerIn(!!shouldReduceMotion, -12, index * 0.08, 'x')}
             className="relative pb-12 last:pb-0"
           >
             <span
@@ -49,7 +47,7 @@ const Experience = () => {
               )}
             </div>
 
-            <h4 className="mt-3 text-lg text-ink sm:text-xl">{item.title}</h4>
+            <h3 className="mt-3 text-lg text-ink sm:text-xl">{item.title}</h3>
             <p className="mt-1 text-sm font-medium text-ink-2">{item.company}</p>
             <p className="mt-3 max-w-2xl text-sm leading-relaxed text-ink-2">{item.description}</p>
           </motion.li>

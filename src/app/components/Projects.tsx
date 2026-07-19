@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import Image from 'next/image';
 import { SiGithub } from 'react-icons/si';
-import { ExternalLink, Code2, Star } from 'lucide-react';
+import { BookOpen, ExternalLink, Code2, Star } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 import { projectsData } from '@/data/projects';
@@ -142,14 +142,26 @@ const Projects = () => {
                 <div className="h-px bg-gradient-to-r from-transparent via-accent/30 to-transparent mb-6"></div>
 
                 {/* Action buttons with magnetic effect */}
-                <div className="flex gap-3">
+                <div className="flex flex-wrap gap-3 mt-auto items-stretch">
+                  <MagneticButton className="flex-1 min-w-[140px]">
+                    <Button
+                      href={`/projects/${project.slug}`}
+                      variant="primary"
+                      size="default"
+                      className="w-full h-full gap-2 leading-5"
+                      aria-label={`${t.projects.caseStudy.cta} - ${t.projects.items[project.id]?.title ?? project.title}`}
+                    >
+                      <BookOpen className="w-4 h-4" aria-hidden="true" />
+                      <span className="text-sm">{t.projects.caseStudy.cta}</span>
+                    </Button>
+                  </MagneticButton>
                   {project.liveDemo && (
-                    <MagneticButton className="flex-1">
+                    <MagneticButton className="flex-1 min-w-[140px]">
                       <Button
                         href={project.liveDemo}
                         target="_blank"
                         rel="noopener noreferrer"
-                        variant="primary"
+                        variant="secondary"
                         size="default"
                         className="w-full h-full gap-2 leading-5"
                         aria-label={`${t.accessibility.viewDemo} ${t.projects.items[project.id]?.title ?? project.title}`}
@@ -159,12 +171,12 @@ const Projects = () => {
                       </Button>
                     </MagneticButton>
                   )}
-                  <MagneticButton className={project.liveDemo ? 'flex-1' : 'w-full'}>
+                  <MagneticButton className="flex-1 min-w-[140px]">
                     <Button
                       href={project.githubLink}
                       target="_blank"
                       rel="noopener noreferrer"
-                      variant="secondary"
+                      variant="ghost"
                       size="default"
                       className="w-full h-full gap-2 leading-5"
                       aria-label={`${t.accessibility.viewSource} ${t.projects.items[project.id]?.title ?? project.title}`}

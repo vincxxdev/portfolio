@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { Menu, X, Sparkles } from 'lucide-react';
 import Button from './ui/Button';
 import { ThemeSwitcher } from './ThemeSwitcher';
@@ -20,14 +21,17 @@ const Navbar = () => {
     const [logoClicks, setLogoClicks] = useState(0);
     const { playSound } = useSound();
     const { t } = useLocale();
+    const pathname = usePathname();
+    const isHome = pathname === '/';
+    const anchor = (id: string) => (isHome ? `#${id}` : `/#${id}`);
 
     const navLinks = [
-      { href: '#about', label: t.nav.about },
-      { href: '#experience', label: t.nav.experience },
-      { href: '#projects', label: t.nav.projects },
-      { href: '#skills', label: t.nav.skills },
-      { href: '#certifications', label: t.nav.certifications },
-      { href: '#contacts', label: t.nav.contacts },
+      { href: anchor('about'), label: t.nav.about },
+      { href: anchor('experience'), label: t.nav.experience },
+      { href: anchor('projects'), label: t.nav.projects },
+      { href: anchor('skills'), label: t.nav.skills },
+      { href: anchor('certifications'), label: t.nav.certifications },
+      { href: anchor('contacts'), label: t.nav.contacts },
     ];
 
     useEffect(() => {
@@ -56,8 +60,10 @@ const Navbar = () => {
     const closeMenu = () => setIsOpen(false);
 
     const handleLogoClick = (e: React.MouseEvent) => {
-        e.preventDefault();
-        window.scrollTo({ top: 0 });
+        if (isHome) {
+            e.preventDefault();
+            window.scrollTo({ top: 0 });
+        }
         playSound('click');
         const newClicks = logoClicks + 1;
         setLogoClicks(newClicks);

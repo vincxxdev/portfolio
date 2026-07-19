@@ -4,24 +4,31 @@ import { cva, type VariantProps } from 'class-variance-authority';
 import clsx from 'clsx';
 import React from 'react';
 import { useSound } from '../hooks/useSound';
-import { motion, type HTMLMotionProps } from 'framer-motion';
+import { motion, type HTMLMotionProps, useReducedMotion } from 'framer-motion';
 
 const buttonVariants = cva(
-  'inline-flex items-center justify-center font-semibold transition-all duration-300 focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed',
+  'inline-flex items-center justify-center font-medium disabled:opacity-40 disabled:pointer-events-none transition-colors duration-[180ms] ease-[cubic-bezier(0.2,0,0,1)]',
   {
     variants: {
       variant: {
-        primary: 'rounded-lg focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500 bg-gradient-to-r from-cyan-400 to-blue-600 text-white hover:from-cyan-500 hover:to-blue-700 shadow-lg hover:shadow-xl hover:shadow-cyan-400/50',
-        secondary: 'rounded-lg focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500 bg-secondary-background text-primary-text border-2 border-accent hover:bg-accent hover:text-white shadow-md hover:shadow-lg',
-        ghost: 'rounded-lg focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500 text-secondary-text hover:bg-secondary-background hover:text-accent',
-        outline: 'rounded-lg focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500 border-2 border-secondary-text/50 bg-transparent hover:bg-secondary-background text-primary-text',
-        nav: 'text-secondary-text/75 hover:text-accent uppercase tracking-[0.22em]',
+        // Solid signal. The one place the accent is allowed to fill an area.
+        primary:
+          'rounded-sm bg-signal text-on-signal hover:bg-signal-hover shadow-raised',
+        // Inverts on hover — a mechanical state flip, not a tint.
+        secondary:
+          'rounded-sm border border-ink bg-transparent text-ink hover:bg-ink hover:text-canvas',
+        ghost:
+          'rounded-sm text-ink-2 hover:bg-sunken hover:text-signal-ink',
+        outline:
+          'rounded-sm border border-hairline-strong bg-transparent text-ink hover:border-ink',
+        nav:
+          'font-mono uppercase tracking-[0.18em] text-ink-2 hover:text-signal-ink',
       },
       size: {
-        default: 'px-6 py-3 text-base',
-        sm: 'px-4 py-2 text-sm',
-        lg: 'px-8 py-4 text-lg',
-        nav: 'px-3 py-2 text-xs',
+        default: 'px-5 py-2.5 text-sm',
+        sm: 'px-3.5 py-2 text-xs tracking-normal',
+        lg: 'px-7 py-3.5 text-base',
+        nav: 'px-3 py-2 text-2xs',
       },
     },
     defaultVariants: {
@@ -40,6 +47,9 @@ interface ButtonProps extends VariantProps<typeof buttonVariants> {
   onClick?: (event: React.MouseEvent<HTMLElement>) => void;
   target?: string;
   rel?: string;
+  type?: 'button' | 'submit' | 'reset';
+  disabled?: boolean;
+  'aria-label'?: string;
   initial?: MotionDivProps['initial'];
   animate?: MotionDivProps['animate'];
   transition?: MotionDivProps['transition'];
@@ -54,12 +64,16 @@ const Button = ({
   onClick,
   target,
   rel,
+  type = 'button',
+  disabled,
+  'aria-label': ariaLabel,
   initial,
   animate,
   transition,
 }: ButtonProps) => {
   const classes = clsx(buttonVariants({ variant, size, className }));
   const { playSound } = useSound();
+  const shouldReduceMotion = useReducedMotion();
   const isNav = variant === 'nav';
 
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -71,8 +85,10 @@ const Button = ({
     playSound('hover');
   };
 
-  const hoverAnimation = isNav ? undefined : { scale: 1.05 };
-  const tapAnimation = isNav ? undefined : { scale: 0.95 };
+  // A key travelling in its housing, rather than a scale bounce.
+  const hoverAnimation = isNav || shouldReduceMotion ? undefined : { y: -1 };
+  const tapAnimation = isNav || shouldReduceMotion ? undefined : { y: 1 };
+  const motionTransition = transition ?? { duration: 0.12, ease: [0.2, 0, 0, 1] };
 
   if (href) {
     return (
@@ -82,12 +98,13 @@ const Button = ({
         onMouseEnter={handleHover}
         target={target}
         rel={rel}
+        aria-label={ariaLabel}
         className={classes}
         whileHover={hoverAnimation}
         whileTap={tapAnimation}
         initial={initial}
         animate={animate}
-        transition={transition}
+        transition={motionTransition}
       >
         {children}
       </motion.a>
@@ -96,14 +113,17 @@ const Button = ({
 
   return (
     <motion.button
+      type={type}
+      disabled={disabled}
       onClick={handleClick}
       onMouseEnter={handleHover}
+      aria-label={ariaLabel}
       className={classes}
       whileHover={hoverAnimation}
       whileTap={tapAnimation}
       initial={initial}
       animate={animate}
-      transition={transition}
+      transition={motionTransition}
     >
       {children}
     </motion.button>

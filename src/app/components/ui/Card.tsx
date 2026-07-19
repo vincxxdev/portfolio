@@ -1,136 +1,103 @@
 'use client';
 
 import React, { ReactNode } from 'react';
-import { motion, HTMLMotionProps } from 'framer-motion';
-import { LucideIcon } from 'lucide-react';
+import { motion, HTMLMotionProps, useReducedMotion } from 'framer-motion';
 import { useSound } from '../hooks/useSound';
 
 export interface CardProps extends Omit<HTMLMotionProps<'div'>, 'children'> {
   children: ReactNode;
-  /** Hover effects: lift, scale, or both */
-  hoverEffect?: 'lift' | 'scale' | 'both' | 'none';
-  /** Show gradient overlay on hover */
-  gradientOverlay?: boolean;
-  /** Show corner accent on hover */
-  cornerAccent?: boolean;
-  /** Intensity of shadow glow on hover */
-  glowIntensity?: 'light' | 'medium' | 'strong' | 'none';
-  /** Padding size */
-  padding?: 'sm' | 'md' | 'lg' | 'xl';
-  /** Disable backdrop-blur for performance when many cards are visible */
-  disableBlur?: boolean;
-  /** Custom className for additional styling */
+  /** flush sits in the page, raised lifts off it, stark carries a hard offset */
+  elevation?: 'flush' | 'raised' | 'stark';
+  padding?: 'none' | 'sm' | 'md' | 'lg';
+  /** Hover draws a signal trace along the top and left edges, and lifts 2px */
+  interactive?: boolean;
+  /** Cut corner with its hairline. On by default — it is the identity mark. */
+  notch?: boolean;
   className?: string;
-  /** Optional badge configuration */
-  badge?: {
-    icon?: LucideIcon;
-    text: string;
-  };
-  /** Optional icon in top area */
-  icon?: {
-    Icon: LucideIcon;
-    className?: string;
-  };
 }
 
 const paddingMap = {
+  none: '',
   sm: 'p-4',
   md: 'p-6',
   lg: 'p-8',
-  xl: 'p-10',
 };
 
-const glowMap = {
-  none: '',
-  light: 'hover:shadow-cyan-400/10',
-  medium: 'hover:shadow-cyan-400/20',
-  strong: 'hover:shadow-cyan-400/30',
+const elevationMap = {
+  flush: 'bg-raised/50 shadow-flush',
+  raised: 'bg-raised shadow-raised',
+  stark: 'bg-raised shadow-stark',
 };
 
 const Card = React.forwardRef<HTMLDivElement, CardProps>(
   (
     {
       children,
-      hoverEffect = 'both',
-      gradientOverlay = true,
-      cornerAccent = true,
-      glowIntensity = 'light',
+      elevation = 'raised',
       padding = 'md',
-      disableBlur = false,
+      interactive = false,
+      notch = true,
       className = '',
-      badge,
-      icon,
       ...motionProps
     },
     ref
   ) => {
     const { playSound } = useSound();
-
-    // Build hover animation
-    const getHoverAnimation = () => {
-      const animations: { scale?: number; y?: number } = {};
-      if (hoverEffect === 'lift' || hoverEffect === 'both') {
-        animations.y = -8;
-      }
-      if (hoverEffect === 'scale' || hoverEffect === 'both') {
-        animations.scale = 1.02;
-      }
-      return hoverEffect === 'none' ? {} : animations;
-    };
+    const shouldReduceMotion = useReducedMotion();
 
     const handleMouseEnter = () => {
-      playSound('hover');
+      if (interactive) playSound('hover');
     };
+
+    const lift =
+      interactive && !shouldReduceMotion && elevation !== 'stark' ? { y: -2 } : undefined;
 
     return (
       <motion.div
         ref={ref}
-        whileHover={getHoverAnimation()}
+        whileHover={lift}
+        transition={{ duration: 0.18, ease: [0.2, 0, 0, 1] }}
         onMouseEnter={handleMouseEnter}
         className={`
-          group relative flex flex-col
+          group relative flex flex-col isolate
           ${paddingMap[padding]}
-          rounded-2xl border border-secondary-text/15
-          ${disableBlur ? 'bg-secondary-background/60' : 'bg-primary-background/40 backdrop-blur-md'}
-          shadow-lg hover:shadow-xl ${glowMap[glowIntensity]}
-          transition-[transform,box-shadow,opacity] duration-500
-          overflow-hidden
+          ${elevationMap[elevation]}
+          ${notch ? 'notch' : 'rounded-lg'}
+          border border-hairline
+          ${interactive ? 'hover:border-hairline-strong hover:shadow-lifted' : ''}
+          transition-[border-color,box-shadow] duration-200 ease-[cubic-bezier(0.2,0,0,1)]
           ${className}
         `}
         {...motionProps}
       >
-        {/* Gradient overlay on hover */}
-        {gradientOverlay && (
-          <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/0 via-blue-500/0 to-purple-500/0 group-hover:from-cyan-500/3 group-hover:via-blue-500/3 group-hover:to-purple-500/3 transition-all duration-500 rounded-2xl pointer-events-none" />
+        {/* Cut-corner hairline. Spans the 14px diagonal the notch clips out. */}
+        {notch && (
+          <span
+            aria-hidden="true"
+            className={`
+              pointer-events-none absolute right-[-3px] top-[6px] z-20 h-px w-5 rotate-45 origin-center
+              bg-hairline transition-colors duration-200
+              ${interactive ? 'group-hover:bg-signal' : ''}
+            `}
+          />
         )}
 
-        {/* Corner accent */}
-        {cornerAccent && (
-          <div className="absolute top-0 right-0 w-20 h-20 bg-gradient-to-br from-accent/8 to-transparent rounded-bl-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+        {/* Signal trace: hairlines index in along the top and left edges.
+            scaleX/scaleY only — no paint work per frame. */}
+        {interactive && (
+          <>
+            <span
+              aria-hidden="true"
+              className="pointer-events-none absolute inset-x-0 top-0 z-20 h-px origin-left scale-x-0 bg-signal transition-transform duration-200 ease-[cubic-bezier(0.2,0,0,1)] group-hover:scale-x-100"
+            />
+            <span
+              aria-hidden="true"
+              className="pointer-events-none absolute inset-y-0 left-0 z-20 w-px origin-top scale-y-0 bg-signal transition-transform delay-75 duration-200 ease-[cubic-bezier(0.2,0,0,1)] group-hover:scale-y-100"
+            />
+          </>
         )}
 
-        {/* Content wrapper */}
-        <div className="relative z-10 flex flex-col h-full">
-          {/* Optional icon at the top */}
-          {icon && (
-            <div className="mb-4">
-              <div className="inline-flex p-3 bg-gradient-to-br from-cyan-500/10 to-blue-500/10 rounded-xl border border-accent/20 group-hover:border-accent/40 transition-all duration-300">
-                <icon.Icon className={`w-6 h-6 text-accent ${icon.className || ''}`} />
-              </div>
-            </div>
-          )}
-
-          {/* Optional badge */}
-          {badge && (
-            <div className="inline-flex items-center gap-2 px-3 py-1 bg-accent/10 border border-accent/20 rounded-full mb-3 self-start">
-              {badge.icon && <badge.icon className="w-3 h-3 text-accent" />}
-              <span className="text-xs font-semibold text-accent">{badge.text}</span>
-            </div>
-          )}
-
-          {/* Card content */}
-          {children}
-        </div>
+        <div className="relative z-10 flex h-full flex-col">{children}</div>
       </motion.div>
     );
   }

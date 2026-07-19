@@ -1,48 +1,145 @@
 @import "tailwindcss";
 
-/* Configurazione dark mode per Tailwind V4 */
 @variant dark (&:where(.dark, .dark *));
 
-/* Applicazione del font personalizzato per i titoli */
-h1, h2, h3, h4, h5, h6 {
-  @apply font-heading;
-}
-
-
-/* Theme Configuration con Tailwind V4 */
 @theme {
-  /* Font Families */
-  --font-sans: var(--font-dm-sans), sans-serif;
-  --font-heading: var(--font-syne), sans-serif;
+  /* ---- Typeface roles ---- */
+  --font-display: var(--font-archivo), "Archivo", system-ui, sans-serif;
+  --font-body: var(--font-plex-sans), "IBM Plex Sans", system-ui, sans-serif;
+  --font-mono: var(--font-plex-mono), "IBM Plex Mono", ui-monospace, monospace;
+  --font-sans: var(--font-body);
+  --font-heading: var(--font-display);
 
-  /* Colors - Light Theme */
-  --color-primary-background: #ffffff;
-  --color-secondary-background: #f1f5f9;
-  --color-primary-text: #0f172a;
-  --color-secondary-text: #1e293b;
-  --color-accent: #06b6d4;
-  --color-accent-hover: #0891b2;
-  --color-accent-text: #ffffff;
+  /* ---- Type scale: ~1.2 lower register, ~1.28 upper. Tracking tightens as
+         size grows; the mono register tracks wide to read as instrumentation. */
+  --text-2xs: 0.6875rem;
+  --text-2xs--line-height: 1.45;
+  --text-2xs--letter-spacing: 0.18em;
+  --text-xs: 0.75rem;
+  --text-xs--line-height: 1.5;
+  --text-xs--letter-spacing: 0.12em;
+  --text-sm: 0.875rem;
+  --text-sm--line-height: 1.6;
+  --text-sm--letter-spacing: 0em;
+  --text-base: 1rem;
+  --text-base--line-height: 1.65;
+  --text-base--letter-spacing: -0.005em;
+  --text-lg: 1.125rem;
+  --text-lg--line-height: 1.6;
+  --text-lg--letter-spacing: -0.01em;
+  --text-xl: 1.25rem;
+  --text-xl--line-height: 1.45;
+  --text-xl--letter-spacing: -0.015em;
+  --text-2xl: 1.5rem;
+  --text-2xl--line-height: 1.3;
+  --text-2xl--letter-spacing: -0.02em;
+  --text-3xl: 1.875rem;
+  --text-3xl--line-height: 1.2;
+  --text-3xl--letter-spacing: -0.025em;
+  --text-4xl: 2.5rem;
+  --text-4xl--line-height: 1.08;
+  --text-4xl--letter-spacing: -0.03em;
+  --text-5xl: 3.25rem;
+  --text-5xl--line-height: 1.02;
+  --text-5xl--letter-spacing: -0.035em;
+  --text-6xl: 4.25rem;
+  --text-6xl--line-height: 0.98;
+  --text-6xl--letter-spacing: -0.04em;
+  --text-7xl: 5.5rem;
+  --text-7xl--line-height: 0.94;
+  --text-7xl--letter-spacing: -0.045em;
 
-  /* Animations */
-  --animate-content-fade-in: fade-in 1s ease-in-out;
-  --animate-typewriter: typing 0.35s steps(9, end), blink-caret .75s step-end infinite;
-  --animate-fade-out-bck: fade-out-bck 0.2s ease-in 0.4s both;
-  --animate-blob: blob 7s infinite;
-  --animate-orbit: orbit 18s linear infinite;
-  --animate-orbit-reverse: orbit-reverse 18s linear infinite;
-  --animate-signal-sweep: signal-sweep 2.8s ease-in-out infinite;
+  /* ---- Surfaces: cool concrete in light, graphite in dark ---- */
+  --color-canvas: #e7e8e4;
+  --color-raised: #f4f5f2;
+  --color-sunken: #dcdeda;
+
+  /* ---- Ink ---- */
+  --color-ink: #17191a;
+  --color-ink-2: #4e5356;
+  --color-ink-3: #5c6163;
+
+  /* ---- Signal: the one chromatic accent. `signal` fills, `signal-ink`
+         is the text-safe variant on light surfaces. ---- */
+  --color-signal: #c43d0f;
+  --color-signal-ink: #ac360d;
+  --color-signal-hover: #a63009;
+  --color-on-signal: #ffffff;
+
+  /* ---- Moss: status only (available / positive) ---- */
+  --color-moss: #496929;
+
+  /* ---- Structure ---- */
+  --color-hairline: #c8cac4;
+  --color-hairline-strong: #a9aca5;
+
+  /* ---- Compatibility aliases: existing utility names keep resolving,
+         now onto the new palette. ---- */
+  --color-primary-background: var(--color-canvas);
+  --color-secondary-background: var(--color-raised);
+  --color-primary-text: var(--color-ink);
+  --color-secondary-text: var(--color-ink-2);
+  --color-accent: var(--color-signal);
+  --color-accent-hover: var(--color-signal-hover);
+  --color-accent-text: var(--color-on-signal);
+
+  /* ---- Radius: tight. Nothing here is a pill. ---- */
+  --radius-xs: 1px;
+  --radius-sm: 2px;
+  --radius-md: 3px;
+  --radius-lg: 4px;
+  --radius-xl: 6px;
+  --radius-2xl: 8px;
+  --radius-3xl: 10px;
+
+  /* ---- Elevation: tonal steps + one hard offset. No glow, no blur. ---- */
+  --shadow-flush: 0 0 0 0 transparent;
+  --shadow-raised: 0 1px 1px rgb(23 25 26 / 0.05), 0 2px 6px rgb(23 25 26 / 0.04);
+  --shadow-lifted: 0 2px 3px rgb(23 25 26 / 0.07), 0 10px 24px rgb(23 25 26 / 0.07);
+  --shadow-stark: 4px 4px 0 0 var(--color-ink);
+  --shadow-stark-signal: 4px 4px 0 0 var(--color-signal);
+
+  /* ---- Motion: mechanical. Short, decisive, no overshoot. ---- */
+  --ease-snap: cubic-bezier(0.2, 0, 0, 1);
+  --ease-mech: cubic-bezier(0.65, 0, 0.35, 1);
+  --ease-exit: cubic-bezier(0.4, 0, 1, 1);
+  --dur-1: 120ms;
+  --dur-2: 180ms;
+  --dur-3: 260ms;
+  --dur-4: 380ms;
+
+  --animate-content-fade-in: fade-in var(--dur-4) var(--ease-snap);
+  --animate-typewriter: typing 0.35s steps(9, end), caret-blink 0.75s step-end infinite;
+  --animate-fade-out-bck: fade-out-bck 0.2s var(--ease-exit) 0.4s both;
+  --animate-blob: drift 18s var(--ease-mech) infinite;
+  --animate-signal-sweep: scan-sweep 3.2s var(--ease-mech) infinite;
+  --animate-rule-draw: rule-draw var(--dur-4) var(--ease-snap) both;
+  --animate-wipe-up: wipe-up var(--dur-4) var(--ease-snap) both;
 }
 
-/* Dark Theme Variables */
+/* ---- Dark: graphite ground. Every pair below is WCAG AA verified. ---- */
 :root:is(.dark) {
-  --color-primary-background: #0A192F;
-  --color-secondary-background: #172A45;
-  --color-primary-text: #F8FAFC;
-  --color-secondary-text: #E2E8F0;
-  --color-accent: #22d3ee;
-  --color-accent-hover: #1fb6cf;
-  --color-accent-text: #0A192F;
+  --color-canvas: #131416;
+  --color-raised: #1b1d20;
+  --color-sunken: #0d0e0f;
+
+  --color-ink: #edeeea;
+  --color-ink-2: #a9aeb0;
+  --color-ink-3: #868b8e;
+
+  --color-signal: #ff7a45;
+  --color-signal-ink: #ff7a45;
+  --color-signal-hover: #ff9166;
+  --color-on-signal: #131416;
+
+  --color-moss: #a3c46b;
+
+  --color-hairline: #2e3135;
+  --color-hairline-strong: #43474c;
+
+  --shadow-raised: 0 1px 1px rgb(0 0 0 / 0.4), 0 2px 6px rgb(0 0 0 / 0.3);
+  --shadow-lifted: 0 2px 3px rgb(0 0 0 / 0.45), 0 10px 24px rgb(0 0 0 / 0.4);
+  --shadow-stark: 4px 4px 0 0 var(--color-hairline-strong);
 }
 
 html {
@@ -52,14 +149,53 @@ html {
 }
 
 body {
-  background: var(--color-primary-background);
-  color: var(--color-primary-text);
-  transition: background-color 0.45s cubic-bezier(0.4, 0, 0.2, 1),
-              color 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+  background: var(--color-canvas);
+  color: var(--color-ink);
+  font-family: var(--font-body);
+  transition: background-color var(--dur-4) var(--ease-snap),
+              color var(--dur-4) var(--ease-snap);
 }
 
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display);
+  font-weight: 800;
+}
 
-/* Utility Classes */
+::selection {
+  background: var(--color-signal);
+  color: var(--color-on-signal);
+}
+
+/* Keyboard focus is a hard signal bracket, never a soft glow ring. */
+:focus-visible {
+  outline: 2px solid var(--color-signal);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+
+/* The pointer is only hidden where a custom one actually renders.
+   CustomCursor returns null on coarse pointers, so gating this prevents
+   hybrid devices from losing their cursor entirely. */
+@media (pointer: fine) {
+  html,
+  a, button, [role="button"], input, textarea, select, label, [data-cursor-hover] {
+    cursor: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ---- Utilities ---- */
+
 @utility animation-delay-2000 {
   animation-delay: 2s;
 }
@@ -68,10 +204,25 @@ body {
   animation-delay: 4s;
 }
 
-/* Keyframes Animations */
+/* Eyebrow / label register: mono, wide-tracked, uppercase. */
+@utility label-mono {
+  font-family: var(--font-mono);
+  font-size: var(--text-2xs);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+/* Cut corner — the identity mark. Pairs with .notch-rule for the hairline. */
+@utility notch {
+  clip-path: polygon(0 0, calc(100% - 14px) 0, 100% 14px, 100% 100%, 0 100%);
+}
+
+/* ---- Keyframes: transform/opacity only ---- */
+
 @keyframes fade-in {
-  0% { opacity: 0; }
-  100% { opacity: 1; }
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
 @keyframes typing {
@@ -79,123 +230,67 @@ body {
   to { width: 100%; }
 }
 
-@keyframes blink-caret {
+@keyframes caret-blink {
   from, to { border-color: transparent; }
-  50% { border-color: #2dd4bf; }
+  50% { border-color: var(--color-signal); }
 }
 
 @keyframes fade-out-bck {
-  0% {
-    transform: translateZ(0);
-    opacity: 1;
-  }
-  100% {
-    transform: translateZ(-80px);
-    opacity: 0;
-  }
+  from { transform: translateZ(0); opacity: 1; }
+  to { transform: translateZ(-80px); opacity: 0; }
 }
 
-@keyframes blob {
-  0% {
-    transform: translate(0px, 0px) scale(1);
-  }
-  33% {
-    transform: translate(30px, -50px) scale(1.1);
-  }
-  66% {
-    transform: translate(-20px, 20px) scale(0.9);
-  }
-  100% {
-    transform: translate(0px, 0px) scale(1);
-  }
+/* Slow ambient drift — replaces the old blob wobble. Straight-line
+   translation, no scale pulse, so it composites as a single layer move. */
+@keyframes drift {
+  0%   { transform: translate3d(0, 0, 0); }
+  25%  { transform: translate3d(24px, -18px, 0); }
+  50%  { transform: translate3d(8px, 22px, 0); }
+  75%  { transform: translate3d(-20px, 6px, 0); }
+  100% { transform: translate3d(0, 0, 0); }
 }
 
-@keyframes orbit {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+/* Instrument scan: a measuring pass, held at the ends rather than eased
+   symmetrically, so it reads as a machine indexing across a track. */
+@keyframes scan-sweep {
+  0%   { transform: translateX(-40%) scaleX(0.6); opacity: 0; }
+  12%  { opacity: 1; }
+  46%  { transform: translateX(0%) scaleX(1); opacity: 1; }
+  54%  { transform: translateX(0%) scaleX(1); opacity: 1; }
+  88%  { opacity: 1; }
+  100% { transform: translateX(40%) scaleX(0.6); opacity: 0; }
 }
 
-@keyframes orbit-reverse {
-  from {
-    transform: rotate(360deg);
-  }
-  to {
-    transform: rotate(0deg);
-  }
+@keyframes rule-draw {
+  from { transform: scaleX(0); }
+  to   { transform: scaleX(1); }
 }
 
-@keyframes print3d-build {
-  0% {
-    opacity: 0;
-    transform: translateY(40%) scaleY(0.3);
-  }
-  60% {
-    opacity: 1;
-    transform: translateY(-4%) scaleY(1.02);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0) scaleY(1);
-  }
-}
-
-@keyframes printer-fan-spin {
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-.animate-printer-fan {
-  animation: printer-fan-spin 1.4s linear infinite;
-  transform-box: fill-box;
-  transform-origin: center;
-}
-
-@keyframes signal-sweep {
-  0% {
-    transform: translateX(-38%) scaleX(0.8);
-    opacity: 0;
-  }
-  18% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0.9;
-  }
-  82% {
-    opacity: 1;
-  }
-  100% {
-    transform: translateX(38%) scaleX(1.05);
-    opacity: 0;
-  }
+@keyframes wipe-up {
+  from { transform: translateY(110%); }
+  to   { transform: translateY(0); }
 }
 
 .animate-blob {
-  animation: blob 7s infinite;
+  animation: var(--animate-blob);
   will-change: transform;
   contain: layout style paint;
 }
 
 .animate-signal-sweep {
-  animation: signal-sweep 2.8s ease-in-out infinite;
+  animation: var(--animate-signal-sweep);
 }
 
+/* Columnar hairlines at a 120px rhythm — a spec sheet's measure, not a
+   blueprint grid. Sections mask it with --grid-mask. */
 .bg-section-grid {
-  background-image: linear-gradient(to right, rgba(100, 116, 139, 0.18) 1px, transparent 1px), linear-gradient(to bottom, rgba(100, 116, 139, 0.18) 1px, transparent 1px);
-  background-size: 72px 72px;
+  background-image: linear-gradient(
+    to right,
+    var(--color-hairline) 1px,
+    transparent 1px
+  );
+  background-size: 120px 100%;
+  opacity: 0.55;
   mask-image: var(--grid-mask, linear-gradient(to bottom, transparent, black 14%, black 86%, transparent));
   -webkit-mask-image: var(--grid-mask, linear-gradient(to bottom, transparent, black 14%, black 86%, transparent));
-}
-
-/* Nasconde il cursore predefinito */
-html {
-  cursor: none;
-}
-a, button, [role="button"], input, textarea, select, label, [data-cursor-hover] {
-  cursor: none;
 }

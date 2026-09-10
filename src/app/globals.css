@@ -73,8 +73,15 @@
   --color-signal-hover: #163f8f;
   --color-on-signal: #ffffff;
 
-  /* ---- Moss: status only (available / positive) ---- */
+  /* ---- Status pair. Semantic, not accents: `moss` reads positive
+         (available / active), `alert` reads negative (error / destructive).
+         Neither may fill a decorative surface — that stays `signal`'s job,
+         and the "one accent only" rule is about decoration, not semantics.
+         Text on either takes `on-signal`, which is white here and `canvas`
+         in dark: both status colours run in the same direction as the
+         accent, so a second on-* token would only duplicate it. ---- */
   --color-moss: #496929;
+  --color-alert: #9d2420;
 
   /* ---- Structure ---- */
   --color-hairline: #c8cac4;
@@ -139,6 +146,7 @@
   --color-on-signal: #131416;
 
   --color-moss: #a3c46b;
+  --color-alert: #ff9a90;
 
   --color-hairline: #2e3135;
   --color-hairline-strong: #43474c;

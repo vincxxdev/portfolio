@@ -20,7 +20,6 @@ export interface Skill {
   tier: SkillTier;
   group: SkillGroup;
   iconName: string;
-  color: string;
   aliases?: string[];
 }
 

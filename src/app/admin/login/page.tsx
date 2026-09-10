@@ -92,22 +92,20 @@ export default function AdminLoginPage() {
             </p>
           </div>
 
-          {/* TODO: green-500 / red-500 below are raw Tailwind, not system
-              tokens. The palette has `moss` for positive status and nothing
-              for error — adding a danger token is a design-system decision. */}
           {isAdmin ? (
             /* Logged in view */
             <div className="space-y-4">
-              <div className="p-4 bg-green-500/10 border border-green-500/30 rounded-sm">
-                <p className="text-green-400 text-center font-medium">
-                  ✓ Sessione attiva
+              <div className="rounded-sm border border-moss bg-raised p-4">
+                <p className="flex items-center justify-center gap-2 font-medium text-moss">
+                  <span aria-hidden="true" className="h-1.5 w-1.5 shrink-0 bg-moss" />
+                  Sessione attiva
                 </p>
               </div>
               <button
                 onClick={handleLogout}
-                className="w-full flex items-center justify-center gap-2 px-6 py-3 bg-red-500/20 text-red-400 border border-red-500/30 rounded-sm hover:bg-red-500/30 transition-colors font-semibold"
+                className="flex w-full items-center justify-center gap-2 rounded-sm border border-alert bg-transparent px-6 py-3 font-semibold text-alert transition-colors duration-[180ms] ease-[cubic-bezier(0.2,0,0,1)] hover:bg-alert hover:text-on-signal"
               >
-                <LogOut className="w-5 h-5" />
+                <LogOut className="h-5 w-5" aria-hidden="true" />
                 <span>Logout</span>
               </button>
             </div>
@@ -140,11 +138,13 @@ export default function AdminLoginPage() {
 
               {error && (
                 <motion.div
-                  initial={{ opacity: 0, y: -10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  className="p-3 bg-red-500/10 border border-red-500/30 rounded-sm"
+                  role="alert"
+                  initial={{ y: -10 }}
+                  animate={{ y: 0 }}
+                  transition={{ duration: 0.18, ease: [0.2, 0, 0, 1] }}
+                  className="rounded-sm border border-alert bg-raised p-3"
                 >
-                  <p className="text-red-400 text-sm text-center">{error}</p>
+                  <p className="text-center text-sm text-alert">{error}</p>
                 </motion.div>
               )}
 

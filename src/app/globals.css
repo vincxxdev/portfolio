@@ -49,7 +49,11 @@
   --text-7xl--line-height: 0.94;
   --text-7xl--letter-spacing: -0.045em;
 
-  /* ---- Surfaces: cool concrete in light, graphite in dark ---- */
+  /* ---- Surfaces: cool concrete in light, graphite in dark ----
+         canvas/ink here and in the dark block below are mirrored literally by
+         the anti-FOUC <style> in src/app/layout.tsx, which paints before this
+         sheet loads and so cannot read a custom property. Change one, change
+         both — grep the hex before editing. ---- */
   --color-canvas: #e7e8e4;
   --color-raised: #f4f5f2;
   --color-sunken: #dcdeda;
@@ -111,13 +115,9 @@
   --dur-3: 260ms;
   --dur-4: 380ms;
 
-  --animate-content-fade-in: fade-in var(--dur-4) var(--ease-snap);
   --animate-typewriter: typing 0.35s steps(9, end), caret-blink 0.75s step-end infinite;
   --animate-fade-out-bck: fade-out-bck 0.2s var(--ease-exit) 0.4s both;
   --animate-blob: drift 18s var(--ease-mech) infinite;
-  --animate-signal-sweep: scan-sweep 3.2s var(--ease-mech) infinite;
-  --animate-rule-draw: rule-draw var(--dur-4) var(--ease-snap) both;
-  --animate-wipe-up: wipe-up var(--dur-4) var(--ease-snap) both;
 }
 
 /* ---- Dark: graphite ground. Every pair below is WCAG AA verified. ---- */
@@ -225,11 +225,6 @@ h1, h2, h3, h4, h5, h6 {
 
 /* ---- Keyframes: transform/opacity only ---- */
 
-@keyframes fade-in {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
 @keyframes typing {
   from { width: 0; }
   to { width: 100%; }
@@ -255,35 +250,10 @@ h1, h2, h3, h4, h5, h6 {
   100% { transform: translate3d(0, 0, 0); }
 }
 
-/* Instrument scan: a measuring pass, held at the ends rather than eased
-   symmetrically, so it reads as a machine indexing across a track. */
-@keyframes scan-sweep {
-  0%   { transform: translateX(-40%) scaleX(0.6); opacity: 0; }
-  12%  { opacity: 1; }
-  46%  { transform: translateX(0%) scaleX(1); opacity: 1; }
-  54%  { transform: translateX(0%) scaleX(1); opacity: 1; }
-  88%  { opacity: 1; }
-  100% { transform: translateX(40%) scaleX(0.6); opacity: 0; }
-}
-
-@keyframes rule-draw {
-  from { transform: scaleX(0); }
-  to   { transform: scaleX(1); }
-}
-
-@keyframes wipe-up {
-  from { transform: translateY(110%); }
-  to   { transform: translateY(0); }
-}
-
 .animate-blob {
   animation: var(--animate-blob);
   will-change: transform;
   contain: layout style paint;
-}
-
-.animate-signal-sweep {
-  animation: var(--animate-signal-sweep);
 }
 
 /* Columnar hairlines at a 120px rhythm — a spec sheet's measure, not a

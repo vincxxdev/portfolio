@@ -99,6 +99,10 @@ export default function RootLayout({
   return (
     <html lang="it" suppressHydrationWarning>
       <head>
+        {/* Anti-FOUC: this paints before globals.css loads, so it cannot read
+            --color-canvas / --color-ink and mirrors their literals instead.
+            These four values are duplicated from the @theme block in
+            src/app/globals.css — keep them in sync. */}
         <style dangerouslySetInnerHTML={{
           __html: `
             body {

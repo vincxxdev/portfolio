@@ -58,16 +58,19 @@
   --color-raised: #f4f5f2;
   --color-sunken: #dcdeda;
 
-  /* ---- Ink ---- */
+  /* ---- Ink. ink-3 is the quietest text token, so it sets the floor: it has
+         to clear 4.5:1 on `sunken`, the darkest light surface, where it renders
+         ProjectCard's image-fallback label. #63686b measured 4.16:1 there and
+         failed SC 1.4.3; #5d6265 is the lightest value that clears it. ---- */
   --color-ink: #17191a;
   --color-ink-2: #4e5356;
-  --color-ink-3: #63686b;
+  --color-ink-3: #5d6265;
 
   /* ---- Signal: the one chromatic accent. `signal` fills, `signal-ink`
          is the text-safe variant on light surfaces. ---- */
-  --color-signal: #c43d0f;
-  --color-signal-ink: #ac360d;
-  --color-signal-hover: #a63009;
+  --color-signal: #1c51b8;
+  --color-signal-ink: #1a4aa8;
+  --color-signal-hover: #163f8f;
   --color-on-signal: #ffffff;
 
   /* ---- Moss: status only (available / positive) ---- */
@@ -130,9 +133,9 @@
   --color-ink-2: #a9aeb0;
   --color-ink-3: #868b8e;
 
-  --color-signal: #ff7a45;
-  --color-signal-ink: #ff7a45;
-  --color-signal-hover: #ff9166;
+  --color-signal: #7aa9ff;
+  --color-signal-ink: #7aa9ff;
+  --color-signal-hover: #9cc0ff;
   --color-on-signal: #131416;
 
   --color-moss: #a3c46b;

@@ -39,7 +39,7 @@ const Certifications = () => {
               rel="noopener noreferrer"
               className="group flex flex-col gap-3 py-5 transition-colors duration-[180ms] ease-[cubic-bezier(0.2,0,0,1)] sm:flex-row sm:items-center sm:gap-6"
             >
-              <span className="label-mono w-28 shrink-0 text-ink-3">{cert.date}</span>
+              <span className="label-mono w-28 shrink-0 text-ink-3 sm:w-32">{cert.date}</span>
 
               <span className="min-w-0 flex-1">
                 <span className="block text-base text-ink transition-colors duration-[180ms] group-hover:text-signal-ink">

@@ -101,6 +101,7 @@ export interface Translations {
     title: string;
     lead: string;
     bio: string[];
+    index: { label: string };
     experience: { title: string; description: string; current: string };
     education: { title: string; description: string };
     certifications: { title: string; description: string; viewCert: string };

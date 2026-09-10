@@ -11,7 +11,6 @@ import type { Project } from '@/types';
 import type { NarrativeBlock } from '@/i18n/types';
 import { useLocale } from '@/i18n';
 import Button from '@/app/components/ui/Button';
-import Card from '@/app/components/ui/Card';
 import { registerIn } from '@/app/components/motion';
 import { CardDivider } from '@/app/components/ui/CardComponents';
 import { MagneticButton } from '@/app/components/ui/MagneticButton';
@@ -23,7 +22,7 @@ interface MetaItemProps {
 
 const MetaItem = ({ label, children }: MetaItemProps) => (
   <div className="flex flex-col gap-1.5">
-    <span className="font-mono text-2xs uppercase text-ink-3">{label}</span>
+    <span className="label-mono text-ink-3">{label}</span>
     <div className="text-sm text-ink">{children}</div>
   </div>
 );
@@ -34,38 +33,46 @@ interface CaseStudySectionProps {
   block: NarrativeBlock;
 }
 
+/**
+ * Long-form prose, so no Card: a padded surface around body copy adds a frame
+ * to read through without adding structure. The number, label and measure mark
+ * carry the section break instead, and the paragraphs keep a max-w-2xl measure.
+ */
 const CaseStudySection = ({ index, label, block }: CaseStudySectionProps) => {
   const shouldReduceMotion = useReducedMotion();
 
   return (
-  <section className="relative py-14 sm:py-20">
-    <div className="bg-section-grid absolute inset-0" aria-hidden="true" />
-    <div className="relative z-10 mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
-      {/* Known subtree with no positioned descendants, so a transformed
-          wrapper is safe here — unlike a wrapper around arbitrary children. */}
-      <motion.div {...registerIn(!!shouldReduceMotion, 18)}>
-      <Card padding="lg">
-        <div className="flex items-baseline gap-3">
-          <span className="font-mono text-2xs uppercase text-signal-ink">
-            {String(index).padStart(2, '0')}
-          </span>
-          <span className="font-mono text-2xs uppercase text-ink-3">{label}</span>
-        </div>
-        <h2 className="font-display mt-3 text-2xl font-bold text-ink sm:text-3xl">
-          {block.title}
-        </h2>
-        <CardDivider className="my-6" />
-        <div className="space-y-4">
-          {block.paragraphs.map((paragraph, i) => (
-            <p key={i} className="text-base leading-relaxed text-ink-2">
-              {paragraph}
-            </p>
-          ))}
-        </div>
-      </Card>
-      </motion.div>
-    </div>
-  </section>
+    <section className="relative border-t border-hairline py-16 sm:py-24">
+      <div className="bg-section-grid absolute inset-0" aria-hidden="true" />
+      <div className="relative z-10 mx-auto max-w-6xl px-5 sm:px-8">
+        {/* Known subtree with no positioned descendants, so a transformed
+            wrapper is safe here — unlike a wrapper around arbitrary children. */}
+        <motion.div {...registerIn(!!shouldReduceMotion, 18)}>
+          <div className="flex items-baseline gap-3">
+            <span className="label-mono text-signal-ink">
+              {String(index).padStart(2, '0')}
+            </span>
+            <span className="label-mono text-ink-3">{label}</span>
+          </div>
+
+          <h2 className="mt-4 max-w-2xl text-2xl text-ink sm:text-3xl">{block.title}</h2>
+
+          {/* Measure mark: a signal segment butted against a hairline run. */}
+          <div aria-hidden="true" className="mt-5 flex items-center">
+            <span className="h-0.5 w-10 bg-signal" />
+            <span className="h-px w-24 bg-hairline" />
+          </div>
+
+          <div className="mt-8 max-w-2xl space-y-5">
+            {block.paragraphs.map((paragraph, i) => (
+              <p key={i} className="text-base leading-relaxed text-ink-2">
+                {paragraph}
+              </p>
+            ))}
+          </div>
+        </motion.div>
+      </div>
+    </section>
   );
 };
 
@@ -92,10 +99,10 @@ const CaseStudyView = ({ project, nextProject }: CaseStudyViewProps) => {
       <section className="relative pt-32 pb-14 sm:pt-40 sm:pb-20">
         <div className="bg-section-grid absolute inset-0" aria-hidden="true" />
 
-        <div className="relative z-10 mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
+        <div className="relative z-10 mx-auto max-w-6xl px-5 sm:px-8">
           <Link
             href="/work"
-            className="font-mono text-2xs uppercase inline-flex items-center gap-2 text-ink-2 transition-colors duration-[180ms] ease-[cubic-bezier(0.2,0,0,1)] hover:text-signal-ink"
+            className="label-mono inline-flex items-center gap-2 text-ink-2 transition-colors duration-[180ms] ease-[cubic-bezier(0.2,0,0,1)] hover:text-signal-ink"
           >
             <ArrowLeft className="h-3.5 w-3.5" aria-hidden="true" />
             {labels.backToWork}
@@ -200,14 +207,15 @@ const CaseStudyView = ({ project, nextProject }: CaseStudyViewProps) => {
         </>
       )}
 
-      <section className="relative py-16 sm:py-20">
+      {/* Matches the narrative sections' own top hairline rather than drawing a
+          second rule inside a section that already starts with one. */}
+      <section className="relative border-t border-hairline py-16 sm:py-20">
         <div className="bg-section-grid absolute inset-0" aria-hidden="true" />
-        <div className="relative z-10 mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
-          <CardDivider className="mb-10" />
+        <div className="relative z-10 mx-auto max-w-6xl px-5 sm:px-8">
           <div className="flex flex-col gap-8 sm:flex-row sm:items-end sm:justify-between">
             <Link
               href="/work"
-              className="font-mono text-2xs uppercase inline-flex items-center gap-2 text-ink-2 transition-colors duration-[180ms] ease-[cubic-bezier(0.2,0,0,1)] hover:text-signal-ink"
+              className="label-mono inline-flex items-center gap-2 text-ink-2 transition-colors duration-[180ms] ease-[cubic-bezier(0.2,0,0,1)] hover:text-signal-ink"
             >
               <ArrowLeft className="h-3.5 w-3.5" aria-hidden="true" />
               {labels.backToWork}
@@ -218,7 +226,7 @@ const CaseStudyView = ({ project, nextProject }: CaseStudyViewProps) => {
                 href={`/projects/${nextProject.slug}`}
                 className="group flex flex-col gap-2 sm:items-end"
               >
-                <span className="font-mono text-2xs uppercase text-ink-3">
+                <span className="label-mono text-ink-3">
                   {labels.nextProject}
                 </span>
                 <span className="font-display inline-flex items-center gap-2 text-2xl font-bold text-ink transition-colors duration-[180ms] ease-[cubic-bezier(0.2,0,0,1)] group-hover:text-signal-ink sm:text-3xl">

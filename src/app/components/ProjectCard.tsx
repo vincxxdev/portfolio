@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { SiGithub } from 'react-icons/si';
 import { ArrowRight, Code2, ExternalLink } from 'lucide-react';
 
@@ -17,6 +18,13 @@ interface ProjectCardProps {
   basePath?: string;
 }
 
+/**
+ * The whole card face is the case-study link, via a stretched pseudo-element on
+ * the title anchor rather than a wrapping <Link>: the demo and repo links are
+ * real anchors, and nesting anchors is invalid HTML. One tab stop for the card,
+ * two for its external links, and `Card interactive`'s traces and hover sound
+ * now describe something that is actually clickable.
+ */
 const ProjectCard = ({ project, index, basePath = '/projects' }: ProjectCardProps) => {
   const { t } = useLocale();
   const [imageFailed, setImageFailed] = useState(false);
@@ -51,7 +59,22 @@ const ProjectCard = ({ project, index, basePath = '/projects' }: ProjectCardProp
       </div>
 
       <div className="flex flex-1 flex-col p-6">
-        <h3 className="text-xl text-ink">{title}</h3>
+        <h3 className="text-xl text-ink">
+          {/* after:inset-0 resolves against Card's inner relative face, so the
+              hit area covers the preview image too. */}
+          <Link
+            href={`${basePath}/${project.slug}`}
+            className="after:absolute after:inset-0 after:z-10 after:content-[''] transition-colors duration-[180ms] ease-[cubic-bezier(0.2,0,0,1)] group-hover:text-signal-ink"
+          >
+            {/* Prefix, because both locales write this string as one
+                ("Leggi il case study di" / "Read the case study for") — as a
+                suffix it reads out with a dangling preposition. The accessible
+                name still contains the visible title, so SC 2.5.3 holds. */}
+            <span className="sr-only">{t.accessibility.readCaseStudy} </span>
+            {title}
+          </Link>
+        </h3>
+
         <p className="mt-2.5 text-sm leading-relaxed text-ink-2">{tagline}</p>
 
         <ul className="mt-5 flex flex-wrap gap-1.5">
@@ -65,20 +88,21 @@ const ProjectCard = ({ project, index, basePath = '/projects' }: ProjectCardProp
           ))}
         </ul>
 
-        {/* Primary action owns its own row so it never competes for width with
-            the two external links — that was the source of the old squish. */}
         <div className="mt-auto pt-7">
-          <Button
-            href={`${basePath}/${project.slug}`}
-            variant="primary"
-            className="w-full gap-2"
-            aria-label={`${t.accessibility.readCaseStudy} ${title}`}
+          {/* A readout of where the card leads, not a second control — the
+              stretched link above already owns the click and the tab stop. */}
+          <span
+            aria-hidden="true"
+            className="label-mono flex items-center gap-2 text-signal-ink"
           >
-            <span>{t.work.card.caseStudy}</span>
-            <ArrowRight className="h-4 w-4" aria-hidden="true" />
-          </Button>
+            {t.work.card.caseStudy}
+            <ArrowRight
+              className="h-3.5 w-3.5 transition-transform duration-[180ms] ease-[cubic-bezier(0.2,0,0,1)] group-hover:translate-x-1"
+            />
+          </span>
 
-          <div className="mt-2.5 flex gap-2.5">
+          {/* z-20 lifts these above the stretched link's pseudo-element. */}
+          <div className="relative z-20 mt-4 flex gap-2.5 border-t border-hairline pt-4">
             {project.liveDemo && (
               <Button
                 href={project.liveDemo}
@@ -86,7 +110,7 @@ const ProjectCard = ({ project, index, basePath = '/projects' }: ProjectCardProp
                 rel="noopener noreferrer"
                 variant="outline"
                 size="sm"
-                className="flex-1 gap-2"
+                className="gap-2"
               >
                 <ExternalLink className="h-3.5 w-3.5" aria-hidden="true" />
                 <span>{t.work.card.liveDemo}</span>
@@ -99,7 +123,7 @@ const ProjectCard = ({ project, index, basePath = '/projects' }: ProjectCardProp
               rel="noopener noreferrer"
               variant="outline"
               size="sm"
-              className="flex-1 gap-2"
+              className="gap-2"
             >
               <SiGithub className="h-3.5 w-3.5" aria-hidden="true" />
               <span>{t.work.card.github}</span>

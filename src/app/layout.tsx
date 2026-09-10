@@ -97,7 +97,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="it" suppressHydrationWarning>
+    <html lang="it" data-scroll-behavior="smooth" suppressHydrationWarning>
       <head>
         {/* Anti-FOUC: this paints before globals.css loads, so it cannot read
             --color-canvas / --color-ink and mirrors their literals instead.

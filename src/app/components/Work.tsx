@@ -9,6 +9,41 @@ import { projectsData } from '@/data/projects';
 import { useLocale } from '@/i18n';
 import { DUR, EASE_SNAP } from './motion';
 
+/**
+ * A chip's result count. The digit is visible but aria-hidden, with `phrase`
+ * alongside it as sr-only text — so the accessible name reads "Java 1 progetto"
+ * and still contains the visible "Java 1" (SC 2.5.3), and the bare digit is
+ * never announced unqualified. An aria-label on the button would displace the
+ * visible label instead of extending it.
+ *
+ * Module scope, not the render body: a component declared inside `Work` gets a
+ * fresh identity every render and would remount on every filter click.
+ *
+ * The selected state inherits its colour rather than dimming it. aria-hidden
+ * text sits outside axe's contrast rule, so nothing flags it, but it is still
+ * visible information — the `opacity-70` this replaced measured 3.30:1 light
+ * and 4.20:1 dark over `bg-signal`, short of the 4.5:1 the rest of the palette
+ * is verified against.
+ */
+const ChipCount = ({
+  n,
+  phrase,
+  selected,
+}: {
+  n: number;
+  phrase: string;
+  selected: boolean;
+}) => (
+  <>
+    {/* Selected inherits text-on-signal from the button; unselected dims to
+        ink-3. Verified 5.22:1 / 7.13:1 and 4.58:1 / 5.35:1 light / dark. */}
+    <span aria-hidden="true" className={selected ? undefined : 'text-ink-3'}>
+      {n}
+    </span>
+    <span className="sr-only">{phrase}</span>
+  </>
+);
+
 interface WorkProps {
   as?: 'h1' | 'h2';
   basePath?: string;
@@ -19,12 +54,19 @@ const Work = ({ as = 'h1', basePath = '/projects' }: WorkProps) => {
   const shouldReduceMotion = useReducedMotion();
   const [activeTech, setActiveTech] = useState<string | null>(null);
 
+  // Counted here rather than per render: with three projects the union is 14
+  // technologies, most of them matching a single project. Showing the count in
+  // the chip states the cost of the click before it is made.
   const technologies = useMemo(() => {
-    const seen = new Set<string>();
+    const counts = new Map<string, number>();
     for (const project of projectsData) {
-      for (const tech of project.technologies) seen.add(tech);
+      for (const tech of project.technologies) {
+        counts.set(tech, (counts.get(tech) ?? 0) + 1);
+      }
     }
-    return [...seen].sort((a, b) => a.localeCompare(b));
+    return [...counts.entries()]
+      .map(([name, count]) => ({ name, count }))
+      .sort((a, b) => a.name.localeCompare(b.name));
   }, []);
 
   const visibleProjects = useMemo(
@@ -36,13 +78,12 @@ const Work = ({ as = 'h1', basePath = '/projects' }: WorkProps) => {
   );
 
   const count = visibleProjects.length;
-  const countLabel = (count === 1 ? t.work.index.countOne : t.work.index.countMany).replace(
-    '{n}',
-    String(count)
-  );
+  const countPhrase = (n: number) =>
+    (n === 1 ? t.work.index.countOne : t.work.index.countMany).replace('{n}', String(n));
+  const countLabel = countPhrase(count);
 
   const chipClass = (selected: boolean) =>
-    `label-mono border px-3 py-2 transition-colors duration-[180ms] ease-[cubic-bezier(0.2,0,0,1)] ${
+    `label-mono inline-flex items-center gap-2 border px-3 py-2 transition-colors duration-[180ms] ease-[cubic-bezier(0.2,0,0,1)] ${
       selected
         ? 'border-signal bg-signal text-on-signal'
         : 'border-hairline text-ink-2 hover:border-hairline-strong hover:text-ink'
@@ -79,16 +120,26 @@ const Work = ({ as = 'h1', basePath = '/projects' }: WorkProps) => {
               className={chipClass(activeTech === null)}
             >
               {t.work.index.filterAll}
+              <ChipCount
+                n={projectsData.length}
+                phrase={countPhrase(projectsData.length)}
+                selected={activeTech === null}
+              />
             </button>
-            {technologies.map((tech) => (
+            {technologies.map(({ name, count: techCount }) => (
               <button
-                key={tech}
+                key={name}
                 type="button"
-                onClick={() => setActiveTech(tech)}
-                aria-pressed={activeTech === tech}
-                className={chipClass(activeTech === tech)}
+                onClick={() => setActiveTech(name)}
+                aria-pressed={activeTech === name}
+                className={chipClass(activeTech === name)}
               >
-                {tech}
+                {name}
+                <ChipCount
+                  n={techCount}
+                  phrase={countPhrase(techCount)}
+                  selected={activeTech === name}
+                />
               </button>
             ))}
           </div>

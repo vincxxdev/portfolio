@@ -5,6 +5,7 @@ import { siteConfig } from '@/config/site';
 import { getAllProjectSlugs, getNextProject, getProjectBySlug } from '@/lib/projects';
 import { routeAlternates } from '@/lib/metadata';
 import CaseStudyView from './CaseStudyView';
+import { ScrollToTop } from '@/app/components/ui/ScrollToTop';
 
 export function generateStaticParams() {
   return getAllProjectSlugs().map((slug) => ({ slug }));
@@ -53,5 +54,10 @@ export default async function ProjectCaseStudyPage(
   const { slug } = await params;
   const project = getProjectBySlug(slug);
   if (!project) notFound();
-  return <CaseStudyView project={project} nextProject={getNextProject(slug)} />;
+  return (
+    <>
+      <CaseStudyView project={project} nextProject={getNextProject(slug)} />
+      <ScrollToTop />
+    </>
+  );
 }

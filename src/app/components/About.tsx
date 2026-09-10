@@ -4,6 +4,7 @@ import React from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
 
 import SectionIntro from './SectionIntro';
+import AboutIndex, { type AboutSection } from './AboutIndex';
 import Experience from './Experience';
 import Education from './Education';
 import Certifications from './Certifications';
@@ -20,7 +21,23 @@ const About = ({ as = 'h1' }: AboutProps) => {
   const { t } = useLocale();
   const shouldReduceMotion = useReducedMotion();
 
+  // Ids live here, next to the index that targets them, so the two cannot
+  // drift apart. Each sub-component still owns its own h2.
+  const blocks: (AboutSection & { render: () => React.ReactElement })[] = [
+    { id: 'experience', label: t.about.experience.title, render: () => <Experience /> },
+    { id: 'education', label: t.about.education.title, render: () => <Education /> },
+    {
+      id: 'certifications',
+      label: t.about.certifications.title,
+      render: () => <Certifications />,
+    },
+    { id: 'skills', label: t.about.skills.title, render: () => <Skills /> },
+    { id: 'languages', label: t.about.languages.title, render: () => <Languages /> },
+  ];
+
   return (
+    // overflow-clip, never overflow-hidden: `hidden` would make this a scroll
+    // container and the index's `lg:sticky` would silently never stick.
     <section id="about" className="relative overflow-clip bg-canvas">
       <div aria-hidden="true" className="bg-section-grid absolute inset-0" />
 
@@ -38,12 +55,22 @@ const About = ({ as = 'h1' }: AboutProps) => {
           ))}
         </motion.div>
 
-        <div className="mt-20 space-y-20 border-t border-hairline pt-20 sm:mt-24 sm:space-y-24 sm:pt-24">
-          <Experience />
-          <Education />
-          <Certifications />
-          <Skills />
-          <Languages />
+        <div className="mt-20 grid grid-cols-1 gap-10 border-t border-hairline pt-14 sm:mt-24 lg:grid-cols-[13rem_minmax(0,1fr)] lg:gap-14 lg:pt-16">
+          <AboutIndex
+            sections={blocks.map(({ id, label }) => ({ id, label }))}
+            label={t.about.index.label}
+          />
+
+          <div className="min-w-0 space-y-20 sm:space-y-24">
+            {blocks.map((block) => (
+              // No scroll-mt here: `scroll-padding-top: 6rem` in globals.css
+              // already clears the 72px navbar, and the two stack — measured at
+              // 208px of dead space above the target with both in play.
+              <section key={block.id} id={block.id}>
+                {block.render()}
+              </section>
+            ))}
+          </div>
         </div>
       </div>
     </section>

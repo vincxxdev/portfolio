@@ -100,6 +100,7 @@ export const it: Translations = {
       'La curiosità mi ha portato allo sviluppo web, dove lavoro con JavaScript, TypeScript e React, e uso Node.js per la logica lato server. Git fa parte del mio flusso quotidiano.',
       'Dal marzo 2026 lavoro in Deloitte NextHub Bari come sviluppatore junior su Microsoft Power Platform: Power Apps, Power Automate, Dataverse e plugin in C#. Il mio obiettivo è continuare ad ampliare le competenze tecniche su progetti reali.',
     ],
+    index: { label: 'Indice' },
     experience: {
       title: 'Esperienza',
       description: 'Il percorso professionale, dal più recente.',

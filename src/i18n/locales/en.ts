@@ -100,6 +100,7 @@ export const en: Translations = {
       'Curiosity pulled me toward web development, where I work with JavaScript, TypeScript and React, and use Node.js for server-side logic. Git is part of my daily workflow.',
       'Since March 2026 I have been working at Deloitte NextHub Bari as a junior developer on Microsoft Power Platform: Power Apps, Power Automate, Dataverse and plugins in C#. My goal is to keep growing my technical skills on real projects.',
     ],
+    index: { label: 'Index' },
     experience: {
       title: 'Experience',
       description: 'My professional path, most recent first.',

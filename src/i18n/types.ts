@@ -67,6 +67,7 @@ export interface Translations {
     title: string;
     lead: string;
     index: {
+      listHeading: string;
       filterLabel: string;
       filterAll: string;
       countOne: string;
@@ -209,8 +210,6 @@ export interface Translations {
     toggleTheme: string;
     scrollToTop: string;
     projectPreview: string;
-    viewDemo: string;
-    viewSource: string;
     readCaseStudy: string;
     sendEmail: string;
     callPhone: string;

@@ -8,7 +8,7 @@ export const en: Translations = {
     contact: 'Contact',
     openMenu: 'Open navigation menu',
     closeMenu: 'Close navigation menu',
-    homeAria: 'Back to home',
+    homeAria: 'back to home',
   },
   hero: {
     greeting: "Hi, I'm",
@@ -61,6 +61,7 @@ export const en: Translations = {
     lead:
       'Every project has its own page covering the context it was built in, the technical choices I made and what it taught me.',
     index: {
+      listHeading: 'Project index',
       filterLabel: 'Filter by technology',
       filterAll: 'All',
       countOne: '{n} project',
@@ -350,11 +351,9 @@ export const en: Translations = {
     toggleTheme: 'Change theme',
     scrollToTop: 'Back to top',
     projectPreview: 'Project preview',
-    viewDemo: 'View the live demo of',
-    viewSource: 'View the source code of',
     readCaseStudy: 'Read the case study for',
-    sendEmail: 'Send an email to',
-    callPhone: 'Call the number',
+    sendEmail: 'Send an email to this address',
+    callPhone: 'Call this number',
     switchToEnglish: 'Switch to English',
     switchToItalian: 'Switch to Italian',
     skipToContent: 'Skip to main content',

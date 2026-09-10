@@ -27,7 +27,7 @@ const Contacts = ({ as = 'h1' }: ContactsProps) => {
       title: t.contact.email.title,
       subtitle: t.contact.email.subtitle,
       value: siteConfig.contact.email,
-      ariaLabel: `${t.accessibility.sendEmail} ${siteConfig.contact.email}`,
+      action: t.accessibility.sendEmail,
     },
     {
       href: `tel:${siteConfig.contact.phone}`,
@@ -35,7 +35,7 @@ const Contacts = ({ as = 'h1' }: ContactsProps) => {
       title: t.contact.phone.title,
       subtitle: t.contact.phone.subtitle,
       value: siteConfig.contact.phoneDisplay,
-      ariaLabel: `${t.accessibility.callPhone} ${siteConfig.contact.phoneDisplay}`,
+      action: t.accessibility.callPhone,
     },
   ];
 
@@ -59,7 +59,7 @@ const Contacts = ({ as = 'h1' }: ContactsProps) => {
               {...registerIn(!!shouldReduceMotion, 14, index * 0.07)}
               className="h-full"
             >
-              <a href={channel.href} aria-label={channel.ariaLabel} className="block h-full">
+              <a href={channel.href} className="block h-full">
                 <Card interactive padding="lg" className="h-full">
                   <span className="flex items-start justify-between gap-4">
                     <channel.icon className="h-6 w-6 text-signal-ink" aria-hidden="true" />
@@ -73,6 +73,9 @@ const Contacts = ({ as = 'h1' }: ContactsProps) => {
                   <p className="mt-1.5 text-sm text-ink-2">{channel.subtitle}</p>
                   <p className="mt-5 break-all font-mono text-sm text-signal-ink">
                     {channel.value}
+                    {/* States the action without displacing the visible card
+                        text from the link's accessible name (SC 2.5.3). */}
+                    <span className="sr-only"> — {channel.action}</span>
                   </p>
                 </Card>
               </a>

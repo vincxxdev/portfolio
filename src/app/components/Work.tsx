@@ -49,17 +49,23 @@ const Work = ({ as = 'h1', basePath = '/projects' }: WorkProps) => {
     }`;
 
   return (
-    <section id="work" className="relative overflow-hidden bg-canvas">
+    <section id="work" className="relative overflow-clip bg-canvas">
       <div aria-hidden="true" className="bg-section-grid absolute inset-0" />
 
       <div className="relative z-10 mx-auto max-w-6xl px-5 py-20 sm:px-8 sm:py-28">
         <SectionIntro title={t.work.title} lead={t.work.lead} as={as} />
 
+        {/* The index proper. The heading is visually redundant next to the
+            page title but load-bearing for the outline: without it the filter
+            label had to be the h2, and demoting that alone would restore the
+            h1 -> h3 jump. */}
+        <h2 className="sr-only">{t.work.index.listHeading}</h2>
+
         <div className="mt-14 border-y border-hairline py-6">
           <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-            <h2 className="label-mono text-ink-3" id="work-filter-label">
+            <span className="label-mono text-ink-3" id="work-filter-label">
               {t.work.index.filterLabel}
-            </h2>
+            </span>
             <p className="label-mono text-ink-3" aria-live="polite">
               {countLabel}
             </p>

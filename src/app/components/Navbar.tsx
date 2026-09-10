@@ -125,12 +125,15 @@ const Navbar = () => {
             href="/"
             onClick={() => playSound('click')}
             className="group flex items-center gap-2.5"
-            aria-label={t.nav.homeAria}
           >
             <span className="h-1.5 w-1.5 shrink-0 bg-signal" />
             <span className="label-mono text-ink transition-colors duration-[180ms] group-hover:text-signal-ink">
               {siteConfig.name}
             </span>
+            {/* Suffix, not a replacement: an aria-label here would drop the
+                visible wordmark from the accessible name and fail SC 2.5.3
+                (Label in Name) for voice-control users. */}
+            <span className="sr-only"> — {t.nav.homeAria}</span>
           </Link>
 
           <div className="hidden items-center gap-5 min-[820px]:flex">

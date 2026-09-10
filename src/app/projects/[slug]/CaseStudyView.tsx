@@ -144,10 +144,10 @@ const CaseStudyView = ({ project, nextProject }: CaseStudyViewProps) => {
                       variant="outline"
                       size="sm"
                       className="gap-2"
-                      aria-label={`${t.accessibility.viewDemo} ${title}`}
                     >
                       <ExternalLink className="h-3.5 w-3.5" aria-hidden="true" />
                       <span>{t.work.card.liveDemo}</span>
+                      <span className="sr-only"> — {title}</span>
                     </Button>
                   </MagneticButton>
                 )}
@@ -159,17 +159,17 @@ const CaseStudyView = ({ project, nextProject }: CaseStudyViewProps) => {
                     variant="outline"
                     size="sm"
                     className="gap-2"
-                    aria-label={`${t.accessibility.viewSource} ${title}`}
                   >
                     <SiGithub className="h-3.5 w-3.5" aria-hidden="true" />
                     <span>{t.work.card.github}</span>
+                    <span className="sr-only"> — {title}</span>
                   </Button>
                 </MagneticButton>
               </div>
             </MetaItem>
           </div>
 
-          <div className="border-hairline bg-raised relative mt-12 w-full overflow-hidden rounded-sm border">
+          <div className="border-hairline bg-raised relative mt-12 w-full overflow-clip rounded-sm border">
             {!imageError ? (
               <Image
                 src={project.previewImage}

@@ -38,7 +38,6 @@ const Certifications = () => {
               target="_blank"
               rel="noopener noreferrer"
               className="group flex flex-col gap-3 py-5 transition-colors duration-[180ms] ease-[cubic-bezier(0.2,0,0,1)] sm:flex-row sm:items-center sm:gap-6"
-              aria-label={`${t.about.certifications.viewCert} — ${cert.title}`}
             >
               <span className="label-mono w-28 shrink-0 text-ink-3">{cert.date}</span>
 

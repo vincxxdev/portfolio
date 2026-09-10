@@ -8,7 +8,7 @@ export const it: Translations = {
     contact: 'Contatti',
     openMenu: 'Apri menu di navigazione',
     closeMenu: 'Chiudi menu di navigazione',
-    homeAria: 'Torna alla home',
+    homeAria: 'torna alla home',
   },
   hero: {
     greeting: 'Ciao, sono',
@@ -61,6 +61,7 @@ export const it: Translations = {
     lead:
       'Ogni progetto ha una pagina dedicata con il contesto in cui è nato, le scelte tecniche che ho preso e cosa mi ha lasciato.',
     index: {
+      listHeading: 'Elenco dei progetti',
       filterLabel: 'Filtra per tecnologia',
       filterAll: 'Tutti',
       countOne: '{n} progetto',
@@ -350,11 +351,9 @@ export const it: Translations = {
     toggleTheme: 'Cambia tema',
     scrollToTop: 'Torna in cima',
     projectPreview: 'Anteprima del progetto',
-    viewDemo: 'Visualizza la demo live di',
-    viewSource: 'Visualizza il codice sorgente di',
     readCaseStudy: 'Leggi il case study di',
-    sendEmail: 'Invia email a',
-    callPhone: 'Chiama il numero',
+    sendEmail: 'Invia una email a questo indirizzo',
+    callPhone: 'Chiama questo numero',
     switchToEnglish: "Passa all'Inglese",
     switchToItalian: "Passa all'Italiano",
     skipToContent: 'Vai al contenuto principale',

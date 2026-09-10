@@ -87,10 +87,10 @@ const ProjectCard = ({ project, index, basePath = '/projects' }: ProjectCardProp
                 variant="outline"
                 size="sm"
                 className="flex-1 gap-2"
-                aria-label={`${t.accessibility.viewDemo} ${title}`}
               >
                 <ExternalLink className="h-3.5 w-3.5" aria-hidden="true" />
                 <span>{t.work.card.liveDemo}</span>
+                <span className="sr-only"> — {title}</span>
               </Button>
             )}
             <Button
@@ -100,10 +100,10 @@ const ProjectCard = ({ project, index, basePath = '/projects' }: ProjectCardProp
               variant="outline"
               size="sm"
               className="flex-1 gap-2"
-              aria-label={`${t.accessibility.viewSource} ${title}`}
             >
               <SiGithub className="h-3.5 w-3.5" aria-hidden="true" />
               <span>{t.work.card.github}</span>
+              <span className="sr-only"> — {title}</span>
             </Button>
           </div>
         </div>

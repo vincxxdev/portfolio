@@ -17,7 +17,7 @@ export const lighthouseSummary = {
   "sourceReport": "reports/lighthouse-report.json",
   "requestedUrl": "http://127.0.0.1:3000/",
   "finalUrl": "http://127.0.0.1:3000/",
-  "generatedAt": "2026-09-10T13:08:22.262Z",
+  "generatedAt": "2026-09-11T07:56:45.508Z",
   "formFactor": "desktop",
   "lighthouseVersion": "13.1.0",
   "scores": {

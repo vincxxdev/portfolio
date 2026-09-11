@@ -14,6 +14,7 @@ import Button from '@/app/components/ui/Button';
 import { registerIn } from '@/app/components/motion';
 import { CardDivider } from '@/app/components/ui/CardComponents';
 import { MagneticButton } from '@/app/components/ui/MagneticButton';
+import CurrentSitePreview from '@/app/components/CurrentSitePreview';
 
 interface MetaItemProps {
   label: string;
@@ -145,15 +146,17 @@ const CaseStudyView = ({ project, nextProject }: CaseStudyViewProps) => {
                 {project.liveDemo && (
                   <MagneticButton>
                     <Button
-                      href={project.liveDemo}
-                      target="_blank"
-                      rel="noopener noreferrer"
+                      href={project.isCurrentSite ? '/' : project.liveDemo}
+                      target={project.isCurrentSite ? undefined : '_blank'}
+                      rel={project.isCurrentSite ? undefined : 'noopener noreferrer'}
                       variant="outline"
                       size="sm"
                       className="gap-2"
                     >
-                      <ExternalLink className="h-3.5 w-3.5" aria-hidden="true" />
-                      <span>{t.work.card.liveDemo}</span>
+                      {project.isCurrentSite
+                        ? <ArrowLeft className="h-3.5 w-3.5" aria-hidden="true" />
+                        : <ExternalLink className="h-3.5 w-3.5" aria-hidden="true" />}
+                      <span>{project.isCurrentSite ? t.work.currentSite.home : t.work.card.liveDemo}</span>
                       <span className="sr-only"> — {title}</span>
                     </Button>
                   </MagneticButton>
@@ -177,7 +180,11 @@ const CaseStudyView = ({ project, nextProject }: CaseStudyViewProps) => {
           </div>
 
           <div className="border-hairline bg-raised relative mt-12 w-full overflow-clip rounded-sm border">
-            {!imageError ? (
+            {project.isCurrentSite ? (
+              <div className="aspect-[16/10] max-h-120 sm:aspect-[16/7]">
+                <CurrentSitePreview />
+              </div>
+            ) : !imageError ? (
               <Image
                 src={project.previewImage}
                 alt={`${t.accessibility.projectPreview} ${title}`}

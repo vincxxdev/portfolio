@@ -9,6 +9,8 @@ export interface Project {
   liveDemo?: string; // Optional live demo URL
   animationType: 'railway' | 'ataxx' | 'portfolio' | 'default';
   previewImage: string;
+  /** Render the current site's live cover instead of a screenshot. */
+  isCurrentSite?: boolean;
 }
 
 // Skill type definition

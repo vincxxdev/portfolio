@@ -10,6 +10,7 @@ import Card from './ui/Card';
 import Button from './ui/Button';
 import { useLocale } from '@/i18n';
 import type { Project } from '@/types';
+import CurrentSitePreview from './CurrentSitePreview';
 
 interface ProjectCardProps {
   project: Project;
@@ -36,13 +37,15 @@ const ProjectCard = ({ project, index, basePath = '/projects' }: ProjectCardProp
   return (
     <Card interactive padding="none" className="h-full overflow-hidden">
       <div className="relative aspect-[16/10] w-full overflow-hidden border-b border-hairline bg-sunken">
-        {!imageFailed ? (
+        {project.isCurrentSite ? (
+          <CurrentSitePreview />
+        ) : !imageFailed ? (
           <Image
             src={project.previewImage}
             alt={`${t.accessibility.projectPreview} ${title}`}
             fill
-            sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
-            className="object-cover"
+            sizes="(min-width: 1152px) 350px, (min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
+            className="object-contain"
             loading="lazy"
             onError={() => setImageFailed(true)}
           />
@@ -53,9 +56,11 @@ const ProjectCard = ({ project, index, basePath = '/projects' }: ProjectCardProp
           </div>
         )}
 
-        <span className="label-mono absolute left-0 top-0 bg-canvas px-2.5 py-1.5 text-ink-2">
-          {String(index + 1).padStart(2, '0')}
-        </span>
+        {!project.isCurrentSite && (
+          <span className="label-mono absolute left-0 top-0 bg-canvas px-2.5 py-1.5 text-ink-2">
+            {String(index + 1).padStart(2, '0')}
+          </span>
+        )}
       </div>
 
       <div className="flex flex-1 flex-col p-6">
@@ -77,11 +82,11 @@ const ProjectCard = ({ project, index, basePath = '/projects' }: ProjectCardProp
 
         <p className="mt-2.5 text-sm leading-relaxed text-ink-2">{tagline}</p>
 
-        <ul className="mt-5 flex flex-wrap gap-1.5">
+        <ul className="mt-5 flex flex-wrap gap-x-3 gap-y-1">
           {project.technologies.map((tech) => (
             <li
               key={tech}
-              className="label-mono border border-hairline px-2 py-1 text-ink-3"
+              className="font-mono text-xs text-ink-3"
             >
               {tech}
             </li>
@@ -103,7 +108,7 @@ const ProjectCard = ({ project, index, basePath = '/projects' }: ProjectCardProp
 
           {/* z-20 lifts these above the stretched link's pseudo-element. */}
           <div className="relative z-20 mt-4 flex gap-2.5 border-t border-hairline pt-4">
-            {project.liveDemo && (
+            {project.liveDemo && !project.isCurrentSite && (
               <Button
                 href={project.liveDemo}
                 target="_blank"

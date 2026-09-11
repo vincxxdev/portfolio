@@ -10,7 +10,8 @@ export const projectsData: Project[] = [
     "githubLink": "https://github.com/vincxxdev/portfolio",
     "liveDemo": "https://vincxx.dev",
     "animationType": "portfolio",
-    "previewImage": "/images/portfolio-preview.svg"
+    "previewImage": "/images/og-image.png",
+    "isCurrentSite": true
   },
   {
     "id": 2,

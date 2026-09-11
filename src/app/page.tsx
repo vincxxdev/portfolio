@@ -1,5 +1,4 @@
 import Hero from './components/Hero';
-import LandingStatus from './components/LandingStatus';
 import LandingPaths from './components/LandingPaths';
 import SelectedWork from './components/SelectedWork';
 import { ScrollToTop } from './components/ui/ScrollToTop';
@@ -15,9 +14,8 @@ export default function Home() {
   return (
     <main className="min-h-screen bg-canvas text-ink">
       <Hero />
-      <LandingStatus />
-      <LandingPaths />
       <SelectedWork />
+      <LandingPaths />
       <ScrollToTop />
     </main>
   );

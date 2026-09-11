@@ -101,15 +101,14 @@ const Contacts = ({ as = 'h1' }: ContactsProps) => {
           <h2 className="text-2xl text-ink sm:text-3xl">{t.contact.cta.title}</h2>
           <p className="mt-3 max-w-2xl text-base text-ink-2">{t.contact.cta.description}</p>
 
-          <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
+          <div className="mt-8 grid w-full gap-3 sm:w-fit sm:grid-cols-2">
             <Button
               href={`mailto:${siteConfig.contact.email}`}
               variant="primary"
               size="lg"
-              className="gap-2.5"
             >
-              <span>{t.contact.cta.action}</span>
               <Mail className="h-4 w-4" aria-hidden="true" />
+              <span>{t.contact.cta.action}</span>
             </Button>
             <DownloadCVButton variant="secondary" size="lg" />
           </div>

@@ -3,32 +3,36 @@
 import { cva, type VariantProps } from 'class-variance-authority';
 import clsx from 'clsx';
 import React from 'react';
+import Link from 'next/link';
 import { useSound } from '../hooks/useSound';
 import { motion, type HTMLMotionProps, useReducedMotion } from 'framer-motion';
 
+const MotionLink = motion.create(Link);
+
 const buttonVariants = cva(
-  'inline-flex items-center justify-center font-medium disabled:opacity-40 disabled:pointer-events-none aria-disabled:opacity-40 aria-disabled:pointer-events-none transition-colors duration-[180ms] ease-[cubic-bezier(0.2,0,0,1)]',
+  'inline-flex max-w-full items-center justify-center gap-2 border text-center font-medium disabled:opacity-40 disabled:pointer-events-none aria-disabled:opacity-40 aria-disabled:pointer-events-none transition-colors duration-(--dur-2) ease-snap [&_svg]:shrink-0',
   {
     variants: {
       variant: {
         // Solid signal. The one place the accent is allowed to fill an area.
         primary:
-          'rounded-sm bg-signal text-on-signal hover:bg-signal-hover shadow-raised',
+          'rounded-sm border-signal bg-signal text-on-signal hover:bg-signal-hover shadow-raised',
         // Inverts on hover — a mechanical state flip, not a tint.
         secondary:
-          'rounded-sm border border-ink bg-transparent text-ink hover:bg-ink hover:text-canvas',
+          'rounded-sm border-ink bg-transparent text-ink hover:bg-ink hover:text-canvas',
         ghost:
-          'rounded-sm text-ink-2 hover:bg-sunken hover:text-signal-ink',
+          'rounded-sm border-transparent text-ink-2 hover:bg-sunken hover:text-signal-ink',
         outline:
-          'rounded-sm border border-hairline-strong bg-transparent text-ink hover:border-ink',
+          'rounded-sm border-hairline-strong bg-transparent text-ink hover:border-ink',
         nav:
-          'font-mono uppercase tracking-[0.18em] text-ink-2 hover:text-signal-ink',
+          'border-transparent font-mono uppercase tracking-[0.18em] text-ink-2 hover:text-signal-ink',
       },
       size: {
-        default: 'px-5 py-2.5 text-sm',
-        sm: 'px-3.5 py-2 text-xs',
-        lg: 'px-7 py-3.5 text-base',
-        nav: 'px-3 py-2 text-2xs',
+        default: 'min-h-11 px-5 py-2.5 text-sm leading-5',
+        sm: 'min-h-10 px-3.5 py-2 text-xs leading-5',
+        lg: 'min-h-13 gap-2.5 px-7 py-3 text-base leading-6',
+        nav: 'min-h-9 px-3 py-2 text-2xs leading-4',
+        icon: 'h-9 w-9 shrink-0 p-0',
       },
     },
     defaultVariants: {
@@ -40,7 +44,7 @@ const buttonVariants = cva(
 
 type MotionDivProps = HTMLMotionProps<'div'>;
 
-interface ButtonProps extends VariantProps<typeof buttonVariants> {
+interface ButtonProps extends VariantProps<typeof buttonVariants>, React.AriaAttributes {
   children: React.ReactNode;
   className?: string;
   href?: string;
@@ -49,7 +53,7 @@ interface ButtonProps extends VariantProps<typeof buttonVariants> {
   rel?: string;
   type?: 'button' | 'submit' | 'reset';
   disabled?: boolean;
-  'aria-label'?: string;
+  title?: string;
   initial?: MotionDivProps['initial'];
   animate?: MotionDivProps['animate'];
   transition?: MotionDivProps['transition'];
@@ -66,10 +70,11 @@ const Button = ({
   rel,
   type = 'button',
   disabled,
-  'aria-label': ariaLabel,
+  title,
   initial,
   animate,
   transition,
+  ...ariaProps
 }: ButtonProps) => {
   const classes = clsx(buttonVariants({ variant, size, className }));
   const { playSound } = useSound();
@@ -97,24 +102,32 @@ const Button = ({
   const motionTransition = transition ?? { duration: 0.12, ease: [0.2, 0, 0, 1] };
 
   if (href) {
+    const linkProps: HTMLMotionProps<'a'> = {
+      onClick: handleClick,
+      onMouseEnter: handleHover,
+      target,
+      rel,
+      ...ariaProps,
+      title,
+      'aria-disabled': disabled || undefined,
+      role: disabled ? 'link' : undefined,
+      tabIndex: disabled ? -1 : undefined,
+      className: classes,
+      whileHover: hoverAnimation,
+      whileTap: tapAnimation,
+      initial,
+      animate,
+      transition: motionTransition,
+    };
+
+    // Keep internal CTAs in the App Router, preserving providers and avoiding
+    // a full document reload. Disabled and external links remain plain anchors.
+    if (!disabled && href.startsWith('/') && !href.startsWith('//')) {
+      return <MotionLink {...linkProps} href={href}>{children}</MotionLink>;
+    }
+
     return (
-      <motion.a
-        href={disabled ? undefined : href}
-        onClick={handleClick}
-        onMouseEnter={handleHover}
-        target={target}
-        rel={rel}
-        aria-label={ariaLabel}
-        aria-disabled={disabled || undefined}
-        role={disabled ? 'link' : undefined}
-        tabIndex={disabled ? -1 : undefined}
-        className={classes}
-        whileHover={hoverAnimation}
-        whileTap={tapAnimation}
-        initial={initial}
-        animate={animate}
-        transition={motionTransition}
-      >
+      <motion.a {...linkProps} href={disabled ? undefined : href}>
         {children}
       </motion.a>
     );
@@ -126,7 +139,8 @@ const Button = ({
       disabled={disabled}
       onClick={handleClick}
       onMouseEnter={handleHover}
-      aria-label={ariaLabel}
+      {...ariaProps}
+      title={title}
       className={classes}
       whileHover={hoverAnimation}
       whileTap={tapAnimation}

@@ -1,10 +1,12 @@
 'use client';
 
-import React, { useState, useRef, useEffect } from 'react';
-import { Download, FileText, ChevronDown } from 'lucide-react';
-import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
+import { useEffect, useId, useRef, useState } from 'react';
+import { ChevronDown, Download, FileText, LoaderCircle } from 'lucide-react';
+import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
 import { useAdmin } from '@/app/components/providers/AdminProvider';
 import { useLocale } from '@/i18n';
+import { DUR, EASE_SNAP } from '../motion';
+import Button from './Button';
 
 interface DownloadCVButtonProps {
   variant?: 'primary' | 'secondary' | 'icon';
@@ -14,40 +16,54 @@ interface DownloadCVButtonProps {
 
 type CVType = 'standard' | 'simplified';
 
-const DownloadCVButton: React.FC<DownloadCVButtonProps> = ({ 
-  variant = 'primary', 
+const DownloadCVButton = ({
+  variant = 'primary',
   size = 'md',
-  className = '' 
-}) => {
+  className = '',
+}: DownloadCVButtonProps) => {
   const { isAdmin, isLoading } = useAdmin();
   const { t, locale } = useLocale();
-  // These are JS-driven Framer values, which the global CSS
-  // prefers-reduced-motion rule in globals.css cannot reach. Gating has to
-  // happen here or this component animates for users who asked it not to.
   const shouldReduceMotion = useReducedMotion();
-  const press = shouldReduceMotion ? {} : { whileTap: { scale: 0.97 } };
-  const [isGenerating, setIsGenerating] = useState(false);
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [generatingType, setGeneratingType] = useState<CVType | null>(null);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const optionsRef = useRef<HTMLDivElement>(null);
+  const dropdownId = useId();
+  const isGenerating = generatingType !== null;
+  const iconOnly = variant === 'icon';
+  const statusText = isGenerating
+    ? generatingType === 'simplified' ? t.cv.generatingSimplified : t.cv.generating
+    : '';
 
-  // Close dropdown when clicking outside
   useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+    if (!isDropdownOpen) return;
+
+    optionsRef.current?.querySelector<HTMLButtonElement>('button')?.focus();
+    const handlePointerDown = (event: PointerEvent) => {
+      if (!dropdownRef.current?.contains(event.target as Node)) setIsDropdownOpen(false);
+    };
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        event.preventDefault();
+        event.stopPropagation();
         setIsDropdownOpen(false);
+        dropdownRef.current?.querySelector<HTMLButtonElement>('button')?.focus();
       }
     };
-
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, []);
+    document.addEventListener('pointerdown', handlePointerDown);
+    document.addEventListener('keydown', handleKeyDown, true);
+    return () => {
+      document.removeEventListener('pointerdown', handlePointerDown);
+      document.removeEventListener('keydown', handleKeyDown, true);
+    };
+  }, [isDropdownOpen]);
 
   const handleDownload = async (type: CVType) => {
-    setIsGenerating(true);
+    if (isLoading || isGenerating) return;
     setGeneratingType(type);
     setIsDropdownOpen(false);
-    
+    // Keep focus at the trigger when a dropdown option disappears.
+    dropdownRef.current?.querySelector<HTMLButtonElement>('button')?.focus();
     try {
       if (type === 'standard') {
         const { generateCV } = await import('@/lib/generateCV');
@@ -60,217 +76,67 @@ const DownloadCVButton: React.FC<DownloadCVButtonProps> = ({
       console.error('CV generation error:', error);
       alert(t.cv.error);
     } finally {
-      setIsGenerating(false);
       setGeneratingType(null);
     }
   };
 
-  // Direct download for non-admin users
-  const handleDirectDownload = async () => {
-    await handleDownload('standard');
-  };
-
-  // Base styles for the button
-  const baseStyles = "inline-flex items-center justify-center gap-2 font-semibold rounded-sm transition-colors duration-150 disabled:opacity-50 disabled:cursor-not-allowed focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-signal";
-
-  // Styles for different variants
-  const variantStyles = {
-    primary: "bg-signal text-on-signal hover:bg-signal-hover",
-    secondary: "bg-raised text-ink border border-hairline-strong hover:bg-signal hover:text-on-signal hover:border-signal",
-    icon: "bg-raised text-ink border border-hairline hover:bg-signal hover:text-on-signal p-2"
-  };
-
-  // Size styles
-  const sizeStyles = {
-    sm: "px-4 py-2 text-sm",
-    md: "px-6 py-3 text-base",
-    lg: "px-8 py-4 text-lg"
-  };
-
-  // Dropdown menu styles - z-[9999] ensures it appears above all other content including Hero
-  const dropdownStyles = "absolute top-full left-0 mt-2 w-full min-w-[220px] bg-raised border border-hairline-strong rounded-sm shadow-lifted overflow-hidden z-[9999]";
-  const dropdownItemStyles = "w-full px-4 py-3 text-left text-ink hover:bg-signal hover:text-on-signal transition-colors duration-200 flex items-center gap-2";
-
-  // Don't render anything while loading auth state
-  if (isLoading) {
-    return (
-      <div className={`${baseStyles} ${variantStyles[variant]} ${variant !== 'icon' ? sizeStyles[size] : ''} ${className} opacity-50`}>
-        <Download className="w-5 h-5" />
-        {variant !== 'icon' && <span>{t.cv.download}</span>}
-      </div>
-    );
-  }
-
-  // Icon variant - simplified for non-admin
-  if (variant === 'icon') {
-    // Non-admin: simple icon button that downloads directly
-    if (!isAdmin) {
-      return (
-        <motion.button
-          onClick={handleDirectDownload}
-          disabled={isGenerating}
-          className={`${baseStyles} ${variantStyles[variant]} ${className}`}
-          {...press}
-          title={t.cv.download}
-        >
-          {isGenerating ? (
-            <motion.div
-              animate={shouldReduceMotion ? undefined : { rotate: 360 }}
-              transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
-            >
-              <FileText className="w-5 h-5" />
-            </motion.div>
-          ) : (
-            <Download className="w-5 h-5" />
-          )}
-        </motion.button>
-      );
-    }
-
-    // Admin: icon with dropdown
-    return (
-      <div className="relative" ref={dropdownRef}>
-        <motion.button
-          onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-          disabled={isGenerating}
-          className={`${baseStyles} ${variantStyles[variant]} ${className}`}
-          {...press}
-          title={t.cv.download}
-        >
-          {isGenerating ? (
-            <motion.div
-              animate={shouldReduceMotion ? undefined : { rotate: 360 }}
-              transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
-            >
-              <FileText className="w-5 h-5" />
-            </motion.div>
-          ) : (
-            <Download className="w-5 h-5" />
-          )}
-        </motion.button>
-
-        <AnimatePresence>
-          {isDropdownOpen && (
-            <motion.div
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -10 }}
-              transition={{ duration: 0.2 }}
-              className={dropdownStyles}
-            >
-              <button
-                onClick={() => handleDownload('standard')}
-                disabled={isGenerating}
-                className={dropdownItemStyles}
-              >
-                <FileText className="w-4 h-4 text-signal-ink" />
-                <span>{t.cv.download}</span>
-              </button>
-              <button
-                onClick={() => handleDownload('simplified')}
-                disabled={isGenerating}
-                className={`${dropdownItemStyles} border-t border-hairline`}
-              >
-                <FileText className="w-4 h-4 text-signal-ink" />
-                <span>{t.cv.downloadSimplified}</span>
-              </button>
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </div>
-    );
-  }
-
-  // Non-admin: simple button that downloads standard CV directly
-  if (!isAdmin) {
-    return (
-      <motion.button
-        onClick={handleDirectDownload}
-        disabled={isGenerating}
-        className={`${baseStyles} ${variantStyles[variant]} ${sizeStyles[size]} ${className}`}
-        {...press}
-      >
-        {isGenerating ? (
-          <>
-            <motion.div
-              animate={shouldReduceMotion ? undefined : { rotate: 360 }}
-              transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
-            >
-              <FileText className="w-5 h-5" />
-            </motion.div>
-            <span>{t.cv.generating}</span>
-          </>
-        ) : (
-          <>
-            <Download className="w-5 h-5" />
-            <span>{t.cv.download}</span>
-          </>
-        )}
-      </motion.button>
-    );
-  }
-
-  // Admin: button with dropdown
   return (
-    <div className="relative" ref={dropdownRef}>
-      <motion.button
-        onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-        disabled={isGenerating}
-        className={`${baseStyles} ${variantStyles[variant]} ${sizeStyles[size]} ${className}`}
-        {...press}
+    <div ref={dropdownRef} className={`relative inline-flex max-w-full ${className}`}>
+      <Button
+        variant={iconOnly ? 'outline' : variant}
+        size={iconOnly ? 'icon' : size === 'md' ? 'default' : size}
+        className={iconOnly ? undefined : 'w-full'}
+        onClick={() => isAdmin ? setIsDropdownOpen((open) => !open) : void handleDownload('standard')}
+        disabled={isLoading || isGenerating}
+        aria-label={iconOnly ? t.cv.download : undefined}
+        aria-busy={isGenerating || undefined}
+        aria-expanded={isAdmin ? isDropdownOpen : undefined}
+        aria-controls={isAdmin ? dropdownId : undefined}
+        title={iconOnly ? t.cv.download : undefined}
       >
-        {isGenerating ? (
-          <>
-            <motion.div
-              animate={shouldReduceMotion ? undefined : { rotate: 360 }}
-              transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
-            >
-              <FileText className="w-5 h-5" />
-            </motion.div>
-            <span>
-              {generatingType === 'simplified' ? t.cv.generatingSimplified : t.cv.generating}
-            </span>
-          </>
-        ) : (
-          <>
-            <Download className="w-5 h-5" />
-            <span>{t.cv.download}</span>
-            <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${isDropdownOpen ? 'rotate-180' : ''}`} />
-          </>
+        {isGenerating
+          ? <LoaderCircle aria-hidden="true" className={`h-4 w-4 ${shouldReduceMotion ? '' : 'animate-spin'}`} />
+          : <Download aria-hidden="true" className="h-4 w-4" />}
+        {/* Keep the visible label and icon slot stable while generating so
+            adjacent actions never resize. Status is announced separately. */}
+        {!iconOnly && <span>{t.cv.download}</span>}
+        {isAdmin && !iconOnly && (
+          <ChevronDown aria-hidden="true" className={`h-4 w-4 transition-transform duration-(--dur-2) ${isDropdownOpen ? 'rotate-180' : ''}`} />
         )}
-      </motion.button>
+      </Button>
+      <span role="status" aria-live="polite" className="sr-only">{statusText}</span>
 
       <AnimatePresence>
-        {isDropdownOpen && (
+        {isAdmin && isDropdownOpen && (
           <motion.div
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-            transition={{ duration: 0.2 }}
-            className={dropdownStyles}
+            ref={optionsRef}
+            id={dropdownId}
+            role="group"
+            aria-label={t.cv.download}
+            initial={shouldReduceMotion ? false : { y: 8 }}
+            animate={{ y: 0 }}
+            exit={shouldReduceMotion ? undefined : { y: 4 }}
+            transition={{ duration: DUR.d2, ease: EASE_SNAP }}
+            className="absolute left-0 top-full z-50 mt-2 w-max min-w-full max-w-[calc(100vw-var(--spacing)*10)] rounded-sm border border-hairline-strong bg-raised p-1 shadow-lifted"
           >
-            <button
-              onClick={() => handleDownload('standard')}
-              disabled={isGenerating}
-              className={dropdownItemStyles}
-            >
-              <FileText className="w-4 h-4 text-signal-ink" />
-              <div className="flex flex-col items-start">
-                <span className="font-semibold">{t.cv.download}</span>
-                <span className="text-xs text-ink-3">{t.cv.technicalCV}</span>
-              </div>
-            </button>
-            <button
-              onClick={() => handleDownload('simplified')}
-              disabled={isGenerating}
-              className={`${dropdownItemStyles} border-t border-hairline`}
-            >
-              <FileText className="w-4 h-4 text-signal-ink" />
-              <div className="flex flex-col items-start">
-                <span className="font-semibold">{t.cv.downloadSimplified}</span>
-                <span className="text-xs text-ink-3">{t.cv.administrativeCV}</span>
-              </div>
-            </button>
+            {([
+              ['standard', t.cv.download, t.cv.technicalCV],
+              ['simplified', t.cv.downloadSimplified, t.cv.administrativeCV],
+            ] as const).map(([type, label, description]) => (
+              <Button
+                key={type}
+                variant="ghost"
+                onClick={() => void handleDownload(type)}
+                disabled={isGenerating}
+                className="w-full justify-start px-3 text-left"
+              >
+                <FileText aria-hidden="true" className="h-4 w-4" />
+                <span className="min-w-0">
+                  <span className="block">{label}</span>
+                  <span className="block text-xs font-normal">{description}</span>
+                </span>
+              </Button>
+            ))}
           </motion.div>
         )}
       </AnimatePresence>
@@ -279,4 +145,3 @@ const DownloadCVButton: React.FC<DownloadCVButtonProps> = ({
 };
 
 export default DownloadCVButton;
-

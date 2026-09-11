@@ -30,14 +30,19 @@ if (typeof window !== 'undefined') {
 
 /* Card and Button both call useSound, so a per-instance listener plus a
    localStorage read would run once per rendered card. One module-level store
-   fans out to every consumer instead. SoundToggle still owns the write side
-   and announces changes with the `soundToggle` event. */
-let soundEnabled = true;
+   fans out to every consumer, including the desktop and mobile toggles. */
+let soundEnabled = false;
 let soundStoreReady = false;
 const soundSubscribers = new Set<() => void>();
 
 function getSoundEnabled(): boolean {
   return soundEnabled;
+}
+
+function toggleSoundEnabled(): void {
+  soundEnabled = !soundEnabled;
+  localStorage.setItem('soundEnabled', JSON.stringify(soundEnabled));
+  window.dispatchEvent(new CustomEvent('soundToggle', { detail: soundEnabled }));
 }
 
 function subscribeToSound(onChange: () => void): () => void {
@@ -73,7 +78,7 @@ function getAudioContext(): AudioContext | null {
 }
 
 export const useSound = () => {
-  const soundEnabled = useSyncExternalStore(subscribeToSound, getSoundEnabled, () => true);
+  const soundEnabled = useSyncExternalStore(subscribeToSound, getSoundEnabled, () => false);
   const lastHoverTime = useRef(0);
 
   const playSound = useCallback((type: SoundType) => {
@@ -128,5 +133,5 @@ export const useSound = () => {
     }
   }, [soundEnabled]);
 
-  return { playSound };
+  return { playSound, soundEnabled, toggleSound: toggleSoundEnabled };
 };

@@ -3,7 +3,7 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Menu, X } from 'lucide-react';
+import { ArrowUpRight, Menu, X } from 'lucide-react';
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
 
 import { ThemeSwitcher } from './ThemeSwitcher';
@@ -36,7 +36,10 @@ const Navbar = () => {
   ];
 
   const isActive = (href: string) =>
-    href === '/' ? pathname === '/' : pathname === href || pathname.startsWith(`${href}/`);
+    href === '/'
+      ? pathname === '/'
+      : pathname === href || pathname.startsWith(`${href}/`) ||
+        (href === '/work' && pathname.startsWith('/projects/'));
 
   const closeMenu = useCallback(() => setIsOpen(false), []);
 
@@ -108,9 +111,19 @@ const Navbar = () => {
     closeMenu();
   }, [pathname, closeMenu]);
 
+  // Resizing must release the focus trap and body lock when the dialog hides.
+  useEffect(() => {
+    const desktop = window.matchMedia('(min-width: 820px)');
+    const handleChange = () => {
+      if (desktop.matches) closeMenu();
+    };
+    desktop.addEventListener('change', handleChange);
+    return () => desktop.removeEventListener('change', handleChange);
+  }, [closeMenu]);
+
   const linkClass = (active: boolean) =>
-    `label-mono px-3 py-2 transition-colors duration-[180ms] ease-[cubic-bezier(0.2,0,0,1)] ${
-      active ? 'text-signal-ink' : 'text-ink-2 hover:text-ink'
+    `label-mono border-b-2 px-3 py-3 transition-colors duration-(--dur-2) ease-snap ${
+      active ? 'border-signal text-signal-ink' : 'border-transparent text-ink-2 hover:border-hairline-strong hover:text-ink'
     }`;
 
   return (
@@ -154,7 +167,6 @@ const Navbar = () => {
             <span aria-hidden="true" className="h-4 w-px bg-hairline" />
 
             <div className="flex items-center gap-1.5">
-              <DownloadCVButton variant="icon" />
               <SoundToggle />
               <LanguageSwitcher />
               <ThemeSwitcher />
@@ -170,7 +182,8 @@ const Navbar = () => {
               onClick={() => setIsOpen(true)}
               aria-label={t.nav.openMenu}
               aria-expanded={isOpen}
-              className="p-2 text-ink transition-colors duration-[180ms] hover:text-signal-ink"
+              aria-controls="mobile-navigation"
+              className="flex h-11 w-11 items-center justify-center text-ink transition-colors duration-(--dur-2) hover:text-signal-ink"
             >
               <Menu className="h-6 w-6" aria-hidden="true" />
             </button>
@@ -182,6 +195,7 @@ const Navbar = () => {
         {isOpen && (
           <motion.div
             ref={overlayRef}
+            id="mobile-navigation"
             role="dialog"
             aria-modal="true"
             aria-label={t.nav.openMenu}
@@ -219,6 +233,7 @@ const Navbar = () => {
                     }`}
                   >
                     {link.label}
+                    <ArrowUpRight aria-hidden="true" className="h-5 w-5" />
                   </Link>
                 ))}
               </div>

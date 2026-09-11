@@ -9,7 +9,7 @@ import { useLocale } from '@/i18n';
 
 export const ThemeSwitcher = () => {
   const [mounted, setMounted] = useState(false);
-  const { theme, setTheme } = useTheme();
+  const { resolvedTheme, setTheme } = useTheme();
   const { t } = useLocale();
   const { playSound } = useSound();
   const shouldReduceMotion = useReducedMotion();
@@ -23,7 +23,7 @@ export const ThemeSwitcher = () => {
     return <div className="h-9 w-9" />;
   }
 
-  const isDark = theme === 'dark';
+  const isDark = resolvedTheme === 'dark';
 
   const handleThemeToggle = () => {
     playSound('pop');

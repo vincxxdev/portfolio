@@ -70,6 +70,7 @@ export interface Translations {
       listHeading: string;
       filterLabel: string;
       filterAll: string;
+      resetFilter: string;
       countOne: string;
       countMany: string;
       empty: string;
@@ -79,6 +80,13 @@ export interface Translations {
       liveDemo: string;
       github: string;
       previewUnavailable: string;
+    };
+    currentSite: {
+      label: string;
+      title: string;
+      emphasis: string;
+      description: string;
+      home: string;
     };
     caseStudy: {
       backToWork: string;

@@ -34,7 +34,7 @@ export const en: Translations = {
       locationLabel: 'Based in',
     },
     paths: {
-      label: 'Where would you like to start',
+      label: 'Keep exploring',
       work: {
         title: 'See the work',
         description: 'Projects with the context, the technical choices and what I took away.',
@@ -50,7 +50,7 @@ export const en: Translations = {
     },
     selectedWork: {
       label: 'Work',
-      title: 'A selection of my work',
+      title: 'Selected projects',
       description:
         'Three projects that show how I work: two built in a team at university, one the site you are reading.',
       viewAll: 'See all projects',
@@ -64,6 +64,7 @@ export const en: Translations = {
       listHeading: 'Project index',
       filterLabel: 'Filter by technology',
       filterAll: 'All',
+      resetFilter: 'Clear filter',
       countOne: '{n} project',
       countMany: '{n} projects',
       empty: 'No projects using this technology.',
@@ -73,6 +74,13 @@ export const en: Translations = {
       liveDemo: 'Live demo',
       github: 'GitHub',
       previewUnavailable: 'Preview unavailable',
+    },
+    currentSite: {
+      label: 'This site',
+      title: 'You’re',
+      emphasis: 'here.',
+      description: 'The portfolio you’re exploring.',
+      home: 'Back to home',
     },
     caseStudy: {
       backToWork: 'Back to work',

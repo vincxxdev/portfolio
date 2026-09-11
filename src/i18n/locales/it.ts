@@ -34,7 +34,7 @@ export const it: Translations = {
       locationLabel: 'Dove',
     },
     paths: {
-      label: 'Da dove vuoi cominciare',
+      label: 'Continua a esplorare',
       work: {
         title: 'Guarda il lavoro',
         description: 'Progetti con il contesto, le scelte tecniche e cosa ho imparato.',
@@ -50,7 +50,7 @@ export const it: Translations = {
     },
     selectedWork: {
       label: 'Progetti',
-      title: 'Una selezione del mio lavoro',
+      title: 'Progetti selezionati',
       description:
         'Tre progetti che raccontano come lavoro: due nati all’università in gruppo, uno il sito che stai leggendo.',
       viewAll: 'Vedi tutti i progetti',
@@ -64,6 +64,7 @@ export const it: Translations = {
       listHeading: 'Elenco dei progetti',
       filterLabel: 'Filtra per tecnologia',
       filterAll: 'Tutti',
+      resetFilter: 'Rimuovi filtro',
       countOne: '{n} progetto',
       countMany: '{n} progetti',
       empty: 'Nessun progetto con questa tecnologia.',
@@ -73,6 +74,13 @@ export const it: Translations = {
       liveDemo: 'Live demo',
       github: 'GitHub',
       previewUnavailable: 'Anteprima non disponibile',
+    },
+    currentSite: {
+      label: 'Questo sito',
+      title: 'Sei già',
+      emphasis: 'qui.',
+      description: 'Il portfolio che stai esplorando.',
+      home: 'Torna alla home',
     },
     caseStudy: {
       backToWork: 'Torna ai progetti',

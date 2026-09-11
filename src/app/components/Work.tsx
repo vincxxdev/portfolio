@@ -1,7 +1,8 @@
 'use client';
 
-import React, { useMemo, useState } from 'react';
+import React, { useMemo, useRef, useState } from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
+import { ChevronDown, SlidersHorizontal, X } from 'lucide-react';
 
 import ProjectCard from './ProjectCard';
 import SectionIntro from './SectionIntro';
@@ -53,6 +54,7 @@ const Work = ({ as = 'h1', basePath = '/projects' }: WorkProps) => {
   const { t } = useLocale();
   const shouldReduceMotion = useReducedMotion();
   const [activeTech, setActiveTech] = useState<string | null>(null);
+  const filterToggleRef = useRef<HTMLElement>(null);
 
   // Counted here rather than per render: with three projects the union is 14
   // technologies, most of them matching a single project. Showing the count in
@@ -102,53 +104,72 @@ const Work = ({ as = 'h1', basePath = '/projects' }: WorkProps) => {
             h1 -> h3 jump. */}
         <h2 className="sr-only">{t.work.index.listHeading}</h2>
 
-        <div className="mt-14 border-y border-hairline py-6">
-          <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-            <span className="label-mono text-ink-3" id="work-filter-label">
-              {t.work.index.filterLabel}
-            </span>
-            <p className="label-mono text-ink-3" aria-live="polite">
-              {countLabel}
-            </p>
-          </div>
-
-          <div className="mt-5 flex flex-wrap gap-2" role="group" aria-labelledby="work-filter-label">
-            <button
-              type="button"
-              onClick={() => setActiveTech(null)}
-              aria-pressed={activeTech === null}
-              className={chipClass(activeTech === null)}
-            >
-              {t.work.index.filterAll}
-              <ChipCount
-                n={projectsData.length}
-                phrase={countPhrase(projectsData.length)}
-                selected={activeTech === null}
-              />
-            </button>
-            {technologies.map(({ name, count: techCount }) => (
+        <div className="mt-10 border-y border-hairline">
+          <details className="group/filter">
+            <summary ref={filterToggleRef} className="flex min-h-16 list-none items-center justify-between gap-4 py-4 text-sm font-medium text-ink marker:content-none [&::-webkit-details-marker]:hidden">
+              <span className="flex items-center gap-3" id="work-filter-label">
+                <SlidersHorizontal aria-hidden="true" className="h-4 w-4 text-signal-ink" />
+                {t.work.index.filterLabel}
+              </span>
+              <ChevronDown aria-hidden="true" className="h-4 w-4 shrink-0 transition-transform duration-(--dur-2) group-open/filter:rotate-180" />
+            </summary>
+            <div className="flex flex-wrap gap-2 pb-6" role="group" aria-labelledby="work-filter-label">
               <button
-                key={name}
                 type="button"
-                onClick={() => setActiveTech(name)}
-                aria-pressed={activeTech === name}
-                className={chipClass(activeTech === name)}
+                onClick={() => setActiveTech(null)}
+                aria-pressed={activeTech === null}
+                className={chipClass(activeTech === null)}
               >
-                {name}
+                {t.work.index.filterAll}
                 <ChipCount
-                  n={techCount}
-                  phrase={countPhrase(techCount)}
-                  selected={activeTech === name}
+                  n={projectsData.length}
+                  phrase={countPhrase(projectsData.length)}
+                  selected={activeTech === null}
                 />
               </button>
-            ))}
-          </div>
+              {technologies.map(({ name, count: techCount }) => (
+                <button
+                  key={name}
+                  type="button"
+                  onClick={() => setActiveTech(name)}
+                  aria-pressed={activeTech === name}
+                  className={chipClass(activeTech === name)}
+                >
+                  {name}
+                  <ChipCount
+                    n={techCount}
+                    phrase={countPhrase(techCount)}
+                    selected={activeTech === name}
+                  />
+                </button>
+              ))}
+            </div>
+          </details>
+        </div>
+
+        <div className="mt-6 flex min-h-11 flex-wrap items-center justify-between gap-3">
+          <p className="label-mono text-ink-3" role="status" aria-live="polite" aria-atomic="true">
+            {countLabel}{activeTech && ` · ${activeTech}`}
+          </p>
+          {activeTech && (
+            <button
+              type="button"
+              onClick={() => {
+                setActiveTech(null);
+                filterToggleRef.current?.focus();
+              }}
+              className="inline-flex min-h-11 items-center gap-2 text-sm text-signal-ink underline underline-offset-4"
+            >
+              {t.work.index.resetFilter}
+              <X aria-hidden="true" className="h-4 w-4" />
+            </button>
+          )}
         </div>
 
         {count === 0 ? (
           <p className="mt-14 text-base text-ink-2">{t.work.index.empty}</p>
         ) : (
-          <div className="mt-14 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+          <div className="mt-6 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
             {visibleProjects.map((project, index) => (
               <motion.div
                 key={project.id}

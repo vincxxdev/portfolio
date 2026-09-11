@@ -48,6 +48,12 @@
   --text-7xl: 5.5rem;
   --text-7xl--line-height: 0.94;
   --text-7xl--letter-spacing: -0.045em;
+  --text-preview: clamp(var(--text-3xl), 13cqw, var(--text-7xl));
+  --text-preview--line-height: 0.98;
+  --text-preview--letter-spacing: -0.04em;
+  --text-intro: clamp(var(--text-4xl), 12vw, var(--text-9xl));
+  --text-intro--line-height: 1;
+  --text-intro--letter-spacing: -0.06em;
 
   /* ---- Surfaces: cool concrete in light, graphite in dark ----
          canvas/ink here and in the dark block below are mirrored literally by
@@ -125,8 +131,6 @@
   --dur-3: 260ms;
   --dur-4: 380ms;
 
-  --animate-typewriter: typing 0.35s steps(9, end), caret-blink 0.75s step-end infinite;
-  --animate-fade-out-bck: fade-out-bck 0.2s var(--ease-exit) 0.4s both;
   --animate-blob: drift 18s var(--ease-mech) infinite;
 }
 
@@ -216,10 +220,6 @@ h1, h2, h3, h4, h5, h6 {
   animation-delay: 2s;
 }
 
-@utility animation-delay-4000 {
-  animation-delay: 4s;
-}
-
 /* Eyebrow / label register: mono, wide-tracked, uppercase. */
 @utility label-mono {
   font-family: var(--font-mono);
@@ -236,19 +236,108 @@ h1, h2, h3, h4, h5, h6 {
 
 /* ---- Keyframes: transform/opacity only ---- */
 
-@keyframes typing {
-  from { width: 0; }
-  to { width: 100%; }
+/* First-visit signature. The wordmark is clipped into three static bands;
+   only their transforms move. The two half-screen panels have no filters or
+   continuous effects and disappear after one short timeline. */
+.site-intro {
+  animation: intro-finish var(--intro-duration) linear both;
 }
 
-@keyframes caret-blink {
-  from, to { border-color: transparent; }
-  50% { border-color: var(--color-signal); }
+.intro-panel {
+  animation: var(--intro-open) var(--intro-duration) var(--ease-mech) both;
 }
 
-@keyframes fade-out-bck {
-  from { transform: translateZ(0); opacity: 1; }
-  to { transform: translateZ(-80px); opacity: 0; }
+.intro-panel-top { --intro-open: intro-open-top; }
+.intro-panel-bottom { --intro-open: intro-open-bottom; }
+
+.intro-seam {
+  animation: intro-seam var(--intro-duration) var(--ease-mech) both;
+}
+
+.intro-signature {
+  animation: intro-signature var(--intro-duration) var(--ease-snap) both;
+}
+
+.intro-slice {
+  animation: intro-register var(--intro-duration) var(--ease-snap) both;
+}
+
+.intro-slice-top {
+  --register-x: -0.24em;
+  --register-y: -0.06em;
+  clip-path: inset(0 0 66% 0);
+}
+
+.intro-slice-middle {
+  --register-x: 0.2em;
+  --register-y: 0em;
+  clip-path: inset(33% 0 33% 0);
+}
+
+.intro-slice-bottom {
+  --register-x: -0.12em;
+  --register-y: 0.06em;
+  clip-path: inset(66% 0 0 0);
+}
+
+.intro-bracket {
+  animation: intro-bracket var(--intro-duration) var(--ease-snap) both;
+}
+.intro-bracket-start { --bracket-x: -100%; --bracket-y: -100%; }
+.intro-bracket-end { --bracket-x: 100%; --bracket-y: 100%; }
+
+.intro-caption {
+  animation: intro-caption var(--intro-duration) var(--ease-snap) both;
+}
+
+@keyframes intro-finish {
+  0%, 94% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+@keyframes intro-register {
+  0% { transform: translate(var(--register-x), var(--register-y)); }
+  36%, 54% { transform: translate(0, 0); }
+  68%, 100% { transform: translate(var(--register-x), 0); }
+}
+
+@keyframes intro-bracket {
+  0% { transform: translate(var(--bracket-x), var(--bracket-y)); opacity: 0; }
+  30%, 54% { transform: translate(0, 0); opacity: 1; }
+  68%, 100% { transform: translate(var(--bracket-x), 0); opacity: 0; }
+}
+
+@keyframes intro-caption {
+  0%, 18% { transform: translateY(0.5em); opacity: 0; }
+  38%, 54% { transform: translateY(0); opacity: 1; }
+  64%, 100% { transform: translateY(-0.5em); opacity: 0; }
+}
+
+@keyframes intro-signature {
+  0%, 54% { opacity: 1; }
+  66%, 100% { opacity: 0; }
+}
+
+@keyframes intro-seam {
+  0% { transform: scaleX(0); opacity: 0; }
+  30% { transform: scaleX(0.16); opacity: 1; }
+  56% { transform: scaleX(1); opacity: 1; }
+  70%, 100% { transform: scaleX(1); opacity: 0; }
+}
+
+@keyframes intro-open-top {
+  0%, 58% { transform: translateY(0); }
+  100% { transform: translateY(-100%); }
+}
+
+@keyframes intro-open-bottom {
+  0%, 58% { transform: translateY(0); }
+  100% { transform: translateY(100%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .site-intro { display: none; }
+  .site-intro, .site-intro * { animation: none; }
 }
 
 /* Slow ambient drift — replaces the old blob wobble. Straight-line

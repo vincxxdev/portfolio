@@ -1,27 +1,58 @@
 'use client';
 
-import React from 'react';
+import { forwardRef, type CSSProperties } from 'react';
+import { siteConfig } from '@/config/site';
 
-const Animation = () => {
-  return (
-    <div
-      className="pointer-events-none fixed inset-0 z-50 flex items-center justify-center overflow-hidden bg-canvas animate-fade-out-bck"
-    >
-      {/* Tonal drift on the sunken step — no blur filters, no chroma. */}
-      <div className="absolute top-0 left-0 w-full h-full -z-10" aria-hidden="true">
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-sunken animate-blob"></div>
-        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-sunken animate-blob animation-delay-2000"></div>
-        <div className="absolute top-1/2 left-1/2 w-96 h-96 bg-sunken animate-blob animation-delay-4000"></div>
-      </div>
+// One duration drives both the CSS timeline and Loader's fallback cleanup.
+export const INTRO_DURATION_MS = 1100;
 
-      {/* Not a heading: Hero owns the page's only h1. */}
-      <div className="z-10">
-        <p className="text-6xl md:text-9xl font-bold text-ink overflow-hidden whitespace-nowrap border-r-4 border-r-signal animate-typewriter">
-          vincxxdev
+interface AnimationProps {
+  onComplete: () => void;
+}
+
+/** Three print registers become one signature, then the page opens at the seam.
+ * All motion is CSS transform/opacity; clipping is static, with no frame loop.
+ */
+const Animation = forwardRef<HTMLDivElement, AnimationProps>(({ onComplete }, ref) => (
+  <div
+    ref={ref}
+    aria-hidden="true"
+    className="site-intro pointer-events-none fixed inset-0 z-50 overflow-clip"
+    style={{ '--intro-duration': `${INTRO_DURATION_MS}ms` } as CSSProperties}
+    onAnimationEnd={(event) => {
+      if (event.target === event.currentTarget && event.animationName === 'intro-finish') {
+        onComplete();
+      }
+    }}
+  >
+    <div className="intro-panel intro-panel-top absolute inset-x-0 top-0 h-1/2 bg-canvas">
+      <div className="bg-section-grid absolute inset-0" />
+    </div>
+    <div className="intro-panel intro-panel-bottom absolute inset-x-0 bottom-0 h-1/2 bg-canvas">
+      <div className="bg-section-grid absolute inset-0" />
+    </div>
+
+    <div className="intro-seam absolute inset-x-0 top-1/2 h-px origin-center bg-signal" />
+
+    <div className="absolute inset-0 flex items-center justify-center px-5 sm:px-8">
+      <div className="intro-signature relative pb-8 pt-7 sm:pb-12 sm:pt-10">
+        <span className="intro-bracket intro-bracket-start absolute -left-3 top-0 h-4 w-4 border-l border-t border-signal sm:-left-6 sm:h-6 sm:w-6" />
+        <span className="intro-bracket intro-bracket-end absolute -right-3 bottom-0 h-4 w-4 border-b border-r border-signal sm:-right-6 sm:h-6 sm:w-6" />
+
+        {/* Repeated slices are decorative; the page underneath owns its h1. */}
+        <div className="grid font-display text-intro font-extrabold text-ink">
+          <span className="intro-slice intro-slice-top col-start-1 row-start-1">{siteConfig.name}</span>
+          <span className="intro-slice intro-slice-middle col-start-1 row-start-1">{siteConfig.name}</span>
+          <span className="intro-slice intro-slice-bottom col-start-1 row-start-1">{siteConfig.name}</span>
+        </div>
+        <p className="intro-caption label-mono absolute inset-x-0 bottom-0 text-center text-ink-2">
+          {siteConfig.personal.fullName || siteConfig.author}
         </p>
       </div>
     </div>
-  );
-};
+  </div>
+));
+
+Animation.displayName = 'Animation';
 
 export default Animation;

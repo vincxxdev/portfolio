@@ -1,0 +1,84 @@
+.trunk {
+  width: 1px;
+  height: calc(var(--spacing) * 8);
+  margin-inline-start: calc(var(--spacing) * 3);
+  background: var(--color-signal-ink);
+}
+
+.branches {
+  position: relative;
+  display: grid;
+  gap: calc(var(--spacing) * 8);
+  margin-inline-start: calc(var(--spacing) * 3);
+  padding-inline-start: calc(var(--spacing) * 6);
+  border-inline-start: 1px solid var(--color-signal-ink);
+}
+
+.branch {
+  position: relative;
+  min-width: 0;
+}
+
+/* The mobile bus connects the shared objective to parallel branches. It does
+   not imply that the effect of one choice causes the next choice. */
+.branch::before,
+.branch::after {
+  content: '';
+  position: absolute;
+  inset-inline-start: calc(var(--spacing) * -6);
+  width: calc(var(--spacing) * 6);
+  height: 1px;
+  background: var(--color-signal-ink);
+}
+
+.branch::before { top: calc(var(--spacing) * 6); }
+.branch::after { bottom: calc(var(--spacing) * 6); }
+
+@media (min-width: 64rem) {
+  .trunk {
+    margin-inline: auto;
+  }
+
+  .branches {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-rows: auto auto auto auto auto;
+    column-gap: calc(var(--spacing) * 6);
+    row-gap: 0;
+    margin: 0;
+    padding: 0;
+    border: 0;
+  }
+
+  .branches::before,
+  .branches::after {
+    content: '';
+    position: absolute;
+    /* Each endpoint meets the centre of the first/last grid column. */
+    inset-inline: calc((100% - var(--spacing) * 12) / 6);
+    height: 1px;
+    background: var(--color-signal-ink);
+  }
+
+  .branches::before { top: 0; }
+  .branches::after { bottom: 0; }
+
+  .branch {
+    display: grid;
+    grid-template-rows: subgrid;
+    grid-row: span 5;
+    padding-block: calc(var(--spacing) * 8);
+  }
+
+  .branch::before,
+  .branch::after {
+    content: '';
+    position: absolute;
+    inset-inline-start: 50%;
+    width: 1px;
+    height: calc(var(--spacing) * 8);
+    background: var(--color-signal-ink);
+  }
+
+  .branch::before { top: 0; }
+  .branch::after { bottom: 0; }
+}

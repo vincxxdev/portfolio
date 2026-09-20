@@ -1,20 +1,18 @@
 'use client';
 
 import React, { useState } from 'react';
-import { motion, useReducedMotion } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
 import { SiGithub } from 'react-icons/si';
 import { ExternalLink, Code2, ArrowLeft, ArrowRight } from 'lucide-react';
 
 import type { Project } from '@/types';
-import type { NarrativeBlock } from '@/i18n/types';
 import { useLocale } from '@/i18n';
 import Button from '@/app/components/ui/Button';
-import { registerIn } from '@/app/components/motion';
 import { CardDivider } from '@/app/components/ui/CardComponents';
 import { MagneticButton } from '@/app/components/ui/MagneticButton';
 import CurrentSitePreview from '@/app/components/CurrentSitePreview';
+import ReasoningDiagram from '@/app/components/ReasoningDiagram';
 
 interface MetaItemProps {
   label: string;
@@ -28,55 +26,6 @@ const MetaItem = ({ label, children }: MetaItemProps) => (
   </div>
 );
 
-interface CaseStudySectionProps {
-  index: number;
-  label: string;
-  block: NarrativeBlock;
-}
-
-/**
- * Long-form prose, so no Card: a padded surface around body copy adds a frame
- * to read through without adding structure. The number, label and measure mark
- * carry the section break instead, and the paragraphs keep a max-w-2xl measure.
- */
-const CaseStudySection = ({ index, label, block }: CaseStudySectionProps) => {
-  const shouldReduceMotion = useReducedMotion();
-
-  return (
-    <section className="relative border-t border-hairline py-16 sm:py-24">
-      <div className="bg-section-grid absolute inset-0" aria-hidden="true" />
-      <div className="relative z-10 mx-auto max-w-6xl px-5 sm:px-8">
-        {/* Known subtree with no positioned descendants, so a transformed
-            wrapper is safe here — unlike a wrapper around arbitrary children. */}
-        <motion.div {...registerIn(!!shouldReduceMotion, 18)}>
-          <div className="flex items-baseline gap-3">
-            <span className="label-mono text-signal-ink">
-              {String(index).padStart(2, '0')}
-            </span>
-            <span className="label-mono text-ink-3">{label}</span>
-          </div>
-
-          <h2 className="mt-4 max-w-2xl text-2xl text-ink sm:text-3xl">{block.title}</h2>
-
-          {/* Measure mark: a signal segment butted against a hairline run. */}
-          <div aria-hidden="true" className="mt-5 flex items-center">
-            <span className="h-0.5 w-10 bg-signal" />
-            <span className="h-px w-24 bg-hairline" />
-          </div>
-
-          <div className="mt-8 max-w-2xl space-y-5">
-            {block.paragraphs.map((paragraph, i) => (
-              <p key={i} className="text-base leading-relaxed text-ink-2">
-                {paragraph}
-              </p>
-            ))}
-          </div>
-        </motion.div>
-      </div>
-    </section>
-  );
-};
-
 interface CaseStudyViewProps {
   project: Project;
   nextProject?: Project;
@@ -88,7 +37,6 @@ const CaseStudyView = ({ project, nextProject }: CaseStudyViewProps) => {
 
   const localized = t.projects.items[project.id];
   const title = localized?.title ?? project.title;
-  const description = localized?.description ?? project.description;
   const caseStudy = localized?.caseStudy;
   const labels = t.work.caseStudy;
 
@@ -97,7 +45,7 @@ const CaseStudyView = ({ project, nextProject }: CaseStudyViewProps) => {
 
   return (
     <main className="relative">
-      <section className="relative pt-32 pb-14 sm:pt-40 sm:pb-20">
+      <section className="relative pt-32 pb-12 sm:pt-40 sm:pb-14">
         <div className="bg-section-grid absolute inset-0" aria-hidden="true" />
 
         <div className="relative z-10 mx-auto max-w-6xl px-5 sm:px-8">
@@ -119,11 +67,7 @@ const CaseStudyView = ({ project, nextProject }: CaseStudyViewProps) => {
             </p>
           )}
 
-          <p className="mt-5 max-w-2xl text-base leading-relaxed text-ink-2">
-            {description}
-          </p>
-
-          <CardDivider className="my-10" />
+          <CardDivider className="my-8" />
 
           <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
             {localized?.role && (
@@ -179,7 +123,15 @@ const CaseStudyView = ({ project, nextProject }: CaseStudyViewProps) => {
             </MetaItem>
           </div>
 
-          <div className="border-hairline bg-raised relative mt-12 w-full overflow-clip rounded-sm border">
+        </div>
+      </section>
+
+      {caseStudy && <ReasoningDiagram diagram={caseStudy} labels={labels.diagram} />}
+
+      <section className="border-t border-hairline py-12 sm:py-16" aria-labelledby="project-preview-title">
+        <div className="mx-auto max-w-6xl px-5 sm:px-8">
+          <h2 id="project-preview-title" className="text-2xl text-ink sm:text-3xl">{labels.previewLabel}</h2>
+          <div className="border-hairline bg-raised relative mt-6 w-full overflow-clip rounded-sm border">
             {project.isCurrentSite ? (
               <div className="aspect-[16/10] max-h-120 sm:aspect-[16/7]">
                 <CurrentSitePreview />
@@ -190,8 +142,7 @@ const CaseStudyView = ({ project, nextProject }: CaseStudyViewProps) => {
                 alt={`${t.accessibility.projectPreview} ${title}`}
                 width={1200}
                 height={630}
-                priority
-                className="h-auto max-h-[480px] w-full object-cover"
+                className="h-auto max-h-120 w-full bg-sunken object-contain"
                 onError={() => setImageError(true)}
               />
             ) : (
@@ -206,27 +157,20 @@ const CaseStudyView = ({ project, nextProject }: CaseStudyViewProps) => {
         </div>
       </section>
 
-      {caseStudy && (
-        <>
-          <CaseStudySection index={1} label={labels.contextLabel} block={caseStudy.context} />
-          <CaseStudySection index={2} label={labels.approachLabel} block={caseStudy.approach} />
-          <CaseStudySection index={3} label={labels.outcomeLabel} block={caseStudy.outcome} />
-        </>
-      )}
-
-      {/* Matches the narrative sections' own top hairline rather than drawing a
-          second rule inside a section that already starts with one. */}
       <section className="relative border-t border-hairline py-16 sm:py-20">
         <div className="bg-section-grid absolute inset-0" aria-hidden="true" />
         <div className="relative z-10 mx-auto max-w-6xl px-5 sm:px-8">
           <div className="flex flex-col gap-8 sm:flex-row sm:items-end sm:justify-between">
-            <Link
-              href="/work"
-              className="label-mono inline-flex items-center gap-2 text-ink-2 transition-colors duration-[180ms] ease-[cubic-bezier(0.2,0,0,1)] hover:text-signal-ink"
-            >
-              <ArrowLeft className="h-3.5 w-3.5" aria-hidden="true" />
-              {labels.backToWork}
-            </Link>
+            <div className="flex flex-wrap items-center gap-6">
+              <Link
+                href="/work"
+                className="label-mono inline-flex items-center gap-2 text-ink-2 transition-colors duration-[180ms] ease-[cubic-bezier(0.2,0,0,1)] hover:text-signal-ink"
+              >
+                <ArrowLeft className="h-3.5 w-3.5" aria-hidden="true" />
+                {labels.backToWork}
+              </Link>
+              <Button href="/contact" variant="secondary">{t.hero.buttons.contact}</Button>
+            </div>
 
             {nextProject && nextTitle && (
               <Link

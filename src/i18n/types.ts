@@ -1,8 +1,30 @@
 export type Locale = 'it' | 'en';
 
-export interface NarrativeBlock {
+export interface CaseStudySource {
+  label: string;
+  href: string;
+}
+
+export interface ReasoningDecision {
+  id: string;
+  constraint: string;
   title: string;
-  paragraphs: string[];
+  reason: string;
+  tradeoff: string;
+  evidence: string;
+  effect: string;
+  sources: CaseStudySource[];
+  contribution?: {
+    description: string;
+    sources: CaseStudySource[];
+  };
+}
+
+export interface ReasoningDiagram {
+  objective: { title: string; description: string };
+  contribution?: { summary: string; team: string };
+  decisions: [ReasoningDecision, ReasoningDecision, ReasoningDecision];
+  outcome: { title: string; description: string };
 }
 
 export interface ProjectContent {
@@ -11,11 +33,7 @@ export interface ProjectContent {
   tagline: string;
   role: string;
   period: string;
-  caseStudy?: {
-    context: NarrativeBlock;
-    approach: NarrativeBlock;
-    outcome: NarrativeBlock;
-  };
+  caseStudy?: ReasoningDiagram;
 }
 
 export interface Translations {
@@ -93,10 +111,27 @@ export interface Translations {
       roleLabel: string;
       periodLabel: string;
       stackLabel: string;
-      contextLabel: string;
-      approachLabel: string;
-      outcomeLabel: string;
+      diagram: {
+        eyebrow: string;
+        title: string;
+        description: string;
+        objective: string;
+        contribution: string;
+        team: string;
+        constraint: string;
+        decision: string;
+        effect: string;
+        reason: string;
+        tradeoff: string;
+        evidence: string;
+        sources: string;
+        outcome: string;
+        expand: string;
+        collapse: string;
+        note: string;
+      };
       linksLabel: string;
+      previewLabel: string;
       nextProject: string;
       notFound: {
         title: string;

@@ -1,3 +1,4 @@
+import { caseStudies } from '../caseStudies/it';
 import type { Translations } from '../types';
 
 export const it: Translations = {
@@ -84,9 +85,26 @@ export const it: Translations = {
       roleLabel: 'Ruolo',
       periodLabel: 'Periodo',
       stackLabel: 'Stack',
-      contextLabel: 'Contesto',
-      approachLabel: 'Approccio',
-      outcomeLabel: 'Risultato',
+      diagram: {
+        eyebrow: 'Dentro il progetto',
+        title: 'Le scelte, collegate.',
+        description: 'Segui ogni ramo dal vincolo all’effetto. Apri una scelta per approfondire il ragionamento e consultare le fonti.',
+        objective: 'Punto di partenza',
+        contribution: 'Il mio contributo',
+        team: 'Lavoro di squadra',
+        constraint: 'Vincolo',
+        decision: 'Scelta',
+        effect: 'Effetto',
+        reason: 'Perché questa scelta',
+        tradeoff: 'Il compromesso',
+        evidence: 'Nel progetto',
+        sources: 'Esplora le fonti',
+        outcome: 'Dove portano le scelte',
+        expand: 'Esplora la scelta',
+        collapse: 'Chiudi il dettaglio',
+        note: 'Sintesi ragionata di codice, documentazione e cronologia. Le motivazioni e i compromessi sono una lettura tecnica; le fonti collegano ogni scelta alla sua implementazione.',
+      },
+      previewLabel: 'Il progetto in pratica',
       linksLabel: 'Link',
       nextProject: 'Progetto successivo',
       notFound: {
@@ -223,96 +241,29 @@ export const it: Translations = {
       1: {
         title: 'Portfolio Personale',
         description:
-          'Portfolio personale moderno e responsivo costruito con Next.js 15, TypeScript e Tailwind CSS. Include animazioni fluide, tema dark/light, e architettura scalabile.',
+          'Portfolio bilingue con percorsi dedicati ai progetti, CV generato nel browser e audit Lighthouse pubblicati. Costruito con Next.js e TypeScript.',
         tagline: 'Il sito che stai leggendo, costruito da zero senza template.',
         role: 'Progetto personale, sviluppo individuale',
         period: 'In evoluzione continua',
-        caseStudy: {
-          context: {
-            title: 'Contesto',
-            paragraphs: [
-              'Volevo un portfolio che fosse esso stesso un progetto tecnico, non un template compilato. L’obiettivo era avere un posto dove mostrare il mio lavoro e allo stesso tempo un banco di prova su cui sperimentare Next.js, TypeScript e le tecniche di performance sul campo.',
-              'Il vincolo che mi sono dato è che il sito dovesse essere bilingue (italiano e inglese) e generare il mio CV in PDF direttamente dal browser, così da avere una sola fonte di verità per i contenuti invece di un curriculum separato da tenere aggiornato a mano.',
-            ],
-          },
-          approach: {
-            title: 'Approccio',
-            paragraphs: [
-              'Ho costruito il sito su Next.js 15 con App Router e React, in TypeScript, con Tailwind CSS per lo stile. I contenuti non sono scritti dentro i componenti: vivono in file di dati separati, così aggiornare un progetto o un’esperienza non richiede toccare la UI.',
-              'Per la traduzione ho scritto un sistema i18n interno invece di aggiungere una libreria: un context React che espone le stringhe tipizzate, con i testi in due file di locale. Bastava per due lingue e mi ha evitato una dipendenza in più.',
-              'Il CV in PDF è generato lato client con jsPDF, in due varianti (tecnica e semplificata), leggendo gli stessi contenuti tradotti del sito. Il lato performance è stato lavorato in modo esplicito: caricamento dinamico dei componenti pesanti, font gestiti da next/font, animazioni limitate a trasformazioni e opacità, effetti disattivati quando escono dalla viewport o quando il sistema richiede meno animazioni.',
-            ],
-          },
-          outcome: {
-            title: 'Risultato',
-            paragraphs: [
-              'Il sito è online su vincxx.dev, distribuito su Vercel, e i punteggi Lighthouse sono misurati e pubblicati nel footer invece di essere dichiarati a parole.',
-              'Il valore più concreto per me è stato imparare quanto costano davvero certe scelte di rendering e di animazione, e come misurarle invece di intuirle. È anche il progetto su cui continuo a lavorare: essendo il mio, è il posto dove provo per primo le cose nuove.',
-            ],
-          },
-        },
+        caseStudy: caseStudies[1],
       },
       2: {
         title: 'Railway Simulator',
         description:
-          'Progetto realizzato in gruppo con un collega universitario. Backend in Node.js (Express) e frontend in FlexSim. Simula una stazione ferroviaria interagendo via Arduino.',
+          'Una stazione ferroviaria collega Arduino e FlexSim attraverso API Express e PostgreSQL, condividendo posizioni dei treni, binari e passaggi a livello.',
         tagline: 'Una stazione ferroviaria simulata, con hardware reale collegato al software.',
-        role: 'Progetto universitario in coppia',
+        role: 'Backend, dati e test · progetto in coppia',
         period: 'Università degli Studi di Bari',
-        caseStudy: {
-          context: {
-            title: 'Contesto',
-            paragraphs: [
-              'Progetto universitario sviluppato in gruppo con un collega di corso. L’obiettivo era simulare il funzionamento di una stazione ferroviaria, mettendo in comunicazione un modello di simulazione con componenti hardware reali.',
-              'La parte interessante non era il singolo pezzo, ma il fatto che tre mondi diversi dovessero parlarsi: un ambiente di simulazione, un server applicativo e una board fisica.',
-            ],
-          },
-          approach: {
-            title: 'Approccio',
-            paragraphs: [
-              'Abbiamo separato le responsabilità: la simulazione della stazione è stata realizzata in FlexSim, mentre la logica applicativa è stata affidata a un backend in Node.js con Express, che fa da punto di coordinamento tra le parti.',
-              'L’interazione fisica passa da Arduino, collegato al sistema in modo che gli eventi hardware si riflettano nella simulazione. Il lavoro è stato diviso tra me e il mio collega e coordinato con Git e GitHub.',
-            ],
-          },
-          outcome: {
-            title: 'Risultato',
-            paragraphs: [
-              'Il simulatore funziona come progetto integrato: la stazione modellata in FlexSim risponde agli input che arrivano dal lato hardware attraverso il backend Node.js.',
-              'La lezione che mi è rimasta riguarda l’integrazione più che il codice. Far dialogare sistemi che non sono nati per stare insieme richiede di definire bene i confini tra i componenti, ed è la prima volta che ho toccato con mano quanto quel lavoro di interfaccia pesi rispetto all’implementazione delle singole parti.',
-            ],
-          },
-        },
+        caseStudy: caseStudies[2],
       },
       3: {
         title: 'Ataxx',
         description:
-          'Progetto universitario in gruppo per la realizzazione del gioco Ataxx in Java usando la tecnica di sviluppo Agile Scrum.',
+          'Ataxx da terminale in Java: regole organizzate con il pattern ECB, test JUnit e sviluppo in team attraverso tre sprint Scrum.',
         tagline: 'Il gioco da tavolo Ataxx in Java, sviluppato in team con metodo Scrum.',
-        role: 'Progetto universitario in gruppo',
+        role: 'Logica delle mosse, CLI e test · lavoro in team',
         period: 'Corso di Ingegneria del Software, Università di Bari',
-        caseStudy: {
-          context: {
-            title: 'Contesto',
-            paragraphs: [
-              'Progetto del corso di Ingegneria del Software: realizzare in gruppo il gioco da tavolo Ataxx in Java. Il punto del corso non era solo consegnare un gioco funzionante, ma farlo seguendo un processo di sviluppo strutturato.',
-              'Per questo il vincolo era di lavorare con Agile Scrum, organizzando l’avanzamento in iterazioni invece di procedere in modo estemporaneo.',
-            ],
-          },
-          approach: {
-            title: 'Approccio',
-            paragraphs: [
-              'Il gioco è stato implementato in Java, con la logica di gioco separata dall’interfaccia in modo da poterla verificare in isolamento. La correttezza delle regole è coperta da test scritti con JUnit.',
-              'Il lavoro di squadra è stato gestito con Scrum: suddivisione delle attività, iterazioni e revisione periodica dell’avanzamento. Il codice è stato versionato su GitHub nel repository del corso, con il contributo distribuito tra i membri del gruppo.',
-            ],
-          },
-          outcome: {
-            title: 'Risultato',
-            paragraphs: [
-              'Il gioco è stato completato e consegnato con le regole di Ataxx implementate e verificate dai test.',
-              'È il progetto che mi ha fatto capire la differenza tra scrivere codice che funziona e lavorare in un team che deve consegnare. Scrivere test su una logica di gioco con regole precise, e tenere il passo di un gruppo su un repository condiviso, sono state le due cose che mi sono portato dietro dopo il corso.',
-            ],
-          },
-        },
+        caseStudy: caseStudies[3],
       },
     },
   },

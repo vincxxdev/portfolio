@@ -1,50 +1,24 @@
 'use client';
 
 import React from 'react';
-import { motion, useReducedMotion } from 'framer-motion';
 
 import { useLocale } from '@/i18n';
-import { registerIn } from './motion';
+import Timeline from './ui/Timeline';
 
 const Education = () => {
   const { t } = useLocale();
-  const shouldReduceMotion = useReducedMotion();
 
   return (
     <div>
       <h2 className="text-2xl text-ink sm:text-3xl">{t.about.education.title}</h2>
-      <p className="mt-3 max-w-2xl text-sm text-ink-2 sm:text-base">
-        {t.about.education.description}
-      </p>
 
-      <ol className="relative mt-10 pl-9">
-        <span
-          aria-hidden="true"
-          className="absolute bottom-2 left-[5px] top-2 w-px bg-hairline"
-        />
-
-        {t.cvData.education.map((item, index) => (
-          <motion.li
-            key={`${item.institution}-${item.period}`}
-            {...registerIn(!!shouldReduceMotion, -12, index * 0.08, 'x')}
-            className="relative pb-12 last:pb-0"
-          >
-            <span
-              aria-hidden="true"
-              className={`absolute -left-9 top-1.5 h-2.5 w-2.5 ${
-                index === 0 ? 'bg-signal' : 'border border-hairline-strong bg-canvas'
-              }`}
-            />
-
-            <span className="label-mono text-ink-3">{item.period}</span>
-            <h3 className="mt-3 text-lg text-ink sm:text-xl">{item.title}</h3>
-            <p className="mt-1 text-sm font-medium text-ink-2">
-              {item.institution} · {item.location}
-            </p>
-            <p className="mt-3 max-w-2xl text-sm leading-relaxed text-ink-2">{item.description}</p>
-          </motion.li>
-        ))}
-      </ol>
+      <Timeline entries={t.cvData.education.map((item, index) => ({
+        id: `${item.institution}-${item.period}`,
+        period: item.period,
+        title: item.title,
+        organization: item.institution,
+        highlighted: index === 0,
+      }))} />
     </div>
   );
 };

@@ -14,8 +14,7 @@ export const en: Translations = {
     greeting: "Hi, I'm",
     titles: ['Software Engineer', 'Full Stack Developer'],
     roleStatic: 'Software Engineer & Full Stack Developer',
-    tagline:
-      'I build software on Microsoft Power Platform at Deloitte and web applications with TypeScript, React and Node.js. Computer Science student in Bari.',
+    tagline: 'I work on Power Platform at Deloitte. My personal web projects use TypeScript, React and Node.js.',
     buttons: {
       projects: 'See the work',
       contact: 'Get in touch',
@@ -26,9 +25,9 @@ export const en: Translations = {
     status: {
       label: 'Right now',
       roleLabel: 'Role',
-      roleValue: 'Junior developer, Deloitte NextHub Bari',
+      roleValue: 'Junior developer · Deloitte NextHub Bari',
       studyLabel: 'Studies',
-      studyValue: 'BSc Computer Science, University of Bari — in progress',
+      studyValue: 'Computer Science · University of Bari · in progress',
       availabilityLabel: 'Availability',
       availabilityValue: 'Open to new opportunities',
       locationLabel: 'Based in',
@@ -37,29 +36,27 @@ export const en: Translations = {
       label: 'Keep exploring',
       work: {
         title: 'See the work',
-        description: 'Projects with the context, the technical choices and what I took away.',
+        description: 'Projects, stack and outcomes.',
       },
       about: {
         title: 'Read the background',
-        description: 'Experience, studies, certifications and technical skills.',
+        description: 'Experience, education and skills.',
       },
       contact: {
         title: 'Get in touch',
-        description: 'Direct email, phone and a downloadable PDF CV.',
+        description: 'Email, phone and CV.',
       },
     },
     selectedWork: {
       label: 'Work',
       title: 'Selected projects',
-      description:
-        'Three projects that show how I work: two built in a team at university, one the site you are reading.',
+      description: 'Personal and university projects.',
       viewAll: 'See all projects',
     },
   },
   work: {
     title: 'Work',
-    lead:
-      'Every project has its own page covering the context it was built in, the technical choices I made and what it taught me.',
+    lead: 'Personal and university projects, with stack and outcomes.',
     index: {
       listHeading: 'Project index',
       filterLabel: 'Filter by technology',
@@ -101,17 +98,22 @@ export const en: Translations = {
   },
   about: {
     title: 'Background',
-    lead:
-      'Computer Science student at the University of Bari, currently a junior developer at Deloitte. Here is the full picture: experience, studies, certifications and skills.',
+    lead: 'Junior developer at Deloitte and Computer Science student in Bari.',
+    profileLabel: 'Read the full profile',
+    profileFacts: [
+      { label: 'At Deloitte', value: 'Junior developer · Power Platform' },
+      { label: 'Personal projects', value: 'TypeScript · React · Node.js' },
+      { label: 'Education', value: 'Computer Science · University of Bari' },
+    ],
     bio: [
       "I'm Vincenzo, a Computer Science student at the University of Bari Aldo Moro. I have a solid foundation in programming, algorithms and data structures, built mostly on object-oriented languages like Java.",
-      'Curiosity pulled me toward web development, where I work with JavaScript, TypeScript and React, and use Node.js for server-side logic. Git is part of my daily workflow.',
+      'In my personal projects, I build web applications with JavaScript, TypeScript, React and Node.js. I use Git for version control.',
       'Since March 2026 I have been working at Deloitte NextHub Bari as a junior developer on Microsoft Power Platform: Power Apps, Power Automate, Dataverse and plugins in C#. My goal is to keep growing my technical skills on real projects.',
     ],
     index: { label: 'Index' },
     experience: {
       title: 'Experience',
-      description: 'My professional path, most recent first.',
+      description: 'Most recent first.',
       current: 'Current',
     },
     education: {
@@ -120,22 +122,21 @@ export const en: Translations = {
     },
     certifications: {
       title: 'Certifications',
-      description: 'Completed courses and certificates earned.',
+      description: 'Selected courses and certifications.',
       viewCert: 'View certificate',
     },
     skills: {
       title: 'Technical skills',
-      description:
-        'Grouped by how much I actually use them, not by how good they look on a list. The project count next to each one is computed from the projects published here.',
+      description: 'Technologies ordered by frequency of use and published projects.',
       tiers: {
         core: 'Core stack',
         regular: 'Frequent use',
         occasional: 'Working knowledge',
       },
       tierDescriptions: {
-        core: 'Daily tools — deep experience',
-        regular: 'Used comfortably in real projects',
-        occasional: 'Studied at university or used occasionally',
+        core: 'Daily use',
+        regular: 'Frequent use',
+        occasional: 'Working knowledge',
       },
       projectCount: {
         one: 'Used in {n} project',
@@ -144,12 +145,12 @@ export const en: Translations = {
     },
     languages: {
       title: 'Languages',
-      description: 'Levels follow the Common European Framework (CEFR).',
+      description: 'CEFR levels.',
     },
   },
   contact: {
     title: 'Contact',
-    lead: 'I am open to new opportunities and collaborations. Email is the fastest way to reach me.',
+    lead: 'Available for opportunities and collaborations.',
     email: {
       title: 'Email',
       subtitle: 'Send me an email',
@@ -165,7 +166,7 @@ export const en: Translations = {
     responseTimeValue: '24-48 hours',
     cta: {
       title: "Let's talk",
-      description: 'Whether it is a job opportunity, a collaboration or a technical question, feel free to write.',
+      description: 'Write for a role, collaboration or technical question.',
       action: 'Send me an email',
     },
   },
@@ -175,15 +176,13 @@ export const en: Translations = {
         date: '30/03/2026 - Present',
         title: 'Microsoft Power Platform',
         company: 'Deloitte NextHub Bari',
-        description:
-          'Junior developer for Microsoft Power Platform solutions, including Power Apps, Power Automate, Dataverse and C# plugin development, to optimize business processes and support the digitalization of services.',
+        description: 'Power Apps, Power Automate, Dataverse and C# plugins for business solutions.',
       },
       {
         date: '26/11/2017 - 10/12/2017 - 10/02/2018',
         title: 'Waiter',
         company: 'Bari',
-        description:
-          'Waiter at the San Nicola Stadium through Scuola Alberghiera Molfetta, buffet service in the VIP stand.',
+        description: 'Buffet service at San Nicola Stadium.',
       },
     ],
   },

@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import { ChevronDown } from 'lucide-react';
 import { motion, useReducedMotion } from 'framer-motion';
 
 import SectionIntro from './SectionIntro';
@@ -44,15 +45,27 @@ const About = ({ as = 'h1' }: AboutProps) => {
       <div className="relative z-10 mx-auto max-w-6xl px-5 py-20 sm:px-8 sm:py-28">
         <SectionIntro title={t.about.title} lead={t.about.lead} as={as} />
 
-        <motion.div
-          {...registerIn(!!shouldReduceMotion, 12)}
-          className="mt-12 max-w-3xl space-y-5"
-        >
-          {t.about.bio.map((paragraph, index) => (
-            <p key={index} className="text-base leading-relaxed text-ink-2">
-              {paragraph}
-            </p>
-          ))}
+        <motion.div {...registerIn(!!shouldReduceMotion, 12)} className="mt-10 w-full">
+          <dl className="grid gap-px border border-hairline bg-hairline sm:grid-cols-3">
+            {t.about.profileFacts.map((fact) => (
+              <div key={fact.label} className="bg-raised p-5 sm:p-6">
+                <dt className="label-mono text-ink-3">{fact.label}</dt>
+                <dd className="mt-2 text-sm leading-relaxed text-ink">{fact.value}</dd>
+              </div>
+            ))}
+          </dl>
+
+          <details className="group mt-4 border-y border-hairline">
+            <summary className="flex min-h-14 cursor-pointer list-none items-center justify-between gap-4 py-4 text-sm font-medium text-ink marker:content-none [&::-webkit-details-marker]:hidden">
+              {t.about.profileLabel}
+              <ChevronDown aria-hidden="true" className="h-4 w-4 shrink-0 transition-transform duration-(--dur-2) group-open:rotate-180" />
+            </summary>
+            <div className="grid gap-4 border-t border-hairline py-5 text-sm leading-relaxed text-ink-2 sm:grid-cols-3 sm:gap-6">
+              {t.about.bio.map((paragraph, index) => (
+                <p key={index}>{paragraph}</p>
+              ))}
+            </div>
+          </details>
         </motion.div>
 
         <div className="mt-20 grid grid-cols-1 gap-10 border-t border-hairline pt-14 sm:mt-24 lg:grid-cols-[13rem_minmax(0,1fr)] lg:gap-14 lg:pt-16">

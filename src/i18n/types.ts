@@ -109,6 +109,8 @@ export interface Translations {
     title: string;
     lead: string;
     bio: string[];
+    profileLabel: string;
+    profileFacts: { label: string; value: string }[];
     index: { label: string };
     experience: { title: string; description: string; current: string };
     education: { title: string; description: string };

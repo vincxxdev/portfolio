@@ -14,8 +14,7 @@ export const it: Translations = {
     greeting: 'Ciao, sono',
     titles: ['Software Engineer', 'Full Stack Developer'],
     roleStatic: 'Software Engineer & Full Stack Developer',
-    tagline:
-      'Sviluppo software su Microsoft Power Platform in Deloitte e costruisco applicazioni web con TypeScript, React e Node.js. Studio Informatica a Bari.',
+    tagline: 'Lavoro su Power Platform in Deloitte. Nei progetti personali sviluppo applicazioni web con TypeScript, React e Node.js.',
     buttons: {
       projects: 'Guarda i progetti',
       contact: 'Contattami',
@@ -26,9 +25,9 @@ export const it: Translations = {
     status: {
       label: 'In questo momento',
       roleLabel: 'Ruolo',
-      roleValue: 'Sviluppatore junior, Deloitte NextHub Bari',
+      roleValue: 'Sviluppatore junior · Deloitte NextHub Bari',
       studyLabel: 'Studi',
-      studyValue: 'Laurea in Informatica, Università di Bari — in corso',
+      studyValue: 'Informatica · Università di Bari · in corso',
       availabilityLabel: 'Disponibilità',
       availabilityValue: 'Aperto a nuove opportunità',
       locationLabel: 'Dove',
@@ -37,29 +36,27 @@ export const it: Translations = {
       label: 'Continua a esplorare',
       work: {
         title: 'Guarda il lavoro',
-        description: 'Progetti con il contesto, le scelte tecniche e cosa ho imparato.',
+        description: 'Progetti, stack e risultati.',
       },
       about: {
         title: 'Leggi il percorso',
-        description: 'Esperienza, studi, certificazioni e competenze tecniche.',
+        description: 'Esperienza, studi e competenze.',
       },
       contact: {
         title: 'Mettiti in contatto',
-        description: 'Email diretta, telefono e CV scaricabile in PDF.',
+        description: 'Email, telefono e CV.',
       },
     },
     selectedWork: {
       label: 'Progetti',
       title: 'Progetti selezionati',
-      description:
-        'Tre progetti che raccontano come lavoro: due nati all’università in gruppo, uno il sito che stai leggendo.',
+      description: 'Progetti personali e universitari.',
       viewAll: 'Vedi tutti i progetti',
     },
   },
   work: {
     title: 'Progetti',
-    lead:
-      'Ogni progetto ha una pagina dedicata con il contesto in cui è nato, le scelte tecniche che ho preso e cosa mi ha lasciato.',
+    lead: 'Progetti personali e universitari, con stack e risultati.',
     index: {
       listHeading: 'Elenco dei progetti',
       filterLabel: 'Filtra per tecnologia',
@@ -101,41 +98,45 @@ export const it: Translations = {
   },
   about: {
     title: 'Percorso',
-    lead:
-      'Studente di Informatica all’Università di Bari, oggi sviluppatore junior in Deloitte. Qui trovi il percorso completo: esperienza, studi, certificazioni e competenze.',
+    lead: 'Sviluppatore junior in Deloitte e studente di Informatica a Bari.',
+    profileLabel: 'Leggi il profilo completo',
+    profileFacts: [
+      { label: 'In Deloitte', value: 'Sviluppatore junior · Power Platform' },
+      { label: 'Progetti personali', value: 'TypeScript · React · Node.js' },
+      { label: 'Formazione', value: 'Informatica · Università di Bari' },
+    ],
     bio: [
       'Sono Vincenzo, studente di Informatica all’Università degli Studi di Bari Aldo Moro. Ho una base solida in programmazione, algoritmi e strutture dati, costruita soprattutto su linguaggi orientati agli oggetti come Java.',
-      'La curiosità mi ha portato allo sviluppo web, dove lavoro con JavaScript, TypeScript e React, e uso Node.js per la logica lato server. Git fa parte del mio flusso quotidiano.',
+      'Nei miei progetti personali sviluppo applicazioni web con JavaScript, TypeScript, React e Node.js. Uso Git per il controllo di versione.',
       'Dal marzo 2026 lavoro in Deloitte NextHub Bari come sviluppatore junior su Microsoft Power Platform: Power Apps, Power Automate, Dataverse e plugin in C#. Il mio obiettivo è continuare ad ampliare le competenze tecniche su progetti reali.',
     ],
     index: { label: 'Indice' },
     experience: {
       title: 'Esperienza',
-      description: 'Il percorso professionale, dal più recente.',
+      description: 'Dal più recente.',
       current: 'In corso',
     },
     education: {
       title: 'Formazione',
-      description: 'Studi e titoli conseguiti.',
+      description: 'Studi e titoli.',
     },
     certifications: {
       title: 'Certificazioni',
-      description: 'Corsi completati e certificati ottenuti.',
+      description: 'Corsi e certificazioni selezionati.',
       viewCert: 'Visualizza certificato',
     },
     skills: {
       title: 'Competenze tecniche',
-      description:
-        'Raggruppate per quanto le uso davvero, non per quanto suonano bene. Il numero di progetti accanto a ciascuna è calcolato dai progetti pubblicati qui.',
+      description: 'Tecnologie ordinate per frequenza d’uso e progetti pubblicati.',
       tiers: {
         core: 'Stack principale',
         regular: 'Uso frequente',
         occasional: 'Conoscenza di base',
       },
       tierDescriptions: {
-        core: 'Strumenti quotidiani — esperienza approfondita',
-        regular: 'Usati con scioltezza in progetti reali',
-        occasional: 'Studiati all’università o usati sporadicamente',
+        core: 'Uso quotidiano',
+        regular: 'Uso frequente',
+        occasional: 'Base / occasionale',
       },
       projectCount: {
         one: 'Usato in {n} progetto',
@@ -144,12 +145,12 @@ export const it: Translations = {
     },
     languages: {
       title: 'Lingue',
-      description: 'Livelli secondo il quadro comune europeo (QCER).',
+      description: 'Livelli QCER.',
     },
   },
   contact: {
     title: 'Contatti',
-    lead: 'Sono aperto a nuove opportunità e collaborazioni. Il modo più veloce per raggiungermi è l’email.',
+    lead: 'Disponibile per opportunità e collaborazioni.',
     email: {
       title: 'Email',
       subtitle: 'Scrivimi una mail',
@@ -165,7 +166,7 @@ export const it: Translations = {
     responseTimeValue: '24-48 ore',
     cta: {
       title: 'Parliamone',
-      description: 'Che sia un’opportunità di lavoro, una collaborazione o una domanda tecnica, scrivimi pure.',
+      description: 'Scrivimi per lavoro, collaborazione o domande tecniche.',
       action: 'Scrivimi una mail',
     },
   },
@@ -175,15 +176,13 @@ export const it: Translations = {
         date: '30/03/2026 - Presente',
         title: 'Microsoft Power Platform',
         company: 'Deloitte NextHub Bari',
-        description:
-          'Sviluppatore junior per soluzioni su Microsoft Power Platform, inclusi Power Apps, Power Automate, Dataverse e sviluppo di plugin in C#, per ottimizzare i processi aziendali e supportare la digitalizzazione dei servizi.',
+        description: 'Power Apps, Power Automate, Dataverse e plugin C# per soluzioni aziendali.',
       },
       {
         date: '26/11/2017 - 10/12/2017 - 10/02/2018',
         title: 'Cameriere',
         company: 'Bari',
-        description:
-          'Cameriere presso lo Stadio San Nicola tramite Scuola Alberghiera Molfetta, servizio a buffet presso la tribuna d\'onore.',
+        description: 'Servizio a buffet presso lo Stadio San Nicola.',
       },
     ],
   },

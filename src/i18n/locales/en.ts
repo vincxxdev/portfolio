@@ -329,7 +329,7 @@ export const en: Translations = {
     navLabel: 'Navigation',
     lighthouse: {
       label: 'Lighthouse',
-      caption: 'Real audit of the site in local production',
+      caption: 'Local audit',
       audited: 'Last audit',
       metrics: {
         performance: 'Perf',

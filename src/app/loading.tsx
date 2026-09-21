@@ -1,9 +1,9 @@
 export default function Loading() {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-primary-background">
+    <div className="bg-canvas flex min-h-screen items-center justify-center">
       <div className="flex flex-col items-center gap-4">
-        <div className="w-16 h-16 border-4 border-accent border-t-transparent rounded-full animate-spin"></div>
-        <p className="text-secondary-text text-lg">Caricamento...</p>
+        <div className="border-hairline border-t-signal h-10 w-10 animate-spin rounded-full border-2" />
+        <p className="font-mono text-2xs uppercase text-ink-2">Caricamento</p>
       </div>
     </div>
   );

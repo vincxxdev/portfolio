@@ -1,48 +1,165 @@
 @import "tailwindcss";
 
-/* Configurazione dark mode per Tailwind V4 */
 @variant dark (&:where(.dark, .dark *));
 
-/* Applicazione del font personalizzato per i titoli */
-h1, h2, h3, h4, h5, h6 {
-  @apply font-heading;
-}
-
-
-/* Theme Configuration con Tailwind V4 */
 @theme {
-  /* Font Families */
-  --font-sans: var(--font-dm-sans), sans-serif;
-  --font-heading: var(--font-syne), sans-serif;
+  /* ---- Typeface roles ---- */
+  --font-display: var(--font-archivo), "Archivo", system-ui, sans-serif;
+  --font-body: var(--font-plex-sans), "IBM Plex Sans", system-ui, sans-serif;
+  --font-mono: var(--font-plex-mono), "IBM Plex Mono", ui-monospace, monospace;
+  --font-sans: var(--font-body);
+  --font-heading: var(--font-display);
 
-  /* Colors - Light Theme */
-  --color-primary-background: #ffffff;
-  --color-secondary-background: #f1f5f9;
-  --color-primary-text: #0f172a;
-  --color-secondary-text: #1e293b;
-  --color-accent: #06b6d4;
-  --color-accent-hover: #0891b2;
-  --color-accent-text: #ffffff;
+  /* ---- Type scale: ~1.2 lower register, ~1.28 upper. Tracking tightens as
+         size grows; the mono register tracks wide to read as instrumentation. */
+  --text-2xs: 0.6875rem;
+  --text-2xs--line-height: 1.45;
+  --text-2xs--letter-spacing: 0.18em;
+  --text-xs: 0.75rem;
+  --text-xs--line-height: 1.5;
+  --text-xs--letter-spacing: 0.01em;
+  --text-sm: 0.875rem;
+  --text-sm--line-height: 1.6;
+  --text-sm--letter-spacing: 0em;
+  --text-base: 1rem;
+  --text-base--line-height: 1.65;
+  --text-base--letter-spacing: -0.005em;
+  --text-lg: 1.125rem;
+  --text-lg--line-height: 1.6;
+  --text-lg--letter-spacing: -0.01em;
+  --text-xl: 1.25rem;
+  --text-xl--line-height: 1.45;
+  --text-xl--letter-spacing: -0.015em;
+  --text-2xl: 1.5rem;
+  --text-2xl--line-height: 1.3;
+  --text-2xl--letter-spacing: -0.02em;
+  --text-3xl: 1.875rem;
+  --text-3xl--line-height: 1.2;
+  --text-3xl--letter-spacing: -0.025em;
+  --text-4xl: 2.5rem;
+  --text-4xl--line-height: 1.08;
+  --text-4xl--letter-spacing: -0.03em;
+  --text-5xl: 3.25rem;
+  --text-5xl--line-height: 1.02;
+  --text-5xl--letter-spacing: -0.035em;
+  --text-6xl: 4.25rem;
+  --text-6xl--line-height: 0.98;
+  --text-6xl--letter-spacing: -0.04em;
+  --text-7xl: 5.5rem;
+  --text-7xl--line-height: 0.94;
+  --text-7xl--letter-spacing: -0.045em;
+  --text-preview: clamp(var(--text-3xl), 13cqw, var(--text-7xl));
+  --text-preview--line-height: 0.98;
+  --text-preview--letter-spacing: -0.04em;
+  --text-intro: clamp(var(--text-4xl), 12vw, var(--text-9xl));
+  --text-intro--line-height: 1;
+  --text-intro--letter-spacing: -0.06em;
 
-  /* Animations */
-  --animate-content-fade-in: fade-in 1s ease-in-out;
-  --animate-typewriter: typing 0.35s steps(9, end), blink-caret .75s step-end infinite;
-  --animate-fade-out-bck: fade-out-bck 0.2s ease-in 0.4s both;
-  --animate-blob: blob 7s infinite;
-  --animate-orbit: orbit 18s linear infinite;
-  --animate-orbit-reverse: orbit-reverse 18s linear infinite;
-  --animate-signal-sweep: signal-sweep 2.8s ease-in-out infinite;
+  /* ---- Surfaces: cool concrete in light, graphite in dark ----
+         canvas/ink here and in the dark block below are mirrored literally by
+         the anti-FOUC <style> in src/app/layout.tsx, which paints before this
+         sheet loads and so cannot read a custom property. Change one, change
+         both — grep the hex before editing. ---- */
+  --color-canvas: #e7e8e4;
+  --color-raised: #f4f5f2;
+  --color-sunken: #dcdeda;
+
+  /* ---- Ink. ink-3 is the quietest text token, so it sets the floor: it has
+         to clear 4.5:1 on `sunken`, the darkest light surface, where it renders
+         ProjectCard's image-fallback label. #63686b measured 4.16:1 there and
+         failed SC 1.4.3; #5d6265 is the lightest value that clears it. ---- */
+  --color-ink: #17191a;
+  --color-ink-2: #4e5356;
+  --color-ink-3: #5d6265;
+
+  /* ---- Signal: the one chromatic accent. `signal` fills, `signal-ink`
+         is the text-safe variant on light surfaces. ---- */
+  --color-signal: #1c51b8;
+  --color-signal-ink: #1a4aa8;
+  --color-signal-hover: #163f8f;
+  --color-on-signal: #ffffff;
+
+  /* ---- Status pair. Semantic, not accents: `moss` reads positive
+         (available / active), `alert` reads negative (error / destructive).
+         Neither may fill a decorative surface — that stays `signal`'s job,
+         and the "one accent only" rule is about decoration, not semantics.
+         Text on either takes `on-signal`, which is white here and `canvas`
+         in dark: both status colours run in the same direction as the
+         accent, so a second on-* token would only duplicate it. ---- */
+  --color-moss: #496929;
+  --color-alert: #9d2420;
+
+  /* ---- Structure ---- */
+  --color-hairline: #c8cac4;
+  --color-hairline-strong: #a9aca5;
+
+  /* ---- Compatibility aliases: existing utility names keep resolving,
+         now onto the new palette. ---- */
+  --color-primary-background: var(--color-canvas);
+  --color-secondary-background: var(--color-raised);
+  --color-primary-text: var(--color-ink);
+  --color-secondary-text: var(--color-ink-2);
+  --color-accent: var(--color-signal);
+  --color-accent-hover: var(--color-signal-hover);
+  --color-accent-text: var(--color-on-signal);
+
+  /* ---- Radius: tight. Nothing here is a pill. ---- */
+  --radius-xs: 1px;
+  --radius-sm: 2px;
+  --radius-md: 3px;
+  --radius-lg: 4px;
+  --radius-xl: 6px;
+  --radius-2xl: 8px;
+  --radius-3xl: 10px;
+
+  /* ---- Elevation: tonal steps + one hard offset. No glow, no blur. ---- */
+  --shadow-flush: 0 0 0 0 transparent;
+  --shadow-raised: 0 1px 1px rgb(23 25 26 / 0.05), 0 2px 6px rgb(23 25 26 / 0.04);
+  --shadow-lifted: 0 2px 3px rgb(23 25 26 / 0.07), 0 10px 24px rgb(23 25 26 / 0.07);
+  --shadow-stark: 4px 4px 0 0 var(--color-ink);
+  --shadow-stark-signal: 4px 4px 0 0 var(--color-signal);
+  /* Fill for the offset plate Card renders behind a notched stark surface,
+     where a box-shadow would be clipped square by the cut corner. */
+  --color-plate: var(--color-ink);
+
+  /* ---- Motion: mechanical. Short, decisive, no overshoot. ---- */
+  --ease-snap: cubic-bezier(0.2, 0, 0, 1);
+  --ease-mech: cubic-bezier(0.65, 0, 0.35, 1);
+  --ease-exit: cubic-bezier(0.4, 0, 1, 1);
+  --dur-1: 120ms;
+  --dur-2: 180ms;
+  --dur-3: 260ms;
+  --dur-4: 380ms;
+
+  --animate-blob: drift 18s var(--ease-mech) infinite;
 }
 
-/* Dark Theme Variables */
+/* ---- Dark: graphite ground. Every pair below is WCAG AA verified. ---- */
 :root:is(.dark) {
-  --color-primary-background: #0A192F;
-  --color-secondary-background: #172A45;
-  --color-primary-text: #F8FAFC;
-  --color-secondary-text: #E2E8F0;
-  --color-accent: #22d3ee;
-  --color-accent-hover: #1fb6cf;
-  --color-accent-text: #0A192F;
+  --color-canvas: #131416;
+  --color-raised: #1b1d20;
+  --color-sunken: #0d0e0f;
+
+  --color-ink: #edeeea;
+  --color-ink-2: #a9aeb0;
+  --color-ink-3: #868b8e;
+
+  --color-signal: #7aa9ff;
+  --color-signal-ink: #7aa9ff;
+  --color-signal-hover: #9cc0ff;
+  --color-on-signal: #131416;
+
+  --color-moss: #a3c46b;
+  --color-alert: #ff9a90;
+
+  --color-hairline: #2e3135;
+  --color-hairline-strong: #43474c;
+
+  --shadow-raised: 0 1px 1px rgb(0 0 0 / 0.4), 0 2px 6px rgb(0 0 0 / 0.3);
+  --shadow-lifted: 0 2px 3px rgb(0 0 0 / 0.45), 0 10px 24px rgb(0 0 0 / 0.4);
+  --shadow-stark: 4px 4px 0 0 var(--color-hairline-strong);
+  /* Ink is near-white on graphite — far too loud for an offset plate. */
+  --color-plate: var(--color-hairline-strong);
 }
 
 html {
@@ -52,150 +169,203 @@ html {
 }
 
 body {
-  background: var(--color-primary-background);
-  color: var(--color-primary-text);
-  transition: background-color 0.45s cubic-bezier(0.4, 0, 0.2, 1),
-              color 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+  background: var(--color-canvas);
+  color: var(--color-ink);
+  font-family: var(--font-body);
+  transition: background-color var(--dur-4) var(--ease-snap),
+              color var(--dur-4) var(--ease-snap);
 }
 
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display);
+  font-weight: 800;
+}
 
-/* Utility Classes */
+::selection {
+  background: var(--color-signal);
+  color: var(--color-on-signal);
+}
+
+/* Keyboard focus is a hard signal bracket, never a soft glow ring. */
+:focus-visible {
+  outline: 2px solid var(--color-signal);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+
+/* The pointer is only hidden where a custom one actually renders.
+   CustomCursor returns null on coarse pointers, so gating this prevents
+   hybrid devices from losing their cursor entirely. */
+@media (pointer: fine) {
+  html,
+  a, button, [role="button"], input, textarea, select, label, [data-cursor-hover] {
+    cursor: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ---- Utilities ---- */
+
 @utility animation-delay-2000 {
   animation-delay: 2s;
 }
 
-@utility animation-delay-4000 {
-  animation-delay: 4s;
+/* Eyebrow / label register: mono, wide-tracked, uppercase. */
+@utility label-mono {
+  font-family: var(--font-mono);
+  font-size: var(--text-2xs);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  font-weight: 500;
 }
 
-/* Keyframes Animations */
-@keyframes fade-in {
-  0% { opacity: 0; }
-  100% { opacity: 1; }
+/* Cut corner — the identity mark. Pairs with .notch-rule for the hairline. */
+@utility notch {
+  clip-path: polygon(0 0, calc(100% - 14px) 0, 100% 14px, 100% 100%, 0 100%);
 }
 
-@keyframes typing {
-  from { width: 0; }
-  to { width: 100%; }
+/* ---- Keyframes: transform/opacity only ---- */
+
+/* First-visit signature. The wordmark is clipped into three static bands;
+   only their transforms move. The two half-screen panels have no filters or
+   continuous effects and disappear after one short timeline. */
+.site-intro {
+  animation: intro-finish var(--intro-duration) linear both;
 }
 
-@keyframes blink-caret {
-  from, to { border-color: transparent; }
-  50% { border-color: #2dd4bf; }
+.intro-panel {
+  animation: var(--intro-open) var(--intro-duration) var(--ease-mech) both;
 }
 
-@keyframes fade-out-bck {
-  0% {
-    transform: translateZ(0);
-    opacity: 1;
-  }
-  100% {
-    transform: translateZ(-80px);
-    opacity: 0;
-  }
+.intro-panel-top { --intro-open: intro-open-top; }
+.intro-panel-bottom { --intro-open: intro-open-bottom; }
+
+.intro-seam {
+  animation: intro-seam var(--intro-duration) var(--ease-mech) both;
 }
 
-@keyframes blob {
-  0% {
-    transform: translate(0px, 0px) scale(1);
-  }
-  33% {
-    transform: translate(30px, -50px) scale(1.1);
-  }
-  66% {
-    transform: translate(-20px, 20px) scale(0.9);
-  }
-  100% {
-    transform: translate(0px, 0px) scale(1);
-  }
+.intro-signature {
+  animation: intro-signature var(--intro-duration) var(--ease-snap) both;
 }
 
-@keyframes orbit {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.intro-slice {
+  animation: intro-register var(--intro-duration) var(--ease-snap) both;
 }
 
-@keyframes orbit-reverse {
-  from {
-    transform: rotate(360deg);
-  }
-  to {
-    transform: rotate(0deg);
-  }
+.intro-slice-top {
+  --register-x: -0.24em;
+  --register-y: -0.06em;
+  clip-path: inset(0 0 66% 0);
 }
 
-@keyframes print3d-build {
-  0% {
-    opacity: 0;
-    transform: translateY(40%) scaleY(0.3);
-  }
-  60% {
-    opacity: 1;
-    transform: translateY(-4%) scaleY(1.02);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0) scaleY(1);
-  }
+.intro-slice-middle {
+  --register-x: 0.2em;
+  --register-y: 0em;
+  clip-path: inset(33% 0 33% 0);
 }
 
-@keyframes printer-fan-spin {
-  to {
-    transform: rotate(360deg);
-  }
+.intro-slice-bottom {
+  --register-x: -0.12em;
+  --register-y: 0.06em;
+  clip-path: inset(66% 0 0 0);
 }
 
-.animate-printer-fan {
-  animation: printer-fan-spin 1.4s linear infinite;
-  transform-box: fill-box;
-  transform-origin: center;
+.intro-bracket {
+  animation: intro-bracket var(--intro-duration) var(--ease-snap) both;
+}
+.intro-bracket-start { --bracket-x: -100%; --bracket-y: -100%; }
+.intro-bracket-end { --bracket-x: 100%; --bracket-y: 100%; }
+
+.intro-caption {
+  animation: intro-caption var(--intro-duration) var(--ease-snap) both;
 }
 
-@keyframes signal-sweep {
-  0% {
-    transform: translateX(-38%) scaleX(0.8);
-    opacity: 0;
-  }
-  18% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0.9;
-  }
-  82% {
-    opacity: 1;
-  }
-  100% {
-    transform: translateX(38%) scaleX(1.05);
-    opacity: 0;
-  }
+@keyframes intro-finish {
+  0%, 94% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+@keyframes intro-register {
+  0% { transform: translate(var(--register-x), var(--register-y)); }
+  36%, 54% { transform: translate(0, 0); }
+  68%, 100% { transform: translate(var(--register-x), 0); }
+}
+
+@keyframes intro-bracket {
+  0% { transform: translate(var(--bracket-x), var(--bracket-y)); opacity: 0; }
+  30%, 54% { transform: translate(0, 0); opacity: 1; }
+  68%, 100% { transform: translate(var(--bracket-x), 0); opacity: 0; }
+}
+
+@keyframes intro-caption {
+  0%, 18% { transform: translateY(0.5em); opacity: 0; }
+  38%, 54% { transform: translateY(0); opacity: 1; }
+  64%, 100% { transform: translateY(-0.5em); opacity: 0; }
+}
+
+@keyframes intro-signature {
+  0%, 54% { opacity: 1; }
+  66%, 100% { opacity: 0; }
+}
+
+@keyframes intro-seam {
+  0% { transform: scaleX(0); opacity: 0; }
+  30% { transform: scaleX(0.16); opacity: 1; }
+  56% { transform: scaleX(1); opacity: 1; }
+  70%, 100% { transform: scaleX(1); opacity: 0; }
+}
+
+@keyframes intro-open-top {
+  0%, 58% { transform: translateY(0); }
+  100% { transform: translateY(-100%); }
+}
+
+@keyframes intro-open-bottom {
+  0%, 58% { transform: translateY(0); }
+  100% { transform: translateY(100%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .site-intro { display: none; }
+  .site-intro, .site-intro * { animation: none; }
+}
+
+/* Slow ambient drift — replaces the old blob wobble. Straight-line
+   translation, no scale pulse, so it composites as a single layer move. */
+@keyframes drift {
+  0%   { transform: translate3d(0, 0, 0); }
+  25%  { transform: translate3d(24px, -18px, 0); }
+  50%  { transform: translate3d(8px, 22px, 0); }
+  75%  { transform: translate3d(-20px, 6px, 0); }
+  100% { transform: translate3d(0, 0, 0); }
 }
 
 .animate-blob {
-  animation: blob 7s infinite;
+  animation: var(--animate-blob);
   will-change: transform;
   contain: layout style paint;
 }
 
-.animate-signal-sweep {
-  animation: signal-sweep 2.8s ease-in-out infinite;
-}
-
+/* Columnar hairlines at a 120px rhythm — a spec sheet's measure, not a
+   blueprint grid. Sections mask it with --grid-mask. */
 .bg-section-grid {
-  background-image: linear-gradient(to right, rgba(100, 116, 139, 0.18) 1px, transparent 1px), linear-gradient(to bottom, rgba(100, 116, 139, 0.18) 1px, transparent 1px);
-  background-size: 72px 72px;
+  background-image: linear-gradient(
+    to right,
+    var(--color-hairline) 1px,
+    transparent 1px
+  );
+  background-size: 120px 100%;
+  opacity: 0.55;
   mask-image: var(--grid-mask, linear-gradient(to bottom, transparent, black 14%, black 86%, transparent));
   -webkit-mask-image: var(--grid-mask, linear-gradient(to bottom, transparent, black 14%, black 86%, transparent));
-}
-
-/* Nasconde il cursore predefinito */
-html {
-  cursor: none;
-}
-a, button, [role="button"], input, textarea, select, label, [data-cursor-hover] {
-  cursor: none;
 }

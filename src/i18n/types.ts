@@ -1,19 +1,55 @@
 export type Locale = 'it' | 'en';
 
+export interface CaseStudySource {
+  label: string;
+  href: string;
+}
+
+export interface ReasoningDecision {
+  id: string;
+  constraint: string;
+  title: string;
+  reason: string;
+  tradeoff: string;
+  evidence: string;
+  effect: string;
+  sources: CaseStudySource[];
+  contribution?: {
+    description: string;
+    sources: CaseStudySource[];
+  };
+}
+
+export interface ReasoningDiagram {
+  objective: { title: string; description: string };
+  contribution?: { summary: string; team: string };
+  decisions: [ReasoningDecision, ReasoningDecision, ReasoningDecision];
+  outcome: { title: string; description: string };
+}
+
+export interface ProjectContent {
+  title: string;
+  description: string;
+  tagline: string;
+  role: string;
+  period: string;
+  caseStudy?: ReasoningDiagram;
+}
+
 export interface Translations {
   nav: {
+    home: string;
+    work: string;
     about: string;
-    experience: string;
-    certifications: string;
-    skills: string;
-    projects: string;
-    contacts: string;
+    contact: string;
     openMenu: string;
     closeMenu: string;
+    homeAria: string;
   };
   hero: {
     greeting: string;
     titles: string[];
+    roleStatic: string;
     tagline: string;
     buttons: {
       projects: string;
@@ -21,73 +57,122 @@ export interface Translations {
     };
     scrollDown: string;
   };
+  landing: {
+    status: {
+      label: string;
+      roleLabel: string;
+      roleValue: string;
+      studyLabel: string;
+      studyValue: string;
+      availabilityLabel: string;
+      availabilityValue: string;
+      locationLabel: string;
+    };
+    paths: {
+      label: string;
+      work: { title: string; description: string };
+      about: { title: string; description: string };
+      contact: { title: string; description: string };
+    };
+    selectedWork: {
+      label: string;
+      title: string;
+      description: string;
+      viewAll: string;
+    };
+  };
+  work: {
+    title: string;
+    lead: string;
+    index: {
+      listHeading: string;
+      filterLabel: string;
+      filterAll: string;
+      resetFilter: string;
+      countOne: string;
+      countMany: string;
+      empty: string;
+    };
+    card: {
+      caseStudy: string;
+      liveDemo: string;
+      github: string;
+      previewUnavailable: string;
+    };
+    currentSite: {
+      label: string;
+      title: string;
+      emphasis: string;
+      description: string;
+      home: string;
+    };
+    caseStudy: {
+      backToWork: string;
+      roleLabel: string;
+      periodLabel: string;
+      stackLabel: string;
+      diagram: {
+        eyebrow: string;
+        title: string;
+        description: string;
+        objective: string;
+        contribution: string;
+        team: string;
+        constraint: string;
+        decision: string;
+        effect: string;
+        reason: string;
+        tradeoff: string;
+        evidence: string;
+        sources: string;
+        outcome: string;
+        expand: string;
+        collapse: string;
+        note: string;
+      };
+      linksLabel: string;
+      previewLabel: string;
+      nextProject: string;
+      notFound: {
+        title: string;
+        description: string;
+        cta: string;
+      };
+    };
+  };
   about: {
     title: string;
-    titleHighlight: string;
-    subtitle: string;
-    terminalCommand: string;
-    terminalUser: string;
-    bio: string;
-  };
-  experience: {
-    title: string;
-    titleHighlight: string;
-    subtitle: string;
-    items: {
-      date: string;
-      title: string;
-      company: string;
-      description: string;
-    }[];
-  };
-  certifications: {
-    title: string;
-    titleHighlight: string;
-    subtitle: string;
-    viewCert: string;
-    items: {
-      id: string;
-      title: string;
-      issuer: string;
-      date: string;
-      sortDate: string;
-    }[];
-  };
-  skills: {
-    title: string;
-    titleHighlight: string;
-    subtitle: string;
-    tiers: {
-      core: string;
-      regular: string;
-      occasional: string;
-    };
-    tierDescriptions: {
-      core: string;
-      regular: string;
-      occasional: string;
-    };
-    projectCount: {
-      one: string;
-      many: string;
-    };
-  };
-  projects: {
-    title: string;
-    titleHighlight: string;
-    subtitle: string;
-    liveDemo: string;
-    github: string;
-    previewUnavailable: string;
-    items: Record<number, {
+    lead: string;
+    bio: string[];
+    profileLabel: string;
+    profileFacts: { label: string; value: string }[];
+    index: { label: string };
+    experience: { title: string; description: string; current: string };
+    education: { title: string; description: string };
+    certifications: { title: string; description: string; viewCert: string };
+    skills: {
       title: string;
       description: string;
-    }>;
+      tiers: {
+        core: string;
+        regular: string;
+        occasional: string;
+      };
+      tierDescriptions: {
+        core: string;
+        regular: string;
+        occasional: string;
+      };
+      projectCount: {
+        one: string;
+        many: string;
+      };
+    };
+    languages: { title: string; description: string };
   };
-  contacts: {
+  contact: {
     title: string;
-    titleHighlight: string;
-    subtitle: string;
+    lead: string;
     email: {
       title: string;
       subtitle: string;
@@ -101,11 +186,44 @@ export interface Translations {
     availabilityValue: string;
     responseTime: string;
     responseTimeValue: string;
+    cta: {
+      title: string;
+      description: string;
+      action: string;
+    };
+  };
+  experience: {
+    items: {
+      date: string;
+      title: string;
+      company: string;
+      description: string;
+    }[];
+  };
+  certifications: {
+    items: {
+      id: string;
+      title: string;
+      issuer: string;
+      date: string;
+      sortDate: string;
+    }[];
+  };
+  projects: {
+    items: Record<number, ProjectContent>;
+  };
+  languages: {
+    items: {
+      name: string;
+      level: string;
+      levelDescription?: string;
+    }[];
   };
   footer: {
     allRightsReserved: string;
     linkedinProfile: string;
     githubProfile: string;
+    navLabel: string;
     lighthouse: {
       label: string;
       caption: string;
@@ -138,12 +256,12 @@ export interface Translations {
     toggleTheme: string;
     scrollToTop: string;
     projectPreview: string;
-    viewDemo: string;
-    viewSource: string;
+    readCaseStudy: string;
     sendEmail: string;
     callPhone: string;
     switchToEnglish: string;
     switchToItalian: string;
+    skipToContent: string;
   };
   cvData: {
     labels: {

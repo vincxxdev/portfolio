@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { DM_Sans, Syne } from "next/font/google";
+import { Archivo, IBM_Plex_Sans, IBM_Plex_Mono } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "./components/ThemeProvider";
 import { LocaleProvider } from "@/i18n";
@@ -7,18 +7,28 @@ import { AdminProvider } from "./components/providers/AdminProvider";
 import Loader from "./components/Loader";
 import CursorProvider from "./components/ui/CursorProvider";
 import { ThemeTransition } from "./components/ThemeTransition";
-const dmSans = DM_Sans({
+
+const archivo = Archivo({
   subsets: ["latin"],
-  variable: "--font-dm-sans",
+  variable: "--font-archivo",
   display: 'swap',
   preload: true,
 });
 
-const syne = Syne({
+const plexSans = IBM_Plex_Sans({
   subsets: ["latin"],
-  variable: "--font-syne",
+  weight: ["400", "500", "600"],
+  variable: "--font-plex-sans",
   display: 'swap',
   preload: true,
+});
+
+const plexMono = IBM_Plex_Mono({
+  subsets: ["latin"],
+  weight: ["400", "500"],
+  variable: "--font-plex-mono",
+  display: 'swap',
+  preload: false,
 });
 
 import { defaultMetadata } from '@/lib/metadata';
@@ -87,19 +97,23 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="it" suppressHydrationWarning>
+    <html lang="it" data-scroll-behavior="smooth" suppressHydrationWarning>
       <head>
+        {/* Anti-FOUC: this paints before globals.css loads, so it cannot read
+            --color-canvas / --color-ink and mirrors their literals instead.
+            These four values are duplicated from the @theme block in
+            src/app/globals.css — keep them in sync. */}
         <style dangerouslySetInnerHTML={{
           __html: `
             body {
               margin: 0;
-              background-color: #ffffff;
-              color: #0f172a;
+              background-color: #e7e8e4;
+              color: #17191a;
             }
             @media (prefers-color-scheme: dark) {
               body {
-                background-color: #0A192F;
-                color: #F8FAFC;
+                background-color: #131416;
+                color: #edeeea;
               }
             }
           `
@@ -113,7 +127,7 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }}
         />
       </head>
-      <body className={`${dmSans.variable} ${syne.variable} font-sans`}>
+      <body className={`${archivo.variable} ${plexSans.variable} ${plexMono.variable} font-sans`}>
         <ThemeProvider
           attribute="class"
           defaultTheme="system"

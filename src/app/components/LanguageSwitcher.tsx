@@ -25,12 +25,15 @@ export const LanguageSwitcher = () => {
 
   return (
     <motion.button
-      aria-label={locale === 'it' ? t.accessibility.switchToEnglish : t.accessibility.switchToItalian}
+      // Prefixed with the visible glyph so the accessible name contains it
+      // (SC 2.5.3). The label itself is swapped, so an sr-only child inside
+      // AnimatePresence would be remounted and re-announced on every toggle.
+      aria-label={`${locale.toUpperCase()} — ${
+        locale === 'it' ? t.accessibility.switchToEnglish : t.accessibility.switchToItalian
+      }`}
       type="button"
-      className="h-9 w-9 flex items-center justify-center rounded-lg bg-gray-200 dark:bg-gray-700 hover:ring-2 ring-cyan-500 transition-all relative overflow-hidden"
+      className="h-9 w-9 flex items-center justify-center rounded-sm border border-hairline bg-sunken text-ink hover:border-signal hover:text-signal-ink transition-colors duration-[180ms] ease-[cubic-bezier(0.2,0,0,1)] relative overflow-hidden"
       onClick={handleToggle}
-      whileHover={{ scale: 1.05 }}
-      whileTap={{ scale: 0.95 }}
     >
       <AnimatePresence mode="wait" initial={false}>
         <motion.span
@@ -39,7 +42,7 @@ export const LanguageSwitcher = () => {
           animate={{ y: 0, opacity: 1 }}
           exit={{ y: 20, opacity: 0 }}
           transition={{ duration: 0.3, ease: 'easeInOut' }}
-          className="text-xs font-bold text-cyan-800 dark:text-cyan-300 select-none"
+          className="text-xs font-bold select-none"
         >
           {locale.toUpperCase()}
         </motion.span>

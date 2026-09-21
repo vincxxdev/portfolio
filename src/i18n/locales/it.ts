@@ -1,62 +1,210 @@
+import { caseStudies } from '../caseStudies/it';
 import type { Translations } from '../types';
 
 export const it: Translations = {
   nav: {
-    about: 'About',
-    experience: 'Esperienze',
-    certifications: 'Certificazioni',
-    skills: 'Skills',
-    projects: 'Progetti',
-    contacts: 'Contatti',
+    home: 'Home',
+    work: 'Progetti',
+    about: 'Percorso',
+    contact: 'Contatti',
     openMenu: 'Apri menu di navigazione',
     closeMenu: 'Chiudi menu di navigazione',
+    homeAria: 'torna alla home',
   },
   hero: {
     greeting: 'Ciao, sono',
     titles: ['Software Engineer', 'Full Stack Developer'],
-    tagline: 'appassionato di creare soluzioni innovative e scalabili e di esplorare nuove tecnologie.',
+    roleStatic: 'Software Engineer & Full Stack Developer',
+    tagline: 'Lavoro su Power Platform in Deloitte. Nei progetti personali sviluppo applicazioni web con TypeScript, React e Node.js.',
     buttons: {
-      projects: 'I miei Progetti',
+      projects: 'Guarda i progetti',
       contact: 'Contattami',
     },
     scrollDown: 'Scopri di più',
   },
+  landing: {
+    status: {
+      label: 'In questo momento',
+      roleLabel: 'Ruolo',
+      roleValue: 'Sviluppatore junior · Deloitte NextHub Bari',
+      studyLabel: 'Studi',
+      studyValue: 'Informatica · Università di Bari · in corso',
+      availabilityLabel: 'Disponibilità',
+      availabilityValue: 'Aperto a nuove opportunità',
+      locationLabel: 'Dove',
+    },
+    paths: {
+      label: 'Continua a esplorare',
+      work: {
+        title: 'Guarda il lavoro',
+        description: 'Progetti, stack e risultati.',
+      },
+      about: {
+        title: 'Leggi il percorso',
+        description: 'Esperienza, studi e competenze.',
+      },
+      contact: {
+        title: 'Mettiti in contatto',
+        description: 'Email, telefono e CV.',
+      },
+    },
+    selectedWork: {
+      label: 'Progetti',
+      title: 'Progetti selezionati',
+      description: 'Progetti personali e universitari.',
+      viewAll: 'Vedi tutti i progetti',
+    },
+  },
+  work: {
+    title: 'Progetti',
+    lead: 'Progetti personali e universitari, con stack e risultati.',
+    index: {
+      listHeading: 'Elenco dei progetti',
+      filterLabel: 'Filtra per tecnologia',
+      filterAll: 'Tutti',
+      resetFilter: 'Rimuovi filtro',
+      countOne: '{n} progetto',
+      countMany: '{n} progetti',
+      empty: 'Nessun progetto con questa tecnologia.',
+    },
+    card: {
+      caseStudy: 'Leggi il case study',
+      liveDemo: 'Live demo',
+      github: 'GitHub',
+      previewUnavailable: 'Anteprima non disponibile',
+    },
+    currentSite: {
+      label: 'Questo sito',
+      title: 'Sei già',
+      emphasis: 'qui.',
+      description: 'Il portfolio che stai esplorando.',
+      home: 'Torna alla home',
+    },
+    caseStudy: {
+      backToWork: 'Torna ai progetti',
+      roleLabel: 'Ruolo',
+      periodLabel: 'Periodo',
+      stackLabel: 'Stack',
+      diagram: {
+        eyebrow: 'Dentro il progetto',
+        title: 'Le scelte, collegate.',
+        description: 'Segui ogni ramo dal vincolo all’effetto. Apri una scelta per approfondire il ragionamento e consultare le fonti.',
+        objective: 'Punto di partenza',
+        contribution: 'Il mio contributo',
+        team: 'Lavoro di squadra',
+        constraint: 'Vincolo',
+        decision: 'Scelta',
+        effect: 'Effetto',
+        reason: 'Perché questa scelta',
+        tradeoff: 'Il compromesso',
+        evidence: 'Nel progetto',
+        sources: 'Esplora le fonti',
+        outcome: 'Dove portano le scelte',
+        expand: 'Esplora la scelta',
+        collapse: 'Chiudi il dettaglio',
+        note: 'Sintesi ragionata di codice, documentazione e cronologia. Le motivazioni e i compromessi sono una lettura tecnica; le fonti collegano ogni scelta alla sua implementazione.',
+      },
+      previewLabel: 'Il progetto in pratica',
+      linksLabel: 'Link',
+      nextProject: 'Progetto successivo',
+      notFound: {
+        title: 'Progetto non trovato',
+        description: 'Il progetto che cerchi non esiste o è stato rinominato.',
+        cta: 'Vedi tutti i progetti',
+      },
+    },
+  },
   about: {
-    title: 'About',
-    titleHighlight: 'Me',
-    subtitle: 'Scopri di più sul mio percorso e le mie passioni',
-    terminalCommand: 'cat ./about.txt',
-    terminalUser: 'vincxsh@portfolio',
-    bio: "Ciao! Sono Vincenzo, un laureando nella facoltà di Informatica all'Università degli Studi di Bari Aldo Moro. " +
-      "Il mio principale obiettivo è quello di espandere le mie competenze tecniche continuamente. " +
-      "Ho una solida base in programmazione, algoritmi e strutture dati soprattutto in linguaggi OOP come Java. " +
-      "La mia curiosità mi ha spinto verso lo sviluppo web, dove oggi sperimento con JavaScript, TypeScript, React e strumenti affini. " +
-      "Utilizzo Node.js per la logica server-side e Git per un controllo di versione impeccabile.",
+    title: 'Percorso',
+    lead: 'Sviluppatore junior in Deloitte e studente di Informatica a Bari.',
+    profileLabel: 'Leggi il profilo completo',
+    profileFacts: [
+      { label: 'In Deloitte', value: 'Sviluppatore junior · Power Platform' },
+      { label: 'Progetti personali', value: 'TypeScript · React · Node.js' },
+      { label: 'Formazione', value: 'Informatica · Università di Bari' },
+    ],
+    bio: [
+      'Sono Vincenzo, studente di Informatica all’Università degli Studi di Bari Aldo Moro. Ho una base solida in programmazione, algoritmi e strutture dati, costruita soprattutto su linguaggi orientati agli oggetti come Java.',
+      'Nei miei progetti personali sviluppo applicazioni web con JavaScript, TypeScript, React e Node.js. Uso Git per il controllo di versione.',
+      'Dal marzo 2026 lavoro in Deloitte NextHub Bari come sviluppatore junior su Microsoft Power Platform: Power Apps, Power Automate, Dataverse e plugin in C#. Il mio obiettivo è continuare ad ampliare le competenze tecniche su progetti reali.',
+    ],
+    index: { label: 'Indice' },
+    experience: {
+      title: 'Esperienza',
+      description: 'Dal più recente.',
+      current: 'In corso',
+    },
+    education: {
+      title: 'Formazione',
+      description: 'Studi e titoli.',
+    },
+    certifications: {
+      title: 'Certificazioni',
+      description: 'Corsi e certificazioni selezionati.',
+      viewCert: 'Visualizza certificato',
+    },
+    skills: {
+      title: 'Competenze tecniche',
+      description: 'Tecnologie ordinate per frequenza d’uso e progetti pubblicati.',
+      tiers: {
+        core: 'Stack principale',
+        regular: 'Uso frequente',
+        occasional: 'Conoscenza di base',
+      },
+      tierDescriptions: {
+        core: 'Uso quotidiano',
+        regular: 'Uso frequente',
+        occasional: 'Base / occasionale',
+      },
+      projectCount: {
+        one: 'Usato in {n} progetto',
+        many: 'Usato in {n} progetti',
+      },
+    },
+    languages: {
+      title: 'Lingue',
+      description: 'Livelli QCER.',
+    },
+  },
+  contact: {
+    title: 'Contatti',
+    lead: 'Disponibile per opportunità e collaborazioni.',
+    email: {
+      title: 'Email',
+      subtitle: 'Scrivimi una mail',
+    },
+    phone: {
+      title: 'Telefono',
+      subtitle: 'Chiamami direttamente',
+    },
+    location: 'Località',
+    availability: 'Disponibilità',
+    availabilityValue: 'Aperto a opportunità',
+    responseTime: 'Tempo di risposta',
+    responseTimeValue: '24-48 ore',
+    cta: {
+      title: 'Parliamone',
+      description: 'Scrivimi per lavoro, collaborazione o domande tecniche.',
+      action: 'Scrivimi una mail',
+    },
   },
   experience: {
-    title: 'Le mie',
-    titleHighlight: 'Esperienze',
-    subtitle: 'Il mio percorso professionale e le competenze acquisite',
     items: [
       {
         date: '30/03/2026 - Presente',
         title: 'Microsoft Power Platform',
         company: 'Deloitte NextHub Bari',
-        description: 'Sviluppatore junior per soluzioni su Microsoft Power Platform, inclusi Power Apps, Power Automate, Dataverse e sviluppo di plugin in C#, per ottimizzare i processi aziendali e supportare la digitalizzazione dei servizi.',
+        description: 'Power Apps, Power Automate, Dataverse e plugin C# per soluzioni aziendali.',
       },
       {
         date: '26/11/2017 - 10/12/2017 - 10/02/2018',
         title: 'Cameriere',
         company: 'Bari',
-        description: 'Cameriere presso lo Stadio San Nicola tramite Scuola Alberghiera Molfetta, servizio a buffet presso la tribuna d\'onore.',
+        description: 'Servizio a buffet presso lo Stadio San Nicola.',
       },
     ],
   },
   certifications: {
-    title: 'Le mie',
-    titleHighlight: 'Certificazioni',
-    subtitle: 'Corsi completati e certificazioni ottenute',
-    viewCert: 'Visualizza Certificato',
     items: [
       {
         id: '100-days-web-development',
@@ -88,72 +236,51 @@ export const it: Translations = {
       },
     ],
   },
-  skills: {
-    title: 'Le mie',
-    titleHighlight: 'Competenze',
-    subtitle: 'Tecnologie e linguaggi che utilizzo per creare soluzioni innovative',
-    tiers: {
-      core: 'Stack principale',
-      regular: 'Uso frequente',
-      occasional: 'Conoscenza di base',
-    },
-    tierDescriptions: {
-      core: 'Strumenti quotidiani — esperienza approfondita',
-      regular: 'Usati con scioltezza in progetti reali',
-      occasional: 'Studiati all’università o usati sporadicamente',
-    },
-    projectCount: {
-      one: 'Usato in {n} progetto',
-      many: 'Usato in {n} progetti',
-    },
-  },
   projects: {
-    title: 'I Miei',
-    titleHighlight: 'Progetti',
-    subtitle: 'Esplora una selezione dei miei progetti più significativi',
-    liveDemo: 'Live Demo',
-    github: 'GitHub',
-    previewUnavailable: 'Anteprima non disponibile',
     items: {
       1: {
         title: 'Portfolio Personale',
-        description: 'Portfolio personale moderno e responsivo costruito con Next.js 15, TypeScript e Tailwind CSS. Include animazioni fluide, tema dark/light, e architettura scalabile.',
+        description:
+          'Portfolio bilingue con percorsi dedicati ai progetti, CV generato nel browser e audit Lighthouse pubblicati. Costruito con Next.js e TypeScript.',
+        tagline: 'Il sito che stai leggendo, costruito da zero senza template.',
+        role: 'Progetto personale, sviluppo individuale',
+        period: 'In evoluzione continua',
+        caseStudy: caseStudies[1],
       },
       2: {
         title: 'Railway Simulator',
-        description: 'Progetto realizzato in gruppo con un collega universitario. Backend in Node.js (Express) e frontend in FlexSim. Simula una stazione ferroviaria interagendo via Arduino.',
+        description:
+          'Una stazione ferroviaria collega Arduino e FlexSim attraverso API Express e PostgreSQL, condividendo posizioni dei treni, binari e passaggi a livello.',
+        tagline: 'Una stazione ferroviaria simulata, con hardware reale collegato al software.',
+        role: 'Backend, dati e test · progetto in coppia',
+        period: 'Università degli Studi di Bari',
+        caseStudy: caseStudies[2],
       },
       3: {
         title: 'Ataxx',
-        description: 'Progetto universitario in gruppo per la realizzazione del gioco Ataxx in Java usando la tecnica di sviluppo Agile Scrum.',
+        description:
+          'Ataxx da terminale in Java: regole organizzate con il pattern ECB, test JUnit e sviluppo in team attraverso tre sprint Scrum.',
+        tagline: 'Il gioco da tavolo Ataxx in Java, sviluppato in team con metodo Scrum.',
+        role: 'Logica delle mosse, CLI e test · lavoro in team',
+        period: 'Corso di Ingegneria del Software, Università di Bari',
+        caseStudy: caseStudies[3],
       },
     },
   },
-  contacts: {
-    title: 'I miei',
-    titleHighlight: 'Contatti',
-    subtitle: 'Sono sempre aperto a nuove opportunità e collaborazioni. Sentiti libero di contattarmi!',
-    email: {
-      title: 'Email',
-      subtitle: 'Scrivimi una mail',
-    },
-    phone: {
-      title: 'Telefono',
-      subtitle: 'Chiamami direttamente',
-    },
-    location: 'Location',
-    availability: 'Disponibilità',
-    availabilityValue: 'Aperto a Opportunità',
-    responseTime: 'Tempo di Risposta',
-    responseTimeValue: '24-48 ore',
+  languages: {
+    items: [
+      { name: 'Italiano', level: 'Madrelingua' },
+      { name: 'Inglese', level: 'B2', levelDescription: 'Intermedio-Avanzato' },
+    ],
   },
   footer: {
     allRightsReserved: 'Tutti i diritti riservati',
     linkedinProfile: 'Profilo LinkedIn',
     githubProfile: 'Profilo GitHub',
+    navLabel: 'Navigazione',
     lighthouse: {
       label: 'Lighthouse',
-      caption: 'Audit reale del sito in produzione locale',
+      caption: 'Audit locale',
       audited: 'Ultimo audit',
       metrics: {
         performance: 'Perf',
@@ -183,12 +310,12 @@ export const it: Translations = {
     toggleTheme: 'Cambia tema',
     scrollToTop: 'Torna in cima',
     projectPreview: 'Anteprima del progetto',
-    viewDemo: 'Visualizza la demo live di',
-    viewSource: 'Visualizza il codice sorgente di',
-    sendEmail: 'Invia email a',
-    callPhone: 'Chiama il numero',
+    readCaseStudy: 'Leggi il case study di',
+    sendEmail: 'Invia una email a questo indirizzo',
+    callPhone: 'Chiama questo numero',
     switchToEnglish: "Passa all'Inglese",
     switchToItalian: "Passa all'Italiano",
+    skipToContent: 'Vai al contenuto principale',
   },
   cvData: {
     labels: {
@@ -198,7 +325,8 @@ export const it: Translations = {
       projects: 'PROGETTI',
       certifications: 'CERTIFICAZIONI',
       availability: 'DISPONIBILITÀ',
-      privacyClause: 'Autorizzo il trattamento dei miei dati personali ai sensi del D.lgs. 196/2003 e del GDPR (Regolamento UE 2016/679).',
+      privacyClause:
+        'Autorizzo il trattamento dei miei dati personali ai sensi del D.lgs. 196/2003 e del GDPR (Regolamento UE 2016/679).',
       info: 'INFORMAZIONI',
       contacts: 'CONTATTI',
       social: 'SOCIAL',
@@ -220,11 +348,12 @@ export const it: Translations = {
       drivingLicense: 'Patente B',
       vehicleNote: ' (Automunito)',
     },
-    profile: "Laureando in Informatica presso l'Università degli Studi di Bari con forte passione per lo sviluppo software e la risoluzione di problemi complessi. Motivato dall'apprendimento continuo e dalla curiosità verso le nuove tecnologie. Orientato alla creazione di soluzioni innovative, scalabili e ben strutturate.",
+    profile:
+      "Laureando in Informatica presso l'Università degli Studi di Bari con forte passione per lo sviluppo software e la risoluzione di problemi complessi. Motivato dall'apprendimento continuo e dalla curiosità verso le nuove tecnologie. Orientato alla creazione di soluzioni innovative, scalabili e ben strutturate.",
     education: [
       {
         title: 'Laurea in Informatica',
-        institution: "Università degli Studi di Bari Aldo Moro",
+        institution: 'Università degli Studi di Bari Aldo Moro',
         location: 'Bari',
         period: 'In corso',
         description: 'Corso di laurea triennale in Informatica',
@@ -251,7 +380,8 @@ export const it: Translations = {
     ],
     simplifiedCV: {
       title: 'Laureando in Informatica | Appassionato di Gestione Digitale e Organizzazione',
-      profile: 'Laureando in Informatica con eccellenti competenze informatiche e organizzative. Offro velocità nell\'uso del PC, precisione nell\'inserimento dati e capacità di problem solving apprese durante il percorso accademico. Cerco un impiego stabile che mi permetta di applicare la mia precisione e affidabilità in ambito amministrativo.',
+      profile:
+        "Laureando in Informatica con eccellenti competenze informatiche e organizzative. Offro velocità nell'uso del PC, precisione nell'inserimento dati e capacità di problem solving apprese durante il percorso accademico. Cerco un impiego stabile che mi permetta di applicare la mia precisione e affidabilità in ambito amministrativo.",
       skills: [
         { name: 'Pacchetto Office (Excel, Word)', percentage: 95 },
         { name: 'Gestione Email & Calendario', percentage: 90 },
@@ -264,19 +394,22 @@ export const it: Translations = {
       projects: [
         {
           title: 'Portfolio Personale',
-          description: 'Progettazione e organizzazione autonoma di un progetto web completo. Gestione delle scadenze, pianificazione delle attività e documentazione del lavoro svolto.',
+          description:
+            'Progettazione e organizzazione autonoma di un progetto web completo. Gestione delle scadenze, pianificazione delle attività e documentazione del lavoro svolto.',
           technologies: ['Gestione Progetti', 'Organizzazione', 'Problem Solving'],
           githubLink: 'https://github.com/vincxxdev/portfolio',
         },
         {
           title: 'Railway Simulator',
-          description: 'Gestione di logiche complesse e organizzazione di flussi di dati simulati. Coordinamento del lavoro di gruppo e rispetto delle scadenze di progetto.',
+          description:
+            'Gestione di logiche complesse e organizzazione di flussi di dati simulati. Coordinamento del lavoro di gruppo e rispetto delle scadenze di progetto.',
           technologies: ['Lavoro di Gruppo', 'Coordinamento', 'Gestione Dati'],
           githubLink: 'https://github.com/vincxxdev/Railway-Simulator',
         },
         {
           title: 'Ataxx',
-          description: 'Progetto universitario in team con metodologia Agile. Gestione delle task, comunicazione efficace e rispetto delle milestone di progetto.',
+          description:
+            'Progetto universitario in team con metodologia Agile. Gestione delle task, comunicazione efficace e rispetto delle milestone di progetto.',
           technologies: ['Team Working', 'Metodologia Agile', 'Gestione Task'],
           githubLink: 'https://github.com/softeng2324-inf-uniba/progetto-cocke',
         },
@@ -286,7 +419,8 @@ export const it: Translations = {
           date: '2017 - 2018',
           title: 'Cameriere',
           company: 'Stadio San Nicola, Bari',
-          description: 'Servizio in tribuna d\'onore presso lo Stadio San Nicola. Gestione dello stress in ambienti ad alta affluenza, puntualità rigorosa, attenzione al cliente e capacità di lavorare sotto pressione mantenendo professionalità e precisione nel servizio.',
+          description:
+            "Servizio in tribuna d'onore presso lo Stadio San Nicola. Gestione dello stress in ambienti ad alta affluenza, puntualità rigorosa, attenzione al cliente e capacità di lavorare sotto pressione mantenendo professionalità e precisione nel servizio.",
         },
       ],
     },

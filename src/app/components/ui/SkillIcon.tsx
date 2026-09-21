@@ -34,7 +34,12 @@ const SkillIcon = ({ name, size = 40, className }: IconProps) => {
     return null;
   }
 
-  return <IconComponent size={size} className={className} />;
+  // react-icons stamps role="img" on the svg, which axe then demands an
+  // accessible name for. The name is always the visible label sitting next to
+  // it, so the mark is decorative and takes itself out of the tree instead.
+  return (
+    <IconComponent size={size} className={className} aria-hidden="true" focusable="false" />
+  );
 };
 
 export default SkillIcon;

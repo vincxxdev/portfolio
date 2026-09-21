@@ -1,6 +1,7 @@
 // Project type definition
 export interface Project {
   id: number;
+  slug: string;
   title: string;
   description: string;
   technologies: string[];
@@ -8,6 +9,8 @@ export interface Project {
   liveDemo?: string; // Optional live demo URL
   animationType: 'railway' | 'ataxx' | 'portfolio' | 'default';
   previewImage: string;
+  /** Render the current site's live cover instead of a screenshot. */
+  isCurrentSite?: boolean;
 }
 
 // Skill type definition
@@ -19,7 +22,6 @@ export interface Skill {
   tier: SkillTier;
   group: SkillGroup;
   iconName: string;
-  color: string;
   aliases?: string[];
 }
 
@@ -59,7 +61,3 @@ export interface Certification {
   sortDate: string;
   url: string;
 }
-
-// Type definition for button variants
-export type ButtonVariant = 'primary' | 'secondary' | 'ghost' | 'outline';
-export type ButtonSize = 'default' | 'sm' | 'lg';

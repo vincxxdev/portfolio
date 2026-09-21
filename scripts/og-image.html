@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@800&family=IBM+Plex+Mono:wght@500&family=IBM+Plex+Sans:wght@400&display=swap">
+<style>
+  /* Renders once at exactly 1200x630 into public/images/og-image.png.
+     Same tokens as globals.css light: concrete ground, cobalt signal,
+     the 120px columnar hairline rhythm and the notch as the identity mark. */
+  :root {
+    --canvas: #e7e8e4;
+    --ink: #17191a;
+    --ink-2: #4e5356;
+    --ink-3: #5d6265;
+    --signal: #1c51b8;
+    --signal-ink: #1a4aa8;
+    --hairline: #c8cac4;
+    --hairline-strong: #a9aca5;
+    --moss: #496929;
+  }
+  * { box-sizing: border-box; margin: 0; }
+  html, body { width: 1200px; height: 630px; }
+  body {
+    background: var(--canvas);
+    color: var(--ink);
+    font-family: "IBM Plex Sans", system-ui, sans-serif;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* The site's own section grid, at its real 120px rhythm. */
+  .grid {
+    position: absolute; inset: 0;
+    background-image: linear-gradient(to right, var(--hairline) 1px, transparent 1px);
+    background-size: 120px 100%;
+    opacity: 0.55;
+  }
+  .edge { position: absolute; top: 0; bottom: 0; width: 1px; background: var(--hairline); }
+  .edge--l { left: 0; } .edge--r { right: 0; }
+
+  /* Signal bar down the left, the Hero's print-head mark held still. */
+  .bar { position: absolute; left: 0; top: 0; bottom: 0; width: 10px; background: var(--signal); }
+
+  .wrap {
+    position: relative; z-index: 1;
+    height: 100%; padding: 64px 80px 58px 104px;
+    display: flex; flex-direction: column;
+  }
+
+  /* Centres the name block in the space above the footer instead of pinning
+     it to the top, which left a band of dead space under the role line. */
+  .main { flex: 1; display: flex; flex-direction: column; justify-content: center; }
+
+  .eyebrow {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 15px; font-weight: 500;
+    letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--ink-3);
+    display: flex; align-items: center; gap: 14px;
+  }
+  .eyebrow i { width: 8px; height: 8px; background: var(--signal); flex: none; }
+
+  h1 {
+    font-family: Archivo, system-ui, sans-serif;
+    font-weight: 800; font-size: 118px; line-height: 0.9;
+    letter-spacing: -0.045em; margin-top: 34px;
+  }
+
+  .role {
+    display: flex; align-items: center; gap: 20px; margin-top: 30px;
+  }
+  .role span:first-child { width: 64px; height: 1px; background: var(--hairline-strong); flex: none; }
+  .role span:last-child {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 21px; font-weight: 500;
+    letter-spacing: 0.16em; text-transform: uppercase;
+    color: var(--signal-ink);
+  }
+
+  .foot { margin-top: auto; display: flex; align-items: flex-end; justify-content: space-between; gap: 40px; }
+
+  .stack {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 15px; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--ink-2);
+    display: flex; gap: 10px; flex-wrap: wrap;
+  }
+  .stack b { font-weight: 500; border: 1px solid var(--hairline-strong); padding: 7px 11px; }
+
+  /* The notch — the system's identity mark — carrying the domain. */
+  .card {
+    background: #f4f5f2;
+    border: 1px solid var(--hairline);
+    padding: 18px 26px 18px 22px;
+    clip-path: polygon(0 0, calc(100% - 16px) 0, 100% 16px, 100% 100%, 0 100%);
+    display: flex; align-items: center; gap: 14px; flex: none;
+  }
+  .card i { width: 8px; height: 8px; background: var(--signal); flex: none; }
+  .card span {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 20px; font-weight: 500;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--ink);
+  }
+</style>
+</head>
+<body>
+  <div class="grid"></div>
+  <div class="edge edge--l"></div>
+  <div class="edge edge--r"></div>
+  <div class="bar"></div>
+
+  <div class="wrap">
+    <div class="main">
+      <p class="eyebrow"><i></i>Software Engineer &middot; Bari, Italia</p>
+      <h1>Vincenzo<br>Buttari</h1>
+      <p class="role"><span></span><span>Full Stack Developer</span></p>
+    </div>
+
+    <div class="foot">
+      <p class="stack">
+        <b>TypeScript</b><b>React</b><b>Next.js</b><b>Node.js</b><b>Java</b>
+      </p>
+      <div class="card"><i></i><span>vincxx.dev</span></div>
+    </div>
+  </div>
+</body>
+</html>

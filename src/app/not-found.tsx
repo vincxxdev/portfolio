@@ -2,19 +2,17 @@ import Button from './components/ui/Button';
 
 export default function NotFound() {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-primary-background px-4">
+    <div className="bg-canvas flex min-h-screen items-center justify-center px-4">
       <div className="max-w-md text-center">
-        <h1 className="text-9xl font-bold bg-gradient-to-r from-cyan-400 to-blue-600 bg-clip-text text-transparent mb-4">
-          404
+        <p className="font-mono text-2xs uppercase text-signal-ink">404</p>
+        <h1 className="font-display mt-4 mb-4 text-4xl font-bold text-ink sm:text-5xl">
+          Pagina non trovata
         </h1>
-        <h2 className="text-3xl font-bold text-primary-text mb-4">
-          Pagina Non Trovata
-        </h2>
-        <p className="text-secondary-text mb-8">
+        <p className="mb-8 text-ink-2">
           La pagina che stai cercando non esiste o è stata spostata.
         </p>
         <Button href="/" variant="primary">
-          Torna alla Home
+          Torna alla home
         </Button>
       </div>
     </div>

@@ -1,49 +1,27 @@
 'use client';
 
-import { useState, useEffect } from 'react';
 import { Volume2, VolumeX } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useLocale } from '@/i18n';
+import { useSound } from '../hooks/useSound';
 
 export const SoundToggle = () => {
   const { t } = useLocale();
-  const [soundEnabled, setSoundEnabled] = useState(true);
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-    const saved = localStorage.getItem('soundEnabled');
-    if (saved !== null) {
-      setSoundEnabled(JSON.parse(saved));
-    }
-  }, []);
-
-  useEffect(() => {
-    if (mounted) {
-      localStorage.setItem('soundEnabled', JSON.stringify(soundEnabled));
-      // Dispatch custom event to notify other components
-      window.dispatchEvent(new CustomEvent('soundToggle', { detail: soundEnabled }));
-    }
-  }, [soundEnabled, mounted]);
-
-  if (!mounted) {
-    return <div className="h-9 w-9" />;
-  }
+  const { soundEnabled, toggleSound } = useSound();
 
   return (
     <motion.button
       aria-label={t.accessibility.toggleSound}
+      aria-pressed={soundEnabled}
       type="button"
-      className="h-9 w-9 flex items-center justify-center rounded-lg bg-gray-200 dark:bg-gray-700 hover:ring-2 ring-cyan-500 transition-all relative overflow-hidden"
-      onClick={() => setSoundEnabled(!soundEnabled)}
-      whileHover={{ scale: 1.05 }}
-      whileTap={{ scale: 0.95 }}
+      className="h-9 w-9 flex items-center justify-center rounded-sm border border-hairline bg-sunken text-ink hover:border-signal hover:text-signal-ink transition-colors duration-[180ms] ease-[cubic-bezier(0.2,0,0,1)] relative overflow-hidden"
+      onClick={toggleSound}
       title={soundEnabled ? t.accessibility.soundOn : t.accessibility.soundOff}
     >
       {soundEnabled ? (
-        <Volume2 className="h-5 w-5 text-cyan-800 dark:text-cyan-300" />
+        <Volume2 className="h-[18px] w-[18px]" />
       ) : (
-        <VolumeX className="h-5 w-5 text-gray-500" />
+        <VolumeX className="h-[18px] w-[18px] text-ink-3" />
       )}
     </motion.button>
   );

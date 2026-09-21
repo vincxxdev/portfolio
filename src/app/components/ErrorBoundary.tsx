@@ -32,17 +32,17 @@ class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundarySta
   render() {
     if (this.state.hasError) {
       return this.props.fallback || (
-        <div className="min-h-screen flex items-center justify-center bg-primary-background px-4">
+        <div className="min-h-screen flex items-center justify-center bg-canvas px-4">
           <div className="max-w-md text-center">
-            <h2 className="text-2xl font-bold text-primary-text mb-4">
+            <h2 className="text-2xl font-bold text-ink mb-4">
               Qualcosa è andato storto
             </h2>
-            <p className="text-secondary-text mb-8">
+            <p className="text-ink-2 mb-8">
               Si è verificato un errore nel caricamento di questa sezione.
             </p>
             <button
               onClick={() => this.setState({ hasError: false })}
-              className="px-6 py-2 bg-accent text-accent-text rounded-md hover:bg-accent-hover transition-colors"
+              className="px-6 py-2 bg-signal text-on-signal rounded-sm hover:bg-signal-hover transition-colors"
             >
               Riprova
             </button>
